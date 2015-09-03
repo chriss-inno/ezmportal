@@ -16,11 +16,10 @@ class CreateDepartmentsTable extends Migration
             $table->increments('id');
             $table->string('department_name');
             $table->string('status');
+            $table->integer('branch_id');
             $table->string('input_by');
             $table->string('auth_by');
-            $table->string('input_by');
-            $table->integer('branch_id');
-            $table->integer('auth_status');
+            $table->string('auth_status',1);
             $table->timestamps();
         });
     }

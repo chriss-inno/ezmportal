@@ -96,7 +96,7 @@ a:hover {
 }
 
 .modal-header {
-    background: #00A8B3;
+    background: #005AAA;
     color: #fff;
     border-radius: 5px 5px 0 0;
     -webkit-border-radius: 5px 5px 0 0;
@@ -152,8 +152,8 @@ ul {
 }
 
 .btn-primary {
-    background-color: #41cac0;
-    border-color: #41cac0;
+    background-color: #3968c6;
+    border-color: #3968c6;
     color: #FFFFFF;
 }
 

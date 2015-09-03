@@ -19,8 +19,7 @@ class CreateBranchesTable extends Migration
             $table->string('status');
             $table->string('input_by');
             $table->string('auth_by');
-            $table->string('input_by');
-            $table->integer('auth_status');
+            $table->string('auth_status',1);
             $table->timestamps();
         });
     }

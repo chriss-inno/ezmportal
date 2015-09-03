@@ -10,6 +10,7 @@ return array(
     'CreateDepartmentsTable' => $baseDir . '/database/migrations/2015_08_28_120137_create_departments_table.php',
     'CreateLoginHistoriesTable' => $baseDir . '/database/migrations/2015_08_28_152329_create_login_histories_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+    'CreateUnitsTable' => $baseDir . '/database/migrations/2015_09_03_140808_create_units_table.php',
     'CreateUserHistoriesTable' => $baseDir . '/database/migrations/2015_08_28_152312_create_user_histories_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',

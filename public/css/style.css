@@ -58,7 +58,7 @@ a, a:hover, a:focus {
     margin: 0;
     padding:20px 15px;
     text-align: center;
-    background: #41cac0;
+    background: #015EAC;
     border-radius: 5px 5px 0 0;
     -webkit-border-radius: 5px 5px 0 0;
     color: #fff;
@@ -116,7 +116,7 @@ a, a:hover, a:focus {
 }
 
 .form-signin a {
-    color: #41cac0;
+    color: #005AAA;
 }
 
 .form-signin a:hover {
