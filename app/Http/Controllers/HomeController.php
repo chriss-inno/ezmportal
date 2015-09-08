@@ -6,12 +6,16 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\User;
 
-class UserController extends Controller
+class HomeController extends Controller
 {
-
+    public function __construc()
+    {
+        if(Auth::guest())
+        {
+            return view('users.login');
+        }
+    }
 
     /**
      * Display a listing of the resource.
@@ -87,29 +91,5 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    /**
-     * Show the form for Login.
-     *
-     * @return Response
-     */
-    public function login()
-    {
-        //
-        if (Auth::check())
-        {
-            // The user is logged in...
-            //check for user type
-
-            $user=User::find(Auth::user()->id);
-
-            return view('layout.admin_dashboard');
-        }
-        else
-        {
-            return view('layout.admin_dashboard');
-            //return view('users.login');
-        }
     }
 }

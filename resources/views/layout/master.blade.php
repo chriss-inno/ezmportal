@@ -18,11 +18,11 @@
     <!-- Custom styles for this template -->
     {!!HTML::style("css/style.css")!!}
     {!!HTML::style("css/style-responsive.css")!!}
-     @yield('page-style')
+     @yield('page_style')
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
     <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
+    {!!HTML::script("js/html5shiv.js") !!}
+    {!!HTML::script("js/respond.min.js") !!}
     <![endif]-->
 </head>
 
@@ -35,8 +35,30 @@
             <div data-original-title="Toggle Navigation" data-placement="right" class="fa fa-bars tooltips"></div>
         </div>
         <!--logo start-->
-        <a href="index.html" class="logo" >Flat<span>lab</span></a>
+        <a href="{{url('home')}}" class="logo" > {!!Html::image('img/logo.png') !!} Bank (M) Service Portal</a>
         <!--logo end-->
+
+        <div class="top-nav ">
+            <ul class="nav pull-right top-menu">
+
+                <!-- user login dropdown start-->
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <img alt="" src="img/avatar1_small.jpg">
+                        <span class="username">Jhon Doue</span>
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu extended logout">
+                        <div class="log-arrow-up"></div>
+                        <li><a href="{{url('profile')}}"><i class=" fa fa-suitcase"></i>My Profile</a></li>
+                        <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
+                        <li><a href="#"><i class="fa fa-bell-o"></i> Notification</a></li>
+                        <li><a href="{{url('logout')}}"><i class="fa fa-key"></i> Log Out</a></li>
+                    </ul>
+                </li>
+                <!-- user login dropdown end -->
+            </ul>
+        </div>
         <div class="nav notify-row" id="top_menu">
             <!--  notification start -->
             <ul class="nav top-menu">
@@ -243,29 +265,6 @@
                 <!-- notification dropdown end -->
             </ul>
         </div>
-        <div class="top-nav ">
-            <ul class="nav pull-right top-menu">
-                <li>
-                    <input type="text" class="form-control search" placeholder="Search">
-                </li>
-                <!-- user login dropdown start-->
-                <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <img alt="" src="img/avatar1_small.jpg">
-                        <span class="username">Jhon Doue</span>
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu extended logout">
-                        <div class="log-arrow-up"></div>
-                        <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
-                        <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
-                        <li><a href="#"><i class="fa fa-bell-o"></i> Notification</a></li>
-                        <li><a href="login.html"><i class="fa fa-key"></i> Log Out</a></li>
-                    </ul>
-                </li>
-                <!-- user login dropdown end -->
-            </ul>
-        </div>
     </header>
     <!--header end-->
     <!--sidebar start-->
@@ -289,7 +288,7 @@
     <!--footer start-->
     <footer class="site-footer">
         <div class="text-center">
-            2013 &copy; FlatLab by VectorLab.
+            {{date('Y')}} &copy; Bank (M) Tanzania PLC.
             <a href="#" class="go-top">
                 <i class="fa fa-angle-up"></i>
             </a>
@@ -299,16 +298,45 @@
 </section>
 
 <!-- js placed at the end of the document so the pages load faster -->
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script class="include" type="text/javascript" src="js/jquery.dcjqaccordion.2.7.js"></script>
-<script src="js/jquery.scrollTo.min.js"></script>
-<script src="js/jquery.nicescroll.js" type="text/javascript"></script>
-<script src="js/respond.min.js" ></script>
+{!!HTML::script("js/jquery.js") !!}
+{!!HTML::script("js/jquery-1.8.3.min.js") !!}
+{!!HTML::script("js/bootstrap.min.js") !!}
+{!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
+{!!HTML::script("js/jquery.scrollTo.min.js") !!}
+{!!HTML::script("js/jquery.nicescroll.js") !!}
+{!!HTML::script("js/respond.min.js" ) !!}
+{!!HTML::script("js/jquery.sparkline.js") !!}
+{!!HTML::script("assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js") !!}
+{!!HTML::script("js/owl.carousel.js" ) !!}
+{!!HTML::script("js/jquery.customSelect.min.js" ) !!}
 
+<!-- js placed at the end of the document so the pages load faster -->
 <!--common script for all pages-->
-<script src="js/common-scripts.js"></script>
-@yield('page-scripts')
+{!!HTML::script("js/common-scripts.js") !!}
 
+@yield('page_scripts')
+
+<script>
+
+    //owl carousel
+
+    $(document).ready(function() {
+        $("#owl-demo").owlCarousel({
+            navigation : true,
+            slideSpeed : 300,
+            paginationSpeed : 400,
+            singleItem : true,
+            autoPlay:true
+
+        });
+    });
+
+    //custom select box
+
+    $(function(){
+        $('select.styled').customSelect();
+    });
+
+</script>
 </body>
 </html>
