@@ -8,7 +8,7 @@
     <meta name="keyword" content="">
     <link rel="shortcut icon" href="{{ asset('img/logo.png') }}">
 
-    <title>@yield('page-title')</title>
+    <title>Bank M Tanzania PLC | @yield('page-title')</title>
 
     <!-- Bootstrap core CSS -->
     {!!HTML::style("css/bootstrap.min.css")!!}

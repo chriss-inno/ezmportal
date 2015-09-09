@@ -23,7 +23,6 @@ class CreateUsersTable extends Migration
             $table->string('bmno');
             $table->string('password', 100);
             $table->string('status');
-            $table->string('input_by');
             $table->string('auth_by');
             $table->string('input_by');
             $table->integer('branch_id');

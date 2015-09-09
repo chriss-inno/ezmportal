@@ -108,8 +108,8 @@ class UserController extends Controller
         }
         else
         {
-            return view('layout.admin_dashboard');
-            //return view('users.login');
+
+            return view('users.login');
         }
     }
 }

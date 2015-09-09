@@ -15,3 +15,5 @@ Route::get('/','UserController@login');
 Route::get('logout','UserController@logout');
 Route::get('home',['middleware' => 'auth', 'uses' =>'HomeController@index']);
 Route::get('login','UserController@login');
+Route::get('branches','BranchController@index');
+

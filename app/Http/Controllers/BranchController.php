@@ -6,17 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Branch;
 
-class HomeController extends Controller
+class BranchController extends Controller
 {
-    public function __construc()
-    {
-        if(Auth::guest())
-        {
-            return view('users.login');
-        }
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +18,9 @@ class HomeController extends Controller
     public function index()
     {
         //
-        return view('layout.admin_dashboard');
+        $br=Branch::all();
+        return view('branches.index',compact('br'));
+
     }
 
     /**
