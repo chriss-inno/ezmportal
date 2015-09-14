@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -21,6 +22,8 @@ class UserController extends Controller
     public function index()
     {
         //
+        $users=User::all();
+        return view('users.index',compact('users'));
     }
 
     /**
@@ -31,6 +34,7 @@ class UserController extends Controller
     public function create()
     {
         //
+        return view('users.create');
     }
 
     /**
@@ -39,7 +43,7 @@ class UserController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         //
     }
@@ -53,6 +57,8 @@ class UserController extends Controller
     public function show($id)
     {
         //
+        $user=User::find($id);
+        return view('users.index',compact('user'));
     }
 
     /**
@@ -64,6 +70,8 @@ class UserController extends Controller
     public function edit($id)
     {
         //
+        $user=User::find($id);
+        return view('users.edit',compact('user'));
     }
 
     /**
@@ -73,9 +81,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
         //
+        $user=User::find($id);
     }
 
     /**
@@ -87,6 +96,8 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+        $user=User::find($id);
+        $user->delete();
     }
 
     /**
@@ -112,4 +123,49 @@ class UserController extends Controller
             return view('users.login');
         }
     }
+
+    //Register user
+    public function registration()
+    {
+        return view('users.registration');
+    }
+
+    //Process registration
+    public function postRegister(UserRequest $request)
+    {
+        $us=new User;
+        $us->first_name=$
+        $us->save();
+    }
+
+    //Post login for Authenticating users
+    public function postLogin(Request $request)
+    {
+        $username=$request->username;
+        $password=$request->password;
+
+        if (Auth::attempt(['username' => $username, 'password' => $password]))
+        {
+            if(Auth::user()->block ==1)
+            {
+                Auth::logout();
+                return redirect()->back()->with('message', 'Login Failed you don\'t have Access to login please  Contact Administrator');
+            }
+            else
+            {
+                $user= User::find(Auth::user()->id);
+                $user->last_login=date("Y-m-d h:i:s");
+                $user->save();
+
+                return redirect()->intended('home');
+            }
+
+        }
+        else
+        {
+            return redirect()->back()->with('message', 'Login Failed,Invalid username or password');
+        }
+    }
+
+
 }

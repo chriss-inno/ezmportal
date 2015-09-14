@@ -1,62 +1,77 @@
 var Script = function () {
-
-    $.validator.setDefaults({
-        submitHandler: function() { alert("submitted!"); }
-    });
-
-    $().ready(function() {
+        $().ready(function() {
         // validate the comment form when it is submitted
         $("#commentForm").validate();
 
         // validate signup form on keyup and submit
         $("#signupForm").validate({
             rules: {
-                firstname: "required",
-                lastname: "required",
-                username: {
-                    required: true,
-                    minlength: 2
-                },
-                password: {
+                first_name: "required",
+                last_name: "required",
+                uspass: {
                     required: true,
                     minlength: 5
                 },
-                confirm_password: {
+                confirmuspass: {
                     required: true,
                     minlength: 5,
                     equalTo: "#password"
                 },
-                email: {
-                    required: true,
-                    email: true
-                },
-                topic: {
-                    required: "#newsletter:checked",
-                    minlength: 2
-                },
-                agree: "required"
+                designation: {
+                    required: "#newsletter:checked"
+
+                }
             },
             messages: {
-                firstname: "Please enter your firstname",
-                lastname: "Please enter your lastname",
+                first_name: "Please enter your firstname",
+                last_name: "Please enter your lastname",
                 username: {
                     required: "Please enter a username",
                     minlength: "Your username must consist of at least 2 characters"
                 },
-                password: {
+                uspass: {
                     required: "Please provide a password",
                     minlength: "Your password must be at least 5 characters long"
                 },
-                confirm_password: {
+                confirmuspass: {
                     required: "Please provide a password",
                     minlength: "Your password must be at least 5 characters long",
                     equalTo: "Please enter the same password as above"
                 },
                 email: "Please enter a valid email address",
-                agree: "Please accept our policy"
+                designation: "Please enter full details of your designation"
+            }
+            ,
+            submitHandler: function(form)
+            {
+                var postData = $('#signupForm').serializeArray();
+                var formURL = $('#signupForm').attr("action");
+                $.ajax(
+                    {
+                        url : formURL,
+                        type: "POST",
+                        data : postData,
+                        success:function(data)
+                        {
+                        },
+                        error: function(data)
+                        {
+                        }
+                    });
             }
         });
+        //Validate user login
 
+            $("#UserLogin").validate({
+                rules: {
+                    username: "required",
+                    password: "required",
+                     },
+                messages: {
+                    username: "Please enter your username",
+                    password: "Please enter your password"
+                }
+            });
         // propose username by combining first- and lastname
         $("#username").focus(function() {
             var firstname = $("#firstname").val();

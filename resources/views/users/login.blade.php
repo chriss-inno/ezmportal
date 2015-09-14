@@ -28,12 +28,12 @@
 <body class="login-body">
 
 <div class="container">
-
-    <form class="form-signin" action="index.html">
-        <h2 class="form-signin-heading"> <img src="img/logo.png" alt="logo" /><strong> Bank (M) Service Portal</strong></h2>
+    <div style="max-width: 330px; margin-left: auto; margin-right: auto">
+      {!! Form::open(array('url'=>'login','class'=>'form-signin','role'=>'form','id'=>'UserLogin')) !!}
+        <h2 class="form-signin-heading">{!! HTML::image("img/logo.png")!!}<strong> Bank (M) Service Portal</strong></h2>
         <div class="login-wrap">
-            <input type="text" class="form-control" placeholder="User ID" autofocus>
-            <input type="password" class="form-control" placeholder="Password">
+            <input type="text" name="username" class="form-control" placeholder="User ID" autofocus>
+            <input type="password" name="password" class="form-control" placeholder="Password">
             <label class="checkbox">
                 <input type="checkbox" value="remember-me"> Remember me
                 <span class="pull-right">
@@ -44,7 +44,7 @@
             <button class="btn btn-lg btn-login btn-block" type="submit">Sign in</button>
             <div class="registration">
                 Don't have an account yet?
-                <a class="" href="registration.html">
+                <a class="" href="{{url('register')}}">
                     Create an account
                 </a>
             </div>
@@ -73,16 +73,22 @@
         </div>
         <!-- modal -->
 
-    </form>
+   {!! Form::close() !!}
+    </div>
 
 </div>
 
 
 
 <!-- js placed at the end of the document so the pages load faster -->
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
+{!!HTML::script("js/jquery.js" ) !!}
+{!!HTML::script("js/bootstrap.min.js" ) !!}
 
+<!--common script for all pages-->
+{!!HTML::script("js/common-scripts.js" ) !!}
+
+        <!--script for this page-->
+{!!HTML::script("js/form-validation-script.js" ) !!}
 
 </body>
 </html>

@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Branch;
+use App\Department;
 
-class BranchController extends Controller
+class DepartmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +18,8 @@ class BranchController extends Controller
     public function index()
     {
         //
-        $br=Branch::all();
-        return view('branches.index',compact('br'));
+        $dep=Department::all();
+        return view('department.index',compact('dep'));
 
     }
 
@@ -31,7 +31,7 @@ class BranchController extends Controller
     public function create()
     {
         //
-        return view('branches.create');
+        return view('department.create');
     }
 
     /**
@@ -43,6 +43,8 @@ class BranchController extends Controller
     public function store(Request $request)
     {
         //
+        $dep=new Department;
+        $dep->save();
     }
 
     /**
@@ -54,6 +56,9 @@ class BranchController extends Controller
     public function show($id)
     {
         //
+        $dep=Department::find($id);
+        return view('department.show',compact('dep'));
+
     }
 
     /**
@@ -65,6 +70,8 @@ class BranchController extends Controller
     public function edit($id)
     {
         //
+        $dep=Department::find($id);
+        return view('department.edit',compact('dep'));
     }
 
     /**
@@ -77,6 +84,8 @@ class BranchController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $dep=Department::find($id);
+        $dep->save();
     }
 
     /**
@@ -88,5 +97,7 @@ class BranchController extends Controller
     public function destroy($id)
     {
         //
+        $dep=Department::find($id);
+        $dep->delete();
     }
 }
