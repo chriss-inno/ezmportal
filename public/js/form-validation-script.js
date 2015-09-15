@@ -60,6 +60,20 @@ var Script = function () {
                     });
             }
         });
+
+            //Validate branch form
+          $("#branchForm").validate({
+                rules: {
+                    branch_code: "required",
+                    branch_Name: "required",
+                    status: "required"
+                },
+                messages: {
+                    branch_code: "Please enter your branch_code",
+                    branch_Name: "Please enter your branch_Name",
+                    status: "Please enter your status"
+                }
+            });
         //Validate user login
 
             $("#UserLogin").validate({

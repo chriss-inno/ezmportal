@@ -16,6 +16,7 @@ class CreateBranchesTable extends Migration
             $table->increments('id');
             $table->string('branch_code');
             $table->string('branch_Name');
+            $table->string('description')->nullable();
             $table->string('status');
             $table->string('input_by');
             $table->string('auth_by');

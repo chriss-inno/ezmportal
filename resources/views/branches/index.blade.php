@@ -16,34 +16,56 @@ Branches
 
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
+
+
             $('#branches').dataTable( {
                 "aaSorting": [[ 4, "desc" ]]
             } );
+
+            $(".deleteuser").click(function(){
+                var id1 = $(this).parent().attr('id');
+                $(".deleteuser").show("slow").parent().parent().find("span").remove();
+                var btn = $(this).parent().parent();
+                $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
+                $("#no").click(function(){
+                    $(this).parent().parent().find(".deleteuser").show("slow");
+                    $(this).parent().parent().find("span").remove();
+                });
+                $("#yes").click(function(){
+                    $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
+                    $.get("<?php echo url('branches/remove') ?>/"+id1,function(data){
+                        btn.hide("slow").next("hr").hide("slow");
+                    });
+                });
+            });
+
+            //Edit class streams
+            $(".addBranch").click(function(){
+                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                modaldis+= '<div class="modal-content">';
+                modaldis+= '<div class="modal-header">';
+                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="text-align: center">Update School Class Level</span>';
+                modaldis+= '</div>';
+                modaldis+= '<div class="modal-body">';
+                modaldis+= ' </div>';
+                modaldis+= '</div>';
+                modaldis+= '</div>';
+                $('body').css('overflow','hidden');
+
+                $("body").append(modaldis);
+                $("#myModal").modal("show");
+                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                $(".modal-body").load("<?php echo url("branches/create") ?>");
+                $("#myModal").on('hidden.bs.modal',function(){
+                    $("#myModal").remove();
+                })
+
+            });
      } );
-        //Edit class streams
-        $(".addBranch").click(function(){
-            var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-            modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
-            modal+= '<div class="modal-content">';
-            modal+= '<div class="modal-header">';
-            modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-            modal+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="text-align: center">Update School Class Level</span>';
-            modal+= '</div>';
-            modal+= '<div class="modal-body">';
-            modal+= ' </div>';
-            modal+= '</div>';
-            modal+= '</div>';
-            $('body').css('overflow','hidden');
 
-            $("body").append(modal);
-            $("#myModal").modal("show");
-            $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-            $(".modal-body").load("<?php echo url("branches/create") ?>");
-            $("#myModal").on('hidden.bs.modal',function(){
-                $("#myModal").remove();
-            })
 
-        });
     </script>
 
 @stop
@@ -143,17 +165,13 @@ Branches
 @stop
 @section('contents')
 
-        <section class="wrapper site-min-height">
+        <section class="site-min-height">
             <!-- page start-->
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-10 col-md-10">
                     <section class="panel">
                         <header class="panel-heading">
-                           Branches
-                            <div class="col-sm-3 pull-right">
-                                <div class="col-sm-4 pull-right">  <a href="#"  class="btn btn-xs btn-success"> View Branches</a> </div>
-                                <div class="col-sm-4 pull-right">  <a href="#"  class="addBranch btn btn-xs btn-primary"> Create New</a> </div>
-                            </div>
+                           List of Branches
                         </header>
                         <div class="panel-body">
                             <div class="adv-table">
@@ -168,6 +186,18 @@ Branches
                                     </tr>
                                     </thead>
                                      <tbody>
+                                     <?php $i=1;?>
+                                       @foreach($branches as $br)
+                                           <tr>
+                                               <td>{{$i++}}</td>
+                                               <td>{{$br->branch_code}}</td>
+                                               <td>{{$br->branch_Name}}</td>
+                                               <td>{{$br->status}}</td>
+                                               <td id="{{$br->id}}"> <a  href="{{url('branches/edit')}}/{{$br->id}}" class="addBranch col-md-3 pull-left" title="Edit Branch"><i class="fa fa-pencil text-primary"></i></a>
+                                                   <a href="#b" title="Delete Branch" class="deleteuser col-md-3 pull-right"><i class="fa fa-trash-o text-danger"></i> </a></td>
+                                           </tr>
+
+                                           @endforeach
                                      </tbody>
                                     <tfoot>
                                     <tr>
@@ -183,8 +213,28 @@ Branches
                         </div>
                     </section>
                 </div>
+                <div class="col-lg-2 col-md-2">
+                    <section class="panel">
+                         <div class="panel-body">
+                             <div class="row">
+                                 <div class="col-md-12">
+                                     <a href="{{url('branches/create')}}" class="btn btn-compose btn-block">Create New Branch</a>
+                                 </div>
+                             </div>
+                             <div class="row" style="margin-top: 10px">
+                                 <div class="col-md-12">
+                                     <a href="{{url('branches')}}" class="btn btn-compose btn-block">List Branches</a>
+                                 </div>
+                             </div>
+                             <div class="row" style="margin-top: 10px">
+                                 <div class="col-md-12">
+                                     <a href="{{url('branches/reports')}}" class="btn btn-compose btn-block">Branch Reports</a>
+                                 </div>
+                             </div>
+                        </div>
+                    </section>
+                </div>
             </div>
-            <!-- page end-->
         </section>
-
+            <!-- page end-->
 @stop

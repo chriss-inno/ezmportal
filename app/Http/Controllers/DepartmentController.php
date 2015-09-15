@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Department;
+use Illuminate\Support\Facades\Auth;
 
 class DepartmentController extends Controller
 {
@@ -44,7 +45,14 @@ class DepartmentController extends Controller
     {
         //
         $dep=new Department;
+        $dep->department_name=$request->department_name;
+        $dep->description=$request->description;
+        $dep->branch_id=$request->branch_id;
+        $dep->input_by=Auth::user()->username;
+        $dep->status=$request->status;
         $dep->save();
+
+        return redirect('departments');
     }
 
     /**
@@ -81,11 +89,18 @@ class DepartmentController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
-        $dep=Department::find($id);
+        $dep=Department::find($request->id);
+        $dep->department_name=$request->department_name;
+        $dep->description=$request->description;
+        $dep->branch_id=$request->branch_id;
+        $dep->input_by=Auth::user()->username;
+        $dep->status=$request->status;
         $dep->save();
+
+        return redirect('departments');
     }
 
     /**

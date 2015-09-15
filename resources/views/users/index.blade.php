@@ -6,44 +6,66 @@
     {!!HTML::script("js/sparkline-chart.js") !!}
     {!!HTML::script("js/easy-pie-chart.js") !!}
     {!!HTML::script("js/count.js") !!}
-    {!!HTML::script("js/jquery.tagsinput.js")!!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
     {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
     {!!HTML::script("js/jquery.scrollTo.min.js") !!}
     {!!HTML::script("js/jquery.nicescroll.js") !!}
-    {!!HTML::script("js/jquery.validate.min.js" ) !!}
-    {!!HTML::script("js/respond.min.js"  ) !!}
-    {!!HTML::script("js/form-validation-script.js") !!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
+    {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
+
 
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
+
+
             $('#branches').dataTable( {
                 "aaSorting": [[ 4, "desc" ]]
             } );
+
+            $(".deleteuser").click(function(){
+                var id1 = $(this).parent().attr('id');
+                $(".deleteuser").show("slow").parent().parent().find("span").remove();
+                var btn = $(this).parent().parent();
+                $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
+                $("#no").click(function(){
+                    $(this).parent().parent().find(".deleteuser").show("slow");
+                    $(this).parent().parent().find("span").remove();
+                });
+                $("#yes").click(function(){
+                    $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
+                    $.get("<?php echo url('branches/remove') ?>/"+id1,function(data){
+                        btn.hide("slow").next("hr").hide("slow");
+                    });
+                });
+            });
+
+            //Edit class streams
+            $(".addBranch").click(function(){
+                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                modaldis+= '<div class="modal-content">';
+                modaldis+= '<div class="modal-header">';
+                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="text-align: center">Update School Class Level</span>';
+                modaldis+= '</div>';
+                modaldis+= '<div class="modal-body">';
+                modaldis+= ' </div>';
+                modaldis+= '</div>';
+                modaldis+= '</div>';
+                $('body').css('overflow','hidden');
+
+                $("body").append(modaldis);
+                $("#myModal").modal("show");
+                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                $(".modal-body").load("<?php echo url("branches/create") ?>");
+                $("#myModal").on('hidden.bs.modal',function(){
+                    $("#myModal").remove();
+                })
+
+            });
         } );
-        //Edit class streams
-        $(".addBranch").click(function(){
-            var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-            modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
-            modal+= '<div class="modal-content">';
-            modal+= '<div class="modal-header">';
-            modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-            modal+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="text-align: center">Update School Class Level</span>';
-            modal+= '</div>';
-            modal+= '<div class="modal-body">';
-            modal+= ' </div>';
-            modal+= '</div>';
-            modal+= '</div>';
-            $('body').css('overflow','hidden');
 
-            $("body").append(modal);
-            $("#myModal").modal("show");
-            $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-            $(".modal-body").load("<?php echo url("branches/create") ?>");
-            $("#myModal").on('hidden.bs.modal',function(){
-                $("#myModal").remove();
-            })
 
-        });
     </script>
 
 @stop
@@ -149,55 +171,59 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        Create new Branches
+                        List of Branches
                     </header>
                     <div class="panel-body">
-                        <p> <h3>Basic Branch Information </h3>
-                        @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        <hr/>
-                        {!! Form::open(array('url'=>'branches/edit','role'=>'form','id'=>'branchForm')) !!}
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label for="branch_code">Branch Code</label>
-                                    <input type="text" class="form-control" id="branch_code" name="branch_code" @if(old('branch_code') !="") value="{{old('branch_code')}}" @else value="{{$branch->branch_code}}" @endif placeholder="Enter Branch Code">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="branch_Name">Branch Name</label>
-                            <input type="text" class="form-control" id="branch_Name" name="branch_Name" @if(old('branch_Name') !="") value="{{old('branch_Name')}}" @else value="{{$branch->branch_Name}}" @endif placeholder="Enter Branch Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Branch Descriptions</label>
-                            <textarea class="form-control" id="description" rows="8" name="description" @if(old('description') !="") value="{{old('description')}}" @else value="{{$branch->description}}" @endif > </textarea>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label for="status">Status</label>
-                                    <select name="status" class="form-control" id="status">
-                                        @if(old('status') !="")  <option selected value="{{old('status')}}">{{old('status')}}</option>
-                                        @else <option selected value="{{$branch->status}}">{{$branch->status}}</option>  @endif
-                                        <option value="enabled">enabled</option>
-                                        <option value="disabled">disabled</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="hidden" value="{{$branch->id}}" name="id">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="adv-table">
+                            <table  class="display table table-bordered table-striped" id="branches">
+                                <thead>
+                                <tr>
+                                    <th>SNO</th>
+                                    <th>Full Name</th>
+                                    <th>Designation</th>
+                                    <th>Branch</th>
+                                    <th>Department</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Username</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php $i=1;?>
+                                @foreach($users as $usr)
+                                    <tr>
+                                        <td>{{$i++}}</td>
+                                        <td>{{$usr->first_name." ".$usr->last_name}}</td>
+                                        <td>{{$usr->designation}}</td>
+                                        <td>{{$usr->branch->branch_Name}}</td>
+                                        <td>{{$usr->department->department_name}}</td>
+                                        <td>{{$usr->email}}</td>
+                                        <td>{{$usr->phone}}</td>
+                                        <td>{{$usr->username}}</td>
+                                        <td>{{$usr->status}}</td>
+                                        <td id="{{$usr->id}}"> <a  href="{{url('branches/edit')}}/{{$usr->id}}" class="addBranch col-md-3 pull-left" title="Edit Branch"><i class="fa fa-pencil text-primary"></i></a>
+                                            <a href="#b" title="Delete Branch" class="deleteuser col-md-3 pull-right"><i class="fa fa-trash-o text-danger"></i> </a></td>
+                                    </tr>
 
-                        {!! Form::close() !!}
-
+                                @endforeach
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>SNO</th>
+                                    <th>Full Name</th>
+                                    <th>Designation</th>
+                                    <th>Branch</th>
+                                    <th>Department</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -224,5 +250,5 @@
             </div>
         </div>
     </section>
-        <!-- page end-->
+    <!-- page end-->
 @stop

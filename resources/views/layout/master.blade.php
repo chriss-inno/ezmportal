@@ -44,7 +44,7 @@
                 <!-- user login dropdown start-->
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <img alt="" src="img/avatar1_small.jpg">
+                        {!! HTML::image("img/avatar1_small.jpg")!!}
                         <span class="username">{{Auth::user()->first_name." ".Auth::user()->last_name}}</span>
                         <b class="caret"></b>
                     </a>
@@ -313,30 +313,6 @@
 <!-- js placed at the end of the document so the pages load faster -->
 <!--common script for all pages-->
 {!!HTML::script("js/common-scripts.js") !!}
-
 @yield('page_scripts')
-
-<script>
-
-    //owl carousel
-
-    $(document).ready(function() {
-        $("#owl-demo").owlCarousel({
-            navigation : true,
-            slideSpeed : 300,
-            paginationSpeed : 400,
-            singleItem : true,
-            autoPlay:true
-
-        });
-    });
-
-    //custom select box
-
-    $(function(){
-        $('select.styled').customSelect();
-    });
-
-</script>
 </body>
 </html>
