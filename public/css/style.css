@@ -636,7 +636,10 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 }
 
 /*----*/
-
+.error
+{
+    color:#B94A48;
+}
 .notify-arrow {
     border-style: solid;
     border-width: 0 9px 9px;

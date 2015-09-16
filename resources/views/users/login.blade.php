@@ -10,15 +10,15 @@
     <title>Bank M Tanzania PLC | Portal Login </title>
 
     <!-- Bootstrap core CSS -->
-     {!!HTML::style("css/bootstrap.min.css" )!!}
-     {!!HTML::style("css/bootstrap-reset.css")!!}
-    <!--external css-->
-     {!!HTML::style("assets/font-awesome/css/font-awesome.css")!!}
-    <!-- Custom styles for this template -->
-     {!!HTML::style("css/style.css" )!!}
-     {!!HTML::style("css/style-responsive.css" )!!}
+    {!!HTML::style("css/bootstrap.min.css")!!}
+    {!!HTML::style("css/bootstrap-reset.css")!!}
+            <!--external css-->
+    {!!HTML::style("assets/font-awesome/css/font-awesome.css")!!}
+            <!-- Custom styles for this template -->
+    {!!HTML::style("css/style.css" )!!}
+    {!!HTML::style("css/style-responsive.css" )!!}
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+            <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
     <!--[if lt IE 9]>
     {!!HTML::script("js/html5shiv.js")!!}
     {!!HTML::script("js/respond.min.js")!!}
@@ -32,8 +32,15 @@
       {!! Form::open(array('url'=>'login','class'=>'form-signin','role'=>'form','id'=>'UserLogin')) !!}
         <h2 class="form-signin-heading">{!! HTML::image("img/logo.png")!!}<strong> Bank (M) Service Portal</strong></h2>
         <div class="login-wrap">
-            <input type="text" name="username" class="form-control" placeholder="User ID" autofocus>
-            <input type="password" name="password" class="form-control" placeholder="Password">
+
+            @if(Session::has('message'))
+                <div class="alert fade in alert-danger">
+                    <i class="icon-remove close" data-dismiss="alert"></i>
+                    {{Session::get('message')}}
+                </div>
+            @endif
+            <input type="text" name="username"  id="username" class="form-control" placeholder="User ID" autofocus autocomplete=off required>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required autocomplete=off>
             <label class="checkbox">
                 <input type="checkbox" value="remember-me"> Remember me
                 <span class="pull-right">
@@ -79,12 +86,16 @@
 </div>
 
 
-
 <!-- js placed at the end of the document so the pages load faster -->
 {!!HTML::script("js/jquery.js" ) !!}
 {!!HTML::script("js/bootstrap.min.js" ) !!}
+{!!HTML::script("js/jquery.dcjqaccordion.2.7.js" ) !!}
+{!!HTML::script("js/jquery.scrollTo.min.js" ) !!}
+{!!HTML::script("js/jquery.nicescroll.js") !!}
+{!!HTML::script("js/jquery.validate.min.js" ) !!}
+{!!HTML::script("js/respond.min.js"  ) !!}
 
-<!--common script for all pages-->
+        <!--common script for all pages-->
 {!!HTML::script("js/common-scripts.js" ) !!}
 
         <!--script for this page-->

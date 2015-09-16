@@ -112,4 +112,18 @@ class BranchController extends Controller
         //
         $branch=Branch::find($id)->delete();
     }
+
+    //getDepartment
+
+    public function getDepartment($id)
+    {
+        //
+        $br=Branch::find($id);
+        $dep="<option value=''>----</option>";
+        foreach($br->department as $d)
+        {
+            $dep .="<option value='$d->id'>$d->department_name</option>";
+        }
+        return $dep;
+    }
 }

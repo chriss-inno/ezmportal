@@ -12,8 +12,6 @@
 */
 
 Route::get('/','UserController@login');
-Route::get('logout',['middleware' => 'auth', 'uses' =>'UserController@logout']);
-Route::get('home',['middleware' => 'auth', 'uses' =>'HomeController@index']);
 
 //Process login
 Route::get('login','UserController@login');
@@ -23,7 +21,8 @@ Route::post('login','UserController@postLogin');
 //User modules
 Route::get('register','UserController@registration');
 Route::post('register','UserController@postRegister');
-
+Route::get('logout',['middleware' => 'auth', 'uses' =>'UserController@logout']);
+Route::get('home',['middleware' => 'auth', 'uses' =>'HomeController@index']);
 
 //Branches
 Route::get('branches',['middleware' => 'auth', 'uses' =>'BranchController@index']);
@@ -33,7 +32,7 @@ Route::get('branches/remove/{id}',['middleware' => 'auth', 'uses' =>'BranchContr
 Route::get('branches/edit/{id}',['middleware' => 'auth', 'uses' =>'BranchController@edit']);
 Route::post('branches/edit',['middleware' => 'auth', 'uses' =>'BranchController@update']);
 Route::get('branches/reports',['middleware' => 'auth', 'uses' =>'BranchController@index']);
-
+Route::get('getDepartment/{id}','BranchController@getDepartment');
 
 //Departments
 
@@ -45,6 +44,8 @@ Route::get('departments/edit/{id}',['middleware' => 'auth', 'uses' =>'Department
 Route::post('departments/edit',['middleware' => 'auth', 'uses' =>'DepartmentController@update']);
 Route::get('departments/remove/{id}',['middleware' => 'auth', 'uses' =>'DepartmentController@destroy']);
 Route::get('departments/show/{id}',['middleware' => 'auth', 'uses' =>'DepartmentController@show']);
+
+
 
 //Users
 Route::get('users/reports',['middleware' => 'auth', 'uses' =>'UserController@index']);

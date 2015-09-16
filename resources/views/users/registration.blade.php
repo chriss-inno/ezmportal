@@ -33,7 +33,7 @@
         <div class="col-lg-8 col-md-8 col-sm-8 col-lg-offset-2 col-sm-offset-2 col-md-offset-2">
             <section class="panel">
                 <header class=" panel-heading text-center" style="background-color: #015EAC; color: #FFF;">
-                    <strong>Bank M Service Portal| User Registration form </strong>
+                    <strong>Bank M Service Portal - User Registration form </strong>
                 </header>
                 <div class="panel-body">
                      {!! Form::open(array('url'=>'register','role'=>'form','id'=>'signupForm')) !!}
@@ -68,6 +68,10 @@
                                     <label for="branch">Branch</label>
                                      <select class="form-control"  id="branch" name="branch">
                                          <option value="">----</option>
+                                         @foreach($branches as $br)
+                                             <option value="{{$br->id}}">{{$br->branch_Name}}</option>
+                                             @endforeach
+
                                      </select>
                                 </div>
                                 <div class="col-md-6">
@@ -84,18 +88,18 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="branch">Password</label>
-                                    <input type="password" class="form-control"  id="uspass" name="uspass" placeholder="Enter Password" required>
+                                    <label for="Password">Password</label>
+                                    <input type="password" class="form-control"  id="Password" name="Password" placeholder="Enter Password" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="branch">Confirm Password</label>
-                                    <input type="password" class="form-control"  id="confirmuspass" name="confirmuspass" placeholder="Confirm Password" required>
+                                    <label for="Password">Confirm Password</label>
+                                    <input type="password" class="form-control"  id="Confirm_Password" name="Confirm_Password" placeholder="Confirm Password" required>
                                 </div>
                             </div>
                         </div>
                     </fieldset>
                         <button type="submit" class="btn btn-danger pull-right">Register Now</button>
-                        <a href="{{url('login')}}" class="btn btn-primary pull-right" style="margin-right:5px ">Already Registered?</a>
+                        <a href="{{url('login')}}" class="btn btn-primary pull-left" style="margin-right:5px ">Already Registered?</a>
                     {!! Form::close() !!}
 
                 </div>
@@ -120,5 +124,18 @@
 
 <!--script for this page-->
 {!!HTML::script("js/form-validation-script.js" ) !!}
+
+<script>
+    $("#branch").change(function () {
+        var id1 = this.value;
+        if(id1 != "")
+        {
+            $.get("<?php echo url('getDepartment') ?>/"+id1,function(data){
+                $("#department").html(data);
+            });
+
+        }else{$("#department").html("<option value=''>----</option>");}
+    });
+</script>
 </body>
 </html>

@@ -4,6 +4,7 @@
     Home
 @stop
 @section('page_scripts')
+    {!!HTML::script("assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js") !!}
     {!!HTML::script("js/sparkline-chart.js") !!}
     {!!HTML::script("js/easy-pie-chart.js") !!}
     {!!HTML::script("js/count.js") !!}
@@ -83,10 +84,11 @@
                 <span>System service status</span>
             </a>
             <ul class="sub">
-                <li><a  href="#" title="Report System/Service problem or issue">Log Status</a></li>
-                <li><a  href="#" title="View today system status">Today Status</a></li>
-                <li><a  href="#" title="System/services History">Status History</a></li>
-                <li><a  href="#" title="Generate System/Service status report">Reports</a></li>
+                <li><a  href="{{url('services/status/create')}}" title="Report System/Service problem or issue">Log Status</a></li>
+                <li><a  href="{{url('services')}}" title="Report System/Service problem or issue">Services</a></li>
+                <li><a  href="{{url('services/status/today')}}" title="View today system status">Today Status</a></li>
+                <li><a  href="{{url('services/status/history')}}" title="System/services History">Status History</a></li>
+                <li><a  href="{{url('services/status/reports')}}" title="Generate System/Service status report">Reports</a></li>
             </ul>
         </li>
         <li class="sub-menu">
@@ -98,6 +100,7 @@
                 <li><a  href="{{url('branches')}}">Branches</a></li>
                 <li><a  href="{{url('departments')}}">Departments</a></li>
                 <li><a  href="{{url('users')}}">Users</a></li>
+                <li><a  href="{{url('modules')}}">Query Modules</a></li>
             </ul>
         </li>
     </ul>

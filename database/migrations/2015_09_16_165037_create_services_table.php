@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUnitsTable extends Migration
+class CreateServicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,9 @@ class CreateUnitsTable extends Migration
      */
     public function up()
     {
-        Schema::create('units', function (Blueprint $table) {
+        Schema::create('services', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('parent_id')->default(0);
-            $table->integer('department_id')->default(0);
-            $table->string('unit_name');
-            $table->string('status');
+            $table->string('service_name');
             $table->string('input_by');
             $table->string('auth_by');
             $table->string('auth_status',1)->default('U');
@@ -32,6 +29,6 @@ class CreateUnitsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('units');
+        Schema::drop('services');
     }
 }

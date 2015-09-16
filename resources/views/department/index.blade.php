@@ -194,8 +194,14 @@
                                         <td>{{$d->department_name}}</td>
                                         <td>{{$d->status}}</td>
                                         <td id="{{$d->id}}">
-                                            <a  href="{{url('departments/edit')}}/{{$d->id}}" title="Edit department" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                            <a href="#b" title="Delete Department" class="deleteuser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                            <div class="row" id="{{$d->id}}">
+                                                <div class="col-sm-6 text-center">
+                                                    <a  href="{{url('departments/edit')}}/{{$d->id}}" title="Edit department" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                </div>
+                                                <div class="col-sm-6 text-center">
+                                                    <a href="#b" title="Delete Department" class="deleteuser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
 

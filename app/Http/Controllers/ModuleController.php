@@ -6,10 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Department;
-use Illuminate\Support\Facades\Auth;
 
-class DepartmentController extends Controller
+class ModuleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +17,6 @@ class DepartmentController extends Controller
     public function index()
     {
         //
-        $dep=Department::all();
-        return view('department.index',compact('dep'));
-
     }
 
     /**
@@ -32,7 +27,6 @@ class DepartmentController extends Controller
     public function create()
     {
         //
-        return view('department.create');
     }
 
     /**
@@ -44,15 +38,6 @@ class DepartmentController extends Controller
     public function store(Request $request)
     {
         //
-        $dep=new Department;
-        $dep->department_name=$request->department_name;
-        $dep->description=$request->description;
-        $dep->branch_id=$request->branch_id;
-        $dep->input_by=Auth::user()->username;
-        $dep->status=$request->status;
-        $dep->save();
-
-        return redirect('departments');
     }
 
     /**
@@ -64,9 +49,6 @@ class DepartmentController extends Controller
     public function show($id)
     {
         //
-        $dep=Department::find($id);
-        return view('department.show',compact('dep'));
-
     }
 
     /**
@@ -78,8 +60,6 @@ class DepartmentController extends Controller
     public function edit($id)
     {
         //
-        $dep=Department::find($id);
-        return view('department.edit',compact('dep'));
     }
 
     /**
@@ -89,18 +69,9 @@ class DepartmentController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         //
-        $dep=Department::find($request->id);
-        $dep->department_name=$request->department_name;
-        $dep->description=$request->description;
-        $dep->branch_id=$request->branch_id;
-        $dep->input_by=Auth::user()->username;
-        $dep->status=$request->status;
-        $dep->save();
-
-        return redirect('departments');
     }
 
     /**
@@ -112,9 +83,5 @@ class DepartmentController extends Controller
     public function destroy($id)
     {
         //
-        $dep=Department::find($id);
-        $dep->delete();
     }
-
-
 }

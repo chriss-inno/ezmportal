@@ -8,14 +8,16 @@ var Script = function () {
             rules: {
                 first_name: "required",
                 last_name: "required",
-                uspass: {
+                department: "required",
+                branch: "required",
+                Password: {
                     required: true,
                     minlength: 5
                 },
-                confirmuspass: {
+                Confirm_Password: {
                     required: true,
                     minlength: 5,
-                    equalTo: "#password"
+                    equalTo: "#Password"
                 },
                 designation: {
                     required: "#newsletter:checked"
@@ -25,40 +27,20 @@ var Script = function () {
             messages: {
                 first_name: "Please enter your firstname",
                 last_name: "Please enter your lastname",
-                username: {
-                    required: "Please enter a username",
-                    minlength: "Your username must consist of at least 2 characters"
-                },
-                uspass: {
+                department: "Please select your department",
+                branch: "Please select your branch",
+                Password: {
                     required: "Please provide a password",
                     minlength: "Your password must be at least 5 characters long"
                 },
-                confirmuspass: {
+                Confirm_Password: {
                     required: "Please provide a password",
                     minlength: "Your password must be at least 5 characters long",
                     equalTo: "Please enter the same password as above"
                 },
-                email: "Please enter a valid email address",
                 designation: "Please enter full details of your designation"
             }
-            ,
-            submitHandler: function(form)
-            {
-                var postData = $('#signupForm').serializeArray();
-                var formURL = $('#signupForm').attr("action");
-                $.ajax(
-                    {
-                        url : formURL,
-                        type: "POST",
-                        data : postData,
-                        success:function(data)
-                        {
-                        },
-                        error: function(data)
-                        {
-                        }
-                    });
-            }
+
         });
 
             //Validate branch form

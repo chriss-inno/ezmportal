@@ -33,14 +33,14 @@
                 });
                 $("#yes").click(function(){
                     $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                    $.get("<?php echo url('branches/remove') ?>/"+id1,function(data){
+                    $.get("<?php echo url('users/remove') ?>/"+id1,function(data){
                         btn.hide("slow").next("hr").hide("slow");
                     });
                 });
             });
 
             //Edit class streams
-            $(".addBranch").click(function(){
+            $(".userCreate").click(function(){
                 var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
                 modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
                 modaldis+= '<div class="modal-content">';
@@ -55,12 +55,41 @@
                 $('body').css('overflow','hidden');
 
                 $("body").append(modaldis);
+                jQuery.noConflict();
                 $("#myModal").modal("show");
                 $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("branches/create") ?>");
+                $(".modal-body").load("<?php echo url("users/create") ?>");
                 $("#myModal").on('hidden.bs.modal',function(){
                     $("#myModal").remove();
-                })
+                });
+
+            });
+
+            //Edit class streams
+            $(".userProfile").click(function(){
+                var id1 = $(this).parent().attr('id');
+
+                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                modaldis+= '<div class="modal-content">';
+                modaldis+= '<div class="modal-header">';
+                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="text-align: center">User Profile</span>';
+                modaldis+= '</div>';
+                modaldis+= '<div class="modal-body">';
+                modaldis+= ' </div>';
+                modaldis+= '</div>';
+                modaldis+= '</div>';
+                $('body').css('overflow','hidden');
+
+                $("body").append(modaldis);
+                jQuery.noConflict();
+                $("#myModal").modal("show");
+                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                $(".modal-body").load("<?php echo url("users/show") ?>/"+id1);
+                $("#myModal").on('hidden.bs.modal',function(){
+                    $("#myModal").remove();
+                });
 
             });
         } );
@@ -200,15 +229,14 @@
                                         <td>{{$usr->department->department_name}}</td>
                                         <td>{{$usr->phone}}</td>
                                         <td>{{$usr->status}}</td>
-                                        <td>
-                                            <a href="#b" class="blockUser btn btn-info btn-xs" title="User Profile"><i class="fa fa-eye"></i> View </a>
+                                        <td id="{{$usr->id}}">
+                                            <a href="#" class="userProfile btn btn-info btn-xs" title="User Profile"><i class="fa fa-eye"></i> View </a>
                                         </td>
                                         <td id="{{$usr->id}}">
-                                            <div class="pull-right">
-                                                <a href="#b" class="blockUser btn btn-success btn-xs" title="Block user"><i class=" fa fa-check"></i></a>
-                                                <a  href="{{url('branches/edit')}}/{{$usr->id}}" title="Edit user" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                                <a href="#b" title="Delete user" class="deleteuser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
-                                            </div>
+                                         <a href="#b" class="blockUser btn btn-success btn-xs col-sm-4"  title="Block user"><i class=" fa fa-check"></i></a>
+                                         <a  href="{{url('users/edit')}}/{{$usr->id}}" title="Edit user" class="addBranch btn btn-primary btn-xs col-sm-4"><i class="fa fa-pencil"></i></a>
+                                         <a href="#b" title="Delete user" class="deleteuser btn btn-danger btn-xs col-sm-4"><i class="fa fa-trash-o "></i> </a>
+
                                         </td>
                                     </tr>
 

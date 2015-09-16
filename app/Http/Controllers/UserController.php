@@ -8,7 +8,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\Branch;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserRegistrationRequest;
 
 class UserController extends Controller
 {
@@ -58,7 +60,7 @@ class UserController extends Controller
     {
         //
         $user=User::find($id);
-        return view('users.index',compact('user'));
+        return view('users.show',compact('user'));
     }
 
     /**
@@ -127,21 +129,52 @@ class UserController extends Controller
     //Register user
     public function registration()
     {
-        return view('users.registration');
+        $branches =Branch::all();
+        return view('users.registration',compact('branches'));
     }
 
     //Process registration
-    public function postRegister(UserRequest $request)
+    public function postRegister(UserRegistrationRequest $request)
     {
         $us=new User;
-        $us->first_name=$
+        $us->first_name=ucwords($request->first_name);
+        $us->last_name=ucwords($request->last_name);
+        $us->designation=ucwords($request->designation);
+        $us->phone=$request->phone;
+        $us->branch_id=$request->branch;
+        $us->department_id=$request->department;
+
+        $us->password=bcrypt($request->Password);
+
+        //Create username
+        $string =strtolower($request->first_name.".".$request->last_name);
+        $uname = preg_replace('/\s+/','',$string); //Remove all empty space
+
+        $us->username= $uname; //Combine first and last names
+        //Create email
+        $us->email=$uname."@bankm.com"; //Combine first and last names
         $us->save();
+
+        return redirect('login')->with('message','You have successful registered to Bank M service Portal,<br> Your login access was sent to your email');
     }
 
+   //Process registration
+    public function logout()
+    {
+        if (Auth::check())
+        {
+            $user= \App\User::find(Auth::user()->id);
+            $user->last_logout=date("Y-m-d h:i:s");
+            $user->save();
+        }
+
+        Auth::logout();
+        return redirect('login');
+    }
     //Post login for Authenticating users
     public function postLogin(Request $request)
     {
-        $username=$request->username;
+        $username=strtolower($request->username);
         $password=$request->password;
 
         if (Auth::attempt(['username' => $username, 'password' => $password]))
@@ -154,6 +187,7 @@ class UserController extends Controller
             else
             {
                 $user= User::find(Auth::user()->id);
+                $user->last_success_login=date("Y-m-d h:i:s");
                 $user->last_login=date("Y-m-d h:i:s");
                 $user->save();
 
