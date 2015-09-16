@@ -21,6 +21,8 @@ class UserTableSeeder extends Seeder
         $us->last_name="Administrator";
         $us->designation="System Administrator";
         $us->username="admin";
+        $us->department_id=1;
+        $us->branch_id=1;
         $us->password=bcrypt('admin');
         $us->save();
 
