@@ -193,8 +193,11 @@ Branches
                                                <td>{{$br->branch_code}}</td>
                                                <td>{{$br->branch_Name}}</td>
                                                <td>{{$br->status}}</td>
-                                               <td id="{{$br->id}}"> <a  href="{{url('branches/edit')}}/{{$br->id}}" class="addBranch col-md-3 pull-left" title="Edit Branch"><i class="fa fa-pencil text-primary"></i></a>
-                                                   <a href="#b" title="Delete Branch" class="deleteuser col-md-3 pull-right"><i class="fa fa-trash-o text-danger"></i> </a></td>
+                                               <td id="{{$br->id}}" align="center">
+                                                   <a  href="{{url('branches/edit')}}/{{$br->id}}" title="Edit branch" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                   <a href="#b" title="Delete branch" class="deleteuser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+
+                                               </td>
                                            </tr>
 
                                            @endforeach

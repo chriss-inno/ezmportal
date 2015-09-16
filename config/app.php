@@ -145,7 +145,6 @@ return [
         App\Providers\RouteServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
-        Snowfire\Beautymail\BeautymailServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
 
     ],

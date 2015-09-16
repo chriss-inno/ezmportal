@@ -23,13 +23,13 @@
             } );
 
             $(".deleteuser").click(function(){
-                var id1 = $(this).parent().attr('id');
+                var id1 = $(this).parent().parent().attr('id');
                 $(".deleteuser").show("slow").parent().parent().find("span").remove();
                 var btn = $(this).parent().parent();
                 $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
                 $("#no").click(function(){
-                    $(this).parent().parent().find(".deleteuser").show("slow");
-                    $(this).parent().parent().find("span").remove();
+                    $(this).parent().parent().parent().find(".deleteuser").show("slow");
+                    $(this).parent().parent().parent().find("span").remove();
                 });
                 $("#yes").click(function(){
                     $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
@@ -171,7 +171,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        List of Branches
+                        List of Users
                     </header>
                     <div class="panel-body">
                         <div class="adv-table">
@@ -183,10 +183,9 @@
                                     <th>Designation</th>
                                     <th>Branch</th>
                                     <th>Department</th>
-                                    <th>Email</th>
                                     <th>Phone</th>
-                                    <th>Username</th>
                                     <th>Status</th>
+                                    <th>Profile</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -199,12 +198,18 @@
                                         <td>{{$usr->designation}}</td>
                                         <td>{{$usr->branch->branch_Name}}</td>
                                         <td>{{$usr->department->department_name}}</td>
-                                        <td>{{$usr->email}}</td>
                                         <td>{{$usr->phone}}</td>
-                                        <td>{{$usr->username}}</td>
                                         <td>{{$usr->status}}</td>
-                                        <td id="{{$usr->id}}"> <a  href="{{url('branches/edit')}}/{{$usr->id}}" class="addBranch col-md-3 pull-left" title="Edit Branch"><i class="fa fa-pencil text-primary"></i></a>
-                                            <a href="#b" title="Delete Branch" class="deleteuser col-md-3 pull-right"><i class="fa fa-trash-o text-danger"></i> </a></td>
+                                        <td>
+                                            <a href="#b" class="blockUser btn btn-info btn-xs" title="User Profile"><i class="fa fa-eye"></i> View </a>
+                                        </td>
+                                        <td id="{{$usr->id}}">
+                                            <div class="pull-right">
+                                                <a href="#b" class="blockUser btn btn-success btn-xs" title="Block user"><i class=" fa fa-check"></i></a>
+                                                <a  href="{{url('branches/edit')}}/{{$usr->id}}" title="Edit user" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                <a href="#b" title="Delete user" class="deleteuser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                            </div>
+                                        </td>
                                     </tr>
 
                                 @endforeach
@@ -216,9 +221,9 @@
                                     <th>Designation</th>
                                     <th>Branch</th>
                                     <th>Department</th>
-                                    <th>Email</th>
                                     <th>Phone</th>
                                     <th>Status</th>
+                                    <th></th>
                                     <th>Action</th>
                                 </tr>
                                 </tfoot>
@@ -232,17 +237,17 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <a href="{{url('branches/create')}}" class="btn btn-compose btn-block">Create New Branch</a>
+                                <a href="{{url('users/create')}}" class="btn btn-compose btn-block">Create New users</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('branches')}}" class="btn btn-compose btn-block">List Branches</a>
+                                <a href="{{url('users')}}" class="btn btn-compose  btn-block">List users</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('branches/reports')}}" class="btn btn-compose btn-block">Branch Reports</a>
+                                <a href="{{url('users/reports')}}" class="btn btn-compose btn-block">users Reports</a>
                             </div>
                         </div>
                     </div>
