@@ -178,7 +178,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="description">Branch Descriptions</label>
-                                <textarea class="form-control" id="description" rows="8" name="description" value="{{old('description')}}"> </textarea>
+                                <textarea class="form-control" id="description" rows="8" name="description" >{{old('description')}}</textarea>
                             </div>
                             <div class="form-group">
                                 <div class="row">
@@ -192,7 +192,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary col-md-2 pull-right">Submit</button>
 
                         {!! Form::close() !!}
 

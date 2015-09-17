@@ -19,9 +19,6 @@ class CreateTaskQueriesTable extends Migration
             $table->integer('from_branch');
             $table->integer('to_department');
             $table->integer('to_branch');
-            $table->dateTime('Reporting_Date');
-            $table->dateTime('Reporting_Date');
-
             $table->timestamps();
         });
     }

@@ -1,2 +1,6 @@
-.idea/
+.idea/workspace.xml
+.idea/misc.xml
+.idea/portal.iml
+.idea/modules.xml
+.idea/vcs.xml
 storage/framework/views

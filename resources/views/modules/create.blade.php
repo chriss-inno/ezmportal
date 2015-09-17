@@ -20,6 +20,18 @@
                 "aaSorting": [[ 4, "desc" ]]
             } );
         } );
+
+        $("#branch").change(function () {
+            var id1 = this.value;
+            if(id1 != "")
+            {
+                $.get("<?php echo url('getDepartment') ?>/"+id1,function(data){
+                    $("#department").html(data);
+                });
+
+            }else{$("#department").html("<option value=''>----</option>");}
+        });
+
         //Edit class streams
         $(".addBranch").click(function(){
             var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
@@ -44,6 +56,7 @@
             })
 
         });
+
     </script>
 
 @stop
@@ -149,10 +162,10 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        Create new Department
+                       <h3>Create new Module</h3>
                     </header>
                     <div class="panel-body">
-                        <p> <h3>Basic Department Information </h3>
+                        <p> <h3>Basic Branch Information </h3>
                         @if (count($errors) > 0)
                             <div class="alert alert-danger">
                                 <ul>
@@ -163,23 +176,36 @@
                             </div>
                         @endif
                         <hr/>
-                        {!! Form::open(array('url'=>'departments/create','role'=>'form','id'=>'DepartmentForm')) !!}
+                        {!! Form::open(array('url'=>'modules','role'=>'form','id'=>'moduleForm')) !!}
+
                         <div class="form-group">
-                                    <label for="status">Branch</label>
-                                    <select name="branch_id" class="form-control" id="branch_id">
-                                        <option selected value="">----</option>
-                                        @foreach(\App\Branch::all() as $br)
-                                            <option value="{{$br->id}}">{{$br->branch_Name}}</option>
-                                            @endforeach
-                                    </select>
+                            <label for="module_name">Module Name</label>
+                            <input type="text" class="form-control" id="module_name" name="module_name" value="{{old('module_name')}}" placeholder="Enter Module Name">
                         </div>
                         <div class="form-group">
-                            <label for="branch_Name">Department Name</label>
-                            <input type="text" class="form-control" id="department_name" name="department_name" value="{{old('branch_Name')}}" placeholder="Enter Department Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Descriptions</label>
+                            <label for="description">Module Descriptions</label>
                             <textarea class="form-control" id="description" rows="8" name="description">{{old('description')}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="branch">Branch</label>
+                                    <select class="form-control"  id="branch" name="branch">
+                                        <option value="">----</option>
+                                        <?php $branches=\App\Branch::all();?>
+                                        @foreach($branches as $br)
+                                            <option value="{{$br->id}}">{{$br->branch_Name}}</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="department">Department</label>
+                                    <select class="form-control"  id="department" name="department">
+                                        <option value="">----</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <div class="row">
@@ -205,17 +231,17 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <a href="{{url('departments/create')}}" class="btn btn-compose btn-block">Create New Department</a>
+                                <a href="{{url('branches/create')}}" class="btn btn-compose btn-block">Create New Branch</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('departments')}}" class="btn btn-compose btn-block">List Department</a>
+                                <a href="{{url('branches')}}" class="btn btn-compose btn-block">List Branches</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('departments/reports')}}" class="btn btn-compose btn-block">Department Reports</a>
+                                <a href="{{url('branches/reports')}}" class="btn btn-compose btn-block">Branch Reports</a>
                             </div>
                         </div>
                     </div>
@@ -223,5 +249,5 @@
             </div>
         </div>
     </section>
-        <!-- page end-->
+    <!-- page end-->
 @stop

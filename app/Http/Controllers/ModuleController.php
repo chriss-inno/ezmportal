@@ -6,9 +6,16 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Module;
+use App\Http\Requests\ModuleRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ModuleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,6 +24,8 @@ class ModuleController extends Controller
     public function index()
     {
         //
+        $modules=Module::all();
+        return view('modules.index',compact('modules'));
     }
 
     /**
@@ -27,6 +36,7 @@ class ModuleController extends Controller
     public function create()
     {
         //
+        return view('modules.create');
     }
 
     /**
@@ -35,9 +45,18 @@ class ModuleController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(ModuleRequest $request)
     {
         //
+        $mod=new Module;
+        $mod->department_id=$request->department;
+        $mod->module_name=$request->module_name;
+        $mod->description=$request->description;
+        $mod->input_by=Auth::user()->username;
+        $mod->status=$request->status;
+        $mod->save();
+        $modules=Module::all();
+        return view('modules.index',compact('modules'));
     }
 
     /**
@@ -49,6 +68,8 @@ class ModuleController extends Controller
     public function show($id)
     {
         //
+        $mod=Module::find($id);
+        return view('module.show',compact('mod'));
     }
 
     /**
@@ -60,6 +81,8 @@ class ModuleController extends Controller
     public function edit($id)
     {
         //
+        $mod=Module::find($id);
+        return view('module.edit',compact('mod'));
     }
 
     /**
@@ -72,6 +95,9 @@ class ModuleController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $mod= Module::find($id);
+        $mod->save();
+        return redirect('modules');
     }
 
     /**
@@ -83,5 +109,6 @@ class ModuleController extends Controller
     public function destroy($id)
     {
         //
+        $mod= Module::find($id)->delete();
     }
 }

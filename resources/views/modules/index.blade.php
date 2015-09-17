@@ -6,44 +6,65 @@
     {!!HTML::script("js/sparkline-chart.js") !!}
     {!!HTML::script("js/easy-pie-chart.js") !!}
     {!!HTML::script("js/count.js") !!}
-    {!!HTML::script("js/jquery.tagsinput.js")!!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
     {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
     {!!HTML::script("js/jquery.scrollTo.min.js") !!}
     {!!HTML::script("js/jquery.nicescroll.js") !!}
-    {!!HTML::script("js/jquery.validate.min.js" ) !!}
-    {!!HTML::script("js/respond.min.js"  ) !!}
-    {!!HTML::script("js/form-validation-script.js") !!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
+    {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
 
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
+
+
             $('#branches').dataTable( {
                 "aaSorting": [[ 4, "desc" ]]
             } );
+
+            $(".deleteuser").click(function(){
+                var id1 = $(this).parent().attr('id');
+                $(".deleteuser").show("slow").parent().parent().find("span").remove();
+                var btn = $(this).parent().parent();
+                $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
+                $("#no").click(function(){
+                    $(this).parent().parent().find(".deleteuser").show("slow");
+                    $(this).parent().parent().find("span").remove();
+                });
+                $("#yes").click(function(){
+                    $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
+                    $.get("<?php echo url('branches/remove') ?>/"+id1,function(data){
+                        btn.hide("slow").next("hr").hide("slow");
+                    });
+                });
+            });
+
+            //Edit class streams
+            $(".addBranch").click(function(){
+                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                modaldis+= '<div class="modal-content">';
+                modaldis+= '<div class="modal-header">';
+                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="text-align: center">Update School Class Level</span>';
+                modaldis+= '</div>';
+                modaldis+= '<div class="modal-body">';
+                modaldis+= ' </div>';
+                modaldis+= '</div>';
+                modaldis+= '</div>';
+                $('body').css('overflow','hidden');
+
+                $("body").append(modaldis);
+                $("#myModal").modal("show");
+                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                $(".modal-body").load("<?php echo url("branches/create") ?>");
+                $("#myModal").on('hidden.bs.modal',function(){
+                    $("#myModal").remove();
+                })
+
+            });
         } );
-        //Edit class streams
-        $(".addBranch").click(function(){
-            var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-            modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
-            modal+= '<div class="modal-content">';
-            modal+= '<div class="modal-header">';
-            modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-            modal+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="text-align: center">Update School Class Level</span>';
-            modal+= '</div>';
-            modal+= '<div class="modal-body">';
-            modal+= ' </div>';
-            modal+= '</div>';
-            modal+= '</div>';
-            $('body').css('overflow','hidden');
 
-            $("body").append(modal);
-            $("#myModal").modal("show");
-            $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-            $(".modal-body").load("<?php echo url("branches/create") ?>");
-            $("#myModal").on('hidden.bs.modal',function(){
-                $("#myModal").remove();
-            })
 
-        });
     </script>
 
 @stop
@@ -149,54 +170,45 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        Create new Department
+                        <h3>List of Query Modules</h3>
                     </header>
                     <div class="panel-body">
-                        <p> <h3>Basic Department Information </h3>
-                        @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        <hr/>
-                        {!! Form::open(array('url'=>'departments/create','role'=>'form','id'=>'DepartmentForm')) !!}
-                        <div class="form-group">
-                                    <label for="status">Branch</label>
-                                    <select name="branch_id" class="form-control" id="branch_id">
-                                        <option selected value="">----</option>
-                                        @foreach(\App\Branch::all() as $br)
-                                            <option value="{{$br->id}}">{{$br->branch_Name}}</option>
-                                            @endforeach
-                                    </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="branch_Name">Department Name</label>
-                            <input type="text" class="form-control" id="department_name" name="department_name" value="{{old('branch_Name')}}" placeholder="Enter Department Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Descriptions</label>
-                            <textarea class="form-control" id="description" rows="8" name="description">{{old('description')}}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label for="status">Status</label>
-                                    <select name="status" class="form-control" id="status">
-                                        <option selected value="">----</option>
-                                        <option value="enabled">enabled</option>
-                                        <option value="disabled">disabled</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary pull-right col-md-2">Submit</button>
+                        <div class="adv-table">
+                            <table  class="display table table-bordered table-striped" id="branches">
+                                <thead>
+                                <tr>
+                                    <th>SNO</th>
+                                    <th>Module Name</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php $i=1;?>
+                                @foreach($modules as $mod)
+                                    <tr>
+                                        <td>{{$i++}}</td>
+                                        <td>{{$mod->module_name}}</td>
+                                        <td>{{$mod->status}}</td>
+                                        <td id="{{$mod->id}}" align="center">
+                                            <a  href="{{url('module/edit')}}/{{$mod->id}}" title="Edit branch" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                            <a href="#b" title="Delete branch" class="deleteuser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
 
-                        {!! Form::close() !!}
+                                        </td>
+                                    </tr>
 
+                                @endforeach
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>SNO</th>
+                                    <th>Module Name</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -205,17 +217,17 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <a href="{{url('departments/create')}}" class="btn btn-compose btn-block">Create New Department</a>
+                                <a href="{{url('modules/create')}}" class="btn btn-compose btn-block">Create New Modules</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('departments')}}" class="btn btn-compose btn-block">List Department</a>
+                                <a href="{{url('modules')}}" class="btn btn-compose btn-block">List Modules</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('departments/reports')}}" class="btn btn-compose btn-block">Department Reports</a>
+                                <a href="{{url('modules/reports')}}" class="btn btn-compose btn-block">Modules Reports</a>
                             </div>
                         </div>
                     </div>
@@ -223,5 +235,5 @@
             </div>
         </div>
     </section>
-        <!-- page end-->
+    <!-- page end-->
 @stop
