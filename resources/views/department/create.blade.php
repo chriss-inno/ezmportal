@@ -149,7 +149,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        Create new Department
+                        <h3 class="text-info"> Create new Department</h3>
                     </header>
                     <div class="panel-body">
                         <p> <h3>Basic Department Information </h3>

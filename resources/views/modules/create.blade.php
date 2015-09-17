@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Branches
+    Modules
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
@@ -162,10 +162,10 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                       <h3>Create new Module</h3>
+                       <h3 class="text-primary">Create new Module</h3>
                     </header>
                     <div class="panel-body">
-                        <p> <h3>Basic Branch Information </h3>
+                        <p> <h3>Basic Module Information </h3>
                         @if (count($errors) > 0)
                             <div class="alert alert-danger">
                                 <ul>
@@ -241,7 +241,7 @@
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('branches/reports')}}" class="btn btn-compose btn-block">Branch Reports</a>
+                                <a href="#" class="btn btn-compose btn-block">Branch Reports</a>
                             </div>
                         </div>
                     </div>

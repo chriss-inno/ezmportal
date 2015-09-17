@@ -13,7 +13,6 @@
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
     {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
 
-
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
 
@@ -40,13 +39,15 @@
             });
 
             //Edit class streams
-            $(".addBranch").click(function(){
+            $(".addUnit").click(function(){
+                var id1 = $(this).parent().attr('id');
                 var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+
+                modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
                 modaldis+= '<div class="modal-content">';
                 modaldis+= '<div class="modal-header">';
                 modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="text-align: center">Update School Class Level</span>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Department Units</span>';
                 modaldis+= '</div>';
                 modaldis+= '<div class="modal-body">';
                 modaldis+= ' </div>';
@@ -55,9 +56,10 @@
                 $('body').css('overflow','hidden');
 
                 $("body").append(modaldis);
+                jQuery.noConflict();
                 $("#myModal").modal("show");
                 $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("branches/create") ?>");
+                $(".modal-body").load("<?php echo url("units") ?>/"+id1);
                 $("#myModal").on('hidden.bs.modal',function(){
                     $("#myModal").remove();
                 })
@@ -181,6 +183,7 @@
                                     <th>SNO</th>
                                     <th>Branch name</th>
                                     <th>Department name</th>
+                                    <th>Department Units</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -192,16 +195,11 @@
                                         <td>{{$i++}}</td>
                                         <td>{{$d->branch->branch_Name}}</td>
                                         <td>{{$d->department_name}}</td>
+                                        <td id="{{$d->id}}" class="text-center"> <a  href="#" title="Department Units" class="addUnit btn btn-success btn-xs"><i class="fa fa-pencil"></i></a></td>
                                         <td>{{$d->status}}</td>
-                                        <td id="{{$d->id}}">
-                                            <div class="row" id="{{$d->id}}">
-                                                <div class="col-sm-6 text-center">
-                                                    <a  href="{{url('departments/edit')}}/{{$d->id}}" title="Edit department" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                                </div>
-                                                <div class="col-sm-6 text-center">
-                                                    <a href="#b" title="Delete Department" class="deleteuser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
-                                                </div>
-                                            </div>
+                                        <td id="{{$d->id}}" class="text-center" title="{{$d->department_name}}">
+                                          <a  href="{{url('departments/edit')}}/{{$d->id}}" title="Edit department" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                          <a href="#b" title="Delete Department" class="deleteuser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
                                         </td>
                                     </tr>
 
@@ -210,8 +208,9 @@
                                 <tfoot>
                                 <tr>
                                     <th>SNO</th>
-                                    <th>Branch Code</th>
+                                    <th>Branch name</th>
                                     <th>Department name</th>
+                                    <th>Department Units</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>

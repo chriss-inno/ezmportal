@@ -59,3 +59,18 @@ Route::get('users/show/{id}',['middleware' => 'auth', 'uses' =>'UserController@s
 
 //Modules
 Route::resource('modules','ModuleController');
+
+//Units controller
+Route::get('units/{id}','UnitController@index');
+Route::get('units/create','UnitController@create');
+Route::post('units/create','UnitController@store');
+Route::get('units/remove/{id}','UnitController@destroy');
+Route::get('units/edit/{id}','UnitController@edit');
+Route::post('units/edit','UnitController@update');
+
+//Services
+Route::get('services','ServicesController@index');
+Route::get('services/create','ServicesController@create');
+Route::post('services/create','ServicesController@store');
+Route::get('services/list','ServicesController@listService');
+Route::post('services/edit','ServicesController@update');

@@ -1,7 +1,23 @@
 var Script = function () {
         $().ready(function() {
-        // validate the comment form when it is submitted
+            //Callback handler for form submit event
+
+            // validate the comment form when it is submitted
         $("#commentForm").validate();
+
+          //Department Form
+            $("#DepartmentForm").validate({
+                rules: {
+                    branch_id: "required",
+                    status: "required",
+                    department_name: "required"
+                },
+                messages: {
+                    branch_id: "Please select name",
+                    status: "Please enter status",
+                    department_name: "Please enter department name"
+                }
+            });
 
         // validate signup form on keyup and submit
         $("#signupForm").validate({

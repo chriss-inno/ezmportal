@@ -11,4 +11,8 @@ class Department extends Model
     {
         return $this::belongsTo('\App\Branch','branch_id');
     }
+    public function units()
+    {
+        return $this::hasMany('\App\Unit','department_id','id');
+    }
 }
