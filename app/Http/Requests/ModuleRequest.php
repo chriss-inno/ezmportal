@@ -25,7 +25,7 @@ class ModuleRequest extends Request
     {
         return [
             //
-            'module_name'=>'required|unique:prt_modules',
+            'module_name'=>'required|unique:modules',
             'status'=>'required',
             'department'=>'required',
 

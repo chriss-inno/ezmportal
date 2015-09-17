@@ -184,7 +184,7 @@
                         </div>
                         <div class="form-group">
                             <label for="description">Module Descriptions</label>
-                            <textarea class="form-control" id="description" rows="8" name="description" value="{{old('description')}}"> </textarea>
+                            <textarea class="form-control" id="description" rows="8" name="description">{{old('description')}}</textarea>
                         </div>
                         <div class="form-group">
                             <div class="row">
