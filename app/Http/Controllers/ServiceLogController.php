@@ -6,10 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Service;
-use Illuminate\Support\Facades\Auth;
-
-class ServicesController extends Controller
+use App\ServiceLog;
+class ServiceLogController extends Controller
 {
     public function __construc()
     {
@@ -26,17 +24,16 @@ class ServicesController extends Controller
     public function index()
     {
         //
-        $services=Service::all();
-        return view('services.index',compact('services'));
+        $services =ServiceLog::all();
+        return view('servicelog.index',compact('services'));
     }
-
-    public function listService()
+    public function serviceToday()
     {
         //
-        $services=Service::all();
-        return view('services.list',compact('services'));
+        $today=date("Y-m-d");
+        $services =ServiceLog::where('logdate','=',$today)->get();
+        return view('servicelog.index',compact('services'));
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -45,7 +42,7 @@ class ServicesController extends Controller
     public function create()
     {
         //
-        return view('services.create');
+        return view('servicelog.create');
     }
 
     /**
@@ -57,14 +54,16 @@ class ServicesController extends Controller
     public function store(Request $request)
     {
         //
-        $service = new Service;
-        $service->service_name=$request->service_name;
-        $service->description=$request->description;
-        $service->status=$request->status;
-        $service->input_by=Auth::user()->username;
-        $service->save();
-
-        return "<h3 class='text-info'>Data saved successfully</h3>";
+        $sl=new ServiceLog;
+        $sl->service_id=$request->service_id;
+        $sl->log_title=$request->log_title;
+        $sl->description=$request->description;
+        $sl->reason=$request->reason;
+        $sl->start_time=$request->start_time;
+        $sl->end_time=$request->end_time;
+        $sl->Remarks=$request->Remarks;
+        $sl->input_by=$request->input_by;
+        $sl->save();
     }
 
     /**
@@ -76,8 +75,8 @@ class ServicesController extends Controller
     public function show($id)
     {
         //
-        $services=Service::find($id);
-        return view('services.show',compact('services'));
+        $service =ServiceLog::find($id);
+        return view('servicelog.show',compact('service'));
     }
 
     /**
@@ -89,8 +88,8 @@ class ServicesController extends Controller
     public function edit($id)
     {
         //
-        $services=Service::find($id);
-        return view('services.edit',compact('services'));
+        $service =ServiceLog::find($id);
+        return view('servicelog.edit',compact('service'));
     }
 
     /**
@@ -103,14 +102,16 @@ class ServicesController extends Controller
     public function update(Request $request)
     {
         //
-        $service =  Service::find($request->id);
-        $service->service_name=$request->service_name;
-        $service->description=$request->description;
-        $service->status=$request->status;
-        $service->input_by=Auth::user()->username;
-        $service->save();
-
-        return "<h3 class='text-info'>Data saved successfully</h3>";
+        $sl= ServiceLog::find($request->id);
+        $sl->service_id=$request->service_id;
+        $sl->log_title=$request->log_title;
+        $sl->description=$request->description;
+        $sl->reason=$request->reason;
+        $sl->start_time=$request->start_time;
+        $sl->end_time=$request->end_time;
+        $sl->Remarks=$request->Remarks;
+        $sl->input_by=$request->input_by;
+        $sl->save();
     }
 
     /**
@@ -122,6 +123,5 @@ class ServicesController extends Controller
     public function destroy($id)
     {
         //
-        $service =  Service::find($id)->delete();
     }
 }

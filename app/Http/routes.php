@@ -74,3 +74,14 @@ Route::get('services/create','ServicesController@create');
 Route::post('services/create','ServicesController@store');
 Route::get('services/list','ServicesController@listService');
 Route::post('services/edit','ServicesController@update');
+Route::get('services/edit/{id}','ServicesController@edit');
+
+//Service Logs
+Route::get('serviceslogs','ServiceLogController@index');
+Route::get('serviceslogs/today','ServiceLogController@serviceToday');
+Route::get('serviceslogs/create','ServiceLogController@create');
+Route::post('serviceslogs/create','ServiceLogController@store');
+Route::post('serviceslogs/edit','ServiceLogController@update');
+Route::get('serviceslogs/edit/{id}','ServiceLogController@store');
+Route::get('serviceslogs/remove/{id}','ServiceLogController@destroy');
+

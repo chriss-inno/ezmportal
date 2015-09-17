@@ -233,12 +233,16 @@
                     </header>
                     <div class="panel-body">
                         <div class="adv-table">
-                            <table  class="display table table-bordered table-striped" id="branches">
+                            <table  class="display table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>SNO</th>
-                                    <th>Service name</th>
+                                    <th>Log Title</th>
                                     <th>Description</th>
+                                    <th>Reasons</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Remarks</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -262,8 +266,12 @@
                                 <tfoot>
                                 <tr>
                                     <th>SNO</th>
-                                    <th>Service name</th>
+                                    <th>Log Title</th>
                                     <th>Description</th>
+                                    <th>Reasons</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Remarks</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>

@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Validator;
 
 class UnitController extends Controller
 {
+    public function __construc()
+    {
+        if(Auth::guest())
+        {
+            return view('users.login');
+        }
+    }
     /**
      * Display a listing of the resource.
      *

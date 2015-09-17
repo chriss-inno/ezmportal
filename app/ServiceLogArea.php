@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Service extends Model
+class ServiceLogArea extends Model
 {
     //
     public function serviceLog()
     {
-        return $this::hasMany('\App\ServiceLog','service_id','id');
+        return $this::belongsTo('\App\ServiceLog','serviceLog_id');
     }
 }

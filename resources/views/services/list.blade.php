@@ -10,4 +10,5 @@
             <a href="#b" title="Delete Department" class="deleteuser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
         </td>
     </tr>
+
 @endforeach

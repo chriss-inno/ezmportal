@@ -14,6 +14,14 @@ class CreateServiceLogsTable extends Migration
     {
         Schema::create('service_logs', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('service_id');
+            $table->string('log_title');
+            $table->text('description')->nullable();
+            $table->string('reason')->nullable();
+            $table->string('start_time')->nullable();
+            $table->string('end_time')->nullable();
+            $table->text('Remarks')->nullable();
+            $table->string('input_by');
             $table->timestamps();
         });
     }
