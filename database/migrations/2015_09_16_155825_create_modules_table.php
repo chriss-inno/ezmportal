@@ -16,6 +16,10 @@ class CreateModulesTable extends Migration
             $table->increments('id');
             $table->integer('department_id');
             $table->string('module_name');
+            $table->string('description');
+            $table->string('input_by');
+            $table->string('auth_by')->default('U');
+            $table->string('status')->default('enable');
             $table->timestamps();
         });
     }

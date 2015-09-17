@@ -56,6 +56,20 @@ var Script = function () {
                     status: "Please enter your status"
                 }
             });
+
+            //Validate branch form
+            $("#moduleForm").validate({
+                rules: {
+                    module_name: "required",
+                    department: "required",
+                    status: "required"
+                },
+                messages: {
+                    module_name: "Please enter  module_name",
+                    department: "Please select department",
+                    status: "Please enter module status"
+                }
+            });
         //Validate user login
 
             $("#UserLogin").validate({

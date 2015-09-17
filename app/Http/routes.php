@@ -56,3 +56,6 @@ Route::get('users/edit/{id}',['middleware' => 'auth', 'uses' =>'UserController@e
 Route::post('users/edit',['middleware' => 'auth', 'uses' =>'UserController@update']);
 Route::get('users/remove/{id}',['middleware' => 'auth', 'uses' =>'UserController@destroy']);
 Route::get('users/show/{id}',['middleware' => 'auth', 'uses' =>'UserController@show']);
+
+//Modules
+Route::resource('modules','ModuleController');

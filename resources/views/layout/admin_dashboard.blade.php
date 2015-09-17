@@ -279,12 +279,8 @@
                 <!--user info table start-->
                 <section class="panel">
                     <div class="panel-body">
-                        <a href="#" class="task-thumb">
-                            <img src="img/avatar1.jpg" alt="">
-                        </a>
                         <div class="task-thumb-details">
-                            <h1><a href="#">Anjelina Joli</a></h1>
-                            <p>Senior Architect</p>
+                            <h1><a href="#">Activity Summary</a></h1>
                         </div>
                     </div>
                     <table class="table table-hover personal-task">
@@ -328,7 +324,6 @@
                     <div class="panel-body progress-panel">
                         <div class="task-progress">
                             <h1>Work Progress</h1>
-                            <p>Anjelina Joli</p>
                         </div>
                         <div class="task-option">
                             <select class="styled">
