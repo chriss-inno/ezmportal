@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\ServiceLog;
+use App\ServiceLogArea;
+use Illuminate\Support\Facades\Auth;
 class ServiceLogController extends Controller
 {
     public function __construc()
@@ -62,8 +64,33 @@ class ServiceLogController extends Controller
         $sl->start_time=$request->start_time;
         $sl->end_time=$request->end_time;
         $sl->Remarks=$request->Remarks;
-        $sl->input_by=$request->input_by;
+        $sl->status=$request->status;
+        $sl->input_by=Auth::user()->username;;
+        $sl->logdate=date('Y-m-d');
         $sl->save();
+
+        //Save area affected
+        //Branches
+        foreach($request->branches as $br)
+        {
+            $sa=new ServiceLogArea;
+            $sa->serviceLog_id=$sl->id;
+            $sa->area_affected=$br;
+            $sa->area_type='branch';
+            $sa->save();
+        }
+
+        //Units
+        foreach($request->departments as $dp)
+        {
+            $sa=new ServiceLogArea;
+            $sa->serviceLog_id=$sl->id;
+            $sa->area_affected=$dp;
+            $sa->area_type='unit';
+            $sa->save();
+        }
+
+        return redirect('serviceslogs/today');
     }
 
     /**
@@ -89,7 +116,7 @@ class ServiceLogController extends Controller
     {
         //
         $service =ServiceLog::find($id);
-        return view('servicelog.edit',compact('service'));
+        return view('servicelogs.editLogstatus',compact('service'));
     }
 
     /**
@@ -110,8 +137,38 @@ class ServiceLogController extends Controller
         $sl->start_time=$request->start_time;
         $sl->end_time=$request->end_time;
         $sl->Remarks=$request->Remarks;
-        $sl->input_by=$request->input_by;
+        $sl->status=$request->status;
+        $sl->input_by=Auth::user()->username;;
+        $sl->logdate=date('Y-m-d');
         $sl->save();
+
+
+        foreach($sl->areas as $a)
+        {
+            $a->delete();
+        }
+        //Save area affected
+        //Branches
+        foreach($request->branches as $br)
+        {
+            $sa=new ServiceLogArea;
+            $sa->serviceLog_id=$sl->id;
+            $sa->area_affected=$br;
+            $sa->area_type='branch';
+            $sa->save();
+        }
+
+        //Units
+        foreach($request->departments as $dp)
+        {
+            $sa=new ServiceLogArea;
+            $sa->serviceLog_id=$sl->id;
+            $sa->area_affected=$dp;
+            $sa->area_type='unit';
+            $sa->save();
+        }
+
+        return redirect('serviceslogs/today');
     }
 
     /**
@@ -123,5 +180,10 @@ class ServiceLogController extends Controller
     public function destroy($id)
     {
         //
+        $sl= ServiceLog::find($id);
+        foreach($sl->areas as $a)
+        {
+            $a->delete();
+        }
     }
 }

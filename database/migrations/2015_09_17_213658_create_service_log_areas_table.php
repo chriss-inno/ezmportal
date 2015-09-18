@@ -16,6 +16,7 @@ class CreateServiceLogAreasTable extends Migration
             $table->increments('id');
             $table->integer('serviceLog_id');
             $table->string('area_affected');
+            $table->string('area_type');
             $table->timestamps();
         });
     }

@@ -13,6 +13,6 @@ class ServiceLog extends Model
     }
     public function service()
     {
-        return $this::belongsTo('\App\Department','service_id');
+        return $this::belongsTo('\App\Service','service_id');
     }
 }

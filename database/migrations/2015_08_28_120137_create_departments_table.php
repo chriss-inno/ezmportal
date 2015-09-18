@@ -16,6 +16,7 @@ class CreateDepartmentsTable extends Migration
             $table->increments('id');
             $table->string('department_name');
             $table->string('description');
+            $table->integer('receive_query')->default('0');
             $table->string('status');
             $table->integer('branch_id');
             $table->string('input_by');

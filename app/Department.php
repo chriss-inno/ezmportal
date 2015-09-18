@@ -15,4 +15,8 @@ class Department extends Model
     {
         return $this::hasMany('\App\Unit','department_id','id');
     }
+    public function module()
+    {
+        return $this::hasMany('\App\Module','department_id','id');
+    }
 }

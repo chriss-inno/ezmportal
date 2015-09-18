@@ -22,18 +22,18 @@
                 "aaSorting": [[ 4, "desc" ]]
             } );
 
-            $(".deleteuser").click(function(){
+            $(".delService").click(function(){
                 var id1 = $(this).parent().attr('id');
-                $(".deleteuser").show("slow").parent().parent().find("span").remove();
+                $(".delService").show("slow").parent().parent().find("span").remove();
                 var btn = $(this).parent().parent();
                 $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
                 $("#no").click(function(){
-                    $(this).parent().parent().find(".deleteuser").show("slow");
+                    $(this).parent().parent().find(".delService").show("slow");
                     $(this).parent().parent().find("span").remove();
                 });
                 $("#yes").click(function(){
                     $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                    $.get("<?php echo url('branches/remove') ?>/"+id1,function(data){
+                    $.get("<?php echo url('serviceslogs/remove') ?>/"+id1,function(data){
                         btn.hide("slow").next("hr").hide("slow");
                     });
                 });
@@ -68,6 +68,34 @@
             });
 
             //Edit class streams
+            $(".viewService").click(function(){
+                var id1 = $(this).parent().attr('id');
+                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                modaldis+= '<div class="modal-content">';
+                modaldis+= '<div class="modal-header">';
+                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Service Status Details</span>';
+                modaldis+= '</div>';
+                modaldis+= '<div class="modal-body">';
+                modaldis+= ' </div>';
+                modaldis+= '</div>';
+                modaldis+= '</div>';
+                $('body').css('overflow','hidden');
+
+                $("body").append(modaldis);
+                jQuery.noConflict();
+                $("#myModal").modal("show");
+                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                $(".modal-body").load("<?php echo url("serviceslogs/show") ?>/"+id1);
+                $("#myModal").on('hidden.bs.modal',function(){
+                    $("#myModal").remove();
+                })
+
+            });
+
+            //viewService
             $(".editService").click(function(){
                 var id1 = $(this).parent().attr('id');
                 var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
@@ -88,7 +116,7 @@
                 jQuery.noConflict();
                 $("#myModal").modal("show");
                 $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("services/edit") ?>/"+id1);
+                $(".modal-body").load("<?php echo url("serviceslogs/edit") ?>/"+id1);
                 $("#myModal").on('hidden.bs.modal',function(){
                     $("#myModal").remove();
                 })
@@ -188,12 +216,11 @@
                 <span>Queries and Tasks</span>
             </a>
             <ul class="sub">
-                <li><a  href="#" title="System/services History">Log Query</a></li>
-                <li><a  href="#" title="Report System/Service problem or issue">My Tasks</a></li>
-                <li><a  href="#" title="Report System/Service problem or issue">Query Progress</a></li>
-                <li><a  href="#" title="Report System/Service problem or issue">Query History</a></li>
-                <li><a  href="#" title="View today system status">Manage Queries</a></li>
-                <li><a  href="#" title="View today system status">Queries Reports</a></li>
+                <li><a  href="{{url('queries/create')}}" title="System/services History">Log Query</a></li>
+                <li><a  href="{{url('queries/mytask')}}" title="Report System/Service problem or issue">My Tasks</a></li>
+                <li><a  href="{{url('queries/progress')}}" title="Report System/Service problem or issue">Query Progress</a></li>
+                <li><a  href="{{url('queries/history')}}" title="Report System/Service problem or issue">Query History</a></li>
+                <li><a  href="{{url('queries/report')}}" title="View today system status">Queries Reports</a></li>
             </ul>
         </li>
         <li class="sub-menu">
@@ -202,10 +229,10 @@
                 <span>System service status</span>
             </a>
             <ul class="sub">
-                <li><a  href="#" title="Report System/Service problem or issue">Log Status</a></li>
-                <li><a  href="#" title="View today system status">Today Status</a></li>
-                <li><a  href="#" title="System/services History">Status History</a></li>
-                <li><a  href="#" title="Generate System/Service status report">Reports</a></li>
+                <li><a  href="{{url('serviceslogs/create')}}" title="Report System/Service problem or issue">Log Status</a></li>
+                <li><a  href="{{url('services')}}" title="Report System/Service problem or issue">Services</a></li>
+                <li><a  href="{{url('serviceslogs/today')}}" title="View today system status">Today Status</a></li>
+                <li><a  href="{{url('serviceslogs')}}" title="System/services History">Status History</a></li>
             </ul>
         </li>
         <li class="sub-menu">
@@ -217,10 +244,11 @@
                 <li><a  href="{{url('branches')}}">Branches</a></li>
                 <li><a  href="{{url('departments')}}">Departments</a></li>
                 <li><a  href="{{url('users')}}">Users</a></li>
+                <li><a  href="{{url('modules')}}">Query Modules</a></li>
             </ul>
         </li>
     </ul>
-@stop
+    @stop
 @section('contents')
 
     <section class="site-min-height">
@@ -229,7 +257,7 @@
             <div class="col-lg-9 col-md-9">
                 <section class="panel">
                     <header class="panel-heading">
-                        List of Service Monitoring
+                        <h3 class="text-info"> Service Monitoring</h3>
                     </header>
                     <div class="panel-body">
                         <div class="adv-table">
@@ -239,12 +267,10 @@
                                     <th>SNO</th>
                                     <th>Service</th>
                                     <th>Log Title</th>
-                                    <th>Description</th>
-                                    <th>Reasons</th>
                                     <th>Start Time</th>
                                     <th>End Time</th>
-                                    <th>Remarks</th>
                                     <th>Status</th>
+                                    <th>Detailed</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -253,17 +279,18 @@
                                 @foreach($services as $ser)
                                     <tr>
                                         <td>{{$i++}}</td>
-                                        <td>{{$ser->service_id}}</td>
+                                        <td>{{$ser->service->service_name}}</td>
                                         <td>{{$ser->log_title}}</td>
-                                        <td>{{$ser->description}}</td>
-                                        <td>{{$ser->reason}}</td>
                                         <td>{{$ser->start_time}}</td>
                                         <td>{{$ser->end_time}}</td>
-                                        <td>{{$ser->remarks}}</td>
                                         <td>{{$ser->status}}</td>
                                         <td id="{{$ser->id}}" class="text-center">
-                                            <a  href="#" title="Edit Service" class="editService btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                            <a href="#b" title="Delete Department" class="deleteuser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                            <a  href="#" title="Edit Service" class="viewService btn btn-success btn-xs"><i class="fa fa-folder-open-o"></i>View </a>
+
+                                        </td>
+                                        <td id="{{$ser->id}}" class="text-center">
+                                            <a  href="#" title="Edit Service" class="editService btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+                                            <a href="#b" title="Delete Department" class="delService btn btn-danger btn-xs"><i class="fa fa-trash-o "></i>Delete </a>
                                         </td>
                                     </tr>
 
@@ -274,12 +301,10 @@
                                     <th>SNO</th>
                                     <th>Service</th>
                                     <th>Log Title</th>
-                                    <th>Description</th>
-                                    <th>Reasons</th>
                                     <th>Start Time</th>
                                     <th>End Time</th>
-                                    <th>Remarks</th>
                                     <th>Status</th>
+                                    <th>Detailed</th>
                                     <th>Action</th>
                                 </tr>
                                 </tfoot>

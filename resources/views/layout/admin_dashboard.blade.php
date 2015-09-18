@@ -70,12 +70,11 @@
                 <span>Queries and Tasks</span>
             </a>
             <ul class="sub">
-                <li><a  href="#" title="System/services History">Log Query</a></li>
-                <li><a  href="#" title="Report System/Service problem or issue">My Tasks</a></li>
-                <li><a  href="#" title="Report System/Service problem or issue">Query Progress</a></li>
-                <li><a  href="#" title="Report System/Service problem or issue">Query History</a></li>
-                <li><a  href="#" title="View today system status">Manage Queries</a></li>
-                <li><a  href="#" title="View today system status">Queries Reports</a></li>
+                <li><a  href="{{url('queries/create')}}" title="System/services History">Log Query</a></li>
+                <li><a  href="{{url('queries/mytask')}}" title="Report System/Service problem or issue">My Tasks</a></li>
+                <li><a  href="{{url('queries/progress')}}" title="Report System/Service problem or issue">Query Progress</a></li>
+                <li><a  href="{{url('queries/history')}}" title="Report System/Service problem or issue">Query History</a></li>
+                <li><a  href="{{url('queries/report')}}" title="View today system status">Queries Reports</a></li>
             </ul>
         </li>
         <li class="sub-menu">
@@ -84,7 +83,7 @@
                 <span>System service status</span>
             </a>
             <ul class="sub">
-                <li><a  href="{{url('services/status/create')}}" title="Report System/Service problem or issue">Log Status</a></li>
+                <li><a  href="{{url('serviceslogs/create')}}" title="Report System/Service problem or issue">Log Status</a></li>
                 <li><a  href="{{url('services')}}" title="Report System/Service problem or issue">Services</a></li>
                 <li><a  href="{{url('serviceslogs/today')}}" title="View today system status">Today Status</a></li>
                 <li><a  href="{{url('serviceslogs')}}" title="System/services History">Status History</a></li>
@@ -167,7 +166,7 @@
             <div class="col-lg-8">
                 <!--custom chart start-->
                 <div class="border-head">
-                    <h3>Logged Queries per month</h3>
+                    <h3>Logged Queries per month for year <strong class="text-info">{{date('Y')}}</strong></h3>
                 </div>
                 <div class="custom-bar-chart">
                     <ul class="y-axis">
@@ -235,21 +234,14 @@
                     <div class="panel-body chart-texture">
                         <div class="chart">
                             <div class="heading">
-                                <span>Friday</span>
-                                <strong>$ 57,00 | 15%</strong>
+                                <span>{{date('l')}}</span>
+                                <strong>57,00</strong>
                             </div>
                             <div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="[200,135,667,333,526,996,564,123,890,564,455]"></div>
                         </div>
                     </div>
                     <div class="chart-tittle">
-                        <span class="title">New Earning</span>
-                              <span class="value">
-                                  <a href="#" class="active">Market</a>
-                                  |
-                                  <a href="#">Referal</a>
-                                  |
-                                  <a href="#">Online</a>
-                              </span>
+                        <span class="title">Today Service status</span>
                     </div>
                 </div>
                 <!--new earning end-->
@@ -259,15 +251,15 @@
                     <div class="panel-body">
                         <div class="chart">
                             <div class="heading">
-                                <span>June</span>
-                                <strong>23 Days | 65%</strong>
+                                <span>{{date('F')}}</span>
+                                <strong>{{date('d')}} Days | 65%</strong>
                             </div>
                             <div id="barchart"></div>
                         </div>
                     </div>
                     <div class="chart-tittle">
-                        <span class="title">Total Earning</span>
-                        <span class="value">$, 76,54,678</span>
+                        <span class="title">Closed Query for current month</span>
+                        <span class="value">76,54,678</span>
                     </div>
                 </div>
                 <!--total earning end-->
@@ -279,7 +271,7 @@
                 <section class="panel">
                     <div class="panel-body">
                         <div class="task-thumb-details">
-                            <h1><a href="#">Activity Summary</a></h1>
+                            <h1><a href="#">My activity summary</a></h1>
                         </div>
                     </div>
                     <table class="table table-hover personal-task">

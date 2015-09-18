@@ -14,11 +14,18 @@ class CreateTaskQueriesTable extends Migration
     {
         Schema::create('task_queries', function (Blueprint $table) {
             $table->increments('id');
-            $table->dateTime('Reporting_Date');
+            $table->dateTime('reporting_Date');
             $table->integer('from_department');
             $table->integer('from_branch');
             $table->integer('to_department');
             $table->integer('to_branch');
+            $table->integer('module');
+            $table->integer('logged_by');
+            $table->string('critical_level');
+            $table->string('description');
+            $table->string('reference_file');
+            $table->string('query_code');
+            $table->string('critical_level');
             $table->timestamps();
         });
     }

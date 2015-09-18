@@ -7,12 +7,7 @@
 <div class="form-group">
     <label for="service_id">Service Name</label>
     <select class="form-control"  id="service_id" name="service_id">
-        <option value="">----</option>
-        <?php $services=\App\Service::all();?>
-        @foreach($services as $se)
-            <option value="{{$se->id}}">{{$se->service_name}}</option>
-        @endforeach
-
+            <option value="{{$service->service->service_name}}">{{$service->service->service_name}}</option>
     </select>
 </div>
 <div class="form-group">
@@ -88,10 +83,6 @@
         <div class="col-md-8 pull-left" id="output"></div>
         <div class="col-md-2 pull-right">
             <a href="#" data-dismiss="modal"  class="btn btn-danger btn-block"> <i class="icon-remove"></i>  Cancel</a>
-        </div>
-        <div class="col-md-2 pull-right">
-            <button type="submit" class="btn btn-primary  btn-block">Submit </button>
-            <input type="hidden" name="id" value="{{$service->id}}">
         </div>
 
     </div>

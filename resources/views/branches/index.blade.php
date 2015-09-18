@@ -129,12 +129,11 @@ Branches
                 <span>Queries and Tasks</span>
             </a>
             <ul class="sub">
-                <li><a  href="#" title="System/services History">Log Query</a></li>
-                <li><a  href="#" title="Report System/Service problem or issue">My Tasks</a></li>
-                <li><a  href="#" title="Report System/Service problem or issue">Query Progress</a></li>
-                <li><a  href="#" title="Report System/Service problem or issue">Query History</a></li>
-                <li><a  href="#" title="View today system status">Manage Queries</a></li>
-                <li><a  href="#" title="View today system status">Queries Reports</a></li>
+                <li><a  href="{{url('queries/create')}}" title="System/services History">Log Query</a></li>
+                <li><a  href="{{url('queries/mytask')}}" title="Report System/Service problem or issue">My Tasks</a></li>
+                <li><a  href="{{url('queries/progress')}}" title="Report System/Service problem or issue">Query Progress</a></li>
+                <li><a  href="{{url('queries/history')}}" title="Report System/Service problem or issue">Query History</a></li>
+                <li><a  href="{{url('queries/report')}}" title="View today system status">Queries Reports</a></li>
             </ul>
         </li>
         <li class="sub-menu">
@@ -143,10 +142,10 @@ Branches
                 <span>System service status</span>
             </a>
             <ul class="sub">
-                <li><a  href="#" title="Report System/Service problem or issue">Log Status</a></li>
-                <li><a  href="#" title="View today system status">Today Status</a></li>
-                <li><a  href="#" title="System/services History">Status History</a></li>
-                <li><a  href="#" title="Generate System/Service status report">Reports</a></li>
+                <li><a  href="{{url('serviceslogs/create')}}" title="Report System/Service problem or issue">Log Status</a></li>
+                <li><a  href="{{url('services')}}" title="Report System/Service problem or issue">Services</a></li>
+                <li><a  href="{{url('serviceslogs/today')}}" title="View today system status">Today Status</a></li>
+                <li><a  href="{{url('serviceslogs')}}" title="System/services History">Status History</a></li>
             </ul>
         </li>
         <li class="sub-menu">
@@ -158,10 +157,11 @@ Branches
                 <li><a  href="{{url('branches')}}">Branches</a></li>
                 <li><a  href="{{url('departments')}}">Departments</a></li>
                 <li><a  href="{{url('users')}}">Users</a></li>
+                <li><a  href="{{url('modules')}}">Query Modules</a></li>
             </ul>
         </li>
     </ul>
-@stop
+    @stop
 @section('contents')
 
         <section class="site-min-height">

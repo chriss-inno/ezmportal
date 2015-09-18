@@ -49,6 +49,7 @@ class DepartmentController extends Controller
         $dep->description=$request->description;
         $dep->branch_id=$request->branch_id;
         $dep->input_by=Auth::user()->username;
+        $dep->receive_query=$request->receive_query;
         $dep->status=$request->status;
         $dep->save();
 
@@ -98,6 +99,7 @@ class DepartmentController extends Controller
         $dep->branch_id=$request->branch_id;
         $dep->input_by=Auth::user()->username;
         $dep->status=$request->status;
+        $dep->receive_query=$request->receive_query;
         $dep->save();
 
         return redirect('departments');
@@ -116,5 +118,15 @@ class DepartmentController extends Controller
         $dep->delete();
     }
 
-
+    public function getModules($id)
+    {
+        //
+        $dp=Department::find($id);
+        $dep="<option value=''>----</option>";
+        foreach($dp->module as $m)
+        {
+            $dep .="<option value='$m->id'>$m->module_name</option>";
+        }
+        return $dep;
+    }
 }

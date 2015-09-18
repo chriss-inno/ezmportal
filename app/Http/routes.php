@@ -24,6 +24,7 @@ Route::post('register','UserController@postRegister');
 Route::get('logout',['middleware' => 'auth', 'uses' =>'UserController@logout']);
 Route::get('home',['middleware' => 'auth', 'uses' =>'HomeController@index']);
 
+
 //Branches
 Route::get('branches',['middleware' => 'auth', 'uses' =>'BranchController@index']);
 Route::get('branches/create',['middleware' => 'auth', 'uses' =>'BranchController@create']);
@@ -44,7 +45,7 @@ Route::get('departments/edit/{id}',['middleware' => 'auth', 'uses' =>'Department
 Route::post('departments/edit',['middleware' => 'auth', 'uses' =>'DepartmentController@update']);
 Route::get('departments/remove/{id}',['middleware' => 'auth', 'uses' =>'DepartmentController@destroy']);
 Route::get('departments/show/{id}',['middleware' => 'auth', 'uses' =>'DepartmentController@show']);
-
+Route::get('getModules/{id}','DepartmentController@getModules');
 
 
 //Users
@@ -61,27 +62,36 @@ Route::get('users/show/{id}',['middleware' => 'auth', 'uses' =>'UserController@s
 Route::resource('modules','ModuleController');
 
 //Units controller
-Route::get('units/{id}','UnitController@index');
-Route::get('units/create','UnitController@create');
-Route::post('units/create','UnitController@store');
-Route::get('units/remove/{id}','UnitController@destroy');
-Route::get('units/edit/{id}','UnitController@edit');
-Route::post('units/edit','UnitController@update');
+Route::get('units/{id}',['middleware' => 'auth', 'uses' =>'UnitController@index']);
+Route::get('units/create',['middleware' => 'auth', 'uses' =>'UnitController@create']);
+Route::post('units/create',['middleware' => 'auth', 'uses' =>'UnitController@store']);
+Route::get('units/remove/{id}',['middleware' => 'auth', 'uses' =>'UnitController@destroy']);
+Route::get('units/edit/{id}',['middleware' => 'auth', 'uses' =>'UnitController@edit']);
+Route::post('units/edit',['middleware' => 'auth', 'uses' =>'UnitController@update']);
 
 //Services
-Route::get('services','ServicesController@index');
-Route::get('services/create','ServicesController@create');
-Route::post('services/create','ServicesController@store');
-Route::get('services/list','ServicesController@listService');
-Route::post('services/edit','ServicesController@update');
-Route::get('services/edit/{id}','ServicesController@edit');
+Route::get('services',['middleware' => 'auth', 'uses' =>'ServicesController@index']);
+Route::get('services/create',['middleware' => 'auth', 'uses' =>'ServicesController@create']);
+Route::post('services/create',['middleware' => 'auth', 'uses' =>'ServicesController@store']);
+Route::get('services/list',['middleware' => 'auth', 'uses' =>'ServicesController@listService']);
+Route::post('services/edit',['middleware' => 'auth', 'uses' =>'ServicesController@update']);
+Route::get('services/edit/{id}',['middleware' => 'auth', 'uses' =>'ServicesController@edit']);
 
 //Service Logs
-Route::get('serviceslogs','ServiceLogController@index');
-Route::get('serviceslogs/today','ServiceLogController@serviceToday');
-Route::get('serviceslogs/create','ServiceLogController@create');
-Route::post('serviceslogs/create','ServiceLogController@store');
-Route::post('serviceslogs/edit','ServiceLogController@update');
-Route::get('serviceslogs/edit/{id}','ServiceLogController@store');
-Route::get('serviceslogs/remove/{id}','ServiceLogController@destroy');
+Route::get('serviceslogs',['middleware' => 'auth', 'uses' =>'ServiceLogController@index']);
+Route::get('serviceslogs/today',['middleware' => 'auth', 'uses' =>'ServiceLogController@serviceToday']);
+Route::get('serviceslogs/create',['middleware' => 'auth', 'uses' =>'ServiceLogController@create']);
+Route::post('serviceslogs/create',['middleware' => 'auth', 'uses' =>'ServiceLogController@store']);
+Route::post('serviceslogs/edit',['middleware' => 'auth', 'uses' =>'ServiceLogController@update']);
+Route::get('serviceslogs/edit/{id}',['middleware' => 'auth', 'uses' =>'ServiceLogController@edit']);
+Route::get('serviceslogs/remove/{id}',['middleware' => 'auth', 'uses' =>'ServiceLogController@destroy']);
+Route::get('serviceslogs/show/{id}',['middleware' => 'auth', 'uses' =>'ServiceLogController@show']);
 
+
+//Query management
+Route::get('queries/create',['middleware' => 'auth', 'uses' =>'TaskQueryController@create']);
+Route::post('queries/create',['middleware' => 'auth', 'uses' =>'TaskQueryController@store']);
+Route::get('queries/mytask',['middleware' => 'auth', 'uses' =>'TaskQueryController@index']);
+Route::get('queries/progress',['middleware' => 'auth', 'uses' =>'TaskQueryController@progress']);
+Route::get('queries/history',['middleware' => 'auth', 'uses' =>'TaskQueryController@history']);
+Route::get('queries/report',['middleware' => 'auth', 'uses' =>'TaskQueryController@report']);

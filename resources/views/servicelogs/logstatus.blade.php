@@ -11,38 +11,17 @@
 @stop
 @section('page_scripts')
 <!-- js placed at the end of the document so the pages load faster -->
-{!!HTML::script("js/jquery.js") !!}
-    {!!HTML::script("js/bootstrap.min.js") !!}
-    {!!HTML::script("js/jquery.scrollTo.min.js") !!}
-    {!!HTML::script("js/jquery.nicescroll.js" ) !!}
 
-    {!!HTML::script("js/jquery-ui-1.9.2.custom.min.js") !!}
-    {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
 
-    <!--custom switch-->
-    {!!HTML::script("js/bootstrap-switch.js") !!}
     <!--custom tagsinput-->
     {!!HTML::script("js/jquery.tagsinput.js") !!}
     <!--custom checkbox & radio-->
     {!!HTML::script("js/ga.js") !!}
-
     {!!HTML::script("assets/bootstrap-datepicker/js/bootstrap-datepicker.js") !!}
     {!!HTML::script("assets/bootstrap-daterangepicker/date.js") !!}
     {!!HTML::script("assets/bootstrap-daterangepicker/daterangepicker.js") !!}
     {!!HTML::script("assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js") !!}
     {!!HTML::script("assets/ckeditor/ckeditor.js") !!}
-
-    {!!HTML::script("assets/bootstrap-inputmask/bootstrap-inputmask.min.js") !!}
-    {!!HTML::script("js/respond.min.js" ) !!}
-
-
-    <!--common script for all pages-->
-    {!!HTML::script("js/common-scripts.js") !!}
-
-    <!--script for this page-->
-    {!!HTML::script("js/form-component.js") !!}
-
-
     {!!HTML::script("js/jquery.validate.min.js" ) !!}
     {!!HTML::script("js/respond.min.js"  ) !!}
     {!!HTML::script("js/form-validation-script.js") !!}
@@ -60,44 +39,6 @@
                 log_title: "Please enter title",
                 start_time: "Please enter start time",
                 status: "Please select status"
-            },
-            submitHandler: function(form) {
-                $("#output").html("<h3><span class='text-info'><i class='icon-spinner icon-spin'></i> Making changes please wait...</span><h3>");
-                var postData = $('#serviceForm').serializeArray();
-                var formURL = $('#serviceForm').attr("action");
-                $.ajax(
-                        {
-                            url : formURL,
-                            type: "POST",
-                            data : postData,
-                            success:function(data)
-                            {
-                                console.log(data);
-                                //data: return data from server
-                                document.getElementById('service_name').value="";
-                                document.getElementById('description').value="";
-                                $("#output").html(data);
-
-
-                                setTimeout(function() {
-
-                                    $("#output").html("");
-                                    jQuery.noConflict();
-                                    $("#myModal").modal("hide");
-                                    $("#serviceList").load("<?php echo url('services/list')?>");
-                                }, 2000);
-                            },
-                            error: function(data)
-                            {
-                                console.log(data.responseJSON);
-                                //in the responseJSON you get the form validation back.
-                                $("#output").html("<h3><span class='text-info'><i class='icon-spinner icon-spin'></i> Error in processing data try again...</span><h3>");
-                                $("#serviceList").load("<?php echo url('services/list')?>");
-                                setTimeout(function() {
-                                    $("#output").html("");
-                                }, 2000);
-                            }
-                        });
             }
         });
 
@@ -106,99 +47,99 @@
 
 @stop
 @section('menus')
-<ul class="sidebar-menu" id="nav-accordion">
-    <li>
-        <a class="active" href="{{url('home')}}">
-            <i class="fa fa-dashboard"></i>
-            <span>Dashboard</span>
-        </a>
-    </li>
-    <li class="sub-menu">
-        <a href="javascript:;" >
-            <i class=" fa fa-bar-chart-o"></i>
-            <span>Reports</span>
-        </a>
-        <ul class="sub">
-            <li><a  href="#" title="Report System/Service problem or issue">Daily Reports</a></li>
-            <li><a  href="#" title="View today system status">Monthly Reports</a></li>
-            <li><a  href="#" title="System/services History">Custom Reports</a></li>
-            <li><a  href="#" title="Generate System/Service status report">Search Report</a></li>
-        </ul>
-    </li>
-    <li class="sub-menu">
-        <a href="javascript:;" >
-            <i class="fa fa-picture-o"></i>
-            <span>Photo Galley</span>
-        </a>
-        <ul class="sub">
-            <li><a  href="#" title="System/services History">Upload Photos</a></li>
-            <li><a  href="#" title="Report System/Service problem or issue">List Albums</a></li>
-            <li><a  href="#" title="View today system status">Manage Albums</a></li>
-        </ul>
-    </li>
-    <li class="sub-menu">
-        <a href="javascript:;" >
-            <i class="fa fa-download"></i>
-            <span>Downloads</span>
-        </a>
-        <ul class="sub">
-            <li><a  href="#" title="System/services History">ICT Department</a></li>
-            <li><a  href="#" title="Report System/Service problem or issue">Operation</a></li>
-            <li><a  href="#" title="View today system status">Administration</a></li>
-            <li><a  href="#" title="View today system status">Human Resource</a></li>
-        </ul>
-    </li>
-    <li class="sub-menu">
-        <a href="javascript:;" >
-            <i class="fa fa-info"></i>
-            <span>Special Portals</span>
-        </a>
-        <ul class="sub">
-            <li><a  href="#" title="System/services History">COPS Issues Tracking</a></li>
-            <li><a  href="#" title="Report System/Service problem or issue">CMF Reports</a></li>
-            <li><a  href="#" title="View today system status">Money Msafiri</a></li>
-            <li><a  href="#" title="View today system status">Human Resource</a></li>
-        </ul>
-    </li>
-    <li class="sub-menu">
-        <a href="javascript:;" >
-            <i class="fa fa-folder-open-o"></i>
-            <span>Queries and Tasks</span>
-        </a>
-        <ul class="sub">
-            <li><a  href="#" title="System/services History">Log Query</a></li>
-            <li><a  href="#" title="Report System/Service problem or issue">My Tasks</a></li>
-            <li><a  href="#" title="Report System/Service problem or issue">Query Progress</a></li>
-            <li><a  href="#" title="Report System/Service problem or issue">Query History</a></li>
-            <li><a  href="#" title="View today system status">Manage Queries</a></li>
-            <li><a  href="#" title="View today system status">Queries Reports</a></li>
-        </ul>
-    </li>
-    <li class="sub-menu">
-        <a href="javascript:;" >
-            <i class="fa fa-laptop"></i>
-            <span>System service status</span>
-        </a>
-        <ul class="sub">
-            <li><a  href="#" title="Report System/Service problem or issue">Log Status</a></li>
-            <li><a  href="#" title="View today system status">Today Status</a></li>
-            <li><a  href="#" title="System/services History">Status History</a></li>
-            <li><a  href="#" title="Generate System/Service status report">Reports</a></li>
-        </ul>
-    </li>
-    <li class="sub-menu">
-        <a href="javascript:;" >
-            <i class="fa fa-cogs"></i>
-            <span>Portal Administration</span>
-        </a>
-        <ul class="sub">
-            <li><a  href="{{url('branches')}}">Branches</a></li>
-            <li><a  href="{{url('departments')}}">Departments</a></li>
-            <li><a  href="{{url('users')}}">Users</a></li>
-        </ul>
-    </li>
-</ul>
-@stop
+    <ul class="sidebar-menu" id="nav-accordion">
+        <li>
+            <a class="active" href="{{url('home')}}">
+                <i class="fa fa-dashboard"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class=" fa fa-bar-chart-o"></i>
+                <span>Reports</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="#" title="Report System/Service problem or issue">Daily Reports</a></li>
+                <li><a  href="#" title="View today system status">Monthly Reports</a></li>
+                <li><a  href="#" title="System/services History">Custom Reports</a></li>
+                <li><a  href="#" title="Generate System/Service status report">Search Report</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-picture-o"></i>
+                <span>Photo Galley</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="#" title="System/services History">Upload Photos</a></li>
+                <li><a  href="#" title="Report System/Service problem or issue">List Albums</a></li>
+                <li><a  href="#" title="View today system status">Manage Albums</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-download"></i>
+                <span>Downloads</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="#" title="System/services History">ICT Department</a></li>
+                <li><a  href="#" title="Report System/Service problem or issue">Operation</a></li>
+                <li><a  href="#" title="View today system status">Administration</a></li>
+                <li><a  href="#" title="View today system status">Human Resource</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-info"></i>
+                <span>Special Portals</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="#" title="System/services History">COPS Issues Tracking</a></li>
+                <li><a  href="#" title="Report System/Service problem or issue">CMF Reports</a></li>
+                <li><a  href="#" title="View today system status">Money Msafiri</a></li>
+                <li><a  href="#" title="View today system status">Human Resource</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-folder-open-o"></i>
+                <span>Queries and Tasks</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('queries/create')}}" title="System/services History">Log Query</a></li>
+                <li><a  href="{{url('queries/mytask')}}" title="Report System/Service problem or issue">My Tasks</a></li>
+                <li><a  href="{{url('queries/progress')}}" title="Report System/Service problem or issue">Query Progress</a></li>
+                <li><a  href="{{url('queries/history')}}" title="Report System/Service problem or issue">Query History</a></li>
+                <li><a  href="{{url('queries/report')}}" title="View today system status">Queries Reports</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-laptop"></i>
+                <span>System service status</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('serviceslogs/create')}}" title="Report System/Service problem or issue">Log Status</a></li>
+                <li><a  href="{{url('services')}}" title="Report System/Service problem or issue">Services</a></li>
+                <li><a  href="{{url('serviceslogs/today')}}" title="View today system status">Today Status</a></li>
+                <li><a  href="{{url('serviceslogs')}}" title="System/services History">Status History</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-cogs"></i>
+                <span>Portal Administration</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('branches')}}">Branches</a></li>
+                <li><a  href="{{url('departments')}}">Departments</a></li>
+                <li><a  href="{{url('users')}}">Users</a></li>
+                <li><a  href="{{url('modules')}}">Query Modules</a></li>
+            </ul>
+        </li>
+    </ul>
+    @stop
 @section('contents')
  <section class="site-min-height">
     <!-- page start-->
@@ -251,15 +192,15 @@
                                     <input type="text" class="form-control form-control form-control-inline input-medium default-date-picker" id="start_time" name="start_time" value="{{old('start_time')}}" placeholder="(YYYY-MM-DD HH:MM)">
                                    </div>
                                 <div class="col-md-6">
-                                    <label for="status">End Time</label>
+                                    <label for="status">Restoration Time</label>
                                     <input type="text" class="form-control" id="end_time" name="end_time" value="{{old('end_time')}}" placeholder="(YYYY-MM-DD HH:MM)">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <h3> Area Affected by the downtime</h3> <hr/>
+                            <h3 class="text-info"> Area Affected by the downtime</h3> <hr/>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label for="status">Branches</label>
                                     <select multiple class="form-control" name="branches[]" id="branches">
                                         @foreach(\App\Branch::all() as $br)
@@ -267,7 +208,9 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-6">
+                            </div>
+                            <div class="row" style="margin-top: 5px;margin-bottom: 5px">
+                                <div class="col-md-12">
                                     <label for="status">Departments and units</label>
                                     <select multiple class="form-control" name="departments[]" id="departments">
                                        @foreach(\App\Branch::all() as $br)
@@ -300,7 +243,7 @@
                         <button type="submit" class="btn btn-primary pull-right col-md-2">Submit</button>
 
                         {!! Form::close() !!}
-
+                        </div>
                     </div>
                 </section>
             </div>
@@ -321,6 +264,11 @@
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
                                 <a href="{{url('serviceslogs')}}" class="btn btn-lg btn-danger btn-block">Status History</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-md-12">
+                                <a href="{{url('services')}}" class="btn btn-lg btn-danger btn-block">List Service</a>
                             </div>
                         </div>
                     </div>

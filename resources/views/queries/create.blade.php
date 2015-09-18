@@ -1,63 +1,61 @@
 @extends('layout.master')
 @section('page-title')
-    Modules
-@stop
-@section('page_scripts')
-    {!!HTML::script("js/sparkline-chart.js") !!}
-    {!!HTML::script("js/easy-pie-chart.js") !!}
-    {!!HTML::script("js/count.js") !!}
-    {!!HTML::script("js/jquery.tagsinput.js")!!}
-    {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
-    {!!HTML::script("js/jquery.scrollTo.min.js") !!}
-    {!!HTML::script("js/jquery.nicescroll.js") !!}
+    Branches
+    @stop
+    @section('page_style')
+
+    {!!HTML::style("assets/bootstrap-datepicker/css/datepicker.css" )!!}
+    {!!HTML::style("assets/bootstrap-colorpicker/css/colorpicker.css" )!!}
+    {!!HTML::style("assets/bootstrap-daterangepicker/daterangepicker.css" )!!}
+
+    @stop
+    @section('page_scripts')
+            <!-- js placed at the end of the document so the pages load faster -->
+
+
+    <!--custom tagsinput-->
+    {!!HTML::script("js/jquery.tagsinput.js") !!}
+            <!--custom checkbox & radio-->
+    {!!HTML::script("js/ga.js") !!}
+    {!!HTML::script("assets/bootstrap-datepicker/js/bootstrap-datepicker.js") !!}
+    {!!HTML::script("assets/bootstrap-daterangepicker/date.js") !!}
+    {!!HTML::script("assets/bootstrap-daterangepicker/daterangepicker.js") !!}
+    {!!HTML::script("assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js") !!}
+    {!!HTML::script("assets/ckeditor/ckeditor.js") !!}
     {!!HTML::script("js/jquery.validate.min.js" ) !!}
     {!!HTML::script("js/respond.min.js"  ) !!}
     {!!HTML::script("js/form-validation-script.js") !!}
-
     <script type="text/javascript" charset="utf-8">
-        $(document).ready(function() {
-            $('#branches').dataTable( {
-                "aaSorting": [[ 4, "desc" ]]
-            } );
-        } );
 
-        $("#branch").change(function () {
+        $("#to_department").change(function () {
             var id1 = this.value;
             if(id1 != "")
             {
-                $.get("<?php echo url('getDepartment') ?>/"+id1,function(data){
-                    $("#department").html(data);
+                $.get("<?php echo url('getModules') ?>/"+id1,function(data){
+                    $("#module").html(data);
                 });
 
-            }else{$("#department").html("<option value=''>----</option>");}
+            }else{$("#module").html("<option value=''>----</option>");}
         });
 
-        //Edit class streams
-        $(".addBranch").click(function(){
-            var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-            modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
-            modal+= '<div class="modal-content">';
-            modal+= '<div class="modal-header">';
-            modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-            modal+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="text-align: center">Update School Class Level</span>';
-            modal+= '</div>';
-            modal+= '<div class="modal-body">';
-            modal+= ' </div>';
-            modal+= '</div>';
-            modal+= '</div>';
-            $('body').css('overflow','hidden');
+        $("#serviceForm").validate({
+            rules: {
+                start_time: "required",
+                service_id: "required",
+                log_title: "required",
 
-            $("body").append(modal);
-            $("#myModal").modal("show");
-            $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-            $(".modal-body").load("<?php echo url("branches/create") ?>");
-            $("#myModal").on('hidden.bs.modal',function(){
-                $("#myModal").remove();
-            })
-
+                status: "required"
+            },
+            messages: {
+                service_id: "Please select service name",
+                log_title: "Please enter title",
+                start_time: "Please enter start time",
+                status: "Please select status"
+            }
         });
 
     </script>
+
 
 @stop
 @section('menus')
@@ -153,19 +151,18 @@
             </ul>
         </li>
     </ul>
-    @stop
+@stop
 @section('contents')
-
     <section class="site-min-height">
         <!-- page start-->
         <div class="row">
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-primary">Create new Module</h3>
+                        <h3 class="text-info">Service portal queries</h3>
                     </header>
                     <div class="panel-body">
-                        <p> <h3>Basic Module Information </h3>
+                        <p> <h3>Query details </h3>
                         @if (count($errors) > 0)
                             <div class="alert alert-danger">
                                 <ul>
@@ -176,52 +173,51 @@
                             </div>
                         @endif
                         <hr/>
-                        {!! Form::open(array('url'=>'modules','role'=>'form','id'=>'moduleForm')) !!}
+                        {!! Form::open(array('url'=>'serviceslogs/create','role'=>'form','id'=>'serviceForm','files' => true)) !!}
+                        <div class="form-group">
+                            <label for="to_department">To Department</label>
+                            <select class="form-control"  id="to_department" name="to_department">
+                                <option value="">----</option>
+                                <?php $departments=\App\Department::where('receive_query','=','1')->get();?>
+                                @foreach($departments as $de)
+                                    <option value="{{$de->id}}">{{$de->department_name}}</option>
+                                @endforeach
 
-                        <div class="form-group">
-                            <label for="module_name">Module Name</label>
-                            <input type="text" class="form-control" id="module_name" name="module_name" value="{{old('module_name')}}" placeholder="Enter Module Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Module Descriptions</label>
-                            <textarea class="form-control" id="description" rows="8" name="description">{{old('description')}}</textarea>
+                            </select>
                         </div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="branch">Branch</label>
-                                    <select class="form-control"  id="branch" name="branch">
-                                        <option value="">----</option>
-                                        <?php $branches=\App\Branch::all();?>
-                                        @foreach($branches as $br)
-                                            <option value="{{$br->id}}">{{$br->branch_Name}}</option>
-                                        @endforeach
+                                    <label for="module">Module</label>
+                                    <select class="form-control"  id="module" name="module">
 
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="department">Department</label>
-                                    <select class="form-control"  id="department" name="department">
+                                    <label for="critical_level">Critical Level</label>
+                                    <select class="form-control"  id="critical_level" name="critical_level">
                                         <option value="">----</option>
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                        <option value="Emergency">Emergency</option>
                                     </select>
                                 </div>
                             </div>
+
                         </div>
                         <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label for="status">Status</label>
-                                    <select name="status" class="form-control" id="status">
-                                        <option selected value="">----</option>
-                                        <option value="enabled">enabled</option>
-                                        <option value="disabled">disabled</option>
-                                    </select>
-                                </div>
-                            </div>
+                            <label for="unit_name">Description</label>
+                            <textarea class="ckeditor form-control" id="description" name="description"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary pull-right col-md-2">Submit</button>
+                        <div class="form-group">
+                            <label for="reference_file">Attach file</label>
+                            <input type="file" id="reference_file">
+                            <p class="help-block">Attach file such as screen shot of problem.</p>
+                        </div>
 
-                        {!! Form::close() !!}
+                            <button type="submit" class="btn btn-primary pull-right col-md-2">Submit Query</button>
+                            {!! Form::close() !!}
 
                     </div>
                 </section>
@@ -229,19 +225,30 @@
             <div class="col-lg-2 col-md-2">
                 <section class="panel">
                     <div class="panel-body">
-                        <div class="row">
+
+                        <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('branches/create')}}" class="btn btn-compose btn-block">Create New Branch</a>
+                                <a href="{{url('queries/create')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-folder-open-o"></i> Log Query</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('branches')}}" class="btn btn-compose btn-block">List Branches</a>
+                                <a href="{{url('queries/mytask')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-tasks"></i> My Tasks</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="#" class="btn btn-compose btn-block">Branch Reports</a>
+                                <a href="{{url('queries/progress')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Query Progress</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-md-12">
+                                <a href="{{url('queries/history')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-server"></i> Query History</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-md-12">
+                                <a href="{{url('queries/report')}}" class="btn btn-file btn-danger btn-block">Queries Reports</a>
                             </div>
                         </div>
                     </div>
