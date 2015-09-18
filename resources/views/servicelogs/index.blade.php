@@ -44,11 +44,11 @@
                 var id1 = $(this).parent().attr('id');
                 var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
-                modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
                 modaldis+= '<div class="modal-content">';
                 modaldis+= '<div class="modal-header">';
                 modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Create new Service</span>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Log service status</span>';
                 modaldis+= '</div>';
                 modaldis+= '<div class="modal-body">';
                 modaldis+= ' </div>';
@@ -60,7 +60,7 @@
                 jQuery.noConflict();
                 $("#myModal").modal("show");
                 $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("services/create") ?>");
+                $(".modal-body").load("<?php echo url("serviceslogs/create") ?>");
                 $("#myModal").on('hidden.bs.modal',function(){
                     $("#myModal").remove();
                 })
@@ -233,10 +233,11 @@
                     </header>
                     <div class="panel-body">
                         <div class="adv-table">
-                            <table  class="display table table-bordered table-striped">
+                            <table  class="display table table-bordered table-striped" id="branches">
                                 <thead>
                                 <tr>
                                     <th>SNO</th>
+                                    <th>Service</th>
                                     <th>Log Title</th>
                                     <th>Description</th>
                                     <th>Reasons</th>
@@ -252,8 +253,13 @@
                                 @foreach($services as $ser)
                                     <tr>
                                         <td>{{$i++}}</td>
-                                        <td>{{$ser->service_name}}</td>
+                                        <td>{{$ser->service_id}}</td>
+                                        <td>{{$ser->log_title}}</td>
                                         <td>{{$ser->description}}</td>
+                                        <td>{{$ser->reason}}</td>
+                                        <td>{{$ser->start_time}}</td>
+                                        <td>{{$ser->end_time}}</td>
+                                        <td>{{$ser->remarks}}</td>
                                         <td>{{$ser->status}}</td>
                                         <td id="{{$ser->id}}" class="text-center">
                                             <a  href="#" title="Edit Service" class="editService btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
@@ -266,6 +272,7 @@
                                 <tfoot>
                                 <tr>
                                     <th>SNO</th>
+                                    <th>Service</th>
                                     <th>Log Title</th>
                                     <th>Description</th>
                                     <th>Reasons</th>
@@ -284,24 +291,20 @@
             <div class="col-lg-3 col-md-3">
                 <section class="panel">
                     <div class="panel-body">
-                        <div class="row">
+
+                        <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="#" class="addService btn btn-compose btn-block">Create New Service</a>
+                                <a href="{{url('serviceslogs/create')}}" class=" btn btn-lg btn-danger btn-block">Log Status</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('services')}}" class="btn btn-compose btn-block">List Service</a>
+                                <a href="{{url('serviceslogs/today')}}" class="btn btn-lg btn-danger btn-block">Today Status</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('services')}}" class="btn btn-lg btn-primary btn-block">Today Status</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('services')}}" class="btn btn-lg btn-primary btn-block">Status History</a>
+                                <a href="{{url('serviceslogs')}}" class="btn btn-lg btn-danger btn-block">Status History</a>
                             </div>
                         </div>
                     </div>

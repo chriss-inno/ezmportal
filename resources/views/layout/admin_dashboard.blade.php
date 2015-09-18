@@ -86,9 +86,8 @@
             <ul class="sub">
                 <li><a  href="{{url('services/status/create')}}" title="Report System/Service problem or issue">Log Status</a></li>
                 <li><a  href="{{url('services')}}" title="Report System/Service problem or issue">Services</a></li>
-                <li><a  href="{{url('services/status/today')}}" title="View today system status">Today Status</a></li>
-                <li><a  href="{{url('services/status/history')}}" title="System/services History">Status History</a></li>
-                <li><a  href="{{url('services/status/reports')}}" title="Generate System/Service status report">Reports</a></li>
+                <li><a  href="{{url('serviceslogs/today')}}" title="View today system status">Today Status</a></li>
+                <li><a  href="{{url('serviceslogs')}}" title="System/services History">Status History</a></li>
             </ul>
         </li>
         <li class="sub-menu">

@@ -25,14 +25,14 @@ class ServiceLogController extends Controller
     {
         //
         $services =ServiceLog::all();
-        return view('servicelog.index',compact('services'));
+        return view('servicelogs.index',compact('services'));
     }
     public function serviceToday()
     {
         //
         $today=date("Y-m-d");
         $services =ServiceLog::where('logdate','=',$today)->get();
-        return view('servicelog.index',compact('services'));
+        return view('servicelogs.index',compact('services'));
     }
     /**
      * Show the form for creating a new resource.
@@ -42,7 +42,7 @@ class ServiceLogController extends Controller
     public function create()
     {
         //
-        return view('servicelog.create');
+        return view('servicelogs.logstatus');
     }
 
     /**
@@ -76,7 +76,7 @@ class ServiceLogController extends Controller
     {
         //
         $service =ServiceLog::find($id);
-        return view('servicelog.show',compact('service'));
+        return view('servicelogs.show',compact('service'));
     }
 
     /**

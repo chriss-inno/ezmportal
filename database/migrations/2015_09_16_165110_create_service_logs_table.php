@@ -20,7 +20,9 @@ class CreateServiceLogsTable extends Migration
             $table->string('reason')->nullable();
             $table->string('start_time')->nullable();
             $table->string('end_time')->nullable();
-            $table->text('Remarks')->nullable();
+            $table->text('remarks')->nullable();
+            $table->date('logdate');
+            $table->date('status');
             $table->string('input_by');
             $table->timestamps();
         });
