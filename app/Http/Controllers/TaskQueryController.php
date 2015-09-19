@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\QueryRequest;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 class TaskQueryController extends Controller
 {
     public function __construct()
