@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests\QueryRequest;
+use App\User;
 class TaskQueryController extends Controller
 {
     public function __construct()
@@ -46,6 +47,8 @@ class TaskQueryController extends Controller
         //
         //$imageName = $product->id . '.' .$request->file('image')->getClientOriginalExtension(); //Get image extension
        // $request->file('image')->move(base_path() . '/public/images/catalog/', $imageName );
+
+
     }
 
     /**

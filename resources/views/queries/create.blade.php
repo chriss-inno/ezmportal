@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Branches
+    Queries
     @stop
     @section('page_style')
 
@@ -40,17 +40,16 @@
 
         $("#serviceForm").validate({
             rules: {
-                start_time: "required",
-                service_id: "required",
-                log_title: "required",
-
-                status: "required"
+                to_department: "required",
+                description: "required",
+                module: "required",
+                critical_level: "required"
             },
             messages: {
-                service_id: "Please select service name",
-                log_title: "Please enter title",
-                start_time: "Please enter start time",
-                status: "Please select status"
+                to_department: "Please select department",
+                description: "Please enter description",
+                module: "Please select module",
+                critical_level: "Please select critical level"
             }
         });
 
@@ -173,7 +172,7 @@
                             </div>
                         @endif
                         <hr/>
-                        {!! Form::open(array('url'=>'serviceslogs/create','role'=>'form','id'=>'serviceForm','files' => true)) !!}
+                        {!! Form::open(array('url'=>'queries/create','role'=>'form','id'=>'serviceForm','files' => true)) !!}
                         <div class="form-group">
                             <label for="to_department">To Department</label>
                             <select class="form-control"  id="to_department" name="to_department">
@@ -213,7 +212,8 @@
                         <div class="form-group">
                             <label for="reference_file">Attach file</label>
                             <input type="file" id="reference_file">
-                            <p class="help-block">Attach file such as screen shot of problem.</p>
+                            <p class="help-block">Attach file for reference.</p>
+                            <p class="help-block"><input type="checkbox" value="1" id="file_upload" name="file_upload"> <label for="file_upload">Send attachment with query</label></p>
                         </div>
 
                             <button type="submit" class="btn btn-primary pull-right col-md-2">Submit Query</button>
@@ -238,17 +238,17 @@
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('queries/progress')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Query Progress</a>
+                                <a href="{{url('queries/progress')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-archive"></i>  Progress</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('queries/history')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-server"></i> Query History</a>
+                                <a href="{{url('queries/history')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> History</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('queries/report')}}" class="btn btn-file btn-danger btn-block">Queries Reports</a>
+                                <a href="{{url('queries/report')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Reports</a>
                             </div>
                         </div>
                     </div>
