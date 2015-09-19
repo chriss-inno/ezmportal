@@ -36,6 +36,14 @@
                     <strong>Bank M Service Portal - User Registration form </strong>
                 </header>
                 <div class="panel-body">
+
+                    @if(Session::has('message'))
+                        <div class="alert fade in alert-danger">
+                            <i class="icon-remove close" data-dismiss="alert"></i>
+                            {{Session::get('message')}}
+                        </div>
+                    @endif
+
                      {!! Form::open(array('url'=>'register','role'=>'form','id'=>'signupForm')) !!}
                     <fieldset class="scheduler-border">
                         <legend class="scheduler-border">Personal details</legend>

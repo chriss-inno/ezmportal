@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Branches
+    Users
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
@@ -22,13 +22,13 @@
                 "aaSorting": [[ 4, "desc" ]]
             } );
 
-            $(".deleteuser").click(function(){
+            $(".deleteUser").click(function(){
                 var id1 = $(this).parent().parent().attr('id');
-                $(".deleteuser").show("slow").parent().parent().find("span").remove();
+                $(".deleteUser").show("slow").parent().parent().find("span").remove();
                 var btn = $(this).parent().parent();
                 $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
                 $("#no").click(function(){
-                    $(this).parent().parent().parent().find(".deleteuser").show("slow");
+                    $(this).parent().parent().parent().find(".deleteUser").show("slow");
                     $(this).parent().parent().parent().find("span").remove();
                 });
                 $("#yes").click(function(){
@@ -46,7 +46,7 @@
                 modaldis+= '<div class="modal-content">';
                 modaldis+= '<div class="modal-header">';
                 modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="text-align: center">Update School Class Level</span>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">Update School Class Level</span>';
                 modaldis+= '</div>';
                 modaldis+= '<div class="modal-body">';
                 modaldis+= ' </div>';
@@ -74,7 +74,7 @@
                 modaldis+= '<div class="modal-content">';
                 modaldis+= '<div class="modal-header">';
                 modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="text-align: center">User Profile</span>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">User Profile</span>';
                 modaldis+= '</div>';
                 modaldis+= '<div class="modal-body">';
                 modaldis+= ' </div>';
@@ -187,6 +187,7 @@
                 <li><a  href="{{url('branches')}}">Branches</a></li>
                 <li><a  href="{{url('departments')}}">Departments</a></li>
                 <li><a  href="{{url('users')}}">Users</a></li>
+                <li><a  href="{{url('users/rights')}}">Users Rights</a></li>
                 <li><a  href="{{url('modules')}}">Query Modules</a></li>
             </ul>
         </li>
@@ -200,7 +201,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        List of Users
+                        <h3 class="text-info"> <strong><i class="fa  fa-users"></i> USER ADMINISTRATION</strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="adv-table">
@@ -232,11 +233,12 @@
                                         <td id="{{$usr->id}}">
                                             <a href="#" class="userProfile btn btn-info btn-xs" title="User Profile"><i class="fa fa-eye"></i> View </a>
                                         </td>
-                                        <td id="{{$usr->id}}">
-                                         <a href="#b" class="blockUser btn btn-success btn-xs col-sm-4"  title="Block user"><i class=" fa fa-check"></i></a>
-                                         <a  href="{{url('users/edit')}}/{{$usr->id}}" title="Edit user" class="addBranch btn btn-primary btn-xs col-sm-4"><i class="fa fa-pencil"></i></a>
-                                         <a href="#b" title="Delete user" class="deleteuser btn btn-danger btn-xs col-sm-4"><i class="fa fa-trash-o "></i> </a>
-
+                                        <td>
+                                            <div class="pull-right hidden-phone" id="{{$usr->id}}">
+                                                <a href="#b" class="blockUser btn btn-success btn-xs" title="Block user"><i class=" fa fa-check"></i></a>
+                                                <a  href="{{url('users/edit')}}/{{$usr->id}}" title="Edit user" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                <a href="#b" title="Delete user" class="deleteUser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                                            </div>
                                         </td>
                                     </tr>
 

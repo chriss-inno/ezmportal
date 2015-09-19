@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Branches
+    Users
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
@@ -13,6 +13,7 @@
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
     {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
 
+
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
 
@@ -21,31 +22,31 @@
                 "aaSorting": [[ 4, "desc" ]]
             } );
 
-            $(".deleteuser").click(function(){
-                var id1 = $(this).parent().attr('id');
-                $(".deleteuser").show("slow").parent().parent().find("span").remove();
+            $(".deleteUser").click(function(){
+                var id1 = $(this).parent().parent().attr('id');
+                $(".deleteUser").show("slow").parent().parent().find("span").remove();
                 var btn = $(this).parent().parent();
                 $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
                 $("#no").click(function(){
-                    $(this).parent().parent().find(".deleteuser").show("slow");
-                    $(this).parent().parent().find("span").remove();
+                    $(this).parent().parent().parent().find(".deleteUser").show("slow");
+                    $(this).parent().parent().parent().find("span").remove();
                 });
                 $("#yes").click(function(){
                     $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                    $.get("<?php echo url('branches/remove') ?>/"+id1,function(data){
+                    $.get("<?php echo url('users/remove') ?>/"+id1,function(data){
                         btn.hide("slow").next("hr").hide("slow");
                     });
                 });
             });
 
             //Edit class streams
-            $(".addBranch").click(function(){
+            $(".userCreate").click(function(){
                 var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
                 modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
                 modaldis+= '<div class="modal-content">';
                 modaldis+= '<div class="modal-header">';
                 modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="text-align: center">Update School Class Level</span>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">Update School Class Level</span>';
                 modaldis+= '</div>';
                 modaldis+= '<div class="modal-body">';
                 modaldis+= ' </div>';
@@ -54,12 +55,41 @@
                 $('body').css('overflow','hidden');
 
                 $("body").append(modaldis);
+                jQuery.noConflict();
                 $("#myModal").modal("show");
                 $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("branches/create") ?>");
+                $(".modal-body").load("<?php echo url("users/create") ?>");
                 $("#myModal").on('hidden.bs.modal',function(){
                     $("#myModal").remove();
-                })
+                });
+
+            });
+
+            //Edit class streams
+            $(".userProfile").click(function(){
+                var id1 = $(this).parent().attr('id');
+
+                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                modaldis+= '<div class="modal-content">';
+                modaldis+= '<div class="modal-header">';
+                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">User Profile</span>';
+                modaldis+= '</div>';
+                modaldis+= '<div class="modal-body">';
+                modaldis+= ' </div>';
+                modaldis+= '</div>';
+                modaldis+= '</div>';
+                $('body').css('overflow','hidden');
+
+                $("body").append(modaldis);
+                jQuery.noConflict();
+                $("#myModal").modal("show");
+                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                $(".modal-body").load("<?php echo url("users/show") ?>/"+id1);
+                $("#myModal").on('hidden.bs.modal',function(){
+                    $("#myModal").remove();
+                });
 
             });
         } );
@@ -162,7 +192,7 @@
             </ul>
         </li>
     </ul>
-    @stop
+@stop
 @section('contents')
 
     <section class="site-min-height">
@@ -171,7 +201,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3>List of Query Modules</h3>
+                        <h3 class="text-info"> <strong><i class="fa  fa-users"></i> USER RIGHTS ADMINISTRATION</strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="adv-table">
@@ -179,22 +209,30 @@
                                 <thead>
                                 <tr>
                                     <th>SNO</th>
-                                    <th>Module Name</th>
+                                    <th>Right Name</th>
+                                    <th>Descriptions</th>
                                     <th>Status</th>
+                                    <th>Roles</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php $i=1;?>
-                                @foreach($modules as $mod)
+                                @foreach($rights as $role)
                                     <tr>
                                         <td>{{$i++}}</td>
-                                        <td>{{$mod->module_name}}</td>
-                                        <td>{{$mod->status}}</td>
-                                        <td id="{{$mod->id}}" align="center">
-                                            <a  href="{{url('module/edit')}}/{{$mod->id}}" title="Edit branch" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                            <a href="#b" title="Delete branch" class="deleteuser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
-
+                                        <td>{{$role->right_name}}</td>
+                                        <td>{{$role->description}}</td>
+                                        <td>{{$role->status}}</td>
+                                        <td id="{{$role->id}}">
+                                            <a href="#" class="userProfile btn btn-info btn-xs" title="User Profile"><i class="fa fa-eye"></i> View </a>
+                                        </td>
+                                        <td>
+                                            <div class="pull-right hidden-phone" id="{{$role->id}}">
+                                                <a href="#b" class="blockUser btn btn-success btn-xs" title="Block user"><i class=" fa fa-check"></i></a>
+                                                <a  href="{{url('users/edit')}}/{{$role->id}}" title="Edit user" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                <a href="#b" title="Delete user" class="deleteUser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                                            </div>
                                         </td>
                                     </tr>
 
@@ -203,8 +241,10 @@
                                 <tfoot>
                                 <tr>
                                     <th>SNO</th>
-                                    <th>Module Name</th>
+                                    <th>Right Name</th>
+                                    <th>Descriptions</th>
                                     <th>Status</th>
+                                    <th>Roles</th>
                                     <th>Action</th>
                                 </tr>
                                 </tfoot>
@@ -218,17 +258,17 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <a href="{{url('modules/create')}}" class="btn btn-compose btn-block">Create New Modules</a>
+                                <a href="{{url('users/create')}}" class="btn btn-compose btn-block">Create New users</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('modules')}}" class="btn btn-compose btn-block">List Modules</a>
+                                <a href="{{url('users')}}" class="btn btn-compose  btn-block">List users</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('modules/reports')}}" class="btn btn-compose btn-block">Modules Reports</a>
+                                <a href="{{url('users/reports')}}" class="btn btn-compose btn-block">users Reports</a>
                             </div>
                         </div>
                     </div>

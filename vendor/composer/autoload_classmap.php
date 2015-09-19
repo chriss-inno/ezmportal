@@ -13,6 +13,7 @@ return array(
     'CreateModulesTable' => $baseDir . '/database/migrations/2015_09_16_155825_create_modules_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateQueryAssignmentsTable' => $baseDir . '/database/migrations/2015_09_19_042355_create_query_assignments_table.php',
+    'CreateRightsTable' => $baseDir . '/database/migrations/2015_09_19_160002_create_rights_table.php',
     'CreateServiceLogAreasTable' => $baseDir . '/database/migrations/2015_09_17_213658_create_service_log_areas_table.php',
     'CreateServiceLogsTable' => $baseDir . '/database/migrations/2015_09_16_165110_create_service_logs_table.php',
     'CreateServicesTable' => $baseDir . '/database/migrations/2015_09_16_165037_create_services_table.php',

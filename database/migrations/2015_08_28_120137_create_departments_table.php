@@ -21,7 +21,7 @@ class CreateDepartmentsTable extends Migration
             $table->integer('branch_id');
             $table->string('input_by');
             $table->string('auth_by');
-            $table->string('auth_status',1);
+            $table->string('auth_status',1)->default('U');
             $table->timestamps();
         });
     }

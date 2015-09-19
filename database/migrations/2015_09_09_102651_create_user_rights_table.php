@@ -14,7 +14,7 @@ class CreateUserRightsTable extends Migration
     {
         Schema::create('user_rights', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
+            $table->integer('right_id');
             $table->integer('module')->default(0);
             $table->integer('viw')->default(0);
             $table->integer('edi')->default(0);

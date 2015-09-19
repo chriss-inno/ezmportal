@@ -146,6 +146,7 @@
                 <li><a  href="{{url('branches')}}">Branches</a></li>
                 <li><a  href="{{url('departments')}}">Departments</a></li>
                 <li><a  href="{{url('users')}}">Users</a></li>
+                <li><a  href="{{url('users/rights')}}">Users Rights</a></li>
                 <li><a  href="{{url('modules')}}">Query Modules</a></li>
             </ul>
         </li>
@@ -158,7 +159,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info">Service portal queries</h3>
+                        <h3 class="text-info"> <strong> <i class="fa fa-smile"></i> SERVICE PORTAL QUERIES</strong></h3>
                     </header>
                     <div class="panel-body">
                         <p> <h3>Query details </h3>
@@ -213,7 +214,7 @@
                             <label for="reference_file">Attach file</label>
                             <input type="file" id="reference_file">
                             <p class="help-block">Attach file for reference.</p>
-                            <p class="help-block"><input type="checkbox" value="1" id="file_upload" name="file_upload"> <label for="file_upload">Send attachment with query</label></p>
+                            <p class="help-block"><input type="checkbox" value="1" id="file_upload" name="file_upload"> <label for="file_upload">Tick here to submit attachment with query</label></p>
                         </div>
 
                             <button type="submit" class="btn btn-primary pull-right col-md-2">Submit Query</button>

@@ -23,10 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('bmno')->nullable();
             $table->string('password', 100);
-            $table->string('status');
             $table->string('user_type')->default('normal');
-            $table->string('auth_by');
-            $table->string('input_by');
             $table->integer('branch_id');
             $table->integer('department_id');
             $table->dateTime('last_login')->nullable();
@@ -40,6 +37,10 @@ class CreateUsersTable extends Migration
             $table->dateTime('leave_stat_date')->nullable();
             $table->dateTime('leave_end_date')->nullable();
             $table->string('profile_image')->nullable();
+            $table->string('input_by');
+            $table->string('auth_by');
+            $table->string('status');
+            $table->string('auth_status',1)->default('U');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -160,6 +160,7 @@
                 <li><a  href="{{url('branches')}}">Branches</a></li>
                 <li><a  href="{{url('departments')}}">Departments</a></li>
                 <li><a  href="{{url('users')}}">Users</a></li>
+                <li><a  href="{{url('users/rights')}}">Users Rights</a></li>
                 <li><a  href="{{url('modules')}}">Query Modules</a></li>
             </ul>
         </li>

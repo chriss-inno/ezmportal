@@ -11,6 +11,7 @@ use App\User;
 use App\Branch;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserRegistrationRequest;
+use App\Right;
 
 class UserController extends Controller
 {
@@ -133,29 +134,45 @@ class UserController extends Controller
         return view('users.registration',compact('branches'));
     }
 
+    //
+    public function userRights()
+    {
+        $right =Right::all();
+        return view('users.rights',compact('right'));
+    }
+
     //Process registration
     public function postRegister(UserRegistrationRequest $request)
     {
-        $us=new User;
-        $us->first_name=ucwords($request->first_name);
-        $us->last_name=ucwords($request->last_name);
-        $us->designation=ucwords($request->designation);
-        $us->phone=$request->phone;
-        $us->branch_id=$request->branch;
-        $us->department_id=$request->department;
-
-        $us->password=bcrypt($request->Password);
-
         //Create username
-        $string =strtolower($request->first_name.".".$request->last_name);
-        $uname = preg_replace('/\s+/','',$string); //Remove all empty space
+        $string = strtolower($request->first_name . "." . $request->last_name); //Combine first and last names
+        $uname = preg_replace('/\s+/', '', $string); //Remove all empty space
 
-        $us->username= $uname; //Combine first and last names
-        //Create email
-        $us->email=$uname."@bankm.com"; //Combine first and last names
-        $us->save();
+        //Validate user
+        $users = User::where('username', '=', $uname)->get();
+        if (count($users) > 0) {
 
-        return redirect('login')->with('message','You have successful registered to Bank M service Portal,<br> Your login access was sent to your email');
+            return redirect()->back()->with('message', 'Registration failed, Another user is registered with the same details as yours, please contact ICT support to check your details and complete registration');
+
+        } else {
+            $us = new User;
+            $us->first_name = ucwords($request->first_name);
+            $us->last_name = ucwords($request->last_name);
+            $us->designation = ucwords($request->designation);
+            $us->phone = $request->phone;
+            $us->branch_id = $request->branch;
+            $us->department_id = $request->department;
+
+            $us->password = bcrypt($request->Password);
+
+            $us->username = $uname;
+            //Create email
+            $us->email = $uname . "@bankm.com"; //Combine first and last names
+            $us->save();
+
+            return redirect('login')->with('message', 'You have successful registered to Bank M service Portal,Your login access was sent to your email and request was sent to ICT for approval');
+
+        }
     }
 
    //Process registration
