@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\QueryRequest;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use App\Branch;
+use App\Department;
 class TaskQueryController extends Controller
 {
     public function __construct()
@@ -48,8 +50,9 @@ class TaskQueryController extends Controller
         //
         //$imageName = $product->id . '.' .$request->file('image')->getClientOriginalExtension(); //Get image extension
        // $request->file('image')->move(base_path() . '/public/images/catalog/', $imageName );
-
-
+         $reporting_Date =date("Y-m-d H:i");
+         $report_by=Auth::user()->id;
+         $status="Launched";
     }
 
     /**

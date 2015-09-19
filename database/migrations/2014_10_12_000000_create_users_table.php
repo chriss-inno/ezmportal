@@ -36,6 +36,9 @@ class CreateUsersTable extends Migration
             $table->integer('login_attempt')->nullable();
             $table->integer('locked');
             $table->integer('block');
+            $table->string('on_leave',3)->default('No');
+            $table->dateTime('leave_stat_date')->nullable();
+            $table->dateTime('leave_end_date')->nullable();
             $table->string('profile_image')->nullable();
             $table->rememberToken();
             $table->timestamps();

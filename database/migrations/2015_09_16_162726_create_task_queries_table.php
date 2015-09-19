@@ -21,11 +21,14 @@ class CreateTaskQueriesTable extends Migration
             $table->integer('to_department');
             $table->integer('to_branch');
             $table->integer('module');
-            $table->integer('reported_by');
+            $table->integer('report_by');
             $table->string('critical_level');
             $table->text('description');
             $table->string('reference_file');
             $table->string('status');
+            $table->string('current_stage');
+            $table->integer('assigned')->default('0');
+            $table->integer('closed')->default('0');
             $table->timestamps();
         });
     }
