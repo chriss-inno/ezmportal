@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Users
+    Users Rights
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
@@ -222,15 +222,15 @@
                                     <tr>
                                         <td>{{$i++}}</td>
                                         <td>{{$role->right_name}}</td>
-                                        <td>{{$role->description}}</td>
+                                        <td><?php echo $role->description;?></td>
                                         <td>{{$role->status}}</td>
                                         <td id="{{$role->id}}">
                                             <a href="#" class="userProfile btn btn-info btn-xs" title="User Profile"><i class="fa fa-eye"></i> View </a>
                                         </td>
                                         <td>
                                             <div class="pull-right hidden-phone" id="{{$role->id}}">
-                                                <a href="#b" class="blockUser btn btn-success btn-xs" title="Block user"><i class=" fa fa-check"></i></a>
-                                                <a  href="{{url('users/edit')}}/{{$role->id}}" title="Edit user" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                <a href="#b" class="blockUser btn btn-success btn-xs" ><i class=" fa fa-check"></i></a>
+                                                <a  href="{{url('users/rights/edit')}}/{{$role->id}}" title="Edit User right" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
                                                 <a href="#b" title="Delete user" class="deleteUser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
                                             </div>
                                         </td>
@@ -256,19 +256,20 @@
             <div class="col-lg-2 col-md-2">
                 <section class="panel">
                     <div class="panel-body">
-                        <div class="row">
+
+                        <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('users/create')}}" class="btn btn-compose btn-block">Create New users</a>
+                                <a href="{{url('users/rights/create')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-folder-open-o"></i> Create </a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('users')}}" class="btn btn-compose  btn-block">List users</a>
+                                <a href="{{url('users/rights')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> List</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('users/reports')}}" class="btn btn-compose btn-block">users Reports</a>
+                                <a href="{{url('users/rights/reports')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Reports</a>
                             </div>
                         </div>
                     </div>

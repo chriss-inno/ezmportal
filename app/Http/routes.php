@@ -59,6 +59,9 @@ Route::get('users/remove/{id}',['middleware' => 'auth', 'uses' =>'UserController
 Route::get('users/show/{id}',['middleware' => 'auth', 'uses' =>'UserController@show']);
 
 //User rights
+Route::get('users/rights/reports',['middleware' => 'auth', 'uses' =>'RightsController@index']);
+Route::get('users/rights/create',['middleware' => 'auth', 'uses' =>'RightsController@create']);
+Route::post('users/rights/create',['middleware' => 'auth', 'uses' =>'RightsController@store']);
 Route::get('users/rights',['middleware' => 'auth', 'uses' =>'RightsController@index']);
 Route::get('users/rights/edit/{id}',['middleware' => 'auth', 'uses' =>'RightsController@edit']);
 Route::post('users/rights/edit',['middleware' => 'auth', 'uses' =>'RightsController@update']);

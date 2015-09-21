@@ -23,23 +23,10 @@ class UserTableSeeder extends Seeder
         $us->username="admin";
         $us->department_id=1;
         $us->branch_id=1;
+        $us->user_type='Administrator';
         $us->password=bcrypt('admin');
         $us->save();
 
-        //Populate user rights
-        UserRight::truncate();
-          for($i=1; $i<10; $i++)
-          {
-              $usr=new UserRight;
-              $usr->user_id= $us->id;
-              $usr->module= $i;
-              $usr->viw= 1;
-              $usr->edi=1;
-              $usr->del= 1;
-              $usr->inp= 1;
-              $usr->aut= 1;
-              $usr->save();
-          }
 
 
     }

@@ -20,6 +20,7 @@ class CreateRightsTable extends Migration
             $table->string('input_by');
             $table->string('auth_by');
             $table->string('auth_status',1)->default('U');
+            $table->timestamps();
         });
     }
 
