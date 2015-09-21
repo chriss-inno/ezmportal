@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Queries
+    Oracle support issues
     @stop
     @section('page_style')
 
@@ -25,31 +25,25 @@
     {!!HTML::script("js/jquery.validate.min.js" ) !!}
     {!!HTML::script("js/respond.min.js"  ) !!}
     {!!HTML::script("js/form-validation-script.js") !!}
-    <script type="text/javascript" charset="utf-8">
-
-        $("#to_department").change(function () {
-            var id1 = this.value;
-            if(id1 != "")
-            {
-                $.get("<?php echo url('getModules') ?>/"+id1,function(data){
-                    $("#module").html(data);
-                });
-
-            }else{$("#module").html("<option value=''>----</option>");}
-        });
-
+    <script>
         $("#serviceForm").validate({
             rules: {
-                to_department: "required",
+                issue_title: "required",
                 description: "required",
-                module: "required",
-                critical_level: "required"
+                sr_number: "required",
+                product: "required",
+                contact: "required",
+                date_opened: "required",
+                status: "required"
             },
             messages: {
-                to_department: "Please select department",
+                issue_title: "Please enter problem summary",
                 description: "Please enter description",
-                module: "Please select module",
-                critical_level: "Please select critical level"
+                sr_number: "Please enter SR Number",
+                product: "Please enter product",
+                contact: "Please enter Contact",
+                date_opened: "Please enter date opened",
+                status: "Please select status"
             }
         });
 
@@ -172,10 +166,10 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong> <i class="fa fa-smile"></i> SERVICE PORTAL QUERIES</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa  fa-users"></i> ORACLE SUPPORT LOGGED ISSUES</strong></h3>
                     </header>
                     <div class="panel-body">
-                        <p> <h3>Query details </h3>
+                        <p> <h3>New loged issue  </h3>
                         @if (count($errors) > 0)
                             <div class="alert alert-danger">
                                 <ul>
@@ -186,53 +180,62 @@
                             </div>
                         @endif
                         <hr/>
-                        {!! Form::open(array('url'=>'queries/create','role'=>'form','id'=>'serviceForm','files' => true)) !!}
-                        <div class="form-group">
-                            <label for="to_department">To Department</label>
-                            <select class="form-control"  id="to_department" name="to_department">
-                                <option value="">----</option>
-                                <?php $departments=\App\Department::where('receive_query','=','1')->get();?>
-                                @foreach($departments as $de)
-                                    <option value="{{$de->id}}">{{$de->department_name}}</option>
-                                @endforeach
+                        {!! Form::open(array('url'=>'support/oracle/edit','role'=>'form','id'=>'serviceForm')) !!}
 
-                            </select>
+                        <div class="form-group">
+                            <label for="issue_title">Problem Summary</label>
+                            <input type="text" class="form-control" id="issue_title" name="issue_title" @if(old('issue_title') != "") value="{{old('issue_title')}}"@else value="{{$issues->issue_title}}"@endif placeholder="Enter title">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sr_number">SR Number</label>
+                            <input type="text" class="form-control" id="sr_number" name="sr_number" @if(old('sr_number') != "") value="{{old('sr_number')}}" @else value="{{$issues->sr_number}}"@endif placeholder="Enter SR Number">
+                        </div>
+                        <div class="form-group">
+                            <label for="issue_title">Product</label>
+                            <input type="text" class="form-control" id="product" name="product" @if(old('product') != "") value="{{old('product')}}" @else value="{{$issues->product}}"@endif placeholder="Enter Product">
+                        </div>
+                        <div class="form-group">
+                            <label for="sr_number">Contact</label>
+                            <input type="text" class="form-control" id="contact" name="contact" @if(old('contact') != "") value="{{old('contact')}}" @else value="{{$issues->contact}}"@endif placeholder="Enter contact person">
                         </div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="module">Module</label>
-                                    <select class="form-control"  id="module" name="module">
-
-                                    </select>
+                                    <label for="status">Opened Date</label>
+                                    <input type="text" class="form-control form-control form-control-inline input-medium default-date-picker" id="date_opened" name="date_opened"  @if(old('date_opened') != "") value="{{old('date_opened')}}" @else value="{{$issues->date_opened}}"@endif placeholder="(YYYY-MM-DD HH:MM)">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="critical_level">Critical Level</label>
-                                    <select class="form-control"  id="critical_level" name="critical_level">
-                                        <option value="">----</option>
-                                        <option value="Low">Low</option>
-                                        <option value="Medium">Medium</option>
-                                        <option value="High">High</option>
-                                        <option value="Emergency">Emergency</option>
+                                    <label for="status">Closed Date</label>
+                                    <input type="text" class="form-control" id="date_closed" name="date_closed" @if(old('date_closed') != "") value="{{old('date_closed')}}" @else value="{{$issues->date_closed}}"@endif placeholder="(YYYY-MM-DD HH:MM)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea class="ckeditor form-control" id="description" name="description">@if(old('description') != ""){{old('description')}}@else{{$issues->description}}@endif</textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="status">Status</label>
+                                    <select name="status" class="form-control" id="status">
+                                        @if(old('status') !="")
+                                            <option selected value="{{old('status')}}">{{old('status')}}</option>
+                                            @else
+                                            <option selected value="{{$issues->status}}">{{$issues->status}}</option>
+                                        @endif
+                                        <option  value="">----</option>
+                                        <option value="Closed">Closed</option>
+                                        <option value="Opened">Opened</option>
                                     </select>
                                 </div>
                             </div>
-
                         </div>
-                        <div class="form-group">
-                            <label for="unit_name">Description</label>
-                            <textarea class="ckeditor form-control" id="description" name="description"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="reference_file">Attach file</label>
-                            <input type="file" id="reference_file">
-                            <p class="help-block">Attach file for reference.</p>
-                            <p class="help-block"><input type="checkbox" value="1" id="file_upload" name="file_upload"> <label for="file_upload">Tick here to submit attachment with query</label></p>
-                        </div>
+                        <input type="hidden" name="id" id="id" value="{{$issues->id}}">
+                        <button type="submit" class="btn btn-primary pull-right col-md-2">Submit</button>
 
-                            <button type="submit" class="btn btn-primary pull-right col-md-2">Submit Query</button>
-                            {!! Form::close() !!}
-
+                        {!! Form::close() !!}
                     </div>
                 </section>
             </div>
@@ -242,27 +245,27 @@
 
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('queries/create')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-folder-open-o"></i> Log Query</a>
+                                <a href="{{url('support/oracle/create')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-folder-open-o"></i> New Issue </a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('queries/mytask')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-tasks"></i> My Tasks</a>
+                                <a href="{{url('support/oracle/opened')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> Opened Issues</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('queries/progress')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-archive"></i>  Progress</a>
+                                <a href="{{url('support/oracle/closed')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Closed Issues</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('queries/history')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> History</a>
+                                <a href="{{url('support/oracle/history')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Issues History</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('queries/report')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Reports</a>
+                                <a href="{{url('support/oracle/report')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Issues Report</a>
                             </div>
                         </div>
                     </div>

@@ -1,19 +1,14 @@
 @extends('layout.master')
 @section('page-title')
-    Users Profile
+    Oracle Support Logged issues
 @stop
 @section('page_scripts')
-    {!!HTML::script("js/sparkline-chart.js") !!}
-    {!!HTML::script("js/easy-pie-chart.js") !!}
-    {!!HTML::script("js/count.js") !!}
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
     {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
     {!!HTML::script("js/jquery.scrollTo.min.js") !!}
     {!!HTML::script("js/jquery.nicescroll.js") !!}
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
     {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
-
-
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
 
@@ -21,18 +16,6 @@
             $('#branches').dataTable( {
                 "aaSorting": [[ 4, "desc" ]]
             } );
-
-            $("#branch").change(function () {
-                var id1 = this.value;
-                if(id1 != "")
-                {
-                    $.get("<?php echo url('getDepartment') ?>/"+id1,function(data){
-                        $("#department").html(data);
-                    });
-
-                }else{$("#department").html("<option value=''>----</option>");}
-            });
-
 
             $(".deleteUser").click(function(){
                 var id1 = $(this).parent().parent().attr('id');
@@ -86,7 +69,7 @@
                 modaldis+= '<div class="modal-content">';
                 modaldis+= '<div class="modal-header">';
                 modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">User Profile</span>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">Update Issue current status</span>';
                 modaldis+= '</div>';
                 modaldis+= '<div class="modal-body">';
                 modaldis+= ' </div>';
@@ -98,7 +81,7 @@
                 jQuery.noConflict();
                 $("#myModal").modal("show");
                 $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("users/show") ?>/"+id1);
+                $(".modal-body").load("<?php echo url("support/oracle/status") ?>/"+id1);
                 $("#myModal").on('hidden.bs.modal',function(){
                     $("#myModal").remove();
                 });
@@ -178,7 +161,7 @@
                 <li><a  href="{{url('queries/report')}}" title="View today system status">Queries Reports</a></li>
             </ul>
         </li>
-        <li class="sub-menu">
+         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
                 <span>Oracle Support Isssues</span>
@@ -188,10 +171,10 @@
                 <li><a  href="{{url('support/oracle/opened')}}" title="Report System/Service problem or issue">Opened Issues</a></li>
                 <li><a  href="{{url('support/oracle/closed')}}" title="View today system status">Closed Issues</a></li>
                 <li><a  href="{{url('support/oracle/history')}}" title="System/services History">Issues History</a></li>
-                <li><a  href="{{url('support/oracle/report')}}" title="System/services History">Issues Report</a></li>
+                 <li><a  href="{{url('support/oracle/report')}}" title="System/services History">Issues Report</a></li>
             </ul>
         </li>
-        <li class="sub-menu">
+         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
                 <span>System service status</span>
@@ -226,85 +209,101 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa  fa-user"></i> USER PROFILE FOR <span class="text-danger">{{strtoupper($user->first_name.' '.$user->last_name)}} </span></strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa  fa-users"></i> ORACLE SUPPORT LOGGED ISSUES</strong></h3>
                     </header>
                     <div class="panel-body">
-                        {!! Form::open(array('url'=>'register','role'=>'form','id'=>'personalForm')) !!}
-                           <fieldset class="scheduler-border">
-                            <legend class="scheduler-border">Personal details</legend>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label for="first_name">First Name</label>
-                                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter First Name" required @if(old('first_name') !="") value="{{old('first_name')}}" @else value="{{$user->first_name}}" @endif>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="first_name">Last Name</label>
-                                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Last Name" required @if(old('last_name') !="") value="{{old('last_name')}}" @else value="{{$user->last_name}}" @endif>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="first_name">Other Name</label>
-                                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Other Name">
-                                    </div>
-                                </div>
+                        <div class="adv-table">
+                            <table  class="display table table-bordered table-striped" id="branches">
+                                <thead>
+                                <tr>
+                                    <th>SNO</th>
+                                    <th>Problem Summary</th>
+                                    <th>SR Number</th>
+                                    <th>Product</th>
+                                    <th>Contact</th>
+                                    <th>Opened</th>
+                                    <th>Closed</th>
+                                    <th>Status</th>
+                                    <th>Current Update</th>
+                                    <th>Detailed</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php $i=1;?>
+                                @foreach($issues as $issue)
+                                    <tr>
+                                        <td>{{$i++}}</td>
+                                        <td>{{$issue->issue_title}}</td>
+                                        <td>{{$issue->sr_number}}</td>
+                                        <td>{{$issue->product}}</td>
+                                        <td>{{$issue->contact}}</td>
+                                        <td>{{$issue->date_opened}}</td>
+                                        <td>{{$issue->date_closed}}</td>
+                                        <td>{{$issue->status}}</td>
+                                        <td id="{{$issue->id}}">
+                                            <a href="#" class="userProfile btn btn-success btn-xs" title="Update Issue status"><i class="fa fa-pencil"></i> Update </a>
+                                        </td>
+                                        <td id="{{$issue->id}}">
+                                            <a href="#" class="userProfile btn btn-info btn-xs" title="Detailed Information"><i class="fa fa-eye"></i> View </a>
+                                        </td>
+                                        <td>
+                                            <div class="pull-right hidden-phone" id="{{$issue->id}}">
+                                                <a  href="{{url('support/oracle/edit')}}/{{$issue->id}}" title="Edit User right" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                <a href="#b" title="Delete user" class="deleteUser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                            </div>
-
-                            <div class="form-group">
-                                <label for="designation">Designation</label>
-                                <input type="text" class="form-control" id="designation " name="designation" placeholder="Enter Designation" required @if(old('designation') !="") value="{{old('designation')}}" @else value="{{$user->designation}}" @endif>
-                                <p class="help-block">Please enter full details of your designation, do not enter abbreviation.</p>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Mobile Number</label>
-                                <input type="text" class="form-control"  id="phone" name="phone" placeholder="Enter Mobile Number" @if(old('phone') !="") value="{{old('phone')}}" @else value="{{$user->phone}}" @endif>
-                            </div>
-                               <div class="form-group">
-                                   <label for="phone">Email</label>
-                                   <input type="text" class="form-control"  id="phone" name="email" placeholder="Enter email" @if(old('email') !="") value="{{old('email')}}" @else value="{{$user->email}}" @endif>
-                               </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="branch">Branch</label>
-                                        <select class="form-control"  id="branch" name="branch">
-                                            <option value="">----</option>
-                                            <?php $branches=\App\Branch::all();?>
-                                            @foreach($branches as $br)
-                                                <option value="{{$br->id}}">{{$br->branch_Name}}</option>
-                                            @endforeach
-
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="department">Department</label>
-                                        <select class="form-control"  id="department" name="department">
-                                            <option value="">----</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                        {!! Form::close() !!}
+                                @endforeach
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>SNO</th>
+                                    <th>Problem Summary</th>
+                                    <th>SR Number</th>
+                                    <th>Product</th>
+                                    <th>Contact</th>
+                                    <th>Opened</th>
+                                    <th>Closed</th>
+                                    <th>Status</th>
+                                    <th>Current Update</th>
+                                    <th>Detailed</th>
+                                    <th>Action</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </section>
             </div>
             <div class="col-lg-2 col-md-2">
                 <section class="panel">
                     <div class="panel-body">
-                        <div class="row">
+
+                        <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('users/create')}}" class="btn btn-compose btn-block">Create New users</a>
+                                <a href="{{url('support/oracle/create')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-folder-open-o"></i> New Issue </a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('users')}}" class="btn btn-compose  btn-block">List users</a>
+                                <a href="{{url('support/oracle/opened')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> Opened Issues</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('users/reports')}}" class="btn btn-compose btn-block">users Reports</a>
+                                <a href="{{url('support/oracle/closed')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Closed Issues</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-md-12">
+                                <a href="{{url('support/oracle/history')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Issues History</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-md-12">
+                                <a href="{{url('support/oracle/report')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Issues Report</a>
                             </div>
                         </div>
                     </div>

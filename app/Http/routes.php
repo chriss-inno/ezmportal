@@ -66,6 +66,18 @@ Route::get('users/rights',['middleware' => 'auth', 'uses' =>'RightsController@in
 Route::get('users/rights/edit/{id}',['middleware' => 'auth', 'uses' =>'RightsController@edit']);
 Route::post('users/rights/edit',['middleware' => 'auth', 'uses' =>'RightsController@update']);
 
+//Oracle support
+Route::get('support/oracle/create',['middleware' => 'auth', 'uses' =>'OracleSupportController@create']);
+Route::post('support/oracle/create',['middleware' => 'auth', 'uses' =>'OracleSupportController@store']);
+Route::get('support/oracle/edit/{id}',['middleware' => 'auth', 'uses' =>'OracleSupportController@edit']);
+Route::get('support/oracle/status/{id}',['middleware' => 'auth', 'uses' =>'OracleSupportController@updateStatus']);
+Route::post('support/oracle/status',['middleware' => 'auth', 'uses' =>'OracleSupportController@saveStatus']);
+Route::post('support/oracle/edit',['middleware' => 'auth', 'uses' =>'OracleSupportController@update']);
+Route::get('support/oracle/opened',['middleware' => 'auth', 'uses' =>'OracleSupportController@opened']);
+Route::get('support/oracle/closed',['middleware' => 'auth', 'uses' =>'OracleSupportController@closed']);
+Route::get('support/oracle/history',['middleware' => 'auth', 'uses' =>'OracleSupportController@index']);
+Route::get('support/oracle/report',['middleware' => 'auth', 'uses' =>'OracleSupportController@report']);
+
 //Modules
 Route::resource('modules','ModuleController');
 

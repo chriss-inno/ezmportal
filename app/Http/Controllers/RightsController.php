@@ -46,50 +46,45 @@ class RightsController extends Controller
         //
 
 
-        $right=new Right;
-        $right->status=$request->status;
-        $right->description=$request->description;
-        $right->right_name=$request->right_name;
-        $right->input_by=Auth::user()->username;
-        $right->save();
+               $right=new Right;
+               $right->status=$request->status;
+               $right->description=$request->description;
+               $right->right_name=$request->right_name;
+               $right->input_by=Auth::user()->username;
+               $right->save();
 
-        $i=1;
-        foreach($request->module as $module)
-        {
-            $create="create".$i;
-            $view="view".$i;
-            $edit="edit".$i;
-            $delete="delete".$i;
-            $authorize="authorize".$i;
-            $aut=$inp=$del=$edi=$viw=0;
+               $i=1;
+               foreach($request->module as $module)
+               {
+                   $create="create".$module;
+                   $view="view".$module;
+                   $edit="edit".$module;
+                   $delete="delete".$module;
+                   $authorize="authorize".$module;
+                   $aut=$inp=$del=$edi=$viw=0;
 
-            if( $request->$create=== '1'){$inp=1;}
-            if($request->$view === '1'){$viw=1;}
-            if($request->$edit === '1'){$edi=1;}
-            if($request->$delete === '1'){$del=1;}
-            if($request->$authorize === '1'){$aut=1;}
-            echo $module." mod|";
-             echo $inp." crea|";
-            echo $viw." view|";
-            echo $edi." edi|";
-            echo $del." del|";
-            echo $aut." auth<br/>";
+                   if( $request->$create=== '1'){$inp=1;}
+                   if($request->$view === '1'){$viw=1;}
+                   if($request->$edit === '1'){$edi=1;}
+                   if($request->$delete === '1'){$del=1;}
+                   if($request->$authorize === '1'){$aut=1;}
 
-            /*
-            $userRight =new UserRight;
-            $userRight->right_id=$right->id;
-            $userRight->module=$module;
-            $userRight->viw=$viw;
-            $userRight->edi=$edi;
-            $userRight->del=$del;
-            $userRight->inp=$inp;
-            $userRight->aut=$aut;
-            $userRight->save();
-            */
+
+
+                   $userRight =new UserRight;
+                   $userRight->right_id=$right->id;
+                   $userRight->module=$module;
+                   $userRight->viw=$viw;
+                   $userRight->edi=$edi;
+                   $userRight->del=$del;
+                   $userRight->inp=$inp;
+                   $userRight->aut=$aut;
+                   $userRight->save();
+
             $i++;
         }
 
-       //return redirect('users/rights');
+       return redirect('users/rights');
 
     }
 

@@ -195,7 +195,20 @@
                 <li><a  href="{{url('queries/report')}}" title="View today system status">Queries Reports</a></li>
             </ul>
         </li>
-        <li class="sub-menu">
+         <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-laptop"></i>
+                <span>Oracle Support Isssues</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('support/oracle/create')}}" title="Report System/Service problem or issue">New Issue</a></li>
+                <li><a  href="{{url('support/oracle/opened')}}" title="Report System/Service problem or issue">Opened Issues</a></li>
+                <li><a  href="{{url('support/oracle/closed')}}" title="View today system status">Closed Issues</a></li>
+                <li><a  href="{{url('support/oracle/history')}}" title="System/services History">Issues History</a></li>
+                 <li><a  href="{{url('support/oracle/report')}}" title="System/services History">Issues Report</a></li>
+            </ul>
+        </li>
+         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
                 <span>System service status</span>
@@ -227,7 +240,7 @@
     <section class="site-min-height">
         <!-- page start-->
         <div class="row">
-            <div class="col-lg-9 col-md-9">
+            <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
                         List of Service Monitoring
@@ -274,27 +287,27 @@
                     </div>
                 </section>
             </div>
-            <div class="col-lg-3 col-md-3">
+            <div class="col-lg-2 col-md-2">
                 <section class="panel">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <a href="#" class="addService btn btn-compose btn-block">Create New Service</a>
+                                <a href="#" class="addService btn btn-file btn-danger btn-block">Create New Service</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('serviceslogs/create')}}" class=" btn btn-lg btn-danger btn-block">Log Status</a>
+                                <a href="{{url('serviceslogs/create')}}" class=" btn btn-file btn-danger btn-block">Log Status</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('serviceslogs/today')}}" class="btn btn-lg btn-danger btn-block">Today Status</a>
+                                <a href="{{url('serviceslogs/today')}}" class="btn btn-file btn-danger btn-block">Today Status</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('serviceslogs')}}" class="btn btn-lg btn-danger btn-block">Status History</a>
+                                <a href="{{url('serviceslogs')}}" class="btn btn-file btn-danger btn-block">Status History</a>
                             </div>
                         </div>
                     </div>

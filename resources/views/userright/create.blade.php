@@ -124,7 +124,20 @@
                 <li><a  href="{{url('queries/report')}}" title="View today system status">Queries Reports</a></li>
             </ul>
         </li>
-        <li class="sub-menu">
+         <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-laptop"></i>
+                <span>Oracle Support Isssues</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('support/oracle/create')}}" title="Report System/Service problem or issue">New Issue</a></li>
+                <li><a  href="{{url('support/oracle/opened')}}" title="Report System/Service problem or issue">Opened Issues</a></li>
+                <li><a  href="{{url('support/oracle/closed')}}" title="View today system status">Closed Issues</a></li>
+                <li><a  href="{{url('support/oracle/history')}}" title="System/services History">Issues History</a></li>
+                 <li><a  href="{{url('support/oracle/report')}}" title="System/services History">Issues Report</a></li>
+            </ul>
+        </li>
+         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
                 <span>System service status</span>
@@ -158,7 +171,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa  fa-users"></i> USER RIGHTS ADMINISTRATION</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa  fa-users"></i> USER RIGHTS</strong></h3>
                     </header>
                     <div class="panel-body">
                         <p> <h3>Create new user rights </h3>
@@ -221,12 +234,12 @@
                                                 @foreach($modules as $module )
                                                 <tr>
                                                     <td>{{$count}}</td>
-                                                    <td><input type="checkbox" value="{{$count}}"  name="module[]"> <label> {{$module}}</label></td>
-                                                    <td><input type="checkbox" value="1"  name="create{{$count}}"></td>
-                                                    <td><input type="checkbox" value="1"  name="view{{$count}}"></td>
-                                                    <td><input type="checkbox" value="1"  name="edit{{$count}}"></td>
-                                                    <td><input type="checkbox" value="1"  name="delete{{$count}}"></td>
-                                                    <td><input type="checkbox" value="1"  name="authorize{{$count}}"></td>
+                                                    <td ><input type="checkbox" value="{{$count}}"  name="module[]"> <label> {{$module}}</label></td>
+                                                    <td class="text-center"><input type="checkbox" value="1"  name="create{{$count}}"></td>
+                                                    <td class="text-center"><input type="checkbox" value="1"  name="view{{$count}}"></td>
+                                                    <td class="text-center"><input type="checkbox" value="1"  name="edit{{$count}}"></td>
+                                                    <td class="text-center"><input type="checkbox" value="1"  name="delete{{$count}}"></td>
+                                                    <td class="text-center"><input type="checkbox" value="1"  name="authorize{{$count}}"></td>
                                                 </tr>
                                                     <?php $count++;?>
                                                     @endforeach

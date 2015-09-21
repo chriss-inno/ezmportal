@@ -8,9 +8,11 @@ $baseDir = dirname($vendorDir);
 return array(
     'CreateBranchesTable' => $baseDir . '/database/migrations/2015_08_28_115519_create_branches_table.php',
     'CreateDepartmentsTable' => $baseDir . '/database/migrations/2015_08_28_120137_create_departments_table.php',
+    'CreateIssuesDailyUpdatesTable' => $baseDir . '/database/migrations/2015_09_21_092011_create_issues_daily_updates_table.php',
     'CreateLoginHistoriesTable' => $baseDir . '/database/migrations/2015_08_28_152329_create_login_histories_table.php',
     'CreateMessagesTable' => $baseDir . '/database/migrations/2015_09_19_064926_create_messages_table.php',
     'CreateModulesTable' => $baseDir . '/database/migrations/2015_09_16_155825_create_modules_table.php',
+    'CreateOracleSupportsTable' => $baseDir . '/database/migrations/2015_09_21_084143_create_oracle_supports_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateQueryAssignmentsTable' => $baseDir . '/database/migrations/2015_09_19_042355_create_query_assignments_table.php',
     'CreateRightsTable' => $baseDir . '/database/migrations/2015_09_19_160002_create_rights_table.php',

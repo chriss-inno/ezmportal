@@ -136,7 +136,20 @@ Branches
                 <li><a  href="{{url('queries/report')}}" title="View today system status">Queries Reports</a></li>
             </ul>
         </li>
-        <li class="sub-menu">
+         <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-laptop"></i>
+                <span>Oracle Support Isssues</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('support/oracle/create')}}" title="Report System/Service problem or issue">New Issue</a></li>
+                <li><a  href="{{url('support/oracle/opened')}}" title="Report System/Service problem or issue">Opened Issues</a></li>
+                <li><a  href="{{url('support/oracle/closed')}}" title="View today system status">Closed Issues</a></li>
+                <li><a  href="{{url('support/oracle/history')}}" title="System/services History">Issues History</a></li>
+                 <li><a  href="{{url('support/oracle/report')}}" title="System/services History">Issues Report</a></li>
+            </ul>
+        </li>
+         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
                 <span>System service status</span>
@@ -171,7 +184,7 @@ Branches
                 <div class="col-lg-10 col-md-10">
                     <section class="panel">
                         <header class="panel-heading">
-                           List of Branches
+                            <h3 class="text-info"> <strong><i class="fa fa-bars"></i> BRANCHES</strong></h3>
                         </header>
                         <div class="panel-body">
                             <div class="adv-table">
