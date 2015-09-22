@@ -3,7 +3,7 @@
        <div class="col-md-12 col-sm-12">
            <section class="panel">
                <header class="panel-heading">
-                   <h3 class="text-info"> <strong><i class="fa fa-info"></i> ORACLE SUPPORT LOGGED ISSUES</strong></h3>
+                   <h3 class="text-info"> <strong> ORACLE SUPPORT LOGGED ISSUES</strong></h3>
                </header>
                <div class="panel-body">
                    <div class="row">
@@ -42,7 +42,7 @@
                    </div>
                    <div class="row">
                        <div class="col-md-12 col-sm-12">
-                           <p><h4 class="text-info"><strong><i class="fa fa-envelope-o"></i> Issue daily updates</strong></h4></p>
+                           <p><h4 class="text-info"><strong>Issue daily updates</strong></h4></p>
                            <div class="timeline-messages">
                               @foreach($issue->dailyUpdates as $message)
                                <!-- Comment -->
@@ -51,7 +51,7 @@
                                    <div class="message-body msg-in">
                                        <span class="arrow"></span>
                                        <div class="text">
-                                           <p class="attribution"><a href="#">{{$message->display_name}}</a> at {{date("h:i A",strtotime($message->dcreated_at))}}, {{date("l, jS F Y",strtotime($message->created_at))}}</p>
+                                           <p class="attribution"><a href="#">{{$message->display_name}}</a> at {{date('h:i A',strtotime($message->created_at))}}, {{date("l, jS F Y",strtotime($message->created_at))}}</p>
                                            <p>{{$message->current_update}}</p>
                                        </div>
                                    </div>

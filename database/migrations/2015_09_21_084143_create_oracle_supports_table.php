@@ -22,6 +22,7 @@ class CreateOracleSupportsTable extends Migration
             $table->dateTime('date_opened');
             $table->dateTime('date_closed')->nullable();
             $table->string('status');
+            $table->string('current_status')->nullable();
             $table->string('input_by');
             $table->string('auth_by');
             $table->string('email_sent',1)->default('N');

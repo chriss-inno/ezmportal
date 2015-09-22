@@ -91,7 +91,28 @@ class EmailController extends Controller
     {
         //
         $issues=OracleSupport::where('status','=','Opened')->where('email_sent','=','N')->get();
-        return view('emails.oracle',compact('issues'));
+        //Send every
+        if(date("H:i") =="20:00") {
+                $data = array(
+                    'issues' => $issues,
+                );
+
+                \Mail::send('emails.oracle', $data, function ($message) {
+
+                    $message->from('innocent.christopher@bankm.com', 'test');
+
+                    $message->to('innocent.christopher@bankm.com')->subject('Testing');
+
+                });
+        }
+        else
+        {
+            foreach($issues as $issue)
+            {
+                $issue->email_sent='N';
+                $issue->save();
+            }
+        }
     }
 
 }

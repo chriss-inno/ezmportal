@@ -94,6 +94,7 @@ class OracleSupportController extends Controller
         $os->contact=$request->contact;
         $os->date_opened=$request->date_opened;
         $os->date_closed=$request->date_closed;
+        $os->current_status=$request->current_status;
         $os->status=$request->status;
         $os->input_by=Auth::user()->username;
         $os->save();
@@ -145,6 +146,7 @@ class OracleSupportController extends Controller
         $os->contact=$request->contact;
         $os->date_opened=$request->date_opened;
         $os->date_closed=$request->date_closed;
+        $os->current_status=$request->current_status;
         $os->status=$request->status;
         $os->input_by=Auth::user()->username;
         $os->save();

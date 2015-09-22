@@ -199,6 +199,26 @@
                             <label for="sr_number">Contact</label>
                             <input type="text" class="form-control" id="contact" name="contact" value="{{old('contact')}}" placeholder="Enter Contact person">
                         </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="status">Open Status</label>
+                                    <select name="status" class="form-control" id="status">
+                                        @if(old('status') !="")
+                                            <option selected value="{{old('status')}}">{{old('status')}}</option>
+                                        @endif
+                                        <option selected value="">----</option>
+                                        <option value="Closed">Closed</option>
+                                        <option value="Opened">Opened</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-8">
+                                    <label for="sr_number">Status</label>
+                                    <input type="text" class="form-control" id="current_status" name="current_status" value="{{old('current_status')}}" placeholder="Enter Status">
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6">
@@ -215,21 +235,7 @@
                             <label for="description">Description</label>
                             <textarea class="ckeditor form-control" id="description" name="description">{{old('description')}}</textarea>
                         </div>
-                       <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label for="status">Status</label>
-                                        <select name="status" class="form-control" id="status">
-                                            @if(old('status') !="")
-                                            <option selected value="{{old('status')}}">{{old('status')}}</option>
-                                            @endif
-                                            <option selected value="">----</option>
-                                            <option value="Closed">Closed</option>
-                                            <option value="Opened">Opened</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+
                        <button type="submit" class="btn btn-primary pull-right col-md-2">Submit</button>
 
                         {!! Form::close() !!}
