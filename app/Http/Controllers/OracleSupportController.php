@@ -10,6 +10,7 @@ use App\OracleSupport;
 use App\Http\Requests\OracleSupportRequest;
 use Illuminate\Support\Facades\Auth;
 use App\IssuesDailyUpdates;
+use Illuminate\Mail;
 
 class OracleSupportController extends Controller
 {
@@ -44,6 +45,8 @@ class OracleSupportController extends Controller
         $status->current_update=$request->current_update;
         $status->issue_id=$request->issue_id;
         $status->input_by=Auth::user()->username;
+        $status->current_date=date('Y-m-d');
+        $status->display_name=Auth::user()->first_name." ".Auth::user()->last_name;
         $status->save();
 
         return "<h3 class='text-info'>Data saved successful</h3>";
@@ -107,8 +110,8 @@ class OracleSupportController extends Controller
     public function show($id)
     {
         //
-        $issues=OracleSupport::find($id);
-        return view('oraclesupport.show',compact('issues'));
+        $issue=OracleSupport::find($id);
+        return view('oraclesupport.show',compact('issue'));
     }
 
     /**
@@ -166,4 +169,5 @@ class OracleSupportController extends Controller
         $os->delete();
 
     }
+
 }

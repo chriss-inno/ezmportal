@@ -158,7 +158,7 @@
  <section class="site-min-height">
     <!-- page start-->
     <div class="row">
-        <div class="col-lg-9 col-md-9">
+        <div class="col-lg-10 col-md-10">
             <section class="panel">
                 <header class="panel-heading">
                     <h3 class="text-info"> Service Monitoring</h3>
@@ -261,28 +261,28 @@
                     </div>
                 </section>
             </div>
-            <div class="col-lg-3 col-md-3">
+            <div class="col-lg-2 col-md-2">
                 <section class="panel">
                     <div class="panel-body">
 
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('serviceslogs/create')}}" class=" btn btn-lg btn-danger btn-block">Log Status</a>
+                                <a href="{{url('serviceslogs/create')}}" class=" btn btn-file btn-danger btn-block">Log Status</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('serviceslogs/today')}}" class="btn btn-lg btn-danger btn-block">Today Status</a>
+                                <a href="{{url('serviceslogs/today')}}" class="btn btn-file btn-danger btn-block">Today Status</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('serviceslogs')}}" class="btn btn-lg btn-danger btn-block">Status History</a>
+                                <a href="{{url('serviceslogs')}}" class="btn btn-file btn-danger btn-block">Status History</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('services')}}" class="btn btn-lg btn-danger btn-block">List Service</a>
+                                <a href="{{url('services')}}" class="btn btn-file btn-danger btn-block">List Service</a>
                             </div>
                         </div>
                     </div>

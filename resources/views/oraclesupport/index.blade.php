@@ -60,6 +60,34 @@
 
             });
 
+            //Show isue details
+            $(".issueDetails").click(function(){
+                var id1 = $(this).parent().attr('id');
+
+                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                modaldis+= '<div class="modal-content">';
+                modaldis+= '<div class="modal-header">';
+                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">Issue detailed information</span>';
+                modaldis+= '</div>';
+                modaldis+= '<div class="modal-body">';
+                modaldis+= ' </div>';
+                modaldis+= '</div>';
+                modaldis+= '</div>';
+                $('body').css('overflow','hidden');
+
+                $("body").append(modaldis);
+                jQuery.noConflict();
+                $("#myModal").modal("show");
+                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                $(".modal-body").load("<?php echo url("support/oracle/show") ?>/"+id1);
+                $("#myModal").on('hidden.bs.modal',function(){
+                    $("#myModal").remove();
+                });
+
+            });
+
             //Edit class streams
             $(".userProfile").click(function(){
                 var id1 = $(this).parent().attr('id');
@@ -245,7 +273,7 @@
                                             <a href="#" class="userProfile btn btn-success btn-xs" title="Update Issue status"><i class="fa fa-pencil"></i> Update </a>
                                         </td>
                                         <td id="{{$issue->id}}">
-                                            <a href="#" class="userProfile btn btn-info btn-xs" title="Detailed Information"><i class="fa fa-eye"></i> View </a>
+                                            <a href="#" class="issueDetails btn btn-info btn-xs" title="Detailed Information"><i class="fa fa-eye"></i> View </a>
                                         </td>
                                         <td>
                                             <div class="pull-right hidden-phone" id="{{$issue->id}}">

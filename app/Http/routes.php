@@ -68,6 +68,7 @@ Route::post('users/rights/edit',['middleware' => 'auth', 'uses' =>'RightsControl
 
 //Oracle support
 Route::get('support/oracle/create',['middleware' => 'auth', 'uses' =>'OracleSupportController@create']);
+Route::get('support/oracle/show/{id}',['middleware' => 'auth', 'uses' =>'OracleSupportController@show']);
 Route::post('support/oracle/create',['middleware' => 'auth', 'uses' =>'OracleSupportController@store']);
 Route::get('support/oracle/edit/{id}',['middleware' => 'auth', 'uses' =>'OracleSupportController@edit']);
 Route::get('support/oracle/status/{id}',['middleware' => 'auth', 'uses' =>'OracleSupportController@updateStatus']);
@@ -115,3 +116,6 @@ Route::get('queries/mytask',['middleware' => 'auth', 'uses' =>'TaskQueryControll
 Route::get('queries/progress',['middleware' => 'auth', 'uses' =>'TaskQueryController@progress']);
 Route::get('queries/history',['middleware' => 'auth', 'uses' =>'TaskQueryController@history']);
 Route::get('queries/report',['middleware' => 'auth', 'uses' =>'TaskQueryController@report']);
+
+//Send emails
+Route::get('emails/oracleissues',['middleware' => 'auth', 'uses' =>'EmailController@olacle']);

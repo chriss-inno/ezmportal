@@ -17,8 +17,10 @@ class CreateIssuesDailyUpdatesTable extends Migration
             $table->string('issue_id');
             $table->text('current_update');
             $table->string('input_by');
+            $table->string('display_name');
             $table->string('auth_by');
             $table->string('auth_status',1)->default('U');
+            $table->date('current_date');
             $table->timestamps();
         });
     }

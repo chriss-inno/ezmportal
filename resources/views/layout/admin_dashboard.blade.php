@@ -77,7 +77,8 @@
                 <li><a  href="{{url('queries/report')}}" title="View today system status">Queries Reports</a></li>
             </ul>
         </li>
-        <li class="sub-menu">
+       
+          <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
                 <span>Oracle Support Isssues</span>
