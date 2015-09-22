@@ -92,7 +92,7 @@ class EmailController extends Controller
         //
         $issues=OracleSupport::where('status','=','Opened')->where('email_sent','=','N')->get();
         //Send every
-        if(date("H:i") =="20:15") {
+        if(date("H:i") =="20:25") {
                 $data = array(
                     'issues' => $issues,
                 );
@@ -104,6 +104,7 @@ class EmailController extends Controller
                     $message->to('innocent.christopher@bankm.com')->subject('DAILY ISSUES LOGGED');
 
                 });
+            echo "Email sent";
         }
         else
         {
@@ -112,6 +113,7 @@ class EmailController extends Controller
                 $issue->email_sent='N';
                 $issue->save();
             }
+            echo "Email bado";
         }
 
     }
