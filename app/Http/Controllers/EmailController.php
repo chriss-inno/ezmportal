@@ -92,7 +92,7 @@ class EmailController extends Controller
         //
         $issues=OracleSupport::where('status','=','Opened')->where('email_sent','=','N')->get();
         //Send every
-        if(date("H:i") =="20:25") {
+        if(date("H:i") =="20:30") {
                 $data = array(
                     'issues' => $issues,
                 );

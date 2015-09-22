@@ -118,4 +118,4 @@ Route::get('queries/history',['middleware' => 'auth', 'uses' =>'TaskQueryControl
 Route::get('queries/report',['middleware' => 'auth', 'uses' =>'TaskQueryController@report']);
 
 //Send emails
-Route::get('emails/oracleissues',['middleware' => 'auth', 'uses' =>'EmailController@olacle']);
+Route::get('emails/oracleissues','EmailController@olacle');
