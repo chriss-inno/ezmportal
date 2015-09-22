@@ -31,7 +31,12 @@
                                    <td>{{$issue->date_opened}}</td>
                                    <td>{{$issue->date_closed}}</td>
                                    <td>{{$issue->status}}</td>
-
+                               </tr>
+                              <tr>
+                                  <th colspan="7">Description</th>
+                              </tr>
+                               <tr>
+                                   <td colspan="7"><?php echo $issue->description;?></td>
                                </tr>
 
 

@@ -15,7 +15,7 @@ class CreateOracleSupportsTable extends Migration
         Schema::create('oracle_supports', function (Blueprint $table) {
             $table->increments('id');
             $table->string('issue_title');
-            $table->string('description');
+            $table->text('description');
             $table->string('sr_number');
             $table->string('product');
             $table->string('contact');
