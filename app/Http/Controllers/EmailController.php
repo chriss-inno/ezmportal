@@ -96,7 +96,7 @@ class EmailController extends Controller
 
 
              //Send every day at
-              if(date("H:i") =="19:51") {
+              if(date("H:i") =="21:00") {
                   if(count($issues) >0 ) {
                       $data = array(
                           'issues' => $issues,
