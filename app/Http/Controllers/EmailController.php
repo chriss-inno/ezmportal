@@ -91,31 +91,41 @@ class EmailController extends Controller
     {
         //
         $issues=OracleSupport::where('status','=','Opened')->where('email_sent','=','N')->get(); //retrieve all opened issues
-        //Send every day at 
-        if(date("H:i") =="20:00") {
-                $data = array(
-                    'issues' => $issues,
-                );
-                //Send email 
-                \Mail::send('emails.oracle', $data, function ($message) {
 
-                    $message->from('innocent.christopher@bankm.com', 'Innocent Christopher');
 
-                    $message->to('innocent.christopher@bankm.com')->subject('DAILY ISSUES LOGGED');
 
-                });
 
-        }
-        else
-        {
-            //Prevent all unsent messages 
-            foreach($issues as $issue)
-            {
-                $issue->email_sent='N';
-                $issue->save();
+             //Send every day at
+              if(date("H:i") =="19:51") {
+                  if(count($issues) >0 ) {
+                      $data = array(
+                          'issues' => $issues,
+                      );
+                      //Send email
+                      \Mail::send('emails.oracle', $data, function ($message) {
+
+                          $message->from('innocent.christopher@bankm.com', 'Bank M PLC Support portal');
+
+                          $message->to('innocent.christopher@bankm.com')->subject('DAILY ISSUES LOGGED');
+
+                      });
+                  }
+
             }
+             else
+             {
+                 $issues1=OracleSupport::where('status','=','Opened')->where('email_sent','=','Y')->get(); //retrieve all opened issues
+                 //Prevent all unsent messages
+                 foreach($issues1 as $issue)
+                 {
+                     $issue->email_sent='N';
+                     $issue->save();
+                 }
 
-        }
+             }
+
+
+
 
     }
 
