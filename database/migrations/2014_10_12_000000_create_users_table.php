@@ -39,7 +39,7 @@ class CreateUsersTable extends Migration
             $table->string('profile_image')->nullable();
             $table->string('input_by');
             $table->string('auth_by');
-            $table->string('status');
+            $table->string('status')->default('Inactive');
             $table->string('auth_status',1)->default('U');
             $table->rememberToken();
             $table->timestamps();

@@ -170,6 +170,35 @@ class UserController extends Controller
             $us->email = $uname . "@bankm.com"; //Combine first and last names
             $us->save();
 
+            //Sent notifications to support team
+
+            $data1 = array(
+                'user' => $us,
+            );
+
+            \Mail::send('emails.newuser', $data1, function ($message) {
+
+                $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+
+                $message->to('innocent.christopher@bankm.com')->subject('User Registration Notification');
+
+            });
+
+            //Send email to registered user
+            $data = array(
+                'username' => $uname,
+                'password' => $request->Password,
+                'name' =>   $string = ucwords(strtolower($request->first_name . " " . $request->last_name)) ,
+            );
+
+            \Mail::send('emails.registration', $data, function ($message) {
+
+                $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+
+                $message->to('innocent.christopher@bankm.com')->subject('Portal registration notification');
+
+            });
+
             return redirect('login')->with('message', 'You have successful registered to Bank M service Portal,Your login access was sent to your email and request was sent to ICT for approval');
 
         }
@@ -196,10 +225,10 @@ class UserController extends Controller
 
         if (Auth::attempt(['username' => $username, 'password' => $password]))
         {
-            if(Auth::user()->block ==1)
+            if(Auth::user()->block ==1 || Auth::user()->status=="Inactive")
             {
                 Auth::logout();
-                return redirect()->back()->with('message', 'Login Failed you don\'t have Access to login please  Contact Administrator');
+                return redirect()->back()->with('message', 'Login Failed you don\'t have Access to login please  Contact ICT Support at support@bankm.com');
             }
             else
             {

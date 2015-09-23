@@ -8,7 +8,7 @@
     <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
     <link rel="shortcut icon" href="{{ asset('img/logo.png') }}">
 
-    <title>Bank M Tanzania PLC | Self Registration</title>
+    <title>Bank M Tanzania PLC| Support Portal Registration</title>
 
     <!-- Bootstrap core CSS -->
      {!!HTML::style("css/bootstrap.min.css")!!}

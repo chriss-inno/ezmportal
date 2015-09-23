@@ -30,7 +30,7 @@
 <div class="container">
     <div style="max-width: 330px; margin-left: auto; margin-right: auto">
       {!! Form::open(array('url'=>'login','class'=>'form-signin','role'=>'form','id'=>'UserLogin')) !!}
-        <h2 class="form-signin-heading">{!! HTML::image("img/logo.png")!!}<strong> Bank (M) Service Portal</strong></h2>
+        <h2 class="form-signin-heading">{!! HTML::image("img/logo.png")!!}<strong> Bank (M) Support Portal</strong></h2>
         <div class="login-wrap">
 
             @if(Session::has('message'))
