@@ -104,9 +104,9 @@ class EmailController extends Controller
                       //Send email
                       \Mail::send('emails.oracle', $data, function ($message) {
 
-                          $message->from('innocent.christopher@bankm.com', 'Bank M PLC Support portal');
+                          $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
 
-                          $message->to('innocent.christopher@bankm.com')->subject('DAILY ISSUES LOGGED');
+                          $message->to('support@bankm.com')->subject('DAILY ISSUES LOGGED');
 
                       });
                   }
