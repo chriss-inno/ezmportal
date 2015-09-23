@@ -50,14 +50,16 @@ class Gate implements GateContract
      * @param  callable  $userResolver
      * @param  array  $abilities
      * @param  array  $policies
+     * @param  array  $beforeCallbacks
      * @return void
      */
-    public function __construct(Container $container, callable $userResolver, array $abilities = [], array $policies = [])
+    public function __construct(Container $container, callable $userResolver, array $abilities = [], array $policies = [], array $beforeCallbacks = [])
     {
         $this->policies = $policies;
         $this->container = $container;
         $this->abilities = $abilities;
         $this->userResolver = $userResolver;
+        $this->beforeCallbacks = $beforeCallbacks;
     }
 
     /**
@@ -231,8 +233,15 @@ class Gate implements GateContract
      */
     protected function firstArgumentCorrespondsToPolicy(array $arguments)
     {
-        return isset($arguments[0]) && is_object($arguments[0]) &&
-               isset($this->policies[get_class($arguments[0])]);
+        if (! isset($arguments[0])) {
+            return false;
+        }
+
+        if (is_object($arguments[0])) {
+            return isset($this->policies[get_class($arguments[0])]);
+        }
+
+        return is_string($arguments[0]) && isset($this->policies[$arguments[0]]);
     }
 
     /**
@@ -246,9 +255,7 @@ class Gate implements GateContract
     protected function resolvePolicyCallback($user, $ability, array $arguments)
     {
         return function () use ($user, $ability, $arguments) {
-            $instance = $this->resolvePolicy(
-                $this->policies[get_class($arguments[0])]
-            );
+            $instance = $this->getPolicyFor($arguments[0]);
 
             if (method_exists($instance, 'before')) {
                 // We will prepend the user and ability onto the arguments so that the before
@@ -266,6 +273,10 @@ class Gate implements GateContract
                 if (! is_null($result)) {
                     return $result;
                 }
+            }
+
+            if (! method_exists($instance, $ability)) {
+                return false;
             }
 
             return call_user_func_array(
@@ -294,6 +305,7 @@ class Gate implements GateContract
 
         return $this->resolvePolicy($this->policies[$class]);
     }
+
     /**
      * Build a policy class instance of the given type.
      *
@@ -314,7 +326,7 @@ class Gate implements GateContract
     public function forUser($user)
     {
         return new static(
-            $this->container, function () use ($user) { return $user; }, $this->abilities, $this->policies
+            $this->container, function () use ($user) { return $user; }, $this->abilities, $this->policies, $this->beforeCallbacks
         );
     }
 

@@ -49,6 +49,13 @@ trait CrawlerTrait
     protected $uploads = [];
 
     /**
+     * Additional server variables for the request.
+     *
+     * @var array
+     */
+    protected $serverVariables = [];
+
+    /**
      * Visit the given URI with a GET request.
      *
      * @param  string  $uri
@@ -292,6 +299,94 @@ trait CrawlerTrait
     }
 
     /**
+     * Assert that a given link is seen on the page.
+     *
+     * @param  string  $text
+     * @param  string|null  $url
+     * @return $this
+     */
+    public function seeLink($text, $url = null)
+    {
+        $message = "No links were found with expected text [{$text}]";
+
+        if ($url) {
+            $message .= " and URL [{$url}]";
+        }
+
+        $this->assertTrue($this->hasLink($text, $url), "{$message}.");
+
+        return $this;
+    }
+
+    /**
+     * Assert that a given link is not seen on the page.
+     *
+     * @param  string  $text
+     * @param  string|null  $url
+     * @return $this
+     */
+    public function dontSeeLink($text, $url = null)
+    {
+        $message = "A link was found with expected text [{$text}]";
+
+        if ($url) {
+            $message .= " and URL [{$url}]";
+        }
+
+        $this->assertFalse($this->hasLink($text, $url), "{$message}.");
+
+        return $this;
+    }
+
+    /**
+     * Add a root if the URL is relative (helper method of the hasLink function).
+     *
+     * @param  string  $url
+     * @return string
+     */
+    protected function addRootToRelativeUrl($url)
+    {
+        if (! Str::startsWith($url, ['http', 'https'])) {
+            return $this->app->make('url')->to($url);
+        }
+
+        return $url;
+    }
+
+    /**
+     * Check if the page has a link with the given $text and optional $url.
+     *
+     * @param  string  $text
+     * @param  string|null  $url
+     * @return bool
+     */
+    protected function hasLink($text, $url = null)
+    {
+        $links = $this->crawler->selectLink($text);
+
+        if ($links->count() == 0) {
+            return false;
+        }
+
+        // If the URL is null, we assume the developer only wants to find a link
+        // with the given text regardless of the URL. So, if we find the link
+        // we will return true now. Otherwise, we look for the given URL.
+        if ($url == null) {
+            return true;
+        }
+
+        $url = $this->addRootToRelativeUrl($url);
+
+        foreach ($links as $link) {
+            if ($link->getAttribute('href') == $url) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Assert that an input field contains the given value.
      *
      * @param  string  $selector
@@ -366,7 +461,7 @@ trait CrawlerTrait
      */
     public function seeIsSelected($selector, $expected)
     {
-        $this->assertSame(
+        $this->assertEquals(
             $expected, $this->getSelectedValue($selector),
             "The field [{$selector}] does not contain the selected value [{$expected}]."
         );
@@ -383,7 +478,7 @@ trait CrawlerTrait
      */
     public function dontSeeIsSelected($selector, $value)
     {
-        $this->assertNotSame(
+        $this->assertNotEquals(
             $value, $this->getSelectedValue($selector),
             "The field [{$selector}] contains the selected value [{$value}]."
         );
@@ -944,6 +1039,19 @@ trait CrawlerTrait
     }
 
     /**
+     * Define a set of server variables to be sent with the requests.
+     *
+     * @param  array  $server
+     * @return $this
+     */
+    protected function withServerVariables(array $server)
+    {
+        $this->serverVariables = $server;
+
+        return $this;
+    }
+
+    /**
      * Call the given URI and return the Response.
      *
      * @param  string  $method
@@ -963,7 +1071,7 @@ trait CrawlerTrait
 
         $request = Request::create(
             $this->currentUri, $method, $parameters,
-            $cookies, $files, $server, $content
+            $cookies, $files, array_replace($this->serverVariables, $server), $content
         );
 
         $response = $kernel->handle($request);
