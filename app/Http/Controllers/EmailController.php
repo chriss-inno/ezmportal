@@ -90,13 +90,13 @@ class EmailController extends Controller
     public function olacle()
     {
         //
-        $issues=OracleSupport::where('status','=','Opened')->where('email_sent','=','N')->get();
-        //Send every
-        if(date("H:i") =="20:30") {
+        $issues=OracleSupport::where('status','=','Opened')->where('email_sent','=','N')->get(); //retrieve all opened issues
+        //Send every day at 
+        if(date("H:i") =="20:00") {
                 $data = array(
                     'issues' => $issues,
                 );
-
+                //Send email 
                 \Mail::send('emails.oracle', $data, function ($message) {
 
                     $message->from('innocent.christopher@bankm.com', 'Innocent Christopher');
@@ -108,6 +108,7 @@ class EmailController extends Controller
         }
         else
         {
+            //Prevent all unsent messages 
             foreach($issues as $issue)
             {
                 $issue->email_sent='N';
