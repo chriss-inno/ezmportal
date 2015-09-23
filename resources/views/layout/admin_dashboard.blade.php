@@ -331,13 +331,6 @@
                         <div class="task-progress">
                             <h1>Work Progress</h1>
                         </div>
-                        <div class="task-option">
-                            <select class="styled">
-                                <option>Anjelina Joli</option>
-                                <option>Tom Crouse</option>
-                                <option>Jhon Due</option>
-                            </select>
-                        </div>
                     </div>
                     <table class="table table-hover personal-task">
                         <tbody>

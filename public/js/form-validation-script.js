@@ -26,11 +26,12 @@ var Script = function () {
                 last_name: "required",
                 department: "required",
                 branch: "required",
+                phone: "required",
                 Password: {
                     required: true,
                     minlength: 5
                 },
-                Confirm_Password: {
+                password_confirmation: {
                     required: true,
                     minlength: 5,
                     equalTo: "#Password"
@@ -45,11 +46,12 @@ var Script = function () {
                 last_name: "Please enter your lastname",
                 department: "Please select your department",
                 branch: "Please select your branch",
+                phone:"Please select your phone number",
                 Password: {
                     required: "Please provide a password",
                     minlength: "Your password must be at least 5 characters long"
                 },
-                Confirm_Password: {
+                password_confirmation: {
                     required: "Please provide a password",
                     minlength: "Your password must be at least 5 characters long",
                     equalTo: "Please enter the same password as above"

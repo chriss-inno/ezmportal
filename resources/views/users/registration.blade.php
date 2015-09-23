@@ -51,11 +51,17 @@
                              <div class="row">
                                  <div class="col-md-6">
                                      <label for="first_name">First Name</label>
-                                     <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter First Name" required>
+                                     <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter First Name" required value="{{old('first_name')}}">
+                                   @if($errors->first('first_name'))
+                                     <label for="first_name" class="error">{{$errors->first('first_name')}}</label>
+                                       @endif
                                  </div>
                                  <div class="col-md-6">
-                                     <label for="first_name">Last Name</label>
-                                     <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Last Name" required>
+                                     <label for="last_name">Last Name</label>
+                                     <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Last Name" required value="{{old('last_name')}}">
+                                     @if($errors->first('last_name'))
+                                         <label for="first_name" class="error">{{$errors->first('last_name')}}</label>
+                                     @endif
                                  </div>
                              </div>
 
@@ -63,30 +69,53 @@
 
                         <div class="form-group">
                             <label for="designation">Designation</label>
-                            <input type="text" class="form-control" id="designation " name="designation" placeholder="Enter Designation" required>
+                            <input type="text" class="form-control" id="designation " name="designation" placeholder="Enter Designation" required value="{{old('designation')}}">
                             <p class="help-block">Please enter full details of your designation, do not enter abbreviation.</p>
+                            @if($errors->first('last_name'))
+                                <label for="designation" class="error">{{$errors->first('designation')}}</label>
+                            @endif
                         </div>
                         <div class="form-group">
                             <label for="phone">Mobile Number</label>
-                            <input type="text" class="form-control"  id="phone" name="phone" placeholder="Enter Mobile Number">
+                            <input type="text" class="form-control"  id="phone" name="phone" placeholder="Enter Mobile Number" required value="{{old('phone')}}">
+                            @if($errors->first('phone'))
+                                <label for="phone" class="error">{{$errors->first('phone')}}</label>
+                            @endif
                         </div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6">
                                     <label for="branch">Branch</label>
                                      <select class="form-control"  id="branch" name="branch">
-                                         <option value="">----</option>
+                                         @if(old('branch') !="")
+                                             <?php $branchd=\App\Branch::find(old('branch'));?>
+                                               <option value="{{$branchd->id}}" selected>{{$branchd->branch_Name}}</option>
+                                             @else
+                                             <option value="">----</option>
+                                             @endif
+
                                          @foreach($branches as $br)
                                              <option value="{{$br->id}}">{{$br->branch_Name}}</option>
                                              @endforeach
 
                                      </select>
+                                    @if($errors->first('branch'))
+                                        <label for="branch" class="error">{{$errors->first('branch')}}</label>
+                                    @endif
                                 </div>
                                 <div class="col-md-6">
                                     <label for="department">Department</label>
                                     <select class="form-control"  id="department" name="department">
-                                        <option value="">----</option>
+                                        @if(old('branch') !="")
+                                            <?php $depart=\App\Department::find(old('department'));?>
+                                            <option value="{{$depart->id}}" selected>{{$depart->department_name}}</option>
+                                        @else
+                                            <option value="">----</option>
+                                        @endif
                                     </select>
+                                    @if($errors->first('department'))
+                                        <label for="department" class="error">{{$errors->first('department')}}</label>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -98,10 +127,16 @@
                                 <div class="col-md-6">
                                     <label for="Password">Password</label>
                                     <input type="password" class="form-control"  id="Password" name="Password" placeholder="Enter Password" required>
+                                    @if($errors->first('Password'))
+                                        <label for="Password" class="error">{{$errors->first('Password')}}</label>
+                                    @endif
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="Password">Confirm Password</label>
-                                    <input type="password" class="form-control"  id="Confirm_Password" name="Confirm_Password" placeholder="Confirm Password" required>
+                                    <label for="password_confirmation">Confirm Password</label>
+                                    <input type="password" class="form-control"  id="password_confirmation" name="password_confirmation" placeholder="Confirm Password" required>
+                                    @if($errors->first('password_confirmation'))
+                                        <label for="confirmation" class="error">{{$errors->first('password_confirmation')}}</label>
+                                    @endif
                                 </div>
                             </div>
                         </div>

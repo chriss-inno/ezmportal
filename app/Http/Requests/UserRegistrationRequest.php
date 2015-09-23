@@ -30,8 +30,9 @@ class UserRegistrationRequest extends Request
             'designation'=>'required',
             'branch'=>'required',
             'department'=>'required',
-            'Password'=>'required',
-            'Confirm_Password'=>'required',
+            'Password' => 'required|min:5',
+            'phone'=>'required|unique:users',
+            'password_confirmation'=>'required|min:5',
         ];
     }
 }

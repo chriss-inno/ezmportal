@@ -104,7 +104,7 @@ class EmailController extends Controller
                     $message->to('innocent.christopher@bankm.com')->subject('DAILY ISSUES LOGGED');
 
                 });
-            echo "Email sent";
+
         }
         else
         {
@@ -113,7 +113,7 @@ class EmailController extends Controller
                 $issue->email_sent='N';
                 $issue->save();
             }
-            echo "Email bado";
+
         }
 
     }

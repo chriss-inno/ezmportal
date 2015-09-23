@@ -44,7 +44,11 @@
                 <!-- user login dropdown start-->
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        {!! HTML::image("img/avatar1_small.jpg")!!}
+                        @if(Auth::user()->profile_image !="" )
+                            {!! HTML::image(Auth::user()->profile_image)!!}
+                        @else
+                            {!! HTML::image("img/Misc-User-icon.png")!!}
+                            @endif
                         <span class="username">{{Auth::user()->first_name." ".Auth::user()->last_name}}</span>
                         <b class="caret"></b>
                     </a>
