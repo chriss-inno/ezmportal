@@ -1,4 +1,5 @@
- {!! Form::open(array('url'=>'register','role'=>'form','id'=>'signupForm')) !!}
+
+                {!! Form::open(array('url'=>'register','role'=>'form','id'=>'signupForm')) !!}
                     <fieldset class="scheduler-border">
                         <legend class="scheduler-border">Personal details</legend>
                         <div class="form-group">

@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Users
+    Users Profile
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
@@ -21,6 +21,18 @@
             $('#branches').dataTable( {
                 "aaSorting": [[ 4, "desc" ]]
             } );
+
+            $("#branch").change(function () {
+                var id1 = this.value;
+                if(id1 != "")
+                {
+                    $.get("<?php echo url('getDepartment') ?>/"+id1,function(data){
+                        $("#department").html(data);
+                    });
+
+                }else{$("#department").html("<option value=''>----</option>");}
+            });
+
 
             $(".deleteUser").click(function(){
                 var id1 = $(this).parent().parent().attr('id');
@@ -166,7 +178,7 @@
                 <li><a  href="{{url('queries/report')}}" title="View today system status">Queries Reports</a></li>
             </ul>
         </li>
-         <li class="sub-menu">
+        <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
                 <span>Oracle Support Isssues</span>
@@ -176,10 +188,10 @@
                 <li><a  href="{{url('support/oracle/opened')}}" title="Report System/Service problem or issue">Opened Issues</a></li>
                 <li><a  href="{{url('support/oracle/closed')}}" title="View today system status">Closed Issues</a></li>
                 <li><a  href="{{url('support/oracle/history')}}" title="System/services History">Issues History</a></li>
-                 <li><a  href="{{url('support/oracle/report')}}" title="System/services History">Issues Report</a></li>
+                <li><a  href="{{url('support/oracle/report')}}" title="System/services History">Issues Report</a></li>
             </ul>
         </li>
-         <li class="sub-menu">
+        <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
                 <span>System service status</span>
@@ -205,7 +217,7 @@
             </ul>
         </li>
     </ul>
-    @stop
+@stop
 @section('contents')
 
     <section class="site-min-height">
@@ -214,88 +226,66 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa  fa-users"></i> USER ADMINISTRATION</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa  fa-user"></i> USER PROFILE FOR <span class="text-danger">{{strtoupper($user->first_name.' '.$user->last_name)}} </span></strong></h3>
                     </header>
                     <div class="panel-body">
-                        <div class="adv-table">
-                            <table  class="display table table-bordered table-striped" id="branches">
-                                <thead>
-                                <tr>
-                                    <th>SNO</th>
-                                    <th>Full Name</th>
-                                    <th>Designation</th>
-                                    <th>Branch</th>
-                                    <th>Department</th>
-                                    <th>Phone</th>
-                                    <th>Status</th>
-                                    <th>Profile</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php $i=1;?>
-                                @foreach($users as $usr)
-                                    <tr>
-                                        <td>{{$i++}}</td>
-                                        <td>{{$usr->first_name." ".$usr->last_name}}</td>
-                                        <td>{{$usr->designation}}</td>
-                                        <td>{{$usr->branch->branch_Name}}</td>
-                                        <td>{{$usr->department->department_name}}</td>
-                                        <td>{{$usr->phone}}</td>
-                                        @if($usr->id != Auth::user()->id)
-                                        <td id="{{$usr->id}}">
-                                            @if($usr->status =="Inactive")
-                                              <a href="#b" class="unLockUser btn btn-danger btn-xs" title="User is INACTIVE click to activate"><i class=" fa fa-check"></i></a>
-                                            @else
-                                                <a href="#b" class="blockUser btn btn-success btn-xs" title="User is ACTIVE click to deactivate"><i class=" fa fa-check"></i></a>
-                                            @endif
-                                        </td>
-                                        @else
-                                            <td id="{{$usr->id}}">
-                                                @if($usr->status =="Inactive")
-                                                    <a href="#" class=" btn btn-danger btn-xs" title="Can not do changes on yourself"><i class=" fa fa-check"></i></a>
-                                                @else
-                                                    <a href="#" class=" btn btn-success btn-xs" title="Can not do changes on yourself"><i class=" fa fa-check"></i></a>
-                                                @endif
-                                            </td>
-                                        @endif
-                                        <td id="{{$usr->id}}">
-                                            <a href="{{url('users/show')}}/{{$usr->id}}" class="btn btn-info btn-xs" title="User Profile"><i class="fa fa-eye"></i> View </a>
-                                        </td>
-                                        @if($usr->id != Auth::user()->id)
-                                        <td>
-                                            <div class="pull-right hidden-phone" id="{{$usr->id}}">
-                                                <a  href="{{url('users/edit')}}/{{$usr->id}}" title="Edit user" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                                <a href="#b" title="Delete user" class="deleteUser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
-                                            </div>
-                                        </td>
-                                            @else
-                                            <td>
-                                                <div class="pull-right hidden-phone" id="{{$usr->id}}">
-                                                    <a  href="#" title="Can not edit yourself" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                                    <a href="#" title="Can not delete yourself" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
-                                                </div>
-                                            </td>
-                                            @endif
-                                    </tr>
+                        {!! Form::open(array('url'=>'register','role'=>'form','id'=>'personalForm')) !!}
+                        <fieldset class="scheduler-border">
+                            <legend class="scheduler-border">Personal details</legend>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="first_name">First Name</label>
+                                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter First Name" required @if(old('first_name') !="") value="{{old('first_name')}}" @else value="{{$user->first_name}}" @endif>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="first_name">Last Name</label>
+                                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Last Name" required @if(old('last_name') !="") value="{{old('last_name')}}" @else value="{{$user->last_name}}" @endif>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="first_name">Other Name</label>
+                                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Other Name">
+                                    </div>
+                                </div>
 
-                                @endforeach
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>SNO</th>
-                                    <th>Full Name</th>
-                                    <th>Designation</th>
-                                    <th>Branch</th>
-                                    <th>Department</th>
-                                    <th>Phone</th>
-                                    <th>Status</th>
-                                    <th></th>
-                                    <th>Action</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="designation">Designation</label>
+                                <input type="text" class="form-control" id="designation " name="designation" placeholder="Enter Designation" required @if(old('designation') !="") value="{{old('designation')}}" @else value="{{$user->designation}}" @endif>
+                                <p class="help-block">Please enter full details of your designation, do not enter abbreviation.</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Mobile Number</label>
+                                <input type="text" class="form-control"  id="phone" name="phone" placeholder="Enter Mobile Number" @if(old('phone') !="") value="{{old('phone')}}" @else value="{{$user->phone}}" @endif>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Email</label>
+                                <input type="text" class="form-control"  id="phone" name="email" placeholder="Enter email" @if(old('email') !="") value="{{old('email')}}" @else value="{{$user->email}}" @endif>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="branch">Branch</label>
+                                        <select class="form-control"  id="branch" name="branch">
+                                            <option value="">----</option>
+                                            <?php $branches=\App\Branch::all();?>
+                                            @foreach($branches as $br)
+                                                <option value="{{$br->id}}">{{$br->branch_Name}}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="department">Department</label>
+                                        <select class="form-control"  id="department" name="department">
+                                            <option value="">----</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        {!! Form::close() !!}
                     </div>
                 </section>
             </div>

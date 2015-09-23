@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\User;
 use App\UserRight;
+use App\Right;
 
 class UserTableSeeder extends Seeder
 {
@@ -14,6 +15,32 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         //
+        //Enter user right
+        Right::trancate();
+        $right=new Right;
+        $right->status='enabled';
+        $right->description='Normal User';
+        $right->right_name='Normal User';
+        $right->input_by='System';
+        $right->save();
+
+        UserRight::trancate();
+        $modules=array('Reports','Photo Galley','Downloads','Queries and Task');
+        $count=0;
+        foreach($modules as $module)
+        {
+            $count++;
+            $userRight =new UserRight;
+            $userRight->right_id=$right->id;
+            $userRight->module=$count;
+            $userRight->viw=1;
+            $userRight->edi=1;
+            $userRight->del=1;
+            $userRight->inp=1;
+            $userRight->aut=0;
+            $userRight->save();
+        }
+
         User::truncate();
 
         $us=new User;

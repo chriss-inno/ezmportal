@@ -108,6 +108,8 @@ class RightsController extends Controller
     public function edit($id)
     {
         //
+        $right= Right::find($id);
+        return view('userright.create',compact('right'));
     }
 
     /**

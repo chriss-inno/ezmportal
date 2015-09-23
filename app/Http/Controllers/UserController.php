@@ -49,6 +49,38 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         //
+        $user=new User;
+        $user->first_name=$request->first_name;
+        $user->middle_name=$request->middle_name;
+        $user->last_name=$request->last_name;
+        $user->designation=$request->designation;
+        $user->email=$request->email;
+        $user->phone=$request->phone;
+        $user->username=$request->username;
+        $user->password=bcrypt($request->Password);
+        $user->right_id=$request->right;
+        $user->branch_id=$request->branch;
+        $user->department_id=$request->department;
+        $user->status=$request->status;
+        $user->input_by=Auth::user()->username;;
+        $user->save();
+
+        //Send email to registered user
+        $data = array(
+            'username' => $user->username,
+            'password' => $request->Password,
+            'name' =>   $string = ucwords(strtolower($user->first_name . " " . $user->last_name)) ,
+        );
+
+        \Mail::queue('emails.registration', $data, function ($message) use ($user){
+
+            $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+
+            $message->to($user->email)->subject('Portal registration notification');
+
+        });
+
+        return redirect('users');
     }
 
     /**
@@ -191,11 +223,11 @@ class UserController extends Controller
                 'name' =>   $string = ucwords(strtolower($request->first_name . " " . $request->last_name)) ,
             );
 
-            \Mail::send('emails.registration', $data, function ($message) {
+            \Mail::send('emails.registration', $data, function ($message) use($us){
 
                 $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
 
-                $message->to('innocent.christopher@bankm.com')->subject('Portal registration notification');
+                $message->to($us->email)->subject('Portal registration notification');
 
             });
 

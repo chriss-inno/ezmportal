@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Branches
+    User Management
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
@@ -15,11 +15,6 @@
     {!!HTML::script("js/form-validation-script.js") !!}
 
     <script type="text/javascript" charset="utf-8">
-        $(document).ready(function() {
-            $('#branches').dataTable( {
-                "aaSorting": [[ 4, "desc" ]]
-            } );
-        } );
         //Edit class streams
         $(".addBranch").click(function(){
             var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
@@ -174,7 +169,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3>Create new user</h3>
+                        <h3 class="text-info"> <strong><i class="fa  fa-users"></i> CREATE NEW USER</strong></h3>
                     </header>
                     <div class="panel-body">
 
@@ -188,22 +183,28 @@
                             </div>
                         @endif
 
-                        {!! Form::open(array('url'=>'register','role'=>'form','id'=>'signupForm')) !!}
+                        {!! Form::open(array('url'=>'users/create','role'=>'form','id'=>'adminUserform')) !!}
                         <fieldset class="scheduler-border">
                             <legend class="scheduler-border" style="color:#005DAD">Personal details</legend>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="first_name">First Name</label>
-                                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter First Name" required autocomplete=off>
+                                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter First Name" required autocomplete=off value="{{old('first_name')}}">
+                                        @if($errors->first('first_name'))
+                                            <label for="first_name" class="error">{{$errors->first('first_name')}}</label>
+                                        @endif
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="middle_name">Middle Name</label>
-                                        <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="Enter Middle Name">
+                                        <label for="last_name">Last Name</label>
+                                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Last Name" required autocomplete=off value="{{old('last_name')}}">
+                                        @if($errors->first('last_name'))
+                                            <label for="first_name" class="error">{{$errors->first('last_name')}}</label>
+                                        @endif
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="first_name">Last Name</label>
-                                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Last Name" required autocomplete=off>
+                                        <label for="middle_name">Other Name</label>
+                                        <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="Enter Middle Name" value="{{old('middle_name')}}">
                                     </div>
                                 </div>
 
@@ -211,14 +212,27 @@
 
                             <div class="form-group">
                                 <label for="designation">Designation</label>
-                                <input type="text" class="form-control" id="designation " name="designation" placeholder="Enter Designation" required>
+                                <input type="text" class="form-control" id="designation " name="designation" placeholder="Enter Designation" required value="{{old('designation')}}">
+                                @if($errors->first('designation'))
+                                    <label for="first_name" class="error">{{$errors->first('designation')}}</label>
+                                @endif
                                 <p class="help-block">Please enter full details of your designation, do not enter abbreviation.</p>
                             </div>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="phone">Mobile Number</label>
-                                        <input type="text" class="form-control"  id="phone" name="phone" placeholder="Enter Mobile Number" autocomplete=off>
+                                        <input type="text" class="form-control"  id="phone" name="phone" placeholder="Enter Mobile Number" autocomplete=off value="{{old('phone')}}">
+                                        @if($errors->first('phone'))
+                                            <label for="first_name" class="error">{{$errors->first('phone')}}</label>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="email">E-Mail</label>
+                                        <input type="email" class="form-control"  id="email" name="email" placeholder="Enter email address" autocomplete=off value="{{old('email')}}">
+                                        @if($errors->first('email'))
+                                            <label for="first_name" class="error">{{$errors->first('email')}}</label>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -227,25 +241,48 @@
                                     <div class="col-md-6">
                                         <label for="branch">Branch</label>
                                         <select class="form-control"  id="branch" name="branch">
-                                            <option value="">----</option>
                                             <?php $branches=\App\Branch::all();?>
-                                            @foreach($branches as $br)
+
+                                            @if(old('branch') !="")
+                                                <?php $branchd=\App\Branch::find(old('branch'));?>
+                                                <option value="{{$branchd->id}}" selected>{{$branchd->branch_Name}}</option>
+                                            @else
+                                                <option value="">----</option>
+                                            @endif
+
+                                        @foreach($branches as $br)
                                                 <option value="{{$br->id}}">{{$br->branch_Name}}</option>
                                             @endforeach
 
                                         </select>
+                                        @if($errors->first('branch'))
+                                            <label for="branch" class="error">{{$errors->first('branch')}}</label>
+                                        @endif
                                     </div>
                                     <div class="col-md-6">
                                         <label for="department">Department</label>
                                         <select class="form-control"  id="department" name="department">
-                                            <option value="">----</option>
+                                            @if(old('branch') !="")
+                                                <?php $depart=\App\Department::find(old('department'));?>
+                                                <option value="{{$depart->id}}" selected>{{$depart->department_name}}</option>
+                                            @else
+                                                <option value="">----</option>
+                                            @endif
                                         </select>
+                                        @if($errors->first('department'))
+                                            <label for="department" class="error">{{$errors->first('department')}}</label>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </fieldset>
                         <fieldset class="scheduler-border" style="margin-top: 10px;">
                             <legend class="scheduler-border" style="color:#005DAD">Login Details</legend>
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" id="username " name="username" placeholder="Enter Username" required value="{{old('username')}}">
+
+                            </div>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -254,7 +291,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="Password">Confirm Password</label>
-                                        <input type="password" class="form-control"  id="Confirm_Password" name="Confirm_Password" placeholder="Confirm Password" required>
+                                        <input type="password" class="form-control"  id="password_confirmation" name="password_confirmation" placeholder="Confirm Password" required>
                                     </div>
                                 </div>
                             </div>
@@ -262,7 +299,47 @@
                         <fieldset class="scheduler-border" style="margin-top: 10px;">
                             <legend class="scheduler-border" style="color:#005DAD">User Access Rights</legend>
                             <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="right">User Access Level</label>
+                                        <select name="right" class="form-control" id="right">
 
+                                            @if(old('right') !="")
+                                                <?php $right=\App\Right::find(old('department'));?>
+                                                <option value="{{$right->id}}" selected>{{$right->right_name}}</option>
+                                            @else
+                                                <option value="">----</option>
+                                            @endif
+                                            <?php
+                                               $rights=\App\Right::where('status','=','enabled')->get(); //Get all user rights
+                                            ?>
+                                            @foreach($rights as $right)
+                                               <option value="{{$right->id}}">{{$right->right_name}}</option>
+                                            @endforeach
+                                            <option value="Active">Active</option>
+                                        </select>
+                                        @if($errors->first('right'))
+                                            <label for="right" class="error">{{$errors->first('right')}}</label>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="status">Status</label>
+                                        <select name="status" class="form-control" id="status">
+                                            @if(old('status') !="")
+
+                                                <option value="{{old('status')}}" selected>{{old('status')}}</option>
+                                            @else
+                                                <option value="">----</option>
+                                            @endif
+                                            <option value="Inactive">Inactive</option>
+                                            <option value="Active">Active</option>
+                                        </select>
+                                        @if($errors->first('status'))
+                                            <label for="status" class="error">{{$errors->first('status')}}</label>
+                                        @endif
+                                    </div>
+
+                                </div>
                             </div>
                         </fieldset>
                          <div class="row">
@@ -279,17 +356,17 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <a href="{{url('departments/create')}}" class="btn btn-compose btn-block">Create New Department</a>
+                                <a href="{{url('users/create')}}" class="btn btn-compose btn-block">Create New users</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('departments')}}" class="btn btn-compose btn-block">List Department</a>
+                                <a href="{{url('users')}}" class="btn btn-compose  btn-block">List users</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('departments/reports')}}" class="btn btn-compose btn-block">Department Reports</a>
+                                <a href="{{url('users/reports')}}" class="btn btn-compose btn-block">users Reports</a>
                             </div>
                         </div>
                     </div>

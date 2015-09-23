@@ -25,6 +25,18 @@ class UserRequest extends Request
     {
         return [
             //
+            'first_name'=>'required',
+            'last_name'=>'required',
+            'department'=>'required',
+            'branch'=>'required',
+            'phone'=>'required',
+            'username'=>'required|unique:users',
+            'status'=>'required',
+            'right'=>'required',
+            'email'=>'required|email|unique:users',
+            'Password'=>'required',
+            'password_confirmation'=>'required',
+            'designation'=>'required',
         ];
     }
 }

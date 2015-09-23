@@ -20,6 +20,60 @@ var Script = function () {
             });
 
         // validate signup form on keyup and submit
+        $("#adminUserform").validate({
+                rules: {
+                    first_name: "required",
+                    last_name: "required",
+                    department: "required",
+                    branch: "required",
+                    phone: "required",
+                    username:"required",
+                    status:"required",
+                    right:"required",
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    Password: {
+                        required: true,
+                        minlength: 5
+                    },
+                    password_confirmation: {
+                        required: true,
+                        minlength: 5,
+                        equalTo: "#Password"
+                    },
+                    designation:"required"
+
+                },
+                messages: {
+                    first_name: "Please enter  first name",
+                    last_name: "Please enter  last name",
+                    department: "Please select  department",
+                    branch: "Please select  branch",
+                    username:"Please enter username",
+                    phone:"Please enter phone number",
+                    status:"Please select status",
+                    right:"Please select user access level",
+                    email: {
+                        required: "Please provide a password",
+                        email: "Enter valid email address"
+                    },
+                    Password: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 5 characters long"
+                    },
+                    password_confirmation: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 5 characters long",
+                        equalTo: "Please enter the same password as above"
+                    },
+                    designation: "Please enter full details of your designation"
+                }
+
+            });
+
+
         $("#signupForm").validate({
             rules: {
                 first_name: "required",

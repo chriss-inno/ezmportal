@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('bmno')->nullable();
             $table->string('password', 100);
             $table->string('user_type')->default('normal');
+            $table->integer('right_id')->default('1');
             $table->integer('branch_id');
             $table->integer('department_id');
             $table->dateTime('last_login')->nullable();

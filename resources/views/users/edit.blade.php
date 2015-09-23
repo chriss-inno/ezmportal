@@ -1,112 +1,55 @@
 @extends('layout.master')
 @section('page-title')
-    Users Profile
+    User Management
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
     {!!HTML::script("js/easy-pie-chart.js") !!}
     {!!HTML::script("js/count.js") !!}
-    {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
+    {!!HTML::script("js/jquery.tagsinput.js")!!}
     {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
     {!!HTML::script("js/jquery.scrollTo.min.js") !!}
     {!!HTML::script("js/jquery.nicescroll.js") !!}
-    {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
-    {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
-
+    {!!HTML::script("js/jquery.validate.min.js" ) !!}
+    {!!HTML::script("js/respond.min.js"  ) !!}
+    {!!HTML::script("js/form-validation-script.js") !!}
 
     <script type="text/javascript" charset="utf-8">
-        $(document).ready(function() {
+        //Edit class streams
+        $(".addBranch").click(function(){
+            var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+            modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+            modal+= '<div class="modal-content">';
+            modal+= '<div class="modal-header">';
+            modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+            modal+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="text-align: center">Update School Class Level</span>';
+            modal+= '</div>';
+            modal+= '<div class="modal-body">';
+            modal+= ' </div>';
+            modal+= '</div>';
+            modal+= '</div>';
+            $('body').css('overflow','hidden');
 
+            $("body").append(modal);
+            $("#myModal").modal("show");
+            $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+            $(".modal-body").load("<?php echo url("branches/create") ?>");
+            $("#myModal").on('hidden.bs.modal',function(){
+                $("#myModal").remove();
+            })
 
-            $('#branches').dataTable( {
-                "aaSorting": [[ 4, "desc" ]]
-            } );
+        });
 
-            $("#branch").change(function () {
-                var id1 = this.value;
-                if(id1 != "")
-                {
-                    $.get("<?php echo url('getDepartment') ?>/"+id1,function(data){
-                        $("#department").html(data);
-                    });
-
-                }else{$("#department").html("<option value=''>----</option>");}
-            });
-
-
-            $(".deleteUser").click(function(){
-                var id1 = $(this).parent().parent().attr('id');
-                $(".deleteUser").show("slow").parent().parent().find("span").remove();
-                var btn = $(this).parent().parent();
-                $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
-                $("#no").click(function(){
-                    $(this).parent().parent().parent().find(".deleteUser").show("slow");
-                    $(this).parent().parent().parent().find("span").remove();
-                });
-                $("#yes").click(function(){
-                    $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                    $.get("<?php echo url('users/remove') ?>/"+id1,function(data){
-                        btn.hide("slow").next("hr").hide("slow");
-                    });
-                });
-            });
-
-            //Edit class streams
-            $(".userCreate").click(function(){
-                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
-                modaldis+= '<div class="modal-content">';
-                modaldis+= '<div class="modal-header">';
-                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">Update School Class Level</span>';
-                modaldis+= '</div>';
-                modaldis+= '<div class="modal-body">';
-                modaldis+= ' </div>';
-                modaldis+= '</div>';
-                modaldis+= '</div>';
-                $('body').css('overflow','hidden');
-
-                $("body").append(modaldis);
-                jQuery.noConflict();
-                $("#myModal").modal("show");
-                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("users/create") ?>");
-                $("#myModal").on('hidden.bs.modal',function(){
-                    $("#myModal").remove();
+        $("#branch").change(function () {
+            var id1 = this.value;
+            if(id1 != "")
+            {
+                $.get("<?php echo url('getDepartment') ?>/"+id1,function(data){
+                    $("#department").html(data);
                 });
 
-            });
-
-            //Edit class streams
-            $(".userProfile").click(function(){
-                var id1 = $(this).parent().attr('id');
-
-                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
-                modaldis+= '<div class="modal-content">';
-                modaldis+= '<div class="modal-header">';
-                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">User Profile</span>';
-                modaldis+= '</div>';
-                modaldis+= '<div class="modal-body">';
-                modaldis+= ' </div>';
-                modaldis+= '</div>';
-                modaldis+= '</div>';
-                $('body').css('overflow','hidden');
-
-                $("body").append(modaldis);
-                jQuery.noConflict();
-                $("#myModal").modal("show");
-                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("users/show") ?>/"+id1);
-                $("#myModal").on('hidden.bs.modal',function(){
-                    $("#myModal").remove();
-                });
-
-            });
-        } );
-
-
+            }else{$("#department").html("<option value=''>----</option>");}
+        });
     </script>
 
 @stop
@@ -229,22 +172,39 @@
                         <h3 class="text-info"> <strong><i class="fa  fa-user"></i> USER PROFILE FOR <span class="text-danger">{{strtoupper($user->first_name.' '.$user->last_name)}} </span></strong></h3>
                     </header>
                     <div class="panel-body">
-                        {!! Form::open(array('url'=>'register','role'=>'form','id'=>'personalForm')) !!}
-                           <fieldset class="scheduler-border">
-                            <legend class="scheduler-border">Personal details</legend>
+
+                        @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        {!! Form::open(array('url'=>'register','role'=>'form','id'=>'adminUserform')) !!}
+                        <fieldset class="scheduler-border">
+                            <legend class="scheduler-border" style="color:#005DAD">Personal details</legend>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="first_name">First Name</label>
-                                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter First Name" required @if(old('first_name') !="") value="{{old('first_name')}}" @else value="{{$user->first_name}}" @endif>
+                                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter First Name" required autocomplete=off @if(old('first_name') !="")value="{{old('first_name')}}" @else value="{{$user->first_name}}" @endif>
+                                        @if($errors->first('first_name'))
+                                            <label for="first_name" class="error">{{$errors->first('first_name')}}</label>
+                                        @endif
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="first_name">Last Name</label>
-                                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Last Name" required @if(old('last_name') !="") value="{{old('last_name')}}" @else value="{{$user->last_name}}" @endif>
+                                        <label for="last_name">Last Name</label>
+                                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Last Name" required autocomplete=off @if(old('last_name') !="")value="{{old('last_name')}}" @else value="{{$user->last_name}}" @endif>
+                                        @if($errors->first('last_name'))
+                                            <label for="first_name" class="error">{{$errors->first('last_name')}}</label>
+                                        @endif
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="first_name">Other Name</label>
-                                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Other Name">
+                                        <label for="middle_name">Other Name</label>
+                                        <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="Enter Middle Name" @if(old('middle_name') !="")value="{{old('middle_name')}}" @else value="{{$user->middle_name}}" @endif>
                                     </div>
                                 </div>
 
@@ -252,39 +212,144 @@
 
                             <div class="form-group">
                                 <label for="designation">Designation</label>
-                                <input type="text" class="form-control" id="designation " name="designation" placeholder="Enter Designation" required @if(old('designation') !="") value="{{old('designation')}}" @else value="{{$user->designation}}" @endif>
+                                <input type="text" class="form-control" id="designation " name="designation" placeholder="Enter Designation" required @if(old('designation') !="")value="{{old('designation')}}" @else value="{{$user->designation}}" @endif>
+                                @if($errors->first('designation'))
+                                    <label for="first_name" class="error">{{$errors->first('designation')}}</label>
+                                @endif
                                 <p class="help-block">Please enter full details of your designation, do not enter abbreviation.</p>
                             </div>
                             <div class="form-group">
-                                <label for="phone">Mobile Number</label>
-                                <input type="text" class="form-control"  id="phone" name="phone" placeholder="Enter Mobile Number" @if(old('phone') !="") value="{{old('phone')}}" @else value="{{$user->phone}}" @endif>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="phone">Mobile Number</label>
+                                        <input type="text" class="form-control"  id="phone" name="phone" placeholder="Enter Mobile Number" autocomplete=off @if(old('phone') !="") value="{{old('phone')}}" @else value="{{$user->phone}} "@endif>
+                                        @if($errors->first('phone'))
+                                            <label for="first_name" class="error">{{$errors->first('phone')}}</label>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="email">E-Mail</label>
+                                        <input type="email" class="form-control"  id="email" name="email" placeholder="Enter email address" autocomplete=off @if(old('email') !="") value="{{old('email')}}" @else value="{{$user->email}}" @endif>
+                                        @if($errors->first('email'))
+                                            <label for="first_name" class="error">{{$errors->first('email')}}</label>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
-                               <div class="form-group">
-                                   <label for="phone">Email</label>
-                                   <input type="text" class="form-control"  id="phone" name="email" placeholder="Enter email" @if(old('email') !="") value="{{old('email')}}" @else value="{{$user->email}}" @endif>
-                               </div>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="branch">Branch</label>
                                         <select class="form-control"  id="branch" name="branch">
-                                            <option value="">----</option>
                                             <?php $branches=\App\Branch::all();?>
+
+                                            @if(old('branch') !="")
+                                               <?php $branchd=\App\Branch::find(old('branch'));?>
+                                                <option value="{{$branchd->id}}" selected>{{$branchd->branch_Name}}</option>
+                                            @else
+                                                    <?php $branchd=\App\Branch::find($user->branch_id);?>
+                                                    <option value="{{$branchd->id}}" selected>{{$branchd->branch_Name}}</option>
+                                            @endif
+                                                <?php $branches=\App\Branch::all();?>
                                             @foreach($branches as $br)
                                                 <option value="{{$br->id}}">{{$br->branch_Name}}</option>
                                             @endforeach
 
                                         </select>
+                                        @if($errors->first('branch'))
+                                            <label for="branch" class="error">{{$errors->first('branch')}}</label>
+                                        @endif
                                     </div>
                                     <div class="col-md-6">
                                         <label for="department">Department</label>
                                         <select class="form-control"  id="department" name="department">
-                                            <option value="">----</option>
+                                            @if(old('branch') !="")
+                                                <?php $depart=\App\Department::find(old('department'));?>
+                                                <option value="{{$depart->id}}" selected>{{$depart->department_name}}</option>
+                                            @else
+                                                <?php $depart=\App\Department::find($user->department_id);?>
+                                                <option value="{{$depart->id}}" selected>{{$depart->department_name}}</option>
+                                            @endif
                                         </select>
+                                        @if($errors->first('department'))
+                                            <label for="department" class="error">{{$errors->first('department')}}</label>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </fieldset>
+                        <fieldset class="scheduler-border" style="margin-top: 10px;">
+                            <legend class="scheduler-border" style="color:#005DAD">Login Details</legend>
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" id="username " name="username" placeholder="Enter Username" required @if(old('username') !="")value="{{old('username')}}" @else value="{{$user->username}}" @endif>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="Password">Password</label>
+                                        <input type="password" class="form-control"  id="Password" name="Password" placeholder="Enter Password" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="Password">Confirm Password</label>
+                                        <input type="password" class="form-control"  id="password_confirmation" name="password_confirmation" placeholder="Confirm Password" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="scheduler-border" style="margin-top: 10px;">
+                            <legend class="scheduler-border" style="color:#005DAD">User Access Rights</legend>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="right">User Access Level</label>
+                                        <select name="right" class="form-control" id="right">
+
+                                            @if(old('right') !="")
+                                                <?php $right=\App\Right::find(old('department'));?>
+                                                <option value="{{$right->id}}" selected>{{$right->right_name}}</option>
+                                            @else
+                                                <?php $right=\App\Right::find($user->department_id);?>
+                                                <option value="{{$right->id}}" selected>{{$right->right_name}}</option>
+                                            @endif
+                                            <?php
+                                            $rights=\App\Right::where('status','=','enabled')->get(); //Get all user rights
+                                            ?>
+                                            @foreach($rights as $right)
+                                                <option value="{{$right->id}}">{{$right->right_name}}</option>
+                                            @endforeach
+                                            <option value="Active">Active</option>
+                                        </select>
+                                        @if($errors->first('right'))
+                                            <label for="right" class="error">{{$errors->first('right')}}</label>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="status">Status</label>
+                                        <select name="status" class="form-control" id="status">
+                                            @if(old('status') !="")
+
+                                                <option value="{{old('status')}}" selected>{{old('status')}}</option>
+                                            @else
+                                                <option value="{{$user->status}}" selected>{{$user->status}}</option>
+                                            @endif
+                                            <option value="Inactive">Inactive</option>
+                                            <option value="Active">Active</option>
+                                        </select>
+                                        @if($errors->first('status'))
+                                            <label for="status" class="error">{{$errors->first('status')}}</label>
+                                        @endif
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="row">
+                            <div class="col-md-2 pull-right">
+                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                            </div>
+                        </div>
                         {!! Form::close() !!}
                     </div>
                 </section>
