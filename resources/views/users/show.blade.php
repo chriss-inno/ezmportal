@@ -407,22 +407,22 @@
                             </div>
                         </div>
                         <hr/>
-                        <div class="row" style="margin-top: 10px">
+                        <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
                             <div class="col-md-12">
                                 <a href="#" class="personalDetail btn btn-compose btn-block">Personal Details</a>
                             </div>
                         </div>
-                        <div class="row" style="margin-top: 10px">
+                        <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
                             <div class="col-md-12">
                                 <a href="#" class="changeDepartment btn btn-compose btn-block">Change Department</a>
                             </div>
                         </div>
-                        <div class="row" style="margin-top: 10px">
+                        <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
                             <div class="col-md-12">
                                 <a href="#" class="changePassword btn btn-compose btn-block">Change Password</a>
                             </div>
                         </div>
-                        <div class="row" style="margin-top: 10px">
+                        <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
                             <div class="col-md-12">
                                 <a href="#" class="changePassword btn btn-compose btn-block">Access Right</a>
                             </div>
