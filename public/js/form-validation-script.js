@@ -141,18 +141,19 @@ var Script = function () {
                     status: "Please enter module status"
                 }
             });
-        //Validate user login
 
+            //Validate user login
             $("#UserLogin").validate({
                 rules: {
                     username: "required",
-                    password: "required",
-                     },
+                    password: "required"
+                },
                 messages: {
                     username: "Please enter your username",
                     password: "Please enter your password"
                 }
             });
+
         // propose username by combining first- and lastname
         $("#username").focus(function() {
             var firstname = $("#firstname").val();

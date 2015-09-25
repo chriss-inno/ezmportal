@@ -57,30 +57,59 @@
             </div>
 
         </div>
-
+        {!! Form::close() !!}
         <!-- Modal -->
         <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
+                    {!! Form::open(array('url'=>'forgotPassword','role'=>'form','id'=>'forgotPassword')) !!}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title">Forgot Password ?</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Enter your e-mail address below to reset your password.</p>
-                        <input type="text" name="email" placeholder="Email" autocomplete="off" class="form-control placeholder-no-fix">
-
+                        <p><span class="text-center "><h4 class="text-center text-info">Enter your email and user name to reset your account</h4> </span> </p>
+                        <div class="form-group">
+                            <label for="status">Enter your Username</label>
+                            <input type="text" name="username" id="username" placeholder="Username" autocomplete="off" class="form-control placeholder-no-fix" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Enter your e-mail address</label>
+                            <input type="email" name="email" placeholder="Email" autocomplete="off" class="form-control placeholder-no-fix" required>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button data-dismiss="modal" class="btn btn-danger" type="button">Cancel</button>
-                        <button class="btn btn-primary" type="button">Submit</button>
+                        <button class="btn btn-primary" type="submit">Submit</button>
                     </div>
-                </div>
+                    {!! Form::close() !!}
+
+                    {!!HTML::script("js/jquery.validate.min.js" ) !!}
+                    {!!HTML::script("js/respond.min.js"  ) !!}
+                    {!!HTML::script("js/form-validation-script.js") !!}
+                    <script>
+                        //Validate user login
+                        $("#forgotPassword").validate({
+                            rules: {
+                                email: {
+                                    required: true,
+                                    email: true
+                                }
+                            },
+                            messages: {
+                                email: {
+                                    required: "Please provide a password",
+                                    email: "Enter valid email address"
+                                }
+                            }
+                        });
+                    </script>
+                  </div>
             </div>
         </div>
         <!-- modal -->
 
-   {!! Form::close() !!}
+
     </div>
 
 </div>

@@ -266,8 +266,12 @@
                                         <td>{{$issue->sr_number}}</td>
                                         <td>{{$issue->product}}</td>
                                         <td>{{$issue->contact}}</td>
-                                        <td>{{$issue->date_opened}}</td>
-                                        <td>{{$issue->date_closed}}</td>
+                                        <td>{{date('jS F, Y',strtotime($issue->date_opened))}}</td>
+                                        @if($issue->date_closed !="")
+                                        <td>{{date('jS F, Y',strtotime($issue->date_closed))}}</td>
+                                        @else
+                                            <td>Not Closed</td>
+                                            @endif
                                         <td>{{$issue->status}}</td>
                                         <td id="{{$issue->id}}">
                                             <a href="#" class="userProfile btn btn-success btn-xs" title="Update Issue status"><i class="fa fa-pencil"></i> Update </a>

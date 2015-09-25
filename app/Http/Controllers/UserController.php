@@ -195,6 +195,43 @@ class UserController extends Controller
         }
     }
 
+
+    public function forgotPassword(Request $requests)
+    {
+        $email=$requests->email;
+        $username=$requests->username;
+        $user =User::where('email', '=', $email)->where('username','=',$username)->get()->first();
+        if(count($user) > 0)
+        {
+            $password='password'.rand(5, 15);
+            $user->password=bcrypt($password);
+            $user->save();
+            //send email
+
+            //Send email to registered user
+            $data = array(
+                'username' => $username,
+                'password' =>$password,
+                'name' =>   $string = ucwords(strtolower($user->first_name . " " . $user->last_name)) ,
+            );
+
+            \Mail::queue('emails.forgotpassword', $data, function ($message) use($user){
+
+                $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+
+                $message->to($user->email)->subject('Portal registration notification');
+
+            });
+
+            return redirect('login')->with('message', 'You have successful reset your password, new generated password was sent to your email');
+
+
+        }else
+        {
+            return redirect('login')->with('message', 'Password reset failed, invalid email or username');
+        }
+    }
+
     //Register user
     public function registration()
     {
@@ -244,11 +281,11 @@ class UserController extends Controller
                 'user' => $us,
             );
 
-            \Mail::send('emails.newuser', $data1, function ($message) {
+            \Mail::queue('emails.newuser', $data1, function ($message) {
 
                 $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
 
-                $message->to('innocent.christopher@bankm.com')->subject('User Registration Notification');
+                $message->to('support@bankm.com')->subject('User Registration Notification');
 
             });
 
@@ -259,7 +296,7 @@ class UserController extends Controller
                 'name' =>   $string = ucwords(strtolower($request->first_name . " " . $request->last_name)) ,
             );
 
-            \Mail::send('emails.registration', $data, function ($message) use($us){
+            \Mail::queue('emails.registration', $data, function ($message) use($us){
 
                 $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
 

@@ -17,6 +17,9 @@ Route::get('/','UserController@login');
 Route::get('login','UserController@login');
 Route::post('login','UserController@postLogin');
 
+Route::post('forgotPassword','UserController@forgotPassword');
+
+
 
 //User modules
 Route::get('register','UserController@registration');
@@ -77,6 +80,8 @@ Route::post('users/rights',['middleware' => 'auth', 'uses' =>'UserController@pos
 
 Route::get('users/exemption/{id}',['middleware' => 'auth', 'uses' =>'UserController@changeUserExemption']);
 Route::post('users/exemption',['middleware' => 'auth', 'uses' =>'UserController@postChangeUserExemption']);
+
+
 //Query exception
 
 //User rights
