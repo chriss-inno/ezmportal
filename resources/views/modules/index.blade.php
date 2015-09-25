@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Branches
+    Departments
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
@@ -37,15 +37,15 @@
                     });
                 });
             });
-
-            //Edit class streams
-            $(".addBranch").click(function(){
+            //Edit Module
+            $(".editModule").click(function(){
+                var id1 = $(this).parent().attr('id');
                 var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
                 modaldis+= '<div class="modal-content">';
                 modaldis+= '<div class="modal-header">';
                 modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="text-align: center">Update School Class Level</span>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center" style="color: #FFF">Update query module</span>';
                 modaldis+= '</div>';
                 modaldis+= '<div class="modal-body">';
                 modaldis+= ' </div>';
@@ -54,9 +54,37 @@
                 $('body').css('overflow','hidden');
 
                 $("body").append(modaldis);
+                jQuery.noConflict();
                 $("#myModal").modal("show");
                 $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("branches/create") ?>");
+                $(".modal-body").load("<?php echo url("modules") ?>/"+id1+"/edit");
+                $("#myModal").on('hidden.bs.modal',function(){
+                    $("#myModal").remove();
+                })
+
+            })
+            //Create module
+            $(".createModule").click(function(){
+                var id1 = $(this).parent().attr('id');
+                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                modaldis+= '<div class="modal-content">';
+                modaldis+= '<div class="modal-header">';
+                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Create query module</span>';
+                modaldis+= '</div>';
+                modaldis+= '<div class="modal-body">';
+                modaldis+= ' </div>';
+                modaldis+= '</div>';
+                modaldis+= '</div>';
+                $('body').css('overflow','hidden');
+
+                $("body").append(modaldis);
+                jQuery.noConflict();
+                $("#myModal").modal("show");
+                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                $(".modal-body").load("<?php echo url("modules/create") ?>");
                 $("#myModal").on('hidden.bs.modal',function(){
                     $("#myModal").remove();
                 })
@@ -136,7 +164,7 @@
                 <li><a  href="{{url('queries/report')}}" title="View today system status">Queries Reports</a></li>
             </ul>
         </li>
-         <li class="sub-menu">
+        <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
                 <span>Oracle Support Isssues</span>
@@ -146,10 +174,10 @@
                 <li><a  href="{{url('support/oracle/opened')}}" title="Report System/Service problem or issue">Opened Issues</a></li>
                 <li><a  href="{{url('support/oracle/closed')}}" title="View today system status">Closed Issues</a></li>
                 <li><a  href="{{url('support/oracle/history')}}" title="System/services History">Issues History</a></li>
-                 <li><a  href="{{url('support/oracle/report')}}" title="System/services History">Issues Report</a></li>
+                <li><a  href="{{url('support/oracle/report')}}" title="System/services History">Issues Report</a></li>
             </ul>
         </li>
-         <li class="sub-menu">
+        <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
                 <span>System service status</span>
@@ -175,7 +203,7 @@
             </ul>
         </li>
     </ul>
-    @stop
+@stop
 @section('contents')
 
     <section class="site-min-height">
@@ -184,7 +212,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3>List of Query Modules</h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-bars"></i> MANAGE QUERY MODULES</strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="adv-table">
@@ -193,6 +221,8 @@
                                 <tr>
                                     <th>SNO</th>
                                     <th>Module Name</th>
+                                    <th>Branch</th>
+                                    <th>Department</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -203,10 +233,14 @@
                                     <tr>
                                         <td>{{$i++}}</td>
                                         <td>{{$mod->module_name}}</td>
+                                        <td>{{$mod->department->branch->branch_Name}}</td>
+                                        <td>{{$mod->department->department_name}}</td>
                                         <td>{{$mod->status}}</td>
                                         <td id="{{$mod->id}}" align="center">
-                                            <a  href="{{url('module/edit')}}/{{$mod->id}}" title="Edit branch" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                            <a href="#b" title="Delete branch" class="deleteuser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                            <div class="pull-right hidden-phone" id="{{$mod->id}}">
+                                                <a  href="#" title="Edit Module" class="editModule btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                <a href="#b" title="Delete Module" class="deleteModule btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                            </div>
 
                                         </td>
                                     </tr>
@@ -217,6 +251,8 @@
                                 <tr>
                                     <th>SNO</th>
                                     <th>Module Name</th>
+                                    <th>Branch</th>
+                                    <th>Department</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -231,7 +267,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <a href="{{url('modules/create')}}" class="btn btn-compose btn-block">Create New Modules</a>
+                                <a href="#" class="createModule btn btn-compose btn-block">Create New Modules</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">

@@ -187,7 +187,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        List of Departments
+                        <h3 class="text-info"> <strong><i class="fa fa-bars"></i> MANAGE DEPARTMENT</strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="adv-table">

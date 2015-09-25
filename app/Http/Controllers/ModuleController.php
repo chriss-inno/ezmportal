@@ -56,8 +56,8 @@ class ModuleController extends Controller
         $mod->input_by=Auth::user()->username;
         $mod->status=$request->status;
         $mod->save();
-        $modules=Module::all();
-        return view('modules.index',compact('modules'));
+
+       return "<h3 class='text-info'>Module saved successful</h3>";
     }
 
     /**
@@ -82,8 +82,8 @@ class ModuleController extends Controller
     public function edit($id)
     {
         //
-        $mod=Module::find($id);
-        return view('module.edit',compact('mod'));
+        $module=Module::find($id);
+        return view('modules.edit',compact('module'));
     }
 
     /**
@@ -97,8 +97,13 @@ class ModuleController extends Controller
     {
         //
         $mod= Module::find($id);
+        $mod->department_id=$request->department;
+        $mod->module_name=$request->module_name;
+        $mod->description=$request->description;
+        $mod->input_by=Auth::user()->username;
+        $mod->status=$request->status;
         $mod->save();
-        return redirect('modules');
+        return "<h3 class='text-info'>Module saved successful</h3>";
     }
 
     /**
