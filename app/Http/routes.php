@@ -65,6 +65,18 @@ Route::post('users/query',['middleware' => 'auth', 'uses' =>'UserController@post
 
 Route::get('users/personal/{id}',['middleware' => 'auth', 'uses' =>'UserController@userPersonal']);
 Route::post('users/personal',['middleware' => 'auth', 'uses' =>'UserController@postUserPersonal']);
+
+Route::get('users/department/{id}',['middleware' => 'auth', 'uses' =>'UserController@userDepartment']);
+Route::post('users/department',['middleware' => 'auth', 'uses' =>'UserController@postUserDepartment']);
+
+Route::get('users/password/{id}',['middleware' => 'auth', 'uses' =>'UserController@userPassword']);
+Route::post('users/password',['middleware' => 'auth', 'uses' =>'UserController@postUserPassword']);
+
+Route::get('users/rights/{id}',['middleware' => 'auth', 'uses' =>'UserController@changeUserRights']);
+Route::post('users/rights',['middleware' => 'auth', 'uses' =>'UserController@postChangeUserRights']);
+
+Route::get('users/exemption/{id}',['middleware' => 'auth', 'uses' =>'UserController@changeUserExemption']);
+Route::post('users/exemption',['middleware' => 'auth', 'uses' =>'UserController@postChangeUserExemption']);
 //Query exception
 
 //User rights

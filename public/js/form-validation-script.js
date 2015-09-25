@@ -1,6 +1,5 @@
 var Script = function () {
         $().ready(function() {
-            //Callback handler for form submit event
 
             // validate the comment form when it is submitted
         $("#commentForm").validate();

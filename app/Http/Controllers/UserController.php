@@ -13,6 +13,7 @@ use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserRegistrationRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Right;
+use App\UserModules;
 
 class UserController extends Controller
 {
@@ -321,7 +322,20 @@ class UserController extends Controller
 
     public function postUserQuery(Request $request)
     {
-        $user=User::find($request->id);
+
+        $usm=UserModules::where('user_id','=',$request->user_id)->delete(); //Remove all previous assigned
+
+        if($request->module != null && $request->module !="")
+        {
+            foreach($request->module as $module)
+            {
+                $usmod=new UserModules;
+                $usmod->user_id=$request->user_id;
+                $usmod->module_id=$module;
+                $usmod->input_by=Auth::user()->username;
+                $usmod->save();
+            }
+        }
 
         return "Data saved successfully";
     }
@@ -332,13 +346,84 @@ class UserController extends Controller
         return view('users.personal',compact('user'));
     }
 
-    public function postuserPersonal(Request $request)
+    public function postUserPersonal(Request $request)
     {
-        $user=User::find($request->id);
+        $us=User::find($request->user_id);
+        $us->first_name = ucwords($request->first_name);
+        $us->last_name = ucwords($request->last_name);
+        $us->designation = ucwords($request->designation);
+        $us->phone = $request->phone;
+        $us->input_by=Auth::user()->username;;
+        $us->email = $request->email;
+        $us->save();
+
+        return "Data saved successfully";
+    }
+    public function userDepartment($id)
+    {
+        $user=User::find($id);
+        return view('users.department',compact('user'));
+    }
+
+    public function postUserDepartment(Request $request)
+    {
+        $user=User::find($request->user_id);
+        $user->branch_id=$request->branch;
+        $user->department_id=$request->department;
+        $user->save();
 
         return "Data saved successfully";
     }
 
+    public function userPassword($id)
+    {
+        $user=User::find($id);
+        return view('users.password',compact('user'));
+    }
+
+    public function postUserPassword(Request $request)
+    {
+        $user=User::find($request->user_id);
+        $user->password=bcrypt($request->Password);
+        $user->save();
+
+        return "Data saved successfully";
+    }
+
+    public function changeUserRights($id)
+    {
+        $user=User::find($id);
+        return view('users.rights',compact('user'));
+    }
+
+    public function postChangeUserRights(Request $request)
+    {
+        $user=User::find($request->user_id);
+        $user->right_id=$request->right;
+        $user->status=$request->status;
+        $user->save();
+
+        return "Data saved successfully";
+    }
+
+    public function changeUserExemption($id)
+    {
+        $user=User::find($id);
+        return view('users.queryexemption',compact('user'));
+    }
+
+    public function postChangeUserExemption(Request $request)
+    {
+        $user=User::find($request->user_id);
+        $user->query_exemption=$request->query_exemption;
+        $user->exemption_type=ucwords(strtolower($request->exemption_type));
+        $user->query_description=$request->query_description;
+        $user->exemption_start_date=$request->exemption_start_date;
+        $user->exemption_end_date=$request->exemption_end_date;
+        $user->save();
+
+        return "Data saved successfully";
+    }
 
 
 }

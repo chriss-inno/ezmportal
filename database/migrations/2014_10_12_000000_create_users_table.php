@@ -34,9 +34,11 @@ class CreateUsersTable extends Migration
             $table->integer('login_attempt')->nullable();
             $table->integer('locked');
             $table->integer('block');
-            $table->string('on_leave',3)->default('No');
-            $table->dateTime('leave_stat_date')->nullable();
-            $table->dateTime('leave_end_date')->nullable();
+            $table->string('query_exemption',3)->default('No');
+            $table->string('exemption_type')->nullable();
+            $table->string('query_description')->nullable();
+            $table->date('exemption_start_date')->nullable();
+            $table->date('exemption_end_date')->nullable();
             $table->string('profile_image')->nullable();
             $table->string('input_by');
             $table->string('auth_by');

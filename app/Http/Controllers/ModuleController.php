@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Module;
 use App\Http\Requests\ModuleRequest;
 use Illuminate\Support\Facades\Auth;
+use App\UserModules;
 
 class ModuleController extends Controller
 {
@@ -110,5 +111,13 @@ class ModuleController extends Controller
     {
         //
         $mod= Module::find($id)->delete();
+    }
+
+    //Check for assigne modules
+    public static function checkAccess($user_id,$module)
+    {
+        $usr=UserModules::where('user_id','=',$user_id)->where('module_id','=',$module)->get();
+        if(count($usr)>0) {
+            return true;} else {return false;}
     }
 }

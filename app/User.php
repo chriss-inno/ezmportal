@@ -44,4 +44,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $this::belongsTo('\App\Branch','branch_id');
     }
+    public function module()
+    {
+        return $this::hasMany('\App\UserModules','user_id','id');
+    }
 }

@@ -10,11 +10,36 @@
     {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
     {!!HTML::script("js/jquery.scrollTo.min.js") !!}
     {!!HTML::script("js/jquery.nicescroll.js") !!}
-    {!!HTML::script("js/jquery.validate.min.js" ) !!}
     {!!HTML::script("js/respond.min.js"  ) !!}
-    {!!HTML::script("js/form-validation-script.js") !!}
-
     <script type="text/javascript" charset="utf-8">
+
+
+        //Edit class streams
+        $(".queryModules").click(function(){
+            var id1 = $(this).parent().parent().attr('id');
+            var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+            modal+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+            modal+= '<div class="modal-content">';
+            modal+= '<div class="modal-header">';
+            modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+            modal+= '<span id="myModalLabel" class="h2 modal-title text-center" style="text-align: center; color: #FFF;">User Query Module Assignment</span>';
+            modal+= '</div>';
+            modal+= '<div class="modal-body">';
+            modal+= ' </div>';
+            modal+= '</div>';
+            modal+= '</div>';
+            $('body').css('overflow','hidden');
+
+            $("body").append(modal);
+            $("#myModal").modal("show");
+            $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+            $(".modal-body").load("<?php echo url("users/query/") ?>/"+id1);
+            $("#myModal").on('hidden.bs.modal',function(){
+                $("#myModal").remove();
+            })
+
+        });
+
         //Edit class streams
         $(".queryExemption").click(function(){
             var id1 = $(this).parent().parent().attr('id');
@@ -34,7 +59,7 @@
             $("body").append(modal);
             $("#myModal").modal("show");
             $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-            $(".modal-body").load("<?php echo url("users/query/") ?>/"+id1);
+            $(".modal-body").load("<?php echo url("users/exemption") ?>/"+id1);
             $("#myModal").on('hidden.bs.modal',function(){
                 $("#myModal").remove();
             })
@@ -49,7 +74,7 @@
             modal+= '<div class="modal-content">';
             modal+= '<div class="modal-header">';
             modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-            modal+= '<span id="myModalLabel" class="h2 modal-title text-center" style="text-align: center; color: #FFF;">User Personal Details</span>';
+            modal+= '<span id="myModalLabel" class="h2 modal-title text-center" style="text-align: center; color: #FFF;"><i class="fa  fa-user"></i> User Personal Details</span>';
             modal+= '</div>';
             modal+= '<div class="modal-body">';
             modal+= ' </div>';
@@ -66,17 +91,83 @@
             })
 
         });
+        //Department detail
+        $(".changeDepartment").click(function(){
+            var id1 = $(this).parent().parent().attr('id');
+            var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+            modal+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+            modal+= '<div class="modal-content">';
+            modal+= '<div class="modal-header">';
+            modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+            modal+= '<span id="myModalLabel" class="h2 modal-title text-center" style="text-align: center; color: #FFF;"><i class="fa  fa-user"></i> User Department Details</span>';
+            modal+= '</div>';
+            modal+= '<div class="modal-body">';
+            modal+= ' </div>';
+            modal+= '</div>';
+            modal+= '</div>';
+            $('body').css('overflow','hidden');
 
-        $("#branch").change(function () {
-            var id1 = this.value;
-            if(id1 != "")
-            {
-                $.get("<?php echo url('getDepartment') ?>/"+id1,function(data){
-                    $("#department").html(data);
-                });
+            $("body").append(modal);
+            $("#myModal").modal("show");
+            $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+            $(".modal-body").load("<?php echo url("users/department") ?>/"+id1);
+            $("#myModal").on('hidden.bs.modal',function(){
+                $("#myModal").remove();
+            })
 
-            }else{$("#department").html("<option value=''>----</option>");}
         });
+        //changePassword detail
+        $(".changePassword").click(function(){
+            var id1 = $(this).parent().parent().attr('id');
+            var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+            modal+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+            modal+= '<div class="modal-content">';
+            modal+= '<div class="modal-header">';
+            modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+            modal+= '<span id="myModalLabel" class="h2 modal-title text-center" style="text-align: center; color: #FFF;"><i class="fa  fa-user"></i> User Password Changes</span>';
+            modal+= '</div>';
+            modal+= '<div class="modal-body">';
+            modal+= ' </div>';
+            modal+= '</div>';
+            modal+= '</div>';
+            $('body').css('overflow','hidden');
+
+            $("body").append(modal);
+            $("#myModal").modal("show");
+            $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+            $(".modal-body").load("<?php echo url("users/password") ?>/"+id1);
+            $("#myModal").on('hidden.bs.modal',function(){
+                $("#myModal").remove();
+            })
+
+        });
+
+        //changePassword detail
+        $(".changeRights").click(function(){
+            var id1 = $(this).parent().parent().attr('id');
+            var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+            modal+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+            modal+= '<div class="modal-content">';
+            modal+= '<div class="modal-header">';
+            modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+            modal+= '<span id="myModalLabel" class="h2 modal-title text-center" style="text-align: center; color: #FFF;"><i class="fa  fa-user"></i> User Rights Details</span>';
+            modal+= '</div>';
+            modal+= '<div class="modal-body">';
+            modal+= ' </div>';
+            modal+= '</div>';
+            modal+= '</div>';
+            $('body').css('overflow','hidden');
+
+            $("body").append(modal);
+            $("#myModal").modal("show");
+            $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+            $(".modal-body").load("<?php echo url("users/rights") ?>/"+id1);
+            $("#myModal").on('hidden.bs.modal',function(){
+                $("#myModal").remove();
+            })
+
+        });
+
     </script>
 
 @stop
@@ -210,7 +301,6 @@
                             </div>
                         @endif
 
-                        {!! Form::open(array('url'=>'users/edit','role'=>'form','id'=>'adminUserDetailForm')) !!}
                         <fieldset class="scheduler-border">
                             <legend class="scheduler-border" style="color:#005DAD">Personal details</legend>
                             <div class="form-group">
@@ -263,16 +353,16 @@
                                     </div>
                                 </div>
                             </div>
-                            {!! Form::close() !!}
+
                             </fieldset>
-                            {!! Form::open(array('url'=>'users/edit','role'=>'form','id'=>'adminDepartmentForm')) !!}
+
                             <fieldset class="scheduler-border">
                                 <legend class="scheduler-border" style="color:#005DAD">Department details</legend>
                                 <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label for="branch">Branch</label>
-                                        <select class="form-control"  id="branch" name="branch" disabled>
+                                        <label for="branchusr">Branch</label>
+                                        <select class="form-control"  id="branchusr" name="branchusr" disabled>
                                             <?php $branches=\App\Branch::all();?>
 
                                             @if(old('branch') !="")
@@ -288,13 +378,13 @@
                                             @endforeach
 
                                         </select>
-                                        @if($errors->first('branch'))
-                                            <label for="branch" class="error">{{$errors->first('branch')}}</label>
+                                        @if($errors->first('branchusr'))
+                                            <label for="branchusr" class="error">{{$errors->first('branchusr')}}</label>
                                         @endif
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="department">Department</label>
-                                        <select class="form-control"  id="department" name="department" disabled>
+                                        <label for="departmentUsr">Department</label>
+                                        <select class="form-control"  id="departmentUsr" name="departmentUsr" disabled>
                                             @if(old('branch') !="")
                                                 <?php $depart=\App\Department::find(old('department'));?>
                                                 <option value="{{$depart->id}}" selected>{{$depart->department_name}}</option>
@@ -303,16 +393,15 @@
                                                 <option value="{{$depart->id}}" selected>{{$depart->department_name}}</option>
                                             @endif
                                         </select>
-                                        @if($errors->first('department'))
-                                            <label for="department" class="error">{{$errors->first('department')}}</label>
+                                        @if($errors->first('departmentUsr'))
+                                            <label for="department" class="error">{{$errors->first('departmentUsr')}}</label>
                                         @endif
                                     </div>
                                 </div>
                             </div>
 
                             </fieldset>
-                                {!! Form::close() !!}
-                            {!! Form::open(array('url'=>'users/edit','role'=>'form','id'=>'adminLoginForm')) !!}
+
                         <fieldset class="scheduler-border" style="margin-top: 10px;">
                             <legend class="scheduler-border" style="color:#005DAD">Login Details</legend>
                             <div class="form-group">
@@ -333,8 +422,7 @@
                                 </div>
                             </div>
                         </fieldset>
-                            {!! Form::close() !!}
-                            {!! Form::open(array('url'=>'users/edit','role'=>'form','id'=>'adminLoginForm')) !!}
+
                         <fieldset class="scheduler-border" style="margin-top: 10px;">
                             <legend class="scheduler-border" style="color:#005DAD">User Access Rights</legend>
                             <div class="form-group">
@@ -382,7 +470,6 @@
                                 </div>
                             </div>
                         </fieldset>
-                            {!! Form::close() !!}
 
 
                     </div>
@@ -409,27 +496,32 @@
                         <hr/>
                         <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
                             <div class="col-md-12">
-                                <a href="#" class="personalDetail btn btn-compose btn-block">Personal Details</a>
+                                <a href="#" class="personalDetail btn btn-primary btn-block"><i class="fa  fa-user"></i> Personal Details</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
                             <div class="col-md-12">
-                                <a href="#" class="changeDepartment btn btn-compose btn-block">Change Department</a>
+                                <a href="#" class="changeDepartment btn btn-primary btn-block"><i class="fa fa-building-o"></i> Change Department</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
                             <div class="col-md-12">
-                                <a href="#" class="changePassword btn btn-compose btn-block">Change Password</a>
+                                <a href="#" class="changePassword btn btn-primary btn-block"><i class="fa fa-asterisk"></i><i class="fa  fa-asterisk"></i> Change Password</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
                             <div class="col-md-12">
-                                <a href="#" class="changePassword btn btn-compose btn-block">Access Right</a>
+                                <a href="#" class="changeRights btn btn-primary btn-block"><i class="fa fa-gavel"></i> Access Right</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
                             <div class="col-md-12">
-                                <a href="#" class="queryExemption btn btn-compose btn-block">Query Exemption</a>
+                                <a href="#" class="queryModules btn btn-primary btn-block"><i class="fa fa-pencil"></i> Query Module Assignment</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
+                            <div class="col-md-12">
+                                <a href="#" class="queryExemption btn btn-primary btn-block"><i class="fa fa-cog"></i> Query Exemption</a>
                             </div>
                         </div>
                     </div>
