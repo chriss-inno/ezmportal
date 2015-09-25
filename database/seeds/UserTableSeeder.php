@@ -16,18 +16,41 @@ class UserTableSeeder extends Seeder
     {
         //
         //Enter user right
-        Right::trancate();
+        Right::truncate();
         $right=new Right;
         $right->status='enabled';
-        $right->description='Normal User';
-        $right->right_name='Normal User';
+        $right->description='Portal Administrator';
+        $right->right_name='Administrator';
         $right->input_by='System';
         $right->save();
 
-        UserRight::trancate();
+        $right1=new Right;
+        $right1->status='enabled';
+        $right1->description='Normal User';
+        $right1->right_name='Normal User';
+        $right1->input_by='System';
+        $right1->save();
+
+        UserRight::truncate();
         $modules=array('Reports','Photo Galley','Downloads','Queries and Task');
         $count=0;
         foreach($modules as $module)
+        {
+            $count++;
+            $userRight =new UserRight;
+            $userRight->right_id=$right1->id;
+            $userRight->module=$count;
+            $userRight->viw=1;
+            $userRight->edi=1;
+            $userRight->del=1;
+            $userRight->inp=1;
+            $userRight->aut=0;
+            $userRight->save();
+        }
+
+        $modules1=array('Reports','Photo Galley','Downloads','COPS Issues Tracking','CMF Reports','Money Msafiri','Human Resource','Queries and Task','System service status','Portal Administration');
+        $count=1;
+        foreach($modules1 as $module)
         {
             $count++;
             $userRight =new UserRight;
@@ -52,6 +75,8 @@ class UserTableSeeder extends Seeder
         $us->branch_id=1;
         $us->user_type='Administrator';
         $us->password=bcrypt('admin');
+        $us->status='Active';
+        $us->right_id=1;
         $us->save();
 
 

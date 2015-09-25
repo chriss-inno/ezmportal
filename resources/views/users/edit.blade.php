@@ -169,7 +169,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa  fa-user"></i> USER PROFILE FOR <span class="text-danger">{{strtoupper($user->first_name.' '.$user->last_name)}} </span></strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa  fa-user"></i> USER DETAILS FOR <span class="text-danger">{{strtoupper($user->first_name.' '.$user->last_name)}} </span></strong></h3>
                     </header>
                     <div class="panel-body">
 
@@ -183,7 +183,7 @@
                             </div>
                         @endif
 
-                        {!! Form::open(array('url'=>'register','role'=>'form','id'=>'adminUserform')) !!}
+                        {!! Form::open(array('url'=>'users/edit','role'=>'form','id'=>'adminUserform')) !!}
                         <fieldset class="scheduler-border">
                             <legend class="scheduler-border" style="color:#005DAD">Personal details</legend>
                             <div class="form-group">
@@ -282,20 +282,21 @@
                             <legend class="scheduler-border" style="color:#005DAD">Login Details</legend>
                             <div class="form-group">
                                 <label for="username">Username</label>
-                                <input type="text" class="form-control" id="username " name="username" placeholder="Enter Username" required @if(old('username') !="")value="{{old('username')}}" @else value="{{$user->username}}" @endif>
+                                <input type="text" class="form-control" id="username " name="username" placeholder="Enter Username" required @if(old('username') !="")value="{{old('username')}}" @else value="{{$user->username}}" @endif readonly>
 
                             </div>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="Password">Password</label>
-                                        <input type="password" class="form-control"  id="Password" name="Password" placeholder="Enter Password" required>
+                                        <input type="password" class="form-control"  id="Password" name="Password" placeholder="Enter Password" >
                                     </div>
                                     <div class="col-md-6">
                                         <label for="Password">Confirm Password</label>
-                                        <input type="password" class="form-control"  id="password_confirmation" name="password_confirmation" placeholder="Confirm Password" required>
+                                        <input type="password" class="form-control"  id="password_confirmation" name="password_confirmation" placeholder="Confirm Password" >
                                     </div>
                                 </div>
+                                <p class="help-block"><input type="checkbox" value="changepass" name="changePass" id="changePass" >Please tick here if you want to change password.</p>
                             </div>
                         </fieldset>
                         <fieldset class="scheduler-border" style="margin-top: 10px;">

@@ -57,6 +57,15 @@ Route::get('users/edit/{id}',['middleware' => 'auth', 'uses' =>'UserController@e
 Route::post('users/edit',['middleware' => 'auth', 'uses' =>'UserController@update']);
 Route::get('users/remove/{id}',['middleware' => 'auth', 'uses' =>'UserController@destroy']);
 Route::get('users/show/{id}',['middleware' => 'auth', 'uses' =>'UserController@show']);
+Route::get('users/query/{id}',['middleware' => 'auth', 'uses' =>'UserController@userQuery']);
+Route::post('users/query',['middleware' => 'auth', 'uses' =>'UserController@postUserQuery']);
+
+Route::get('users/query/{id}',['middleware' => 'auth', 'uses' =>'UserController@userQuery']);
+Route::post('users/query',['middleware' => 'auth', 'uses' =>'UserController@postUserQuery']);
+
+Route::get('users/personal/{id}',['middleware' => 'auth', 'uses' =>'UserController@userPersonal']);
+Route::post('users/personal',['middleware' => 'auth', 'uses' =>'UserController@postUserPersonal']);
+//Query exception
 
 //User rights
 Route::get('users/rights/reports',['middleware' => 'auth', 'uses' =>'RightsController@index']);

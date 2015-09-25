@@ -11,6 +11,7 @@ use App\User;
 use App\Branch;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserRegistrationRequest;
+use App\Http\Requests\UserEditRequest;
 use App\Right;
 
 class UserController extends Controller
@@ -116,10 +117,44 @@ class UserController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(UserEditRequest $request, $id)
     {
         //
         $user=User::find($id);
+        $user->first_name=$request->first_name;
+        $user->middle_name=$request->middle_name;
+        $user->last_name=$request->last_name;
+        $user->designation=$request->designation;
+        $user->email=$request->email;
+        $user->phone=$request->phone;
+
+        //Check request for changing password
+        if($request->changepass ==="changepass" )
+        {
+            $user->password=bcrypt($request->Password);
+        }
+        $user->right_id=$request->right;
+        $user->branch_id=$request->branch;
+        $user->department_id=$request->department;
+        $user->status=$request->status;
+        $user->input_by=Auth::user()->username;;
+        $user->save();
+
+        //Send email to registered user
+        $data = array(
+            'username' => $user->username,
+            'password' => $request->Password,
+            'name' =>   $string = ucwords(strtolower($user->first_name . " " . $user->last_name)) ,
+        );
+
+        \Mail::queue('emails.registration', $data, function ($message) use ($user){
+
+            $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+
+            $message->to($user->email)->subject('Portal user information update notification');
+
+        });
+        return redirect('users');
     }
 
     /**
@@ -278,6 +313,32 @@ class UserController extends Controller
             return redirect()->back()->with('message', 'Login Failed,Invalid username or password');
         }
     }
+    public function userQuery($id)
+    {
+        $user=User::find($id);
+        return view('users.query',compact('user'));
+    }
+
+    public function postUserQuery(Request $request)
+    {
+        $user=User::find($request->id);
+
+        return "Data saved successfully";
+    }
+
+    public function userPersonal($id)
+    {
+        $user=User::find($id);
+        return view('users.personal',compact('user'));
+    }
+
+    public function postuserPersonal(Request $request)
+    {
+        $user=User::find($request->id);
+
+        return "Data saved successfully";
+    }
+
 
 
 }
