@@ -68,18 +68,37 @@ class QueryController extends Controller
 
 
         //Auto resign
-        //Check for users with no exemption
-        $users=User::where('department_id','=',$query->to_department) ->where('query_exemption','=','No')->get();
+        //Check for users with no exemption and assigned to logged module
+       // $users=DB::select(DB::raw("SELECT A.id user_id FROM prt_users A INNER JOIN prt_user_modules B ON(A.id=B.user_id)
+                                // WHERE A.query_exemption ='No' AND module_id='".$query->module_id."'"));
 
-        //Get users assigned for this module
-        $usersModule=UserModules::where('module_id','=', $query->module_id)->get();
-       // $usersModule= DB::select(DB::raw("SELECT distinct(A.id) FROM prt_users A,prt_user_modules B WHERE A.id=B.user_id AND A.query_exemption ='No' AND B.module_id='".$query->module_id."'"))->get();
+        $users = \DB::table('users')->join('user_modules','users.id','=','user_modules.user_id')
+                   ->select('users.id')
+                   ->where('users.query_exemption','=','No')
+                   ->where('user_modules.module_id','=',$query->module_id)
+                   ->lists('users.id');
 
-        if(count($usersModule) >0)
+        //Check if the these user are assigned query for today
+
+        $today=date("Y-m-d");
+
+        $assignment =QueryAssignment::whereIn('user_id',$users)->where('assigned_date','=',$today)->get();
+
+        if(count($assignment) >0) // if no user wa assigned then choose the first user
+        {
+
+        }
+        else
+        {
+
+        }
+
+        /*
+        if(count($users) >0)
         {
 
 
-            foreach($usersModule as $usMod)
+            foreach($users as $usMod)
             {
 
                 if($usMod->user->query_exemption =="No")
@@ -106,6 +125,7 @@ class QueryController extends Controller
 
         }
         return redirect('queries/progress');
+        */
     }
 
     /**

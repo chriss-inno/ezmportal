@@ -1,0 +1,10 @@
+SELECT `user_id` ,count(user_id) as total FROM `prt_query_assignments` 
+WHERE user_id IN(SELECT DISTINCT(A.id) user_id FROM prt_users A INNER JOIN prt_user_modules B ON(A.id=B.user_id)
+                 WHERE A.query_exemption ='No' AND B. ) Group by user_id order by total asc
+
+
+
+
+SELECT `user_id` ,count(user_id) as total FROM `prt_query_assignments` 
+WHERE user_id IN(SELECT DISTINCT(A.id) user_id FROM prt_users A INNER JOIN prt_user_modules B ON(A.id=B.user_id)
+                 WHERE A.query_exemption ='No' AND B.module_id='' ) Group by user_id order by total asc
