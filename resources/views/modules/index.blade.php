@@ -21,18 +21,18 @@
                 "aaSorting": [[ 4, "desc" ]]
             } );
 
-            $(".deleteuser").click(function(){
+            $(".deleteModule").click(function(){
                 var id1 = $(this).parent().attr('id');
-                $(".deleteuser").show("slow").parent().parent().find("span").remove();
+                $(".deleteModule").show("slow").parent().parent().find("span").remove();
                 var btn = $(this).parent().parent();
                 $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
                 $("#no").click(function(){
-                    $(this).parent().parent().find(".deleteuser").show("slow");
+                    $(this).parent().parent().find(".deleteModule").show("slow");
                     $(this).parent().parent().find("span").remove();
                 });
                 $("#yes").click(function(){
                     $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                    $.get("<?php echo url('branches/remove') ?>/"+id1,function(data){
+                    $.get("<?php echo url('modules-remove') ?>/"+id1,function(data){
                         btn.hide("slow").next("hr").hide("slow");
                     });
                 });
@@ -187,6 +187,18 @@
                 <li><a  href="{{url('services')}}" title="Report System/Service problem or issue">Services</a></li>
                 <li><a  href="{{url('serviceslogs/today')}}" title="View today system status">Today Status</a></li>
                 <li><a  href="{{url('serviceslogs')}}" title="System/services History">Status History</a></li>
+            </ul>
+        </li>
+         <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-laptop"></i>
+                <span>ICT Inventory</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('types')}}" title="Report System/Service problem or issue">Item types</a></li>
+                <li><a  href="{{url('inventory')}}" title="Report System/Service problem or issue">Inventory Items</a></li>
+                <li><a  href="{{url('inventory-reports')}}" title="View today system status">Inventory Reports</a></li>
+            
             </ul>
         </li>
         <li class="sub-menu">

@@ -107,13 +107,17 @@ Route::get('support/oracle/report',['middleware' => 'auth', 'uses' =>'OracleSupp
 
 //Modules
 Route::resource('modules','ModuleController');
+Route::get('modules-remove/{id}',['middleware' => 'auth', 'uses' =>'ModuleController@destroy']);
 
 //Inventory
 Route::resource('inventory','InventoryController');
 Route::get('inventory-reports',['middleware' => 'auth', 'uses' =>'InventoryController@reports']);
+Route::get('inventory-remove/{id}',['middleware' => 'auth', 'uses' =>'InventoryController@destroy']);
 
 //Inventory type
 Route::resource('types','InventoryTypeController');
+Route::get('types-remove/{id}',['middleware' => 'auth', 'uses' =>'InventoryTypeController@destroy']);
+
 
 //Units controller
 Route::get('units/{id}',['middleware' => 'auth', 'uses' =>'UnitController@index']);

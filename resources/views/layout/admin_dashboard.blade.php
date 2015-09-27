@@ -103,7 +103,7 @@
                 <li><a  href="{{url('serviceslogs')}}" title="System/services History">Status History</a></li>
             </ul>
         </li>
-        <li class="sub-menu">
+         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
                 <span>ICT Inventory</span>

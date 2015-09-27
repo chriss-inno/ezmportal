@@ -11,4 +11,12 @@ class Inventory extends Model
     {
         return $this::belongsTo('\App\InventoryType','type_id');
     }
+    public function branch()
+    {
+        return $this::belongsTo('\App\Branch','branch_id');
+    }
+    public function department()
+    {
+        return $this::belongsTo('\App\Department','department_id');
+    }
 }

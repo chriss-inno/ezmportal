@@ -107,6 +107,8 @@
                             console.log(data);
                             setTimeout(function() {
                                 $("#output").html("");
+                                jQuery.noConflict();
+                                $("#myModal").modal("hide");
                             }, 2000);
                         },
                         error: function(data)

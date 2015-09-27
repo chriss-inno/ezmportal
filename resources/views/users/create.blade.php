@@ -146,6 +146,18 @@
                 <li><a  href="{{url('serviceslogs')}}" title="System/services History">Status History</a></li>
             </ul>
         </li>
+         <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-laptop"></i>
+                <span>ICT Inventory</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('types')}}" title="Report System/Service problem or issue">Item types</a></li>
+                <li><a  href="{{url('inventory')}}" title="Report System/Service problem or issue">Inventory Items</a></li>
+                <li><a  href="{{url('inventory-reports')}}" title="View today system status">Inventory Reports</a></li>
+            
+            </ul>
+        </li>
         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-cogs"></i>

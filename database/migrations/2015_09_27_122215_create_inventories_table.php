@@ -23,7 +23,7 @@ class CreateInventoriesTable extends Migration
             $table->string('usb')->nullable();
             $table->string('antivirus')->nullable();
             $table->string('description')->nullable();
-            $table->integer('department_id');
+            $table->integer('department_id')->nullable();
             $table->integer('branch_id');
             $table->string('status');
             $table->string('input_by');

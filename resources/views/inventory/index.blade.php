@@ -32,7 +32,7 @@
                 });
                 $("#yes").click(function(){
                     $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                    $.get("<?php echo url('branches/remove') ?>/"+id1,function(data){
+                    $.get("<?php echo url('inventory-remove') ?>/"+id1,function(data){
                         btn.hide("slow").next("hr").hide("slow");
                     });
                 });
@@ -68,11 +68,11 @@
                 var id1 = $(this).parent().attr('id');
                 var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
-                modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
                 modaldis+= '<div class="modal-content">';
                 modaldis+= '<div class="modal-header">';
                 modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Create Item </span>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">New Inventory Item </span>';
                 modaldis+= '</div>';
                 modaldis+= '<div class="modal-body">';
                 modaldis+= ' </div>';
@@ -96,7 +96,7 @@
                 var id1 = $(this).parent().attr('id');
                 var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
-                modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
                 modaldis+= '<div class="modal-content">';
                 modaldis+= '<div class="modal-header">';
                 modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
@@ -112,7 +112,7 @@
                 jQuery.noConflict();
                 $("#myModal").modal("show");
                 $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("inventory/create") ?>");
+                $(".modal-body").load("<?php echo url("inventory") ?>/"+id1);
                 $("#myModal").on('hidden.bs.modal',function(){
                     $("#myModal").remove();
                 })
@@ -217,6 +217,18 @@
                 <li><a  href="{{url('serviceslogs')}}" title="System/services History">Status History</a></li>
             </ul>
         </li>
+         <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-laptop"></i>
+                <span>ICT Inventory</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('types')}}" title="Report System/Service problem or issue">Item types</a></li>
+                <li><a  href="{{url('inventory')}}" title="Report System/Service problem or issue">Inventory Items</a></li>
+                <li><a  href="{{url('inventory-reports')}}" title="View today system status">Inventory Reports</a></li>
+            
+            </ul>
+        </li>
         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-cogs"></i>
@@ -251,11 +263,11 @@
                                     <th>Item Name</th>
                                     <th>IP Address</th>
                                     <th>Item Type</th>
-                                    <th>user_name</th>
-                                    <th>machine_model</th>
-                                    <th>serial_number</th>
-                                    <th>usb</th>
-                                    <th>antivirus</th>
+                                    <th>Username</th>
+                                    <th>Machine Model</th>
+                                    <th>Serial number</th>
+                                    <th>USB</th>
+                                    <th>Antivirus</th>
                                     <th>Details</th>
                                     <th>Action</th>
                                 </tr>
@@ -292,15 +304,16 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
+
                                     <th>SNO</th>
                                     <th>Item Name</th>
                                     <th>IP Address</th>
                                     <th>Item Type</th>
-                                    <th>user_name</th>
-                                    <th>machine_model</th>
-                                    <th>serial_number</th>
-                                    <th>usb</th>
-                                    <th>antivirus</th>
+                                    <th>Username</th>
+                                    <th>Machine Model</th>
+                                    <th>Serial number</th>
+                                    <th>USB</th>
+                                    <th>Antivirus</th>
                                     <th>Details</th>
                                     <th>Action</th>
                                 </tr>
@@ -326,6 +339,11 @@
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
                                 <a href="{{url('inventory-reports')}}" class="btn btn-compose btn-block">Inventory Reports</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-md-12">
+                                <a href="{{url('types')}}" class="btn btn-primary btn-block">List Item Types</a>
                             </div>
                         </div>
                     </div>

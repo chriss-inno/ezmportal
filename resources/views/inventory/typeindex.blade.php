@@ -32,7 +32,7 @@
                 });
                 $("#yes").click(function(){
                     $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                    $.get("<?php echo url('branches/remove') ?>/"+id1,function(data){
+                    $.get("<?php echo url('types-remove') ?>/"+id1,function(data){
                         btn.hide("slow").next("hr").hide("slow");
                     });
                 });
@@ -217,6 +217,18 @@
                 <li><a  href="{{url('serviceslogs')}}" title="System/services History">Status History</a></li>
             </ul>
         </li>
+         <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-laptop"></i>
+                <span>ICT Inventory</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('types')}}" title="Report System/Service problem or issue">Item types</a></li>
+                <li><a  href="{{url('inventory')}}" title="Report System/Service problem or issue">Inventory Items</a></li>
+                <li><a  href="{{url('inventory-reports')}}" title="View today system status">Inventory Reports</a></li>
+            
+            </ul>
+        </li>
         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-cogs"></i>
@@ -289,17 +301,22 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <a href="#" class="createType btn btn-compose btn-block">New Item</a>
+                                <a href="#" class="createType btn btn-compose btn-block">New Item Type</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('types')}}" class="btn btn-compose btn-block"></a>
+                                <a href="{{url('types')}}" class="btn btn-compose btn-block">List Item Types</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
                                 <a href="{{url('inventory-reports')}}" class="btn btn-compose btn-block">Inventory Reports</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-md-12">
+                                <a href="{{url('inventory')}}" class="btn btn-primary btn-block">List inventory</a>
                             </div>
                         </div>
                     </div>

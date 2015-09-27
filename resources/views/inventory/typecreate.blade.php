@@ -4,7 +4,7 @@
 
 <fieldset class="scheduler-border">
     <legend class="scheduler-border" style="color:#005DAD">Basic details</legend>
-    {!! Form::open(array('url'=>'types','role'=>'form','id'=>'unitFormgg')) !!}
+    {!! Form::open(array('url'=>'types','role'=>'form','id'=>'formItemTypes')) !!}
     <div class="form-group">
         <label for="module_name">Type Name</label>
         <input type="text" class="form-control" id="type_name" name="type_name" value="{{old('type_name')}}" placeholder="Enter type name">
@@ -47,7 +47,7 @@
 {!!HTML::script("js/form-validation-script.js") !!}
 <script>
 
-    $("#unitForm").validate({
+    $("#formItemTypes").validate({
         rules: {
             type_name: "required",
             status: "required"
@@ -59,8 +59,8 @@
         },
         submitHandler: function(form) {
             $("#output").html("<h3><span class='text-info'><i class='fa fa-spinner fa-spin'></i> Making changes please wait...</span><h3>");
-            var postData = $('#unitForm').serializeArray();
-            var formURL = $('#unitForm').attr("action");
+            var postData = $('#formItemTypes').serializeArray();
+            var formURL = $('#formItemTypes').attr("action");
             $.ajax(
                     {
                         url : formURL,
@@ -71,6 +71,8 @@
                             console.log(data);
                             setTimeout(function() {
                                 $("#output").html("");
+                                jQuery.noConflict();
+                                $("#myModal").modal("hide");
                             }, 2000);
                         },
                         error: function(data)
