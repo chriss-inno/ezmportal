@@ -19,4 +19,9 @@ class Department extends Model
     {
         return $this::hasMany('\App\Module','department_id','id');
     }
+
+    public function users()
+    {
+        return $this::hasMany('\App\User','department_id','id');
+    }
 }

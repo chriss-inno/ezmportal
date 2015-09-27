@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class QueryRequest extends Request
+class InventoryRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,6 @@ class QueryRequest extends Request
     {
         return [
             //
-            'to_department'=>'required',
-            'module'=>'required',
-            'critical_level'=>'required',
-            'description'=>'required',
         ];
     }
 }

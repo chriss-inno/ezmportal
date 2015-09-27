@@ -20,7 +20,7 @@
             </div>
             <div class="col-md-8 col-sm-8 col-xs-8">
                 <label for="exemption_type">Exemption Type</label>
-                <input type="text" class="form-control" id="exemption_type" name="exemption_type" placeholder="Enter exemption type" required autocomplete=off @if(old('exemption_type') !="")value="{{old('exemption_type')}}" @else value="{{$user->exemption_type}}" @endif >
+                <input type="text" class="form-control" id="exemption_type" name="exemption_type" placeholder="Enter exemption type" required autocomplete=off @if(old('exemption_type') !="")value="{{old('exemption_type')}}" @else value="{{$user->exemption_type}}" @endif @if($user->query_exemption=="No") disabled @endif>
                 @if($errors->first('exemption_type'))
                     <label for="first_name" class="error">{{$errors->first('exemption_type')}}</label>
                 @endif
@@ -31,22 +31,22 @@
     <div class="form-group">
         <label for="designation">Description</label>
         <textarea class="form-control" id="query_description " name="query_description">@if(old('query_description') !=""){{old('query_description')}}@else{{$user->query_description}}@endif</textarea>
-        @if($errors->first('designation'))
-            <label for="first_name" class="error">{{$errors->first('designation')}}</label>
+        @if($errors->first('query_description'))
+            <label for="first_name" class="error">{{$errors->first('query_description')}}</label>
         @endif
     </div>
     <div class="form-group">
         <div class="row">
             <div class="col-md-6">
                 <label for="exemption_start_date">Exemption start date</label>
-                <input type="text" class="form-control"  id="exemption_start_date" name="exemption_start_date" placeholder="Enter exemption start date" autocomplete=off @if(old('exemption_start_date') !="") value="{{old('exemption_start_date')}}" @else value="{{$user->exemption_start_date}}" @endif >
+                <input type="text" class="form-control"  id="exemption_start_date" name="exemption_start_date" placeholder="Enter exemption start date" autocomplete=off @if(old('exemption_start_date') !="") value="{{old('exemption_start_date')}}" @else value="{{$user->exemption_start_date}}" @endif @if($user->query_exemption=="No") disabled @endif>
                 @if($errors->first('exemption_start_date'))
                     <label for="first_name" class="error">{{$errors->first('exemption_stat_date')}}</label>
                 @endif
             </div>
             <div class="col-md-6">
                 <label for="exemption_end_date">Exemption end date</label>
-                <input type="text" class="form-control"  id="exemption_end_date" name="exemption_end_date" placeholder="Enter exemption end date" autocomplete=off @if(old('exemption_end_date') !="") value="{{old('exemption_end_date')}}" @else value="{{$user->exemption_end_date}}"@endif >
+                <input type="text" class="form-control"  id="exemption_end_date" name="exemption_end_date" placeholder="Enter exemption end date" autocomplete=off @if(old('exemption_end_date') !="") value="{{old('exemption_end_date')}}" @else value="{{$user->exemption_end_date}}"@endif @if($user->query_exemption=="No") disabled @endif>
                 @if($errors->first('exemption_end_date'))
                     <label for="first_name" class="error">{{$errors->first('phone')}}</label>
                 @endif
@@ -115,5 +115,18 @@
                     });
         }
     });
+    $("#query_exemption").change(function () {
+        var id1 = this.value;
+        if(id1 == "Yes")
+        {
+            $('#exemption_type').prop('disabled',false);
+            $('#exemption_start_date').prop('disabled',false);
+            $('#exemption_end_date').prop('disabled',false);
 
+        }else{
+            $('#exemption_type').prop('disabled',true);
+            $('#exemption_start_date').prop('disabled',true);
+            $('#exemption_end_date').prop('disabled',true);
+        }
+    });
 </script>

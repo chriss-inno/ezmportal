@@ -108,6 +108,13 @@ Route::get('support/oracle/report',['middleware' => 'auth', 'uses' =>'OracleSupp
 //Modules
 Route::resource('modules','ModuleController');
 
+//Inventory
+Route::resource('inventory','InventoryController');
+Route::get('inventory-reports',['middleware' => 'auth', 'uses' =>'InventoryController@reports']);
+
+//Inventory type
+Route::resource('types','InventoryTypeController');
+
 //Units controller
 Route::get('units/{id}',['middleware' => 'auth', 'uses' =>'UnitController@index']);
 Route::get('units/create',['middleware' => 'auth', 'uses' =>'UnitController@create']);
@@ -136,12 +143,12 @@ Route::get('serviceslogs/show/{id}',['middleware' => 'auth', 'uses' =>'ServiceLo
 
 
 //Query management
-Route::get('queries/create',['middleware' => 'auth', 'uses' =>'TaskQueryController@create']);
-Route::post('queries/create',['middleware' => 'auth', 'uses' =>'TaskQueryController@store']);
-Route::get('queries/mytask',['middleware' => 'auth', 'uses' =>'TaskQueryController@index']);
-Route::get('queries/progress',['middleware' => 'auth', 'uses' =>'TaskQueryController@progress']);
-Route::get('queries/history',['middleware' => 'auth', 'uses' =>'TaskQueryController@history']);
-Route::get('queries/report',['middleware' => 'auth', 'uses' =>'TaskQueryController@report']);
+Route::get('queries/create',['middleware' => 'auth', 'uses' =>'QueryController@create']);
+Route::post('queries/create',['middleware' => 'auth', 'uses' =>'QueryController@store']);
+Route::get('queries/mytask',['middleware' => 'auth', 'uses' =>'QueryController@index']);
+Route::get('queries/progress',['middleware' => 'auth', 'uses' =>'QueryController@progress']);
+Route::get('queries/history',['middleware' => 'auth', 'uses' =>'QueryController@history']);
+Route::get('queries/report',['middleware' => 'auth', 'uses' =>'QueryController@report']);
 
 //Send emails
 Route::get('emails/oracleissues','EmailController@olacle');

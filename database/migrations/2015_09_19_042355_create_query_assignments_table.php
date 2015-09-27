@@ -16,7 +16,8 @@ class CreateQueryAssignmentsTable extends Migration
             $table->increments('id');
             $table->integer('query_id');
             $table->integer('user_id');
-            $table->dateTime('assigned_date');
+            $table->integer('module_id');
+            $table->date('assigned_date');
             $table->integer('assigned_by')->nullable();
             $table->timestamps();
         });

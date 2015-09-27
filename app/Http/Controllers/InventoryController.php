@@ -3,99 +3,104 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\QueryRequest;
-use App\User;
-use Illuminate\Support\Facades\Auth;
-use App\Branch;
-use App\Department;
-class TaskQueryController extends Controller
+use App\Inventory;
+use App\Http\Requests\InventoryRequest;
+class InventoryController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
-
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         //
+        $items=Inventory::all();
+        return view('inventory.index',compact('items'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
         //
-        return view('queries.create');
+
+        return view('inventory.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(InventoryRequest $request)
     {
         //
-        //$imageName = $product->id . '.' .$request->file('image')->getClientOriginalExtension(); //Get image extension
-       // $request->file('image')->move(base_path() . '/public/images/catalog/', $imageName );
-         $reporting_Date =date("Y-m-d H:i");
-         $report_by=Auth::user()->id;
-         $status="Launched";
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         //
+        $item=Inventory::find($id);
+        return view('inventory.show',compact('item'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         //
+        $item=Inventory::find($id);
+        return view('inventory.edit',compact('item'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(InventoryRequest $request, $id)
     {
         //
+        $item=Inventory::find($id);
+        $item->
+        $item->save();
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
+    {
+        //
+    }
+
+    public function reports()
     {
         //
     }

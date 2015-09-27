@@ -65,19 +65,25 @@ class UserTableSeeder extends Seeder
         }
 
         User::truncate();
+     for($i=1 ;$i<10; $i++)
+     {
+
 
         $us=new User;
-        $us->first_name="Portal";
-        $us->last_name="Administrator";
+        $us->first_name="Portal".$i;
+        $us->last_name="Administrator".$i;
         $us->designation="System Administrator";
-        $us->username="admin";
+        $us->username="admin".$i;
         $us->department_id=1;
         $us->branch_id=1;
         $us->user_type='Administrator';
         $us->password=bcrypt('admin');
         $us->status='Active';
+        $us->phone=$i.$i.$i.$i.$i.$i.$i.$i.$i;
+        $us->email='administrator'.$i.'@bankm.com';
         $us->right_id=1;
         $us->save();
+     }
 
 
 

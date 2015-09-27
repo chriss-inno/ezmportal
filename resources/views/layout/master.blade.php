@@ -186,18 +186,6 @@
                         </li>
                         <li>
                             <a href="#">
-                                <span class="photo">{!! HTML::image("img/avatar-mini3.jpg")!!}/span>
-                                    <span class="subject">
-                                    <span class="from">Jason Stathum</span>
-                                    <span class="time">3 hrs</span>
-                                    </span>
-                                    <span class="message">
-                                        This is awesome dashboard.
-                                    </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
                                 <span class="photo">{!! HTML::image("img/avatar-mini4.jpg")!!}</span>
                                     <span class="subject">
                                     <span class="from">Jondi Rose</span>

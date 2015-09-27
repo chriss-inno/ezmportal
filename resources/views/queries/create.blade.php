@@ -118,7 +118,7 @@
                 <span>Queries and Tasks</span>
             </a>
             <ul class="sub">
-                <li><a  href="{{url('queries/create')}}" title="System/services History">Log Query</a></li>
+                <li class="active"><a  href="{{url('queries/create')}}" title="System/services History">Log Query</a></li>
                 <li><a  href="{{url('queries/mytask')}}" title="Report System/Service problem or issue">My Tasks</a></li>
                 <li><a  href="{{url('queries/progress')}}" title="Report System/Service problem or issue">Query Progress</a></li>
                 <li><a  href="{{url('queries/history')}}" title="Report System/Service problem or issue">Query History</a></li>

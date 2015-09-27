@@ -452,12 +452,24 @@ class UserController extends Controller
     public function postChangeUserExemption(Request $request)
     {
         $user=User::find($request->user_id);
-        $user->query_exemption=$request->query_exemption;
-        $user->exemption_type=ucwords(strtolower($request->exemption_type));
-        $user->query_description=$request->query_description;
-        $user->exemption_start_date=$request->exemption_start_date;
-        $user->exemption_end_date=$request->exemption_end_date;
+        if($request->query_exemption != "No")
+        {
+            $user->query_exemption=$request->query_exemption;
+            $user->exemption_type=ucwords(strtolower($request->exemption_type));
+            $user->query_description=$request->query_description;
+            $user->exemption_start_date=$request->exemption_start_date;
+            $user->exemption_end_date=$request->exemption_end_date;
+        }
+        else
+        {
+            $user->query_exemption=$request->query_exemption;
+            $user->exemption_type=null;
+            $user->query_description=null;
+            $user->exemption_start_date=null;
+            $user->exemption_end_date=null;
+        }
         $user->save();
+
 
         return "Data saved successfully";
     }
