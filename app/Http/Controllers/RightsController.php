@@ -87,7 +87,7 @@ class RightsController extends Controller
               }
           }
 
-       return redirect('users/rights');
+       return redirect('user/rights');
 
     }
 
@@ -136,5 +136,21 @@ class RightsController extends Controller
     public function destroy($id)
     {
         //
+        $right=Right::find($id);
+        foreach($right->userRights as $rh)
+        {
+            $rh->delete();
+        }
+        $right->delete();
+
+    }
+
+    //User rights
+    //Update Access
+    public static function moduleAccess($right,$module)
+    {
+        $usr=UserRight::where('right_id','=',$right)->where('module','=',$module)->get();
+        if(count($usr)>0) {
+            return true;} else {return false;}
     }
 }

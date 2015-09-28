@@ -85,12 +85,13 @@ Route::post('users/exemption',['middleware' => 'auth', 'uses' =>'UserController@
 //Query exception
 
 //User rights
-Route::get('users/rights/reports',['middleware' => 'auth', 'uses' =>'RightsController@index']);
-Route::get('users/rights/create',['middleware' => 'auth', 'uses' =>'RightsController@create']);
-Route::post('users/rights/create',['middleware' => 'auth', 'uses' =>'RightsController@store']);
-Route::get('users/rights',['middleware' => 'auth', 'uses' =>'RightsController@index']);
-Route::get('users/rights/edit/{id}',['middleware' => 'auth', 'uses' =>'RightsController@edit']);
-Route::post('users/rights/edit',['middleware' => 'auth', 'uses' =>'RightsController@update']);
+Route::get('user/rights/reports',['middleware' => 'auth', 'uses' =>'RightsController@index']);
+Route::get('user/rights/create',['middleware' => 'auth', 'uses' =>'RightsController@create']);
+Route::post('user/rights/create',['middleware' => 'auth', 'uses' =>'RightsController@store']);
+Route::get('user/rights',['middleware' => 'auth', 'uses' =>'RightsController@index']);
+Route::get('user/rights/edit/{id}',['middleware' => 'auth', 'uses' =>'RightsController@edit']);
+Route::get('user/rights/remove/{id}',['middleware' => 'auth', 'uses' =>'RightsController@destroy']);
+Route::post('user/rights/edit',['middleware' => 'auth', 'uses' =>'RightsController@update']);
 
 //Oracle support
 Route::get('support/oracle/create',['middleware' => 'auth', 'uses' =>'OracleSupportController@create']);
@@ -149,7 +150,7 @@ Route::get('serviceslogs/show/{id}',['middleware' => 'auth', 'uses' =>'ServiceLo
 //Query management
 Route::get('queries/create',['middleware' => 'auth', 'uses' =>'QueryController@create']);
 Route::post('queries/create',['middleware' => 'auth', 'uses' =>'QueryController@store']);
-Route::get('queries/mytask',['middleware' => 'auth', 'uses' =>'QueryController@index']);
+Route::get('queries/mytask',['middleware' => 'auth', 'uses' =>'QueryController@task']);
 Route::get('queries/progress',['middleware' => 'auth', 'uses' =>'QueryController@progress']);
 Route::get('queries/history',['middleware' => 'auth', 'uses' =>'QueryController@history']);
 Route::get('queries/report',['middleware' => 'auth', 'uses' =>'QueryController@report']);

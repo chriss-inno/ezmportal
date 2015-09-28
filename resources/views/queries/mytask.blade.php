@@ -1,19 +1,14 @@
 @extends('layout.master')
 @section('page-title')
-    Branches
+    Oracle Support Logged issues
 @stop
 @section('page_scripts')
-    {!!HTML::script("js/sparkline-chart.js") !!}
-    {!!HTML::script("js/easy-pie-chart.js") !!}
-    {!!HTML::script("js/count.js") !!}
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
     {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
     {!!HTML::script("js/jquery.scrollTo.min.js") !!}
     {!!HTML::script("js/jquery.nicescroll.js") !!}
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
     {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
-
-
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
 
@@ -22,33 +17,31 @@
                 "aaSorting": [[ 4, "desc" ]]
             } );
 
-            $(".deleteuser").click(function(){
-                var id1 = $(this).parent().attr('id');
-                $(".deleteuser").show("slow").parent().parent().find("span").remove();
+            $(".deleteUser").click(function(){
+                var id1 = $(this).parent().parent().attr('id');
+                $(".deleteUser").show("slow").parent().parent().find("span").remove();
                 var btn = $(this).parent().parent();
                 $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
                 $("#no").click(function(){
-                    $(this).parent().parent().find(".deleteuser").show("slow");
-                    $(this).parent().parent().find("span").remove();
+                    $(this).parent().parent().parent().find(".deleteUser").show("slow");
+                    $(this).parent().parent().parent().find("span").remove();
                 });
                 $("#yes").click(function(){
                     $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                    $.get("<?php echo url('branches/remove') ?>/"+id1,function(data){
+                    $.get("<?php echo url('users/remove') ?>/"+id1,function(data){
                         btn.hide("slow").next("hr").hide("slow");
                     });
                 });
             });
 
             //Edit class streams
-            $(".addService").click(function(){
-                var id1 = $(this).parent().attr('id');
+            $(".userCreate").click(function(){
                 var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-
-                modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
                 modaldis+= '<div class="modal-content">';
                 modaldis+= '<div class="modal-header">';
                 modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Create new Service</span>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">Update School Class Level</span>';
                 modaldis+= '</div>';
                 modaldis+= '<div class="modal-body">';
                 modaldis+= ' </div>';
@@ -60,23 +53,51 @@
                 jQuery.noConflict();
                 $("#myModal").modal("show");
                 $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("services/create") ?>");
+                $(".modal-body").load("<?php echo url("users/create") ?>");
                 $("#myModal").on('hidden.bs.modal',function(){
                     $("#myModal").remove();
-                })
+                });
+
+            });
+
+            //Show isue details
+            $(".issueDetails").click(function(){
+                var id1 = $(this).parent().attr('id');
+
+                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                modaldis+= '<div class="modal-content">';
+                modaldis+= '<div class="modal-header">';
+                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">Issue detailed information</span>';
+                modaldis+= '</div>';
+                modaldis+= '<div class="modal-body">';
+                modaldis+= ' </div>';
+                modaldis+= '</div>';
+                modaldis+= '</div>';
+                $('body').css('overflow','hidden');
+
+                $("body").append(modaldis);
+                jQuery.noConflict();
+                $("#myModal").modal("show");
+                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                $(".modal-body").load("<?php echo url("support/oracle/show") ?>/"+id1);
+                $("#myModal").on('hidden.bs.modal',function(){
+                    $("#myModal").remove();
+                });
 
             });
 
             //Edit class streams
-            $(".editService").click(function(){
+            $(".userProfile").click(function(){
                 var id1 = $(this).parent().attr('id');
-                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
+                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
                 modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
                 modaldis+= '<div class="modal-content">';
                 modaldis+= '<div class="modal-header">';
                 modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Update Service</span>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">Update Issue current status</span>';
                 modaldis+= '</div>';
                 modaldis+= '<div class="modal-body">';
                 modaldis+= ' </div>';
@@ -88,37 +109,10 @@
                 jQuery.noConflict();
                 $("#myModal").modal("show");
                 $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("services/edit") ?>/"+id1);
+                $(".modal-body").load("<?php echo url("support/oracle/status") ?>/"+id1);
                 $("#myModal").on('hidden.bs.modal',function(){
                     $("#myModal").remove();
-                })
-
-            });
-            //logService class streams
-            $(".logService").click(function(){
-                var id1 = $(this).parent().attr('id');
-                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-
-                modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
-                modaldis+= '<div class="modal-content">';
-                modaldis+= '<div class="modal-header">';
-                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Update Service</span>';
-                modaldis+= '</div>';
-                modaldis+= '<div class="modal-body">';
-                modaldis+= ' </div>';
-                modaldis+= '</div>';
-                modaldis+= '</div>';
-                $('body').css('overflow','hidden');
-
-                $("body").append(modaldis);
-                jQuery.noConflict();
-                $("#myModal").modal("show");
-                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("services/log") ?>/"+id1);
-                $("#myModal").on('hidden.bs.modal',function(){
-                    $("#myModal").remove();
-                })
+                });
 
             });
         } );
@@ -272,7 +266,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        List of Service Monitoring
+                        <h3 class="text-info"> <strong><i class="fa  fa-tasks"></i> MY TASK </strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="adv-table">
@@ -280,35 +274,58 @@
                                 <thead>
                                 <tr>
                                     <th>SNO</th>
-                                    <th>Service name</th>
-                                    <th>Description</th>
+                                    <th>Query code</th>
+                                    <th>Date reported</th>
+                                    <th>From</th>
+                                    <th>Reported By</th>
+                                    <th>Critical level</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Module</th>
+                                    <th>Details</th>
+                                    <th>Attend</th>
+                                    <th>Progress</th>
                                 </tr>
                                 </thead>
-                                <tbody id="serviceList">
-                                <?php $i=1;?>
-                                @foreach($services as $ser)
+                                <tbody>
+                                <?php $c=1;?>
+                                @foreach($queries as $qr)
                                     <tr>
-                                        <td>{{$i++}}</td>
-                                        <td>{{$ser->service_name}}</td>
-                                        <td>{{$ser->description}}</td>
-                                        <td>{{$ser->status}}</td>
-                                        <td id="{{$ser->id}}" class="text-center">
-                                            <a  href="#" title="Edit Service" class="editService btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                            <a href="#b" title="Delete Department" class="deleteuser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                        <td>{{$c++}}</td>
+                                        <td>{{$qr->queries->query_code}}</td>
+                                        <td>{{date("d-m-Y H:i",strtotime($qr->queries->reporting_Date))}}</td>
+                                        <td>{{$qr->queries->fromDepartment->department_name}}</td>
+                                        <td>{{$qr->queries->user->first_name.' '.$qr->user->last_name}}</td>
+                                        <td>{{$qr->queries->critical_level}}</td>
+                                        <td>{{$qr->queries->status}}</td>
+                                        <td>{{$qr->queries->module->module_name}}</td>
+                                        <td id="{{$qr->queries->id}}">
+                                            <a href="#" class="issueDetails btn btn-info btn-xs" title="Detailed Information"><i class="fa fa-eye"></i> View </a>
+                                        </td>
+                                        <td id="{{$qr->queries->id}}" class="text-center"> <a  href="#" title="Attend Query" class="addUnit btn btn-success btn-xs"><i class="fa fa-pencil"></i></a>
+                                        </td>
+                                        <td>
+                                            <div class="progress progress-striped progress-sm">
+                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                                    <span class="sr-only">20% Complete</span>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
-
                                 @endforeach
                                 </tbody>
                                 <tfoot>
                                 <tr>
                                     <th>SNO</th>
-                                    <th>Service name</th>
-                                    <th>Description</th>
+                                    <th>Query code</th>
+                                    <th>Date reported</th>
+                                    <th>From</th>
+                                    <th>Reported By</th>
+                                    <th>Critical level</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Module</th>
+                                    <th>Details</th>
+                                    <th>Attend</th>
+                                    <th>Progress</th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -319,24 +336,30 @@
             <div class="col-lg-2 col-md-2">
                 <section class="panel">
                     <div class="panel-body">
-                        <div class="row">
+
+                        <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="#" class="addService btn btn-file btn-danger btn-block">Create New Service</a>
+                                <a href="{{url('queries/create')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-folder-open-o"></i> Log Query</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('serviceslogs/create')}}" class=" btn btn-file btn-danger btn-block">Log Status</a>
+                                <a href="{{url('queries/mytask')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-tasks"></i> My Tasks</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('serviceslogs/today')}}" class="btn btn-file btn-danger btn-block">Today Status</a>
+                                <a href="{{url('queries/progress')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-archive"></i>  Progress</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('serviceslogs')}}" class="btn btn-file btn-danger btn-block">Status History</a>
+                                <a href="{{url('queries/history')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> History</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-md-12">
+                                <a href="{{url('queries/report')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Reports</a>
                             </div>
                         </div>
                     </div>

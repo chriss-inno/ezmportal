@@ -79,6 +79,7 @@
                 <span>Dashboard</span>
             </a>
         </li>
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,1))
         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class=" fa fa-bar-chart-o"></i>
@@ -91,6 +92,8 @@
                 <li><a  href="#" title="Generate System/Service status report">Search Report</a></li>
             </ul>
         </li>
+        @endif
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2))
         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-picture-o"></i>
@@ -99,9 +102,10 @@
             <ul class="sub">
                 <li><a  href="#" title="System/services History">Upload Photos</a></li>
                 <li><a  href="#" title="Report System/Service problem or issue">List Albums</a></li>
-                <li><a  href="#" title="View today system status">Manage Albums</a></li>
             </ul>
         </li>
+        @endif
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,3))
         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-download"></i>
@@ -114,6 +118,8 @@
                 <li><a  href="#" title="View today system status">Human Resource</a></li>
             </ul>
         </li>
+        @endif
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,4))
         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-info"></i>
@@ -126,6 +132,8 @@
                 <li><a  href="#" title="View today system status">Human Resource</a></li>
             </ul>
         </li>
+        @endif
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5))
         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-folder-open-o"></i>
@@ -139,7 +147,9 @@
                 <li><a  href="{{url('queries/report')}}" title="View today system status">Queries Reports</a></li>
             </ul>
         </li>
-         <li class="sub-menu">
+        @endif
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,6))
+          <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
                 <span>Oracle Support Isssues</span>
@@ -152,6 +162,8 @@
                  <li><a  href="{{url('support/oracle/report')}}" title="System/services History">Issues Report</a></li>
             </ul>
         </li>
+        @endif
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7))
          <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
@@ -164,6 +176,8 @@
                 <li><a  href="{{url('serviceslogs')}}" title="System/services History">Status History</a></li>
             </ul>
         </li>
+        @endif
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,8))
          <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
@@ -176,6 +190,8 @@
             
             </ul>
         </li>
+        @endif
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,9))
         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-cogs"></i>
@@ -185,10 +201,11 @@
                 <li><a  href="{{url('branches')}}">Branches</a></li>
                 <li><a  href="{{url('departments')}}">Departments</a></li>
                 <li><a  href="{{url('users')}}">Users</a></li>
-                <li><a  href="{{url('users/rights')}}">Users Rights</a></li>
+                <li><a  href="{{url('user/rights')}}">Users Rights</a></li>
                 <li><a  href="{{url('modules')}}">Query Modules</a></li>
             </ul>
         </li>
+        @endif
     </ul>
     @stop
 @section('contents')
