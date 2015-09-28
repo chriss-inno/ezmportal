@@ -68,9 +68,7 @@ class QueryController extends Controller
 
 
         //Auto resign
-        //Check for users with no exemption and assigned to logged module
-       // $users=DB::select(DB::raw("SELECT A.id user_id FROM prt_users A INNER JOIN prt_user_modules B ON(A.id=B.user_id)
-                                // WHERE A.query_exemption ='No' AND module_id='".$query->module_id."'"));
+        // 1. Check for users with no exemption and assigned to module the same module as logged by the query
 
         $users = \DB::table('users')->join('user_modules','users.id','=','user_modules.user_id')
                    ->select('users.id')
@@ -84,48 +82,45 @@ class QueryController extends Controller
 
         $assignment =QueryAssignment::whereIn('user_id',$users)->where('assigned_date','=',$today)->get();
 
-        if(count($assignment) >0) // if no user wa assigned then choose the first user
+        if(count($assignment) >=count($users)) // if no user was assigned then choose the first user
         {
+            $user = \DB::table('query_assignments')
+                ->select('user_id', \DB::raw('count(user_id) as total'))
+                ->whereIn('user_id',$users)->where('assigned_date','=',$today)
+                ->groupBy('user_id')
+                ->orderBy('total', 'asc')->first();;
 
+            $queryAssignment=new QueryAssignment;
+            $queryAssignment->query_id=$query->id;
+            $queryAssignment->user_id=$user->user_id;
+            $queryAssignment->module_id=$query->module_id;
+            $queryAssignment->assigned_date=$today;
+            $queryAssignment->save();
+            $query->assigned=1; //Change status to assigned
+            $query->save();
         }
         else
         {
 
-        }
-
-        /*
-        if(count($users) >0)
-        {
+           // $user=User::whereIn('id',$users)->orderByRaw("RAND()")->first();
+            $userlist= "'".implode("','",$users)."'";
+            $user=\DB::select("select prt_users.id as userid from prt_users where prt_users.id IN (".$userlist.") AND prt_users.id NOT IN (SELECT user_id FROM prt_query_assignments where assigned_date ='".$today."') ");
 
 
-            foreach($users as $usMod)
-            {
-
-                if($usMod->user->query_exemption =="No")
-                {
-                    //Get user with low number of assigned Queries
-
-                    $user_assigned = DB::table('query_assignments')
-                                 ->select('user_id', DB::raw('count(user_id) as total'))
-                                 ->groupBy('user_id')
-                                 ->orderBy('total', 'asc') ->get()->first();
-
-                    $queryAssignment=new QueryAssignment;
-                    $queryAssignment->query_id=$query->id;
-                    $queryAssignment->user_id=$usMod->user->id;
-                    $queryAssignment->module_id=$query->module_id;
-                    $queryAssignment->save();
-
-                    $query->assigned=1; //Change status to assigned
-                    $query->save();
-                }
-
-            }
+            $queryAssignment=new QueryAssignment;
+            $queryAssignment->query_id=$query->id;
+            $queryAssignment->user_id=$user[0]->userid;
+            $queryAssignment->module_id=$query->module_id;
+            $queryAssignment->assigned_date=$today;
+            $queryAssignment->save();
+            $query->assigned=1; //Change status to assigned
+            $query->save();
 
 
         }
+
         return redirect('queries/progress');
-        */
+
     }
 
     /**
