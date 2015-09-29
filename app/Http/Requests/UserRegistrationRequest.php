@@ -31,7 +31,6 @@ class UserRegistrationRequest extends Request
             'branch'=>'required',
             'department'=>'required',
             'Password' => 'required|min:5',
-            'phone'=>'required|unique:users',
             'password_confirmation'=>'required|min:5',
         ];
     }
