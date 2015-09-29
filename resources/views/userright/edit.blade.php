@@ -203,7 +203,7 @@
                         <h3 class="text-info"> <strong><i class="fa  fa-users"></i> USER RIGHTS</strong></h3>
                     </header>
                     <div class="panel-body">
-                        <p> <h3>Create new user rights </h3>
+                        <p> <h3>Update user rights </h3>
                         @if (count($errors) > 0)
                             <div class="alert alert-danger">
                                 <ul>
@@ -214,21 +214,26 @@
                             </div>
                         @endif
                         <hr/>
-                        {!! Form::open(array('url'=>'users/rights/edit','role'=>'form','id'=>'serviceForm','files' => true)) !!}
+                        {!! Form::open(array('url'=>'user/rights/edit','role'=>'form','id'=>'serviceForm','files' => true)) !!}
                         <div class="form-group">
                             <label for="unit_name">User rights</label>
-                            <input type="text" class="form-control" id="right_name" name="right_name" placeholder="Enter right name" required>
+                            <input type="text" class="form-control" id="right_name" name="right_name" placeholder="Enter right name" required value="@if($right->right_name !=""){{$right->right_name}}@endif">
                         </div>
                         <div class="form-group">
                             <label for="unit_name">Description</label>
-                            <textarea class="ckeditor form-control" id="description" name="description"></textarea>
+                            <textarea class="ckeditor form-control" id="description" name="description"> @if($right->description !=""){{$right->description}}@endif</textarea>
                         </div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-4">
                                     <label for="status">Status</label>
                                     <select name="status" class="form-control" id="status">
-                                        <option selected value="">----</option>
+                                        @if($right->status !="")
+                                            <option selected value="{{$right->status}}">{{$right->status}}</option>
+                                            @else
+                                            <option selected value="">----</option>
+                                            @endif
+
                                         <option value="enabled">enabled</option>
                                         <option value="disabled">disabled</option>
                                     </select>
@@ -257,17 +262,20 @@
                                                 </thead>
                                                 <tbody>
                                                 <?php
-                                                $modules=array('Reports','Photo Galley','Downloads','COPS Issues Tracking','CMF Reports','Money Msafiri','Human Resource','Queries and Task','System service status','Portal Administration');
+                                                $modules=array('Reports','Photo Galley','Downloads','COPS Issues Tracking','CMF Reports','Money Msafiri','Human Resource','Queries and Task','System service status','ICT Inventory','Portal Administration');
                                                 $count=1;
                                                 ?>
                                                 @foreach($modules as $module )
+                                                    <?php  //Fetch user rights
+                                                       $role=\App\UserRight::where('module','=',$count)->where('right_id','=',$right->id)->get();
+                                                    ?>
                                                     <tr>
                                                         <td>{{$count}}</td>
-                                                        <td ><input type="checkbox" value="{{$count}}"  name="module[]"> <label> {{$module}}</label></td>
+                                                        <td ><input type="checkbox" value="{{$count}}" name="module[]" id="chk" @if(count($role) >0 ) checked @endif> <label> {{$module}}</label></td>
                                                         <td class="text-center"><input type="checkbox" value="1"  name="create{{$count}}"></td>
                                                         <td class="text-center"><input type="checkbox" value="1"  name="view{{$count}}"></td>
                                                         <td class="text-center"><input type="checkbox" value="1"  name="edit{{$count}}"></td>
-                                                        <td class="text-center"><input type="checkbox" value="1"  name="delete{{$count}}"></td>
+                                                        <td class="text-center"><input type="checkbox" value="1"  name="delete{{$count}}" ></td>
                                                         <td class="text-center"><input type="checkbox" value="1"  name="authorize{{$count}}"></td>
                                                     </tr>
                                                     <?php $count++;?>
@@ -290,6 +298,7 @@
                                 </section>
                             </div>
                         </div>
+                        <input type="hidden" id="id" name="id" value="{{$right->id}}">
                         <button type="submit" class="btn btn-primary pull-right col-md-2">Submit</button>
                         {!! Form::close() !!}
 

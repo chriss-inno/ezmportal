@@ -52,19 +52,14 @@ class QueryController extends Controller
     {
         //
         //Check for reference file
-        if($request->file_upload_chec != null && $request->file_upload_chec != "") {
+        if($request->referencecheck != null && $request->referencecheck != "") {
 
-            $validator = Validator::make(
-                [
-                    'reference_file' => 'required|mimes:application/msword,application/vnd.ms-office,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-                ]
-            );
-            if ($validator->fails())
-            {
-                // The given data did not pass validation
-                return redirect()->back()->withErrors($validator);
-            }
+            $this->validate($request, [
+                'reference_file' => 'required',
+            ]);
+
         }
+
         $query=new Query;
         $query->reporting_Date=date("Y-m-d H:i");
         $query->from_department=Auth::user()->department_id;
@@ -83,17 +78,18 @@ class QueryController extends Controller
         $query->query_code=$query->toDepartment->branch->branch_code.strtoupper(substr($query->toDepartment->department_name,0,3)).date("y").date("d").date("m").$query->id;;
         $query->save();
 
-        //Check for reference file
-        if($request->file_upload_chec != null && $request->file_upload_chec != "")
-        {
-            $imageName = $query->query_code . '.' .
-                $request->file('reference_file')->getClientOriginalExtension();
+        //check if attachment
+        if($request->referencecheck != null && $request->referencecheck != "") {
 
-            $request->file('reference_file')->move(
-                base_path() . '/public/uploads/', $imageName
-            );
+            $file= $request->file('reference_file');
+            $destinationPath = public_path() .'/uploads/';
+            $filename   = $query->query_code. '.'.$file->getClientOriginalExtension();
+
+            $file->move($destinationPath, $filename);
+
+            $query->reference_file=$destinationPath . $filename;
+            $query->save();
         }
-
         //Query auto reassign mechanism
         // 1. Check for users with no exemption and assigned to module the same module as logged by the query
 
@@ -152,6 +148,7 @@ class QueryController extends Controller
         }
 
         return redirect('queries/progress');
+
 
     }
 

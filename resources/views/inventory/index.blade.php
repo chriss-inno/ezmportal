@@ -363,6 +363,11 @@
                                 <a href="{{url('types')}}" class="btn btn-primary btn-block">List Item Types</a>
                             </div>
                         </div>
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-md-12">
+                                <a href="{{url('inventory-import')}}" class="btn btn-primary btn-block">Import From Excel</a>
+                            </div>
+                        </div>
                     </div>
                 </section>
             </div>

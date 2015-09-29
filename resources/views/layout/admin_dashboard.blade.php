@@ -157,9 +157,9 @@
                     </div>
                     <div class="value">
                         <h1 class="count">
-                            0
+                            10
                         </h1>
-                        <p>New Users</p>
+                        <p>Users</p>
                     </div>
                 </section>
             </div>
@@ -170,22 +170,22 @@
                     </div>
                     <div class="value">
                         <h1 class=" count2">
-                            0
+                            100
                         </h1>
-                        <p>Weekly queries</p>
+                        <p>Reports</p>
                     </div>
                 </section>
             </div>
             <div class="col-lg-3 col-sm-6">
                 <section class="panel">
                     <div class="symbol yellow">
-                        <i class="fa fa-shopping-cart"></i>
+                        <i class="fa fa-laptop"></i>
                     </div>
                     <div class="value">
                         <h1 class=" count3">
-                            0
+                            9000
                         </h1>
-                        <p>Week</p>
+                        <p>Inventory</p>
                     </div>
                 </section>
             </div>
@@ -196,7 +196,7 @@
                     </div>
                     <div class="value">
                         <h1 class=" count4">
-                            0
+                            90099
                         </h1>
                         <p>Month</p>
                     </div>
@@ -211,6 +211,36 @@
                 <div class="border-head">
                     <h3>Logged Queries per month for year <strong class="text-info">{{date('Y')}}</strong></h3>
                 </div>
+
+                <?php
+                  //Get all queries per year
+                    $allQ=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->get();
+                    $QueryYear=count($allQ);
+                $allJan=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',1)->get();
+                $QueryJan=count($allJan);
+                $allFeb=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',2)->get();
+                $QueryFeb=count($allFeb);
+                $allMar=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',3)->get();
+                $QueryMar=count($allMar);
+                $allApr=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',4)->get();
+                $QueryApr=count($allApr);
+                $allMay=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',5)->get();
+                $QueryMay=count($allMay);
+                $allJun=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',6)->get();
+                $QueryJun=count($allJun);
+                $allJul=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',7)->get();
+                $QueryJul=count($allJul);
+                $allAug=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',8)->get();
+                $QueryAug=count($allAug);
+                $allSep=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',9)->get();
+                $QuerySep=count($allSep);
+                $allOct=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',10)->get();
+                $QueryOct=count($allOct);
+                $allNov=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',11)->get();
+                $QueryNov=count($allNov);
+                $allDec=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',12)->get();
+                $QueryDec=count($allDec);
+                ?>
                 <div class="custom-bar-chart">
                     <ul class="y-axis">
                         <li><span>100</span></li>
@@ -222,51 +252,51 @@
                     </ul>
                     <div class="bar">
                         <div class="title">JAN</div>
-                        <div class="value tooltips" data-original-title="80%" data-toggle="tooltip" data-placement="top">80%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryJan}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryJan >0){{($QueryYear/$QueryJan) *100}}@else{{$QueryJan}}@endif%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">FEB</div>
-                        <div class="value tooltips" data-original-title="50%" data-toggle="tooltip" data-placement="top">50%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryFeb}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryFeb >0){{($QueryYear/$QueryFeb) *100}}@else{{$QueryFeb}}@endif%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">MAR</div>
-                        <div class="value tooltips" data-original-title="40%" data-toggle="tooltip" data-placement="top">40%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryMar}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryMar >0){{($QueryYear/$QueryMar) *100}}@else{{$QueryMar}}@endif%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">APR</div>
-                        <div class="value tooltips" data-original-title="55%" data-toggle="tooltip" data-placement="top">55%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryApr}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryApr >0){{($QueryYear/$QueryApr) *100}}@else{{$QueryApr}}@endif%</div>
                     </div>
                     <div class="bar">
                         <div class="title">MAY</div>
-                        <div class="value tooltips" data-original-title="20%" data-toggle="tooltip" data-placement="top">20%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryMay}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryMay >0){{($QueryYear/$QueryMay) *100}}@else{{$QueryMay}}@endif%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">JUN</div>
-                        <div class="value tooltips" data-original-title="39%" data-toggle="tooltip" data-placement="top">39%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryJun}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryJun >0){{($QueryYear/$QueryJun) *100}}@else{{$QueryJun}}@endif%</div>
                     </div>
                     <div class="bar">
                         <div class="title">JUL</div>
-                        <div class="value tooltips" data-original-title="75%" data-toggle="tooltip" data-placement="top">75%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryJul}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryJul >0){{($QueryYear/$QueryJul) *100}}@else{{$QueryJul}}@endif%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">AUG</div>
-                        <div class="value tooltips" data-original-title="45%" data-toggle="tooltip" data-placement="top">45%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryAug}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryAug >0){{($QueryYear/$QueryAug) *100}}@else{{$QueryAug}}@endif%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">SEP</div>
-                        <div class="value tooltips" data-original-title="50%" data-toggle="tooltip" data-placement="top">50%</div>
+                        <div class="value tooltips" data-original-title="{{$QuerySep}} Queries" data-toggle="tooltip" data-placement="top">@if($QuerySep >0){{($QueryYear/$QuerySep) *100}}@else{{$QuerySep}}@endif%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">OCT</div>
-                        <div class="value tooltips" data-original-title="42%" data-toggle="tooltip" data-placement="top">42%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryOct}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryOct >0){{($QueryYear/$QueryOct) *100}}@else{{$QueryOct}}@endif%%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">NOV</div>
-                        <div class="value tooltips" data-original-title="60%" data-toggle="tooltip" data-placement="top">60%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryNov}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryNov >0){{($QueryYear/$QueryNov) *100}}@else{{$QueryNov}}@endif%%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">DEC</div>
-                        <div class="value tooltips" data-original-title="90%" data-toggle="tooltip" data-placement="top">90%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryDec}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryDec >0){{($QueryYear/$QueryDec) *100}}@else{{$QueryDec}}@endif%%</div>
                     </div>
                 </div>
                 <!--custom chart end-->

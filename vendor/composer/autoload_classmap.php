@@ -22,6 +22,7 @@ return array(
     'CreateServiceLogAreasTable' => $baseDir . '/database/migrations/2015_09_17_213658_create_service_log_areas_table.php',
     'CreateServiceLogsTable' => $baseDir . '/database/migrations/2015_09_16_165110_create_service_logs_table.php',
     'CreateServicesTable' => $baseDir . '/database/migrations/2015_09_16_165037_create_services_table.php',
+    'CreateTaskAssignmentsTable' => $baseDir . '/database/migrations/2015_09_29_090055_create_task_assignments_table.php',
     'CreateTasksTable' => $baseDir . '/database/migrations/2015_09_16_161310_create_tasks_table.php',
     'CreateUnitsTable' => $baseDir . '/database/migrations/2015_09_03_140808_create_units_table.php',
     'CreateUserHistoriesTable' => $baseDir . '/database/migrations/2015_08_28_152312_create_user_histories_table.php',

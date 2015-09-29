@@ -112,7 +112,51 @@ class RightsController extends Controller
     {
         //
         $right= Right::find($id);
-        return view('userright.create',compact('right'));
+        return view('userright.edit',compact('right'));
+    }
+    public function rightRoles($id)
+    {
+        //
+        $right= Right::find($id);
+        return view('userright.roles',compact('right'));
+    }
+    public function rightRolesPost(Request $request)
+    {
+        //
+        $userRight=UserRight::where('right_id','=',$request->id)->delete();
+        $i=1;
+        if($request->module !=null && $request->module !="")
+        {
+            foreach($request->module as $module)
+            {
+                $create="create".$module;
+                $view="view".$module;
+                $edit="edit".$module;
+                $delete="delete".$module;
+                $authorize="authorize".$module;
+                $aut=$inp=$del=$edi=$viw=0;
+
+                if( $request->$create=== '1'){$inp=1;}
+                if($request->$view === '1'){$viw=1;}
+                if($request->$edit === '1'){$edi=1;}
+                if($request->$delete === '1'){$del=1;}
+                if($request->$authorize === '1'){$aut=1;}
+
+
+
+                $userRight =new UserRight;
+                $userRight->right_id=$request->id;
+                $userRight->module=$module;
+                $userRight->viw=$viw;
+                $userRight->edi=$edi;
+                $userRight->del=$del;
+                $userRight->inp=$inp;
+                $userRight->aut=$aut;
+                $userRight->save();
+
+                $i++;
+            }
+        }
     }
 
     /**
@@ -122,9 +166,55 @@ class RightsController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+
+        $right= Right::find($request->id);
+        $right->status=$request->status;
+        $right->description=$request->description;
+        $right->right_name=$request->right_name;
+        $right->input_by=Auth::user()->username;
+        $right->save();
+
+        $i=1;
+
+        $userRight=UserRight::where('right_id','=',$right->id)->delete();
+
+        if($request->module !=null && $request->module !="")
+        {
+            foreach($request->module as $module)
+            {
+                $create="create".$module;
+                $view="view".$module;
+                $edit="edit".$module;
+                $delete="delete".$module;
+                $authorize="authorize".$module;
+                $aut=$inp=$del=$edi=$viw=0;
+
+                if( $request->$create=== '1'){$inp=1;}
+                if($request->$view === '1'){$viw=1;}
+                if($request->$edit === '1'){$edi=1;}
+                if($request->$delete === '1'){$del=1;}
+                if($request->$authorize === '1'){$aut=1;}
+
+
+
+                $userRight =new UserRight;
+                $userRight->right_id=$right->id;
+                $userRight->module=$module;
+                $userRight->viw=$viw;
+                $userRight->edi=$edi;
+                $userRight->del=$del;
+                $userRight->inp=$inp;
+                $userRight->aut=$aut;
+                $userRight->save();
+
+                $i++;
+            }
+        }
+
+        return redirect('user/rights');
     }
 
     /**

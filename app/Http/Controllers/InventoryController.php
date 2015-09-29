@@ -8,6 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Inventory;
 use App\Http\Requests\InventoryRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\ImportRequest;
 
 class InventoryController extends Controller
 {
@@ -134,8 +139,39 @@ class InventoryController extends Controller
         $item=Inventory::find($id)->delete();
     }
 
-    public function reports()
+    public function showImportExcel()
     {
         //
+        return view('inventory.import');
+    }
+
+
+    //Upload ms excel file
+    public function importExcel(Request $request)
+    {
+        try {
+
+            $file= $request->file('inventory_file');
+            $destinationPath = public_path() .'/uploads/temp/';
+            $filename   = str_replace(' ', '_', $file->getClientOriginalName());
+
+            $file->move($destinationPath, $filename);
+
+            Excel::load($destinationPath . $filename, function ($reader) {
+
+                    foreach ($reader->toArray() as $row) {
+                        dump($row);
+                    }
+                });
+
+             File::delete($destinationPath . $filename); //Delete after upload
+
+                //return redirect('inventory')->with('success', 'Users uploaded successfully.');
+            } catch (\Exception $e) {
+
+                echo $e->getMessage();
+                //  return redirect('inventory')->with('error',$e->getMessage());
+            }
+
     }
 }

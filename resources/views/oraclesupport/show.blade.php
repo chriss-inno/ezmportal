@@ -3,7 +3,7 @@
        <div class="col-md-12 col-sm-12">
            <section class="panel">
                <header class="panel-heading">
-                   <h3 class="text-info"> <strong> ORACLE SUPPORT LOGGED ISSUES</strong></h3>
+                   <h3 class="text-info"> <strong><i class="fa fa-database text-danger"></i> ORACLE SUPPORT LOGGED ISSUES</strong></h3>
                </header>
                <div class="panel-body">
                    <div class="row">

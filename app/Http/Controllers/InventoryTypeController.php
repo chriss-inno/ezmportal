@@ -9,6 +9,9 @@ use App\Inventory;
 use App\InventoryType;
 use App\Http\Requests\InventoryTypeRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InventoryTypeController extends Controller
 {
@@ -121,4 +124,5 @@ class InventoryTypeController extends Controller
             $item->delete();
         }
     }
+
 }

@@ -195,7 +195,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa  fa-users"></i> ORACLE SUPPORT LOGGED ISSUES</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-database text-danger"></i> ORACLE SUPPORT LOGGED ISSUES</strong></h3>
                     </header>
                     <div class="panel-body">
                         <p> <h3>New loged issue  </h3>

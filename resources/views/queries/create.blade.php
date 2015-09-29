@@ -188,6 +188,13 @@
                     </header>
                     <div class="panel-body">
                         <p> <h3>Query details </h3>
+                        @if(Session::has('message'))
+                            <div class="alert fade in alert-danger">
+                                <i class="icon-remove close" data-dismiss="alert"></i>
+                                {{Session::get('message')}}
+                            </div>
+                        @endif
+
                         @if (count($errors) > 0)
                             <div class="alert alert-danger">
                                 <ul>
@@ -202,7 +209,12 @@
                         <div class="form-group">
                             <label for="to_department">To Department</label>
                             <select class="form-control"  id="to_department" name="to_department">
-                                <option value="">----</option>
+                                @if(old('to_department'))
+                                    <?php $depa=\App\Department::find(old('to_department'));?>
+                                    <option value="{{$depa->id}}">{{$depa->department_name}}</option>
+                                @else
+                                    <option value="">----</option>
+                                @endif
                                 <?php $departments=\App\Department::where('receive_query','=','1')->get();?>
                                 @foreach($departments as $de)
                                     <option value="{{$de->id}}">{{$de->department_name}}</option>
@@ -215,13 +227,21 @@
                                 <div class="col-md-6">
                                     <label for="module">Module</label>
                                     <select class="form-control"  id="module" name="module">
-
+                                        @if(old('module'))
+                                            <?php $module=\App\Module::find(old('module'))?>
+                                            <option value="{{$module->id}}">{{$module->module_name}}</option>
+                                        @endif
                                     </select>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="critical_level">Critical Level</label>
                                     <select class="form-control"  id="critical_level" name="critical_level">
-                                        <option value="">----</option>
+                                        @if(old('critical_level'))
+                                            <option value="{{old('critical_level')}}">{{old('critical_level')}}</option>
+                                            @else
+                                            <option value="">----</option>
+                                            @endif
+
                                         <option value="Low">Low</option>
                                         <option value="Medium">Medium</option>
                                         <option value="High">High</option>
@@ -233,13 +253,13 @@
                         </div>
                         <div class="form-group">
                             <label for="unit_name">Description</label>
-                            <textarea class="ckeditor form-control" id="description" name="description"></textarea>
+                            <textarea class="ckeditor form-control" id="description" name="description">{{old('description')}}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="reference_file">Attach file</label>
                             <input type="file" id="reference_file" name="reference_file">
                             <p class="help-block">Attach file for reference.</p>
-                            <p class="help-block"><input type="checkbox" value="1" id="file_upload_check" name="file_upload_check"> <label for="file_upload">Tick here to submit attachment with query</label></p>
+                            <p class="help-block"><input type="checkbox" value="1" id="referencecheck" name="referencecheck"  @if(old('referencecheck')) checked @endif> <label for="file_upload">Tick here to submit attachment with query</label></p>
                         </div>
 
                             <button type="submit" class="btn btn-primary pull-right col-md-2">Submit Query</button>

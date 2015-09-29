@@ -22,13 +22,13 @@
                 "aaSorting": [[ 4, "desc" ]]
             } );
 
-            $(".deleteUser").click(function(){
+            $(".deleteRight").click(function(){
                 var id1 = $(this).parent().attr('id');
-                $(".deleteUser").show("slow").parent().parent().find("span").remove();
+                $(".deleteRight").show("slow").parent().parent().find("span").remove();
                 var btn = $(this).parent().parent();
                 $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
                 $("#no").click(function(){
-                    $(this).parent().parent().parent().find(".deleteUser").show("slow");
+                    $(this).parent().parent().parent().find(".deleteRight").show("slow");
                     $(this).parent().parent().parent().find("span").remove();
                 });
                 $("#yes").click(function(){
@@ -40,13 +40,13 @@
             });
 
             //Edit class streams
-            $(".userCreate").click(function(){
+            $(".rightCreate").click(function(){
                 var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
                 modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
                 modaldis+= '<div class="modal-content">';
                 modaldis+= '<div class="modal-header">';
                 modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">Update School Class Level</span>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">Create user right</span>';
                 modaldis+= '</div>';
                 modaldis+= '<div class="modal-body">';
                 modaldis+= ' </div>';
@@ -58,7 +58,7 @@
                 jQuery.noConflict();
                 $("#myModal").modal("show");
                 $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("users/create") ?>");
+                $(".modal-body").load("<?php echo url("user/rights/create") ?>");
                 $("#myModal").on('hidden.bs.modal',function(){
                     $("#myModal").remove();
                 });
@@ -66,7 +66,7 @@
             });
 
             //Edit class streams
-            $(".userProfile").click(function(){
+            $(".rightRoles").click(function(){
                 var id1 = $(this).parent().attr('id');
 
                 var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
@@ -74,7 +74,7 @@
                 modaldis+= '<div class="modal-content">';
                 modaldis+= '<div class="modal-header">';
                 modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">User Profile</span>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">View User Rights roles</span>';
                 modaldis+= '</div>';
                 modaldis+= '<div class="modal-body">';
                 modaldis+= ' </div>';
@@ -86,7 +86,7 @@
                 jQuery.noConflict();
                 $("#myModal").modal("show");
                 $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("users/show") ?>/"+id1);
+                $(".modal-body").load("<?php echo url("user/rights/roles") ?>/"+id1);
                 $("#myModal").on('hidden.bs.modal',function(){
                     $("#myModal").remove();
                 });
@@ -267,13 +267,13 @@
                                         <td><?php echo $role->description;?></td>
                                         <td>{{$role->status}}</td>
                                         <td id="{{$role->id}}">
-                                            <a href="#" class="userProfile btn btn-info btn-xs" title="User Profile"><i class="fa fa-eye"></i> View </a>
+                                            <a href="#" class="rightRoles btn btn-info btn-xs" title="User Right Roles"><i class="fa fa-eye"></i> Roles </a>
                                         </td>
                                         <td>
                                             <div class="pull-right hidden-phone" id="{{$role->id}}">
                                                 <a href="#b" class="blockUser btn btn-success btn-xs" ><i class=" fa fa-check"></i></a>
-                                                <a  href="{{url('users/rights/edit')}}/{{$role->id}}" title="Edit User right" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                                <a href="#b" title="Delete user" class="deleteUser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                                                <a  href="{{url('user/rights/edit')}}/{{$role->id}}" title="Edit User right" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                <a href="#b" title="Delete uer right" class="deleteRight btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
                                             </div>
                                         </td>
                                     </tr>

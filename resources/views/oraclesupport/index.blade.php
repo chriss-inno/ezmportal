@@ -266,7 +266,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa  fa-users"></i> ORACLE SUPPORT LOGGED ISSUES</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-database text-danger"></i> ORACLE SUPPORT LOGGED ISSUES</strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="adv-table">
@@ -279,7 +279,6 @@
                                     <th>Product</th>
                                     <th>Contact</th>
                                     <th>Opened</th>
-                                    <th>Closed</th>
                                     <th>Status</th>
                                     <th>Current Update</th>
                                     <th>Detailed</th>
@@ -296,11 +295,6 @@
                                         <td>{{$issue->product}}</td>
                                         <td>{{$issue->contact}}</td>
                                         <td>{{date('jS F, Y',strtotime($issue->date_opened))}}</td>
-                                        @if($issue->date_closed !="")
-                                        <td>{{date('jS F, Y',strtotime($issue->date_closed))}}</td>
-                                        @else
-                                            <td>Not Closed</td>
-                                            @endif
                                         <td>{{$issue->status}}</td>
                                         <td id="{{$issue->id}}">
                                             <a href="#" class="userProfile btn btn-success btn-xs" title="Update Issue status"><i class="fa fa-pencil"></i> Update </a>
@@ -326,7 +320,6 @@
                                     <th>Product</th>
                                     <th>Contact</th>
                                     <th>Opened</th>
-                                    <th>Closed</th>
                                     <th>Status</th>
                                     <th>Current Update</th>
                                     <th>Detailed</th>

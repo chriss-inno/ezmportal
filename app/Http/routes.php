@@ -90,8 +90,11 @@ Route::get('user/rights/create',['middleware' => 'auth', 'uses' =>'RightsControl
 Route::post('user/rights/create',['middleware' => 'auth', 'uses' =>'RightsController@store']);
 Route::get('user/rights',['middleware' => 'auth', 'uses' =>'RightsController@index']);
 Route::get('user/rights/edit/{id}',['middleware' => 'auth', 'uses' =>'RightsController@edit']);
-Route::get('user/rights/remove/{id}',['middleware' => 'auth', 'uses' =>'RightsController@destroy']);
 Route::post('user/rights/edit',['middleware' => 'auth', 'uses' =>'RightsController@update']);
+Route::get('user/rights/remove/{id}',['middleware' => 'auth', 'uses' =>'RightsController@destroy']);
+Route::get('user/rights/roles/{id}',['middleware' => 'auth', 'uses' =>'RightsController@rightRoles']);
+Route::post('roles/create',['middleware' => 'auth', 'uses' =>'RightsController@rightRolesPost']);
+
 
 //Oracle support
 Route::get('support/oracle/create',['middleware' => 'auth', 'uses' =>'OracleSupportController@create']);
@@ -114,6 +117,8 @@ Route::get('modules-remove/{id}',['middleware' => 'auth', 'uses' =>'ModuleContro
 Route::resource('inventory','InventoryController');
 Route::get('inventory-reports',['middleware' => 'auth', 'uses' =>'InventoryController@reports']);
 Route::get('inventory-remove/{id}',['middleware' => 'auth', 'uses' =>'InventoryController@destroy']);
+Route::get('inventory-import',['middleware' => 'auth', 'uses' =>'InventoryController@showImportExcel']);
+Route::post('inventory-import',['middleware' => 'auth', 'uses' =>'InventoryController@importExcel']);
 
 //Inventory type
 Route::resource('types','InventoryTypeController');
