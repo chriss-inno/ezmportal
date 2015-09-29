@@ -157,7 +157,7 @@
                     </div>
                     <div class="value">
                         <h1 class="count">
-                            10
+                           {{count(\App\User::all())}}
                         </h1>
                         <p>Users</p>
                     </div>
@@ -170,7 +170,7 @@
                     </div>
                     <div class="value">
                         <h1 class=" count2">
-                            100
+                            0
                         </h1>
                         <p>Reports</p>
                     </div>
@@ -183,7 +183,7 @@
                     </div>
                     <div class="value">
                         <h1 class=" count3">
-                            9000
+                            {{count(\App\Inventory::all())}}
                         </h1>
                         <p>Inventory</p>
                     </div>
@@ -196,9 +196,9 @@
                     </div>
                     <div class="value">
                         <h1 class=" count4">
-                            90099
+                            {{count(\App\OracleSupport::all())}}
                         </h1>
-                        <p>Month</p>
+                        <p>Oracle Issues</p>
                     </div>
                 </section>
             </div>
