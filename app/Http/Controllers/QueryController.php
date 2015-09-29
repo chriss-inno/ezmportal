@@ -11,6 +11,7 @@ use App\QueryAssignment;
 use App\User;
 use App\UserModules;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class QueryController extends Controller
 {
@@ -50,6 +51,20 @@ class QueryController extends Controller
     public function store(QueryRequest $request)
     {
         //
+        //Check for reference file
+        if($request->file_upload_chec != null && $request->file_upload_chec != "") {
+
+            $validator = Validator::make(
+                [
+                    'reference_file' => 'required|mimes:application/msword,application/vnd.ms-office,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                ]
+            );
+            if ($validator->fails())
+            {
+                // The given data did not pass validation
+                return redirect()->back()->withErrors($validator);
+            }
+        }
         $query=new Query;
         $query->reporting_Date=date("Y-m-d H:i");
         $query->from_department=Auth::user()->department_id;
@@ -63,10 +78,21 @@ class QueryController extends Controller
         $query->status="Launched";
         $query->save();
 
+
         //Generate query codes based on branch and department
         $query->query_code=$query->toDepartment->branch->branch_code.strtoupper(substr($query->toDepartment->department_name,0,3)).date("y").date("d").date("m").$query->id;;
         $query->save();
 
+        //Check for reference file
+        if($request->file_upload_chec != null && $request->file_upload_chec != "")
+        {
+            $imageName = $query->query_code . '.' .
+                $request->file('reference_file')->getClientOriginalExtension();
+
+            $request->file('reference_file')->move(
+                base_path() . '/public/uploads/', $imageName
+            );
+        }
 
         //Query auto reassign mechanism
         // 1. Check for users with no exemption and assigned to module the same module as logged by the query

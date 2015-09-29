@@ -237,9 +237,9 @@
                         </div>
                         <div class="form-group">
                             <label for="reference_file">Attach file</label>
-                            <input type="file" id="reference_file">
+                            <input type="file" id="reference_file" name="reference_file">
                             <p class="help-block">Attach file for reference.</p>
-                            <p class="help-block"><input type="checkbox" value="1" id="file_upload" name="file_upload"> <label for="file_upload">Tick here to submit attachment with query</label></p>
+                            <p class="help-block"><input type="checkbox" value="1" id="file_upload_check" name="file_upload_check"> <label for="file_upload">Tick here to submit attachment with query</label></p>
                         </div>
 
                             <button type="submit" class="btn btn-primary pull-right col-md-2">Submit Query</button>
