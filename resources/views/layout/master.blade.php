@@ -70,11 +70,11 @@
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <i class="fa fa-tasks"></i>
-                        <span class="badge bg-success">6</span>
+                        <span class="badge bg-success">0</span>
                     </a>
                     <ul class="dropdown-menu extended tasks-bar">
                         <div class="notify-arrow notify-arrow-green"></div>
-                        <li>
+                        <!-- <li>
                             <p class="green">You have 6 pending tasks</p>
                         </li>
                         <li>
@@ -145,7 +145,7 @@
                         </li>
                         <li class="external">
                             <a href="#">See All Tasks</a>
-                        </li>
+                        </li>-->
                     </ul>
                 </li>
                 <!-- settings end -->
@@ -153,11 +153,11 @@
                 <li id="header_inbox_bar" class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <i class="fa fa-envelope-o"></i>
-                        <span class="badge bg-important">5</span>
+                        <span class="badge bg-important">0</span>
                     </a>
                     <ul class="dropdown-menu extended inbox">
                         <div class="notify-arrow notify-arrow-red"></div>
-                        <li>
+                        <!-- <li>
                             <p class="red">You have 5 new messages</p>
                         </li>
                         <li>
@@ -198,7 +198,7 @@
                         </li>
                         <li>
                             <a href="#">See all messages</a>
-                        </li>
+                        </li>-->
                     </ul>
                 </li>
                 <!-- inbox dropdown end -->
@@ -207,11 +207,11 @@
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 
                         <i class="fa fa-bell-o"></i>
-                        <span class="badge bg-warning">7</span>
+                        <span class="badge bg-warning">0</span>
                     </a>
                     <ul class="dropdown-menu extended notification">
                         <div class="notify-arrow notify-arrow-yellow"></div>
-                        <li>
+                        <!--<li>
                             <p class="yellow">You have 7 new notifications</p>
                         </li>
                         <li>
@@ -251,7 +251,7 @@
                         </li>
                         <li>
                             <a href="#">See all notifications</a>
-                        </li>
+                        </li>-->
                     </ul>
                 </li>
                 <!-- notification dropdown end -->

@@ -193,7 +193,7 @@
                         <h3 class="text-info"> <strong><i class="fa fa-bars"></i> MANAGE ITEM INVENTORY</strong></h3>
                     </header>
                     <div class="panel-body">
-                        <p> <h3>Import From MS Excel </h3>
+                        <p> <h3 class="text-center">Import From MS Excel </h3>
                         @if (count($errors) > 0)
                             <div class="alert alert-danger">
                                 <ul>
@@ -203,12 +203,18 @@
                                 </ul>
                             </div>
                         @endif
+                        @if(Session::has('error'))
+                            <div class="alert fade in alert-danger">
+                                <i class="icon-remove close" data-dismiss="alert"></i>
+                                {{Session::get('message')}}
+                            </div>
+                        @endif
                         <hr/>
                         {!! Form::open(array('url'=>'inventory-import','role'=>'form','id'=>'importInventory','files' => true)) !!}
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4">
-                                    <label for="branch_code">Select Inventory File</label>
+                                    <label for="branch_code">Select Inventory File </label>
                                      <input type="file" id="inventory_file" name="inventory_file">
                                 </div>
                             </div>
@@ -230,7 +236,7 @@
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('inventory')}}" class="btn btn-compose btn-block">List inventory</a>
+                                <a href="{{url('inventory')}}" class="btn btn-compose btn-block">View Items</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
@@ -240,7 +246,7 @@
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('types')}}" class="btn btn-primary btn-block">List Item Types</a>
+                                <a href="{{url('types')}}" class="btn btn-primary btn-block">View Item types</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">

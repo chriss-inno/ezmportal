@@ -296,7 +296,11 @@
                                         <td>{{$i++}}</td>
                                         <td>{{$item->item_name}}</td>
                                         <td>{{$item->ip_address}}</td>
+                                        @if($item->type_id != null && $item->type_id !="" )
                                         <td>{{$item->type->type_name}}</td>
+                                        @else
+                                            <td></td>
+                                            @endif
                                         <td>{{$item->user_name}}</td>
                                         <td>{{$item->machine_model}}</td>
                                         <td>{{$item->serial_number}}</td>
@@ -350,7 +354,7 @@
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('inventory')}}" class="btn btn-compose btn-block">List inventory</a>
+                                <a href="{{url('inventory')}}" class="btn btn-compose btn-block">View Items</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
@@ -360,7 +364,7 @@
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('types')}}" class="btn btn-primary btn-block">List Item Types</a>
+                                <a href="{{url('types')}}" class="btn btn-primary btn-block">View Item types</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">

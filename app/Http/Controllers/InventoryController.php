@@ -84,6 +84,13 @@ class InventoryController extends Controller
         $item=Inventory::find($id);
         return view('inventory.show',compact('item'));
     }
+    public function reports()
+    {
+        //
+        $items=Inventory::all();
+        return view('inventory.index',compact('items'));
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -159,18 +166,33 @@ class InventoryController extends Controller
 
             Excel::load($destinationPath . $filename, function ($reader) {
 
-                    foreach ($reader->toArray() as $row) {
-                        dump($row);
-                    }
+                   $results = $reader->get();
+
+                    $results->each(function($row) {
+
+
+                        $item=new Inventory;
+                        $item->ip_address=$row->ip_address;
+                        $item->item_name=strtoupper(strtolower($row->item_name));
+                        $item->user_name=ucwords(strtolower($row->username));
+                        $item->machine_model=$row->machine_model;
+                        $item->serial_number=strtoupper(strtolower($row->serial_number));
+                        $item->usb=$row->usb;
+                        $item->antivirus=$row->antivirus;
+                        $item->status='working';
+                        $item->input_by=Auth::user()->username;
+                        $item->save();
+                       });
+
                 });
 
              File::delete($destinationPath . $filename); //Delete after upload
 
-                //return redirect('inventory')->with('success', 'Users uploaded successfully.');
+                return redirect('inventory')->with('success', 'Users uploaded successfully.');
             } catch (\Exception $e) {
 
-                echo $e->getMessage();
-                //  return redirect('inventory')->with('error',$e->getMessage());
+                //echo $e->getMessage();
+                return redirect('inventory')->with('error',$e->getMessage());
             }
 
     }

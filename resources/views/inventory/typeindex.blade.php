@@ -323,7 +323,7 @@
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('types')}}" class="btn btn-compose btn-block">List Item Types</a>
+                                <a href="{{url('types')}}" class="btn btn-compose btn-block">View Item Types</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
@@ -333,7 +333,7 @@
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('inventory')}}" class="btn btn-primary btn-block">List inventory</a>
+                                <a href="{{url('inventory')}}" class="btn btn-primary btn-block">View Items</a>
                             </div>
                         </div>
                     </div>

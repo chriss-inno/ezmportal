@@ -165,7 +165,7 @@
             </div>
             <div class="col-lg-3 col-sm-6">
                 <section class="panel">
-                    <div class="symbol red">
+                    <div class="symbol blue">
                         <i class="fa fa-tags"></i>
                     </div>
                     <div class="value">
@@ -185,20 +185,20 @@
                         <h1 class=" count3">
                             {{count(\App\Inventory::all())}}
                         </h1>
-                        <p>Inventory</p>
+                        <p>Inventory Items</p>
                     </div>
                 </section>
             </div>
             <div class="col-lg-3 col-sm-6">
                 <section class="panel">
-                    <div class="symbol blue">
-                        <i class="fa fa-bar-chart-o"></i>
+                    <div class="symbol red">
+                        <i class="fa fa-database text-danger"></i>
                     </div>
                     <div class="value">
                         <h1 class=" count4">
                             {{count(\App\OracleSupport::all())}}
                         </h1>
-                        <p>Oracle Issues</p>
+                        <p>Oracle Opened Issues</p>
                     </div>
                 </section>
             </div>
@@ -308,9 +308,8 @@
                         <div class="chart">
                             <div class="heading">
                                 <span>{{date('l')}}</span>
-                                <strong>57,00</strong>
                             </div>
-                            <div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="[200,135,667,333,526,996,564,123,890,564,455]"></div>
+                            <div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="[0,0,0,0,0,0,0,0,0,0,0]"></div>
                         </div>
                     </div>
                     <div class="chart-tittle">
@@ -325,14 +324,14 @@
                         <div class="chart">
                             <div class="heading">
                                 <span>{{date('F')}}</span>
-                                <strong>{{date('d')}} Days | 65%</strong>
+                                <strong>{{date('d')}} Days</strong>
                             </div>
                             <div id="barchart"></div>
                         </div>
                     </div>
                     <div class="chart-tittle">
-                        <span class="title">Closed Query for current month</span>
-                        <span class="value">76,54,678</span>
+                        <span class="title">Closed Query</span>
+                        <span class="value">{{count(\App\Query::all())}}</span>
                     </div>
                 </div>
                 <!--total earning end-->
@@ -354,28 +353,28 @@
                                 <i class=" fa fa-tasks"></i>
                             </td>
                             <td>New Task Issued</td>
-                            <td> 02</td>
+                            <td> 0</td>
                         </tr>
                         <tr>
                             <td>
                                 <i class="fa fa-exclamation-triangle"></i>
                             </td>
                             <td>Task Pending</td>
-                            <td> 14</td>
+                            <td> 0</td>
                         </tr>
                         <tr>
                             <td>
                                 <i class="fa fa-envelope"></i>
                             </td>
                             <td>Inbox</td>
-                            <td> 45</td>
+                            <td> 0</td>
                         </tr>
                         <tr>
                             <td>
                                 <i class=" fa fa-bell-o"></i>
                             </td>
                             <td>New Notification</td>
-                            <td> 09</td>
+                            <td> 0</td>
                         </tr>
                         </tbody>
                     </table>
@@ -392,7 +391,7 @@
                     </div>
                     <table class="table table-hover personal-task">
                         <tbody>
-                        <tr>
+                        <!-- <tr>
                             <td>1</td>
                             <td>
                                 Target Sell
@@ -451,7 +450,7 @@
                             <td>
                                 <div id="work-progress5"></div>
                             </td>
-                        </tr>
+                        </tr> -->
                         </tbody>
                     </table>
                 </section>
