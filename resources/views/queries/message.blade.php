@@ -5,7 +5,7 @@
 
 <fieldset class="scheduler-border">
     <legend class="scheduler-border text-info">Send Message for query <strong class="text-danger">{{ucwords(strtolower($query->query_code." (".$query->fromDepartment->department_name.")"))}}</strong> issue logged  on {{date("d M, Y H:i",strtotime($query->reporting_Date))}} </legend>
-    {!! Form::open(array('url'=>'queries/message','role'=>'form','id'=>'unitForm')) !!}
+    {!! Form::open(array('url'=>'queries/message','role'=>'form','id'=>'queryMessageForm')) !!}
 
     <div class="form-group">
         <label for="current_update"></label>
@@ -17,7 +17,7 @@
             <a href="#" data-dismiss="modal"  class="btn btn-danger btn-block"> <i class="icon-remove"></i>  Cancel</a>
         </div>
         <div class="col-md-2 pull-right">
-            <input type="hidden" name="issue_id" id="issue_id" value="{{$query->id}}">
+            <input type="hidden" name="query_id" id="query_id" value="{{$query->id}}">
             <button type="submit" class="btn btn-primary btn-block">Submit</button>
         </div>
     </div>
@@ -28,18 +28,18 @@
 {!!HTML::script("js/respond.min.js"  ) !!}
 {!!HTML::script("js/form-validation-script.js") !!}
 <script>
-    $("#unitForm").validate({
+    $("#queryMessageForm").validate({
         rules: {
-            current_update: "required"
+            message: "required"
 
         },
         messages: {
-            current_update: "Please enter update contents"
+            message: "Please enter Message"
         },
         submitHandler: function(form) {
             $("#output").html("<h3><span class='text-info'><i class='icon-spinner icon-spin'></i> Making changes please wait...</span><h3>");
-            var postData = $('#unitForm').serializeArray();
-            var formURL = $('#unitForm').attr("action");
+            var postData = $('#queryMessageForm').serializeArray();
+            var formURL = $('#queryMessageForm').attr("action");
             $.ajax(
                     {
                         url : formURL,

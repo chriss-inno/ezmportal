@@ -92,8 +92,8 @@ class EmailController extends Controller
         //
         $issues=OracleSupport::where('status','=','Opened')->where('email_sent','=','N')->get(); //retrieve all opened issues
 
-
-
+        return view('emails.oracle',compact('issues'));
+         /*
 
              //Send every day at 9 pm, the email is sent to support
               if(date("H:i") =="21:00") {
@@ -124,7 +124,7 @@ class EmailController extends Controller
 
              }
 
-
+*/
 
 
     }

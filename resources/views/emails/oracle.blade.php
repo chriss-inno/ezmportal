@@ -37,7 +37,7 @@
             <td style="border: 1px solid #000;">{{$issue->current_status}}</td>
             <td style="border: 1px solid #000;">
              <?php $update=\App\IssuesDailyUpdates::where('issue_id','=',$issue->id)
-                                    ->orderBy('current_date')
+                                    ->orderBy('current_date','Desc')
                                     ->get()->first();
                     if(count($update) >0 ){
                       echo $update->current_update;

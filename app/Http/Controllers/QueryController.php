@@ -12,6 +12,7 @@ use App\User;
 use App\UserModules;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Message;
 
 class QueryController extends Controller
 {
@@ -161,7 +162,7 @@ class QueryController extends Controller
     public function show($id)
     {
         //
-        $query=Query::find();
+        $query=Query::find($id);
         return view('queries.show',compact('query'));
     }
     public function message($id)
@@ -173,7 +174,15 @@ class QueryController extends Controller
     public function postMessage(Request $request)
     {
         //
-        $query=Query::find($request->id);
+        $query=Query::find($request->query_id);
+
+        $msg=new Message;
+        $msg->query_id=$request->query_id;
+        $msg->sender=$query->reported_by;
+        $msg->sent_time=date("Y-m-d H:i");
+        $msg->message_type="OUT";
+        $msg->message=$request->message;
+        $msg->save();
         return "Data saved successful";
     }
 
