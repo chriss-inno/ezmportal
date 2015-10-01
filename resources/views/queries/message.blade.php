@@ -4,12 +4,12 @@
 
 
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border text-info">Send Message for query <strong class="text-danger">{{ucwords(strtolower($issues->issue_title))}}</strong> issue logged  on {{$issues->date_opened}} </legend>
+    <legend class="scheduler-border text-info">Send Message for query <strong class="text-danger">{{ucwords(strtolower($query->query_code." (".$query->fromDepartment->department_name.")"))}}</strong> issue logged  on {{date("d M, Y H:i",strtotime($query->reporting_Date))}} </legend>
     {!! Form::open(array('url'=>'queries/message','role'=>'form','id'=>'unitForm')) !!}
 
     <div class="form-group">
         <label for="current_update"></label>
-        <textarea class="ckeditor form-control" name="current_update" rows="10"></textarea>
+        <textarea class="ckeditor form-control" name="message" rows="10" id="message"></textarea>
     </div>
     <div class="row">
         <div class="col-md-8 pull-left" id="output"></div>
@@ -17,7 +17,7 @@
             <a href="#" data-dismiss="modal"  class="btn btn-danger btn-block"> <i class="icon-remove"></i>  Cancel</a>
         </div>
         <div class="col-md-2 pull-right">
-            <input type="hidden" name="issue_id" id="issue_id" value="{{$issues->id}}">
+            <input type="hidden" name="issue_id" id="issue_id" value="{{$query->id}}">
             <button type="submit" class="btn btn-primary btn-block">Submit</button>
         </div>
     </div>
