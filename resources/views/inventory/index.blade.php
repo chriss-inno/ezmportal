@@ -18,8 +18,12 @@
 
 
             $('#branches').dataTable( {
-                "aaSorting": [[ 4, "desc" ]]
-            } );
+                "aoColumnDefs": [
+                    { "bSortable": false, "aTargets": [ 0 ] }
+                ],
+                "aaSorting": [[1, 'asc']],
+                "fnDrawCallback": function( oSettings ) {
+
 
             $(".deleteItem").click(function(){
                 var id1 = $(this).parent().attr('id');
@@ -34,6 +38,7 @@
                     $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
                     $.get("<?php echo url('inventory-remove') ?>/"+id1,function(data){
                         btn.hide("slow").next("hr").hide("slow");
+                       // $(this).parent().parent().parent().parent().remove();
                     });
                 });
             });
@@ -118,6 +123,9 @@
                 })
 
             });
+                }
+            } );
+
         } );
 
 
@@ -313,11 +321,8 @@
 
                                         </td>
                                         <td id="{{$item->id}}" align="center">
-                                            <div class="pull-right hidden-phone" id="{{$item->id}}">
-                                                <a  href="#" title="Edit Module" class="editItem btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                                <a href="#b" title="Delete Module" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
-                                            </div>
-
+                                                <a  href="#" title="Edit Inventory Item" class="editItem btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                <a href="#b" title="Delete Inventory Item" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
                                         </td>
                                     </tr>
 

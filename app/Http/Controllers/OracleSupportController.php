@@ -174,6 +174,7 @@ class OracleSupportController extends Controller
         }
         $os->delete();
 
+        return "<h3 class='text-info'>Data deleted successful</h3>";
     }
 
 }

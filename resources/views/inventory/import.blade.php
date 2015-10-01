@@ -213,13 +213,19 @@
                         {!! Form::open(array('url'=>'inventory-import','role'=>'form','id'=>'importInventory','files' => true)) !!}
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4">
-                                    <label for="branch_code">Select Inventory File </label>
+                                <div class="col-md-4 col-sm-4 col-xs-4 col-sm-offset-4 col-md-offset-4 col-xs-offset-4">
                                      <input type="file" id="inventory_file" name="inventory_file">
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary col-md-2 col-sm-2 col-md-offset-4 col-sm-offset-4">Import Now</button>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 col-xs-4 col-sm-offset-4 col-md-offset-4 col-xs-offset-4">
+                                    <button type="submit" class="btn btn-primary btn-block">Import File</button>
+                                </div>
+                            </div>
+                        </div>
+
 
                         {!! Form::close() !!}
 

@@ -161,6 +161,20 @@ class QueryController extends Controller
     public function show($id)
     {
         //
+        $query=Query::find();
+        return view('queries.show',compact('query'));
+    }
+    public function message($id)
+    {
+        //
+        $query=Query::find($id);
+        return view('queries.message',compact('query'));
+    }
+    public function postMessage(Request $request)
+    {
+        //
+        $query=Query::find($request->id);
+        return "Data saved successful";
     }
 
     /**

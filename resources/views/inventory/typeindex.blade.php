@@ -18,8 +18,11 @@
 
 
             $('#branches').dataTable( {
-                "aaSorting": [[ 4, "desc" ]]
-            } );
+                "aoColumnDefs": [
+                    { "bSortable": false, "aTargets": [ 0 ] }
+                ],
+                "aaSorting": [[1, 'asc']],
+                "fnDrawCallback": function( oSettings ) {
 
             $(".deleteType").click(function(){
                 var id1 = $(this).parent().attr('id');
@@ -118,6 +121,8 @@
                 })
 
             });
+                }
+            } );
         } );
 
 
@@ -290,11 +295,8 @@
                                         <td>{{$type->type_name}}</td>
                                         <td>{{$type->description}}</td>
                                         <td id="{{$type->id}}" align="center">
-                                            <div class="pull-right hidden-phone" id="{{$type->id}}">
                                                 <a  href="#" title="Edit Inventory Type" class="editType btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
                                                 <a href="#b" title="Delete Inventory Type" class="deleteType btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
-                                            </div>
-
                                         </td>
                                     </tr>
 

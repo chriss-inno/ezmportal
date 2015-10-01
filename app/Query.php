@@ -21,8 +21,19 @@ class Query extends Model
     {
         return $this::belongsTo('\App\User','reported_by');
     }
+
+    public function assignment()
+    {
+        return $this::hasOne('\App\QueryAssignment','query_id');
+    }
     public function module()
     {
         return $this::belongsTo('\App\Module','module_id');
+    }
+
+    //Query messages
+    public function message()
+    {
+        return $this::hasMany('\App\Message','query_id','id');
     }
 }

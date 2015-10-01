@@ -14,21 +14,21 @@
 
 
             $('#branches').dataTable( {
-                "aaSorting": [[ 4, "desc" ]]
-            } );
+                "fnDrawCallback": function( oSettings ) {
 
-            $(".deleteUser").click(function(){
-                var id1 = $(this).parent().parent().attr('id');
-                $(".deleteUser").show("slow").parent().parent().find("span").remove();
+
+            $(".deleteIssue").click(function(){
+                var id1 = $(this).parent().attr('id');
+                $(".deleteIssue").show("slow").parent().parent().find("span").remove();
                 var btn = $(this).parent().parent();
                 $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
                 $("#no").click(function(){
-                    $(this).parent().parent().parent().find(".deleteUser").show("slow");
+                    $(this).parent().parent().parent().find(".deleteIssue").show("slow");
                     $(this).parent().parent().parent().find("span").remove();
                 });
                 $("#yes").click(function(){
                     $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                    $.get("<?php echo url('users/remove') ?>/"+id1,function(data){
+                    $.get("<?php echo url('support/oracle/remove') ?>/"+id1,function(data){
                         btn.hide("slow").next("hr").hide("slow");
                     });
                 });
@@ -115,6 +115,8 @@
                 });
 
             });
+        }
+        } );
         } );
 
 
@@ -280,7 +282,7 @@
                                     <th>Contact</th>
                                     <th>Opened</th>
                                     <th>Status</th>
-                                    <th>Current Update</th>
+                                    <th>Update</th>
                                     <th>Detailed</th>
                                     <th>Action</th>
                                 </tr>
@@ -302,30 +304,14 @@
                                         <td id="{{$issue->id}}">
                                             <a href="#" class="issueDetails btn btn-info btn-xs" title="Detailed Information"><i class="fa fa-eye"></i> View </a>
                                         </td>
-                                        <td>
-                                            <div class="pull-right hidden-phone" id="{{$issue->id}}">
+                                        <td id="{{$issue->id}}" style="min-width: 80px">
                                                 <a  href="{{url('support/oracle/edit')}}/{{$issue->id}}" title="Edit User right" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                                <a href="#b" title="Delete user" class="deleteUser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
-                                            </div>
+                                                <a href="#b" title="Remove" class="deleteIssue btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
                                         </td>
                                     </tr>
 
                                 @endforeach
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>SNO</th>
-                                    <th>Problem Summary</th>
-                                    <th>SR Number</th>
-                                    <th>Product</th>
-                                    <th>Contact</th>
-                                    <th>Opened</th>
-                                    <th>Status</th>
-                                    <th>Current Update</th>
-                                    <th>Detailed</th>
-                                    <th>Action</th>
-                                </tr>
-                                </tfoot>
                             </table>
                         </div>
                     </div>

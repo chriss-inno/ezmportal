@@ -108,6 +108,7 @@ Route::get('support/oracle/opened',['middleware' => 'auth', 'uses' =>'OracleSupp
 Route::get('support/oracle/closed',['middleware' => 'auth', 'uses' =>'OracleSupportController@closed']);
 Route::get('support/oracle/history',['middleware' => 'auth', 'uses' =>'OracleSupportController@index']);
 Route::get('support/oracle/report',['middleware' => 'auth', 'uses' =>'OracleSupportController@report']);
+Route::get('support/oracle/remove/{id}',['middleware' => 'auth', 'uses' =>'OracleSupportController@destroy']);
 
 //Modules
 Route::resource('modules','ModuleController');
@@ -159,6 +160,9 @@ Route::get('queries/mytask',['middleware' => 'auth', 'uses' =>'QueryController@t
 Route::get('queries/progress',['middleware' => 'auth', 'uses' =>'QueryController@progress']);
 Route::get('queries/history',['middleware' => 'auth', 'uses' =>'QueryController@history']);
 Route::get('queries/report',['middleware' => 'auth', 'uses' =>'QueryController@report']);
+Route::get('queries/show/{id}',['middleware' => 'auth', 'uses' =>'QueryController@show']);
+Route::get('queries/message/{id}',['middleware' => 'auth', 'uses' =>'QueryController@message']);
+Route::post('queries/message',['middleware' => 'auth', 'uses' =>'QueryController@postMessage']);
 
 //Send emails
 Route::get('emails/oracleissues','EmailController@olacle');
