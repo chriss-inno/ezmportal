@@ -12,33 +12,35 @@
                        <table  class="display table table-bordered table-striped" id="branches">
                            <thead>
                            <tr>
-                               <th>Problem Summary</th>
-                               <th>SR Number</th>
-                               <th>Product</th>
-                               <th>Contact</th>
-                               <th>Opened</th>
-                               <th>Closed</th>
+                               <th>SNO</th>
+                               <th>Query code</th>
+                               <th>Reported</th>
+                               <th>Sent to</th>
+                               <th>Person Assigned </th>
+                               <th>Critical</th>
                                <th>Status</th>
+                               <th>Module</th>
+
                            </tr>
                            </thead>
                            <tbody>
+                           <?php $c=1;?>
 
-                               <tr>
-                                   <td>{{$issue->issue_title}}</td>
-                                   <td>{{$issue->sr_number}}</td>
-                                   <td>{{$issue->product}}</td>
-                                   <td>{{$issue->contact}}</td>
-                                   <td>{{$issue->date_opened}}</td>
-                                   <td>{{$issue->date_closed}}</td>
-                                   <td>{{$issue->status}}</td>
+                               <tr id="{{$query->id}}">
+                                   <td>{{$c++}}</td>
+                                   <td>{{$query->query_code}}</td>
+                                   <td>{{date("d M, Y H:i",strtotime($query->reporting_Date))}}</td>
+                                   <td>{{$query->fromDepartment->department_name}}</td>
+                                   @if($query->assignment != null && $query->assignment !="")
+                                       <td style="background-color:#78CD51; color: #FFF;">{{$query->assignment->user->first_name.' '.$query->user->last_name}}</td>
+                                   @else
+                                       <td style="background-color:#FF6C60; color: #FFF;">Not Assigned</td>
+                                   @endif
+                                   <td>{{$query->critical_level}}</td>
+                                   <td>{{$query->status}}</td>
+                                   <td>{{$query->module->module_name}}</td>
+                                   
                                </tr>
-                              <tr>
-                                  <th colspan="7">Description</th>
-                              </tr>
-                               <tr>
-                                   <td colspan="7"><?php echo $issue->description;?></td>
-                               </tr>
-
 
                            </tbody>
                        </table>
@@ -49,7 +51,7 @@
                        <div class="col-md-12 col-sm-12">
                            <p><h4 class="text-info"><strong>Issue daily updates</strong></h4></p>
                            <div class="timeline-messages">
-                              @foreach($issue->dailyUpdates as $message)
+                              @foreach($query->dailyUpdates as $message)
                                <!-- Comment -->
                                <div class="msg-time-chat">
 

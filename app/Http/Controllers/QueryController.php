@@ -161,7 +161,7 @@ class QueryController extends Controller
     public function show($id)
     {
         //
-        $query=Query::find();
+        $query=Query::find($id);
         return view('queries.show',compact('query'));
     }
     public function message($id)
