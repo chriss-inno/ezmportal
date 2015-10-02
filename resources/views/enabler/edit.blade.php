@@ -8,18 +8,22 @@
 
     <div class="form-group">
         <label for="item_name">Enabler Name</label>
-        <input type="text" class="form-control" id="enabler_name" name="enabler_name" value="{{old('enabler_name')}}" placeholder="Enter Enabler Name">
+        <input type="text" class="form-control" id="enabler_name" name="enabler_name" value="{{$enabler->enabler_name}}" placeholder="Enter Enabler Name">
     </div>
     <div class="form-group">
         <label for="description">Item Descriptions</label>
-        <textarea class="form-control" id="description" name="description">{{old('description')}}</textarea>
+        <textarea class="form-control" id="description" name="description">{{$enabler->description)}}</textarea>
     </div>
     <div class="form-group">
         <div class="row">
             <div class="col-md-12">
                 <label for="status">Status</label>
                 <select name="status" class="form-control" id="status">
-                    <option selected value="">----</option>
+                    @if($enabler->status !="")
+                    <option selected value="{{$enabler->status }}">{{$enabler->status }}</option>
+                    @else
+                        <option selected value="">----</option>
+                        @endif
                     <option value="Working">Working</option>
                     <option value="Not Working">Not Working</option>
                 </select>
