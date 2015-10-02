@@ -36,7 +36,7 @@
                 });
                 $("#yes").click(function(){
                     $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                    $.get("<?php echo url('inventory-remove') ?>/"+id1,function(data){
+                    $.get("<?php echo url('enablers-remove') ?>/"+id1,function(data){
                         btn.hide("slow").next("hr").hide("slow");
                        // $(this).parent().parent().parent().parent().remove();
                     });
@@ -50,7 +50,7 @@
                 modaldis+= '<div class="modal-content">';
                 modaldis+= '<div class="modal-header">';
                 modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center" style="color: #FFF">Update Inventory Item</span>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center" style="color: #FFF">Update Enabler details</span>';
                 modaldis+= '</div>';
                 modaldis+= '<div class="modal-body">';
                 modaldis+= ' </div>';
@@ -62,7 +62,7 @@
                 jQuery.noConflict();
                 $("#myModal").modal("show");
                 $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("inventory") ?>/"+id1+"/edit");
+                $(".modal-body").load("<?php echo url("enablers") ?>/"+id1+"/edit");
                 $("#myModal").on('hidden.bs.modal',function(){
                     $("#myModal").remove();
                 })
@@ -77,7 +77,7 @@
                 modaldis+= '<div class="modal-content">';
                 modaldis+= '<div class="modal-header">';
                 modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">New Inventory Item </span>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Create New Enabler </span>';
                 modaldis+= '</div>';
                 modaldis+= '<div class="modal-body">';
                 modaldis+= ' </div>';
@@ -89,7 +89,7 @@
                 jQuery.noConflict();
                 $("#myModal").modal("show");
                 $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("inventory/create") ?>");
+                $(".modal-body").load("<?php echo url("enablers/create") ?>");
                 $("#myModal").on('hidden.bs.modal',function(){
                     $("#myModal").remove();
                 })
@@ -117,7 +117,7 @@
                 jQuery.noConflict();
                 $("#myModal").modal("show");
                 $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("inventory") ?>/"+id1);
+                $(".modal-body").load("<?php echo url("enablers") ?>/"+id1);
                 $("#myModal").on('hidden.bs.modal',function(){
                     $("#myModal").remove();
                 })
@@ -277,7 +277,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa fa-bars"></i> MANAGE ITEM INVENTORY</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-cogs"></i> MANAGE QUERY ENABLER</strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="adv-table">
@@ -285,44 +285,21 @@
                                 <thead>
                                 <tr>
                                     <th>SNO</th>
-                                    <th>Item Name</th>
-                                    <th>IP Address</th>
-                                    <th>Item Type</th>
-                                    <th>Username</th>
-                                    <th>Machine Model</th>
-                                    <th>Serial number</th>
-                                    <th>USB</th>
-                                    <th>Antivirus</th>
-                                    <th>Details</th>
+                                    <th>Enabler name</th>
+                                    <th>Description</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php $i=1;?>
-                                @foreach($items as $item)
+                                @foreach($enablers as $enabler)
                                     <tr>
                                         <td>{{$i++}}</td>
-                                        <td>{{$item->item_name}}</td>
-                                        <td>{{$item->ip_address}}</td>
-                                        @if($item->type_id != null && $item->type_id !="" )
-                                        <td>{{$item->type->type_name}}</td>
-                                        @else
-                                            <td></td>
-                                            @endif
-                                        <td>{{$item->user_name}}</td>
-                                        <td>{{$item->machine_model}}</td>
-                                        <td>{{$item->serial_number}}</td>
-                                        <td>{{$item->usb}}</td>
-                                        <td>{{$item->antivirus}}</td>
-                                        <td id="{{$item->id}}" align="center">
-                                            <div class="pull-right hidden-phone" id="{{$item->id}}">
-                                                <a  href="#" title="show item details" class="showDetails btn btn-info btn-xs"><i class="fa fa-eye"></i></a>
-                                            </div>
-
-                                        </td>
-                                        <td id="{{$item->id}}" align="center">
-                                                <a  href="#" title="Edit Inventory Item" class="editItem btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                                <a href="#b" title="Delete Inventory Item" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                        <td>{{$enabler->enabler_name}}</td>
+                                        <td>{{$enabler->description}}</td>
+                                        <td id="{{$enabler->id}}" align="center">
+                                                <a  href="#" title="Edit Enabler" class="editItem btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                <a href="#b" title="Delete Enabler" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
                                         </td>
                                     </tr>
 
@@ -330,17 +307,9 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-
                                     <th>SNO</th>
-                                    <th>Item Name</th>
-                                    <th>IP Address</th>
-                                    <th>Item Type</th>
-                                    <th>Username</th>
-                                    <th>Machine Model</th>
-                                    <th>Serial number</th>
-                                    <th>USB</th>
-                                    <th>Antivirus</th>
-                                    <th>Details</th>
+                                    <th>Enabler name</th>
+                                    <th>Description</th>
                                     <th>Action</th>
                                 </tr>
                                 </tfoot>
@@ -354,27 +323,22 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <a href="#" class="createItem btn btn-compose btn-block">New Item</a>
+                                <a href="#" class="createItem btn btn-compose btn-block">Add New</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('inventory')}}" class="btn btn-compose btn-block">View Items</a>
+                                <a href="{{url('enablers')}}" class="btn btn-compose btn-block">View Enabler List</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('inventory-reports')}}" class="btn btn-compose btn-block">Inventory Reports</a>
+                                <a href="{{url('modules')}}" class="btn btn-compose btn-block">List Query Modules</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('types')}}" class="btn btn-primary btn-block">View Item types</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('inventory-import')}}" class="btn btn-primary btn-block">Import From Excel</a>
+                                <a href="{{url('queriesstatus')}}" class="btn btn-compose btn-block">Query status list</a>
                             </div>
                         </div>
                     </div>

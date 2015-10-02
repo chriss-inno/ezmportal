@@ -14,8 +14,10 @@ class CreateQueryStatusesTable extends Migration
     {
         Schema::create('query_statuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('status')->nullable();
+            $table->string('status_name')->nullable();
+            $table->string('description')->nullable();
             $table->string('input_by')->nullable();
+            $table->string('status')->nullable();
             $table->string('auth_by')->nullable();
             $table->string('auth_status',1)->default('U');
             $table->timestamps();

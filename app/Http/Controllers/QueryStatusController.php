@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\QueryStatus;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class QueryStatusController extends Controller
 {
@@ -16,6 +18,8 @@ class QueryStatusController extends Controller
     public function index()
     {
         //
+        $queriesStatus=QueryStatus::all();
+        return view('queries.statusindex',compact('queriesStatus'));
     }
 
     /**
@@ -26,6 +30,7 @@ class QueryStatusController extends Controller
     public function create()
     {
         //
+        return view('queries.statuscreate');
     }
 
     /**
@@ -37,6 +42,14 @@ class QueryStatusController extends Controller
     public function store(Request $request)
     {
         //
+        $queriesStatus=new QueryStatus;
+        $queriesStatus->status_name=strtoupper(strtolower($request->status_name));
+        $queriesStatus->description=$request->description;
+        $queriesStatus->input_by=Auth::user()->username;
+        $queriesStatus->status=$request->status;
+        $queriesStatus->save();
+
+        return "Data is successful saved";
     }
 
     /**
@@ -48,6 +61,8 @@ class QueryStatusController extends Controller
     public function show($id)
     {
         //
+        $queriesStatus=QueryStatus::find($id);
+        return view('queries.statusshow',compact('queriesStatus'));
     }
 
     /**
@@ -59,6 +74,8 @@ class QueryStatusController extends Controller
     public function edit($id)
     {
         //
+        $queriesStatus=QueryStatus::find($id);
+        return view('queries.statusedit',compact('queriesStatus'));
     }
 
     /**
@@ -71,6 +88,13 @@ class QueryStatusController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $queriesStatus= QueryStatus::find($id);
+        $queriesStatus->status_name=strtoupper(strtolower($request->status_name));
+        $queriesStatus->description=$request->description;
+        $queriesStatus->input_by=Auth::user()->username;
+        $queriesStatus->status=$request->status;
+        $queriesStatus->save();
+        return "Data is successful saved";
     }
 
     /**
@@ -82,5 +106,6 @@ class QueryStatusController extends Controller
     public function destroy($id)
     {
         //
+        $queriesStatus=QueryStatus::find($id)->delete();
     }
 }

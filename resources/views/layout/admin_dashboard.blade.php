@@ -141,6 +141,8 @@
                 <li><a  href="{{url('users')}}">Users</a></li>
                 <li><a  href="{{url('user/rights')}}">Users Rights</a></li>
                 <li><a  href="{{url('modules')}}">Query Modules</a></li>
+                <li><a  href="{{url('enablers')}}">Query Enablers</a></li>
+                <li><a  href="{{url('queriesstatus')}}">Query Status</a></li>
             </ul>
         </li>
         @endif

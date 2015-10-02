@@ -309,6 +309,16 @@
                                 <a href="{{url('modules/reports')}}" class="btn btn-compose btn-block">Modules Reports</a>
                             </div>
                         </div>
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-md-12">
+                                <a href="{{url('enablers')}}" class="btn btn-compose btn-block">Query Enablers</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-md-12">
+                                <a href="{{url('queriesstatus')}}" class="btn btn-compose btn-block">Query status list</a>
+                            </div>
+                        </div>
                     </div>
                 </section>
             </div>

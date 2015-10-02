@@ -43,7 +43,7 @@ class EnablerController extends Controller
     {
         //
         $enabler=new Enabler;
-        $enabler->enabler_name=$request->enabler_name;
+        $enabler->enabler_name=strtoupper(strtolower($request->enabler_name));
         $enabler->description=$request->description;
         $enabler->status=$request->status;
         $enabler->input_by=Auth::user()->username;
@@ -89,7 +89,7 @@ class EnablerController extends Controller
     {
         //
         $enabler= Enabler::find($id);
-        $enabler->enabler_name=$request->enabler_name;
+        $enabler->enabler_name=strtoupper(strtolower($request->enabler_name));
         $enabler->description=$request->description;
         $enabler->status=$request->status;
         $enabler->input_by=Auth::user()->username;
