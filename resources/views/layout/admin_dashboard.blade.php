@@ -242,6 +242,7 @@
                 $QueryNov=count($allNov);
                 $allDec=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',12)->get();
                 $QueryDec=count($allDec);
+
                 ?>
                 <div class="custom-bar-chart">
                     <ul class="y-axis">
@@ -254,51 +255,51 @@
                     </ul>
                     <div class="bar">
                         <div class="title">JAN</div>
-                        <div class="value tooltips" data-original-title="{{$QueryJan}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryJan >0){{($QueryYear/$QueryJan) *100}}@else{{$QueryJan}}@endif%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryJan}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryJan >0){{($QueryJan*100)/$QueryYear}}@else{{$QueryJan}}@endif%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">FEB</div>
-                        <div class="value tooltips" data-original-title="{{$QueryFeb}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryFeb >0){{($QueryYear/$QueryFeb) *100}}@else{{$QueryFeb}}@endif%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryFeb}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryFeb >0){{($QueryFeb*100)/$QueryYear}}@else{{$QueryFeb}}@endif%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">MAR</div>
-                        <div class="value tooltips" data-original-title="{{$QueryMar}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryMar >0){{($QueryYear/$QueryMar) *100}}@else{{$QueryMar}}@endif%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryMar}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryMar >0){{($QueryMar*100)/$QueryYear}}@else{{$QueryMar}}@endif%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">APR</div>
-                        <div class="value tooltips" data-original-title="{{$QueryApr}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryApr >0){{($QueryYear/$QueryApr) *100}}@else{{$QueryApr}}@endif%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryApr}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryApr >0){{($QueryApr*100)/$QueryYear}}@else{{$QueryApr}}@endif%</div>
                     </div>
                     <div class="bar">
                         <div class="title">MAY</div>
-                        <div class="value tooltips" data-original-title="{{$QueryMay}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryMay >0){{($QueryYear/$QueryMay) *100}}@else{{$QueryMay}}@endif%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryMay}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryMay >0){{($QueryMay*100)/$QueryYear}}@else{{$QueryMay}}@endif%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">JUN</div>
-                        <div class="value tooltips" data-original-title="{{$QueryJun}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryJun >0){{($QueryYear/$QueryJun) *100}}@else{{$QueryJun}}@endif%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryJun}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryJun >0){{($QueryJun*100)/$QueryYear}}@else{{$QueryJun}}@endif%</div>
                     </div>
                     <div class="bar">
                         <div class="title">JUL</div>
-                        <div class="value tooltips" data-original-title="{{$QueryJul}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryJul >0){{($QueryYear/$QueryJul) *100}}@else{{$QueryJul}}@endif%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryJul}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryJul >0){{($QueryJul*100)/$QueryYear}}@else{{$QueryJul}}@endif%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">AUG</div>
-                        <div class="value tooltips" data-original-title="{{$QueryAug}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryAug >0){{($QueryYear/$QueryAug) *100}}@else{{$QueryAug}}@endif%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryAug}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryAug >0){{($QueryAug*100)/$QueryYear}}@else{{$QueryAug}}@endif%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">SEP</div>
-                        <div class="value tooltips" data-original-title="{{$QuerySep}} Queries" data-toggle="tooltip" data-placement="top">@if($QuerySep >0){{($QueryYear/$QuerySep) *100}}@else{{$QuerySep}}@endif%</div>
+                        <div class="value tooltips" data-original-title="{{$QuerySep}} Queries" data-toggle="tooltip" data-placement="top">@if($QuerySep >0){{($QuerySep*100)/$QueryYear}}@else{{$QuerySep}}@endif%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">OCT</div>
-                        <div class="value tooltips" data-original-title="{{$QueryOct}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryOct >0){{($QueryYear/$QueryOct) *100}}@else{{$QueryOct}}@endif%%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryOct}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryOct >0){{($QueryOct*100)/$QueryYear}}@else{{$QueryOct}}@endif%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">NOV</div>
-                        <div class="value tooltips" data-original-title="{{$QueryNov}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryNov >0){{($QueryYear/$QueryNov) *100}}@else{{$QueryNov}}@endif%%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryNov}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryNov >0){{($QueryNov*100)/$QueryYear}}@else{{$QueryNov}}@endif%</div>
                     </div>
                     <div class="bar ">
                         <div class="title">DEC</div>
-                        <div class="value tooltips" data-original-title="{{$QueryDec}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryDec >0){{($QueryYear/$QueryDec) *100}}@else{{$QueryDec}}@endif%%</div>
+                        <div class="value tooltips" data-original-title="{{$QueryDec}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryDec >0){{($QueryDec*100)/$QueryYear}}@else{{$QueryDec}}@endif%</div>
                     </div>
                 </div>
                 <!--custom chart end-->

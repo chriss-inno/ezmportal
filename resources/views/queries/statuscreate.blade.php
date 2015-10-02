@@ -3,7 +3,7 @@
 {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
 
 
-{!! Form::open(array('url'=>'queriesstatus','role'=>'form','id'=>'queriesstatusFormgg')) !!}
+{!! Form::open(array('url'=>'queriesstatus','role'=>'form','id'=>'queriesstatusForm')) !!}
 <fieldset class="scheduler-border">
     <legend class="scheduler-border" style="color:#005DAD">Basic query status details</legend>
 
