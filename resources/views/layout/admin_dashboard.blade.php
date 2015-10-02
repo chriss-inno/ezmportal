@@ -211,7 +211,7 @@
             <div class="col-lg-8">
                 <!--custom chart start-->
                 <div class="border-head">
-                    <h3>Logged Queries percentage (%)per month for year <strong class="text-info">{{date('Y')}}</strong></h3>
+                    <h3>Logged Queries percentage (%) per month for year <strong class="text-info">{{date('Y')}}</strong></h3>
                 </div>
 
                 <?php
