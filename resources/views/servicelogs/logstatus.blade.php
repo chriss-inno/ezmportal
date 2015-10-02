@@ -166,8 +166,7 @@
             </ul>
         </li>
         @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,9))
-        <li class="sub-menu">
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,9)) <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-cogs"></i>
                 <span>Portal Administration</span>
@@ -178,6 +177,8 @@
                 <li><a  href="{{url('users')}}">Users</a></li>
                 <li><a  href="{{url('user/rights')}}">Users Rights</a></li>
                 <li><a  href="{{url('modules')}}">Query Modules</a></li>
+                <li><a  href="{{url('enablers')}}">Query Enablers</a></li>
+                <li><a  href="{{url('queriesstatus')}}">Query Status</a></li>
             </ul>
         </li>
         @endif
