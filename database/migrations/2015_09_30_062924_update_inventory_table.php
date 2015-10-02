@@ -13,10 +13,10 @@ class UpdateInventoryTable extends Migration
     public function up()
     {
         //
-        Schema::table('inventories', function($table)
+        Schema::table('inventories', function(Blueprint $table)
         {
             $table->string('machine_model')->nullable()->change();
-            $table->string('machine_model')->nullable()->change();
+            $table->string('serial_number')->nullable()->change();
         });
     }
 

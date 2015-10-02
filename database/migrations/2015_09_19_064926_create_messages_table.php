@@ -23,6 +23,7 @@ class CreateMessagesTable extends Migration
             $table->dateTime('received_time');
             $table->integer('is_read')->default(0);
             $table->string('status');
+            $table->string('message_type');
             $table->timestamps();
         });
     }

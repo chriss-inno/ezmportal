@@ -77,7 +77,7 @@
                          modal+= '<div class="modal-content">';
                          modal+= '<div class="modal-header">';
                          modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                         modal+= '<h2 class="modal-title" id="myModalLabel">Query Details</h2>';
+                         modal+= '<h2 class="modal-title" id="myModalLabel">Support logged query details</h2>';
                          modal+= '</div>';
                          modal+= '<div class="modal-body">';
                          modal+= ' </div>';
@@ -292,11 +292,11 @@
                                 <div class="btn-group btn-group-justified">
                                     <a href="{{url('queries/create')}}" class=" btn  btn-primary"><i class="fa fa-folder-open-o"></i> Log New Query</a>
 
-                                    <a href="{{url('queries/mytask')}}" class="btn btn-file btn-info"><i class="fa fa-tasks"></i> My Tasks</a>
+                                    <a href="{{url('queries/mytask')}}" class="btn btn-file btn-primary"><i class="fa fa-tasks"></i> My Tasks</a>
 
-                                    <a href="{{url('queries/progress')}}" class="btn btn-file btn-success"><i class="fa fa-archive"></i> My logged queries Progress</a>
+                                    <a href="{{url('queries/progress')}}" class="btn btn-file btn-primary"><i class="fa fa-archive"></i> My logged queries Progress</a>
 
-                                    <a href="{{url('queries/history')}}" class="btn btn-file btn-warning"> <i class="fa fa-bars"></i> History</a>
+                                    <a href="{{url('queries/history')}}" class="btn btn-file btn-primary"> <i class="fa fa-bars"></i> History</a>
 
                                     <a href="{{url('queries/report')}}" class="btn btn-file btn-danger"><i class=" fa fa-bar-chart-o"></i> Reports</a>
                                 </div>
@@ -328,7 +328,7 @@
                                         <td>{{$c++}}</td>
                                         <td>{{$qr->query_code}}</td>
                                         <td>{{date("d M, Y H:i",strtotime($qr->reporting_Date))}}</td>
-                                        <td>{{$qr->fromDepartment->department_name}}</td>
+                                        <td>{{$qr->toDepartment->department_name}}</td>
                                        @if($qr->assignment != null && $qr->assignment !="")
                                             <td style="background-color:#78CD51; color: #FFF;">{{$qr->assignment->user->first_name.' '.$qr->user->last_name}}</td>
                                            @else

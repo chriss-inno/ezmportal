@@ -15,18 +15,18 @@ class CreateInventoriesTable extends Migration
         Schema::create('inventories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('ip_address')->nullable();
-            $table->string('type_id');
-            $table->string('item_name');
+            $table->string('type_id')->nullable();
+            $table->string('item_name')->nullable();
             $table->string('user_name')->nullable();
-            $table->string('machine_model');
-            $table->string('serial_number');
+            $table->string('machine_model')->nullable();
+            $table->string('serial_number')->nullable();
             $table->string('usb')->nullable();
             $table->string('antivirus')->nullable();
             $table->string('description')->nullable();
             $table->integer('department_id')->nullable();
-            $table->integer('branch_id');
-            $table->string('status');
-            $table->string('input_by');
+            $table->integer('branch_id')->nullable();
+            $table->string('status')->nullable();
+            $table->string('input_by')->nullable();
             $table->string('auth_by')->nullable();
             $table->string('auth_status',1)->default('U');
             $table->timestamps();

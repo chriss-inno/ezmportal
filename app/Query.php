@@ -32,7 +32,7 @@ class Query extends Model
     }
 
     //Query messages
-    public function message()
+    public function messages()
     {
         return $this::hasMany('\App\Message','query_id','id');
     }
