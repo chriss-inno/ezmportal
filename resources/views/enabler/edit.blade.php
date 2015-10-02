@@ -12,7 +12,7 @@
     </div>
     <div class="form-group">
         <label for="description">Item Descriptions</label>
-        <textarea class="form-control" id="description" name="description">{{$enabler->description)}}</textarea>
+        <textarea class="form-control" id="description" name="description">{{$enabler->description}}</textarea>
     </div>
     <div class="form-group">
         <div class="row">
