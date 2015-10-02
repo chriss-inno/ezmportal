@@ -12,9 +12,12 @@
                                 <thead>
                                 <tr>
                                     <th>Query code</th>
-                                    <th>Reported</th>
-                                    <th>Sent to</th>
-                                    <th>Person Assigned </th>
+                                    <th>Reported date</th>
+                                    <th>Reported by</th>
+                                    <th>From department</th>
+                                    <th>To Department</th>
+                                    <th>Person assigned </th>
+                                    <th>Date assigned</th>
                                     <th>Critical</th>
                                     <th>Module</th>
                                     <th>Status</th>
@@ -25,21 +28,25 @@
                                 <tr>
                                     <td>{{$query->query_code}}</td>
                                     <td>{{date("d M, Y H:i",strtotime($query->reporting_Date))}}</td>
+                                    <td>{{$query->user->first_name.' '.$query->user->last_name}}</td>
                                     <td>{{$query->toDepartment->department_name}}</td>
+                                    <td>{{$query->fromDepartment->department_name}}</td>
                                     @if($query->assignment != null && $query->assignment !="")
-                                        <td style="background-color:#78CD51; color: #FFF;">{{$query->assignment->user->first_name.' '.$query->user->last_name}}</td>
+                                        <td style="background-color:#78CD51; color: #FFF;">{{$query->assignment->user->first_name.' '.$query->assignment->user->last_name}}</td>
+                                        <td>{{$query->assignment->assigned_date_time}}</td>
                                     @else
                                         <td style="background-color:#FF6C60; color: #FFF;">Not Assigned</td>
+                                        <td></td>
                                     @endif
                                     <td>{{$query->critical_level}}</td>
                                     <td>{{$query->module->module_name}}</td>
                                     <td>{{$query->status}}</td>
                                 </tr>
                                 <tr>
-                                    <th colspan="7">Query Description</th>
+                                    <th colspan="10">Query Description</th>
                                 </tr>
                                 <tr>
-                                    <td colspan="7"><?php echo $query->description;?></td>
+                                    <td colspan="10"><?php echo $query->description;?></td>
                                 </tr>
 
 

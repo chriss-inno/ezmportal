@@ -165,6 +165,30 @@ class QueryController extends Controller
         $query=Query::find($id);
         return view('queries.show',compact('query'));
     }
+    //Query attend
+    public function queryAttend($id)
+    {
+        //
+        $query=Query::find($id);
+        return view('queries.attend',compact('query'));
+    }
+    public function postQueryAttend(Request $request)
+    {
+        //
+        $query=Query::find($request->query_id);
+
+        $msg=new Message;
+        $msg->query_id=$request->query_id;
+        $msg->sender=$query->reported_by;
+        $msg->sent_time=date("Y-m-d H:i");
+        $msg->message_type="OUT";
+        $msg->message=$request->message;
+        $msg->save();
+
+        return "Data saved successful";
+    }
+    //Query messages
+
     public function message($id)
     {
         //

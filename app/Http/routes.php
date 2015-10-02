@@ -114,6 +114,14 @@ Route::get('support/oracle/remove/{id}',['middleware' => 'auth', 'uses' =>'Oracl
 Route::resource('modules','ModuleController');
 Route::get('modules-remove/{id}',['middleware' => 'auth', 'uses' =>'ModuleController@destroy']);
 
+//Query Enables
+Route::resource('enablers','EnablerController');
+Route::get('enablers-remove/{id}',['middleware' => 'auth', 'uses' =>'ModuleController@destroy']);
+
+//Query Progress status
+Route::resource('queriesstatus','QueryStatusController');
+Route::get('queriesstatus-remove/{id}',['middleware' => 'auth', 'uses' =>'QueryStatusController@destroy']);
+
 //Inventory
 Route::resource('inventory','InventoryController');
 Route::get('inventory-reports',['middleware' => 'auth', 'uses' =>'InventoryController@reports']);
@@ -163,6 +171,8 @@ Route::get('queries/report',['middleware' => 'auth', 'uses' =>'QueryController@r
 Route::get('queries/show/{id}',['middleware' => 'auth', 'uses' =>'QueryController@show']);
 Route::get('queries/message/{id}',['middleware' => 'auth', 'uses' =>'QueryController@message']);
 Route::post('queries/message',['middleware' => 'auth', 'uses' =>'QueryController@postMessage']);
+Route::post('queries/attend',['middleware' => 'auth', 'uses' =>'QueryController@postQueryAttend']);
+Route::get('queries/attend/{id}',['middleware' => 'auth', 'uses' =>'QueryController@queryAttend']);
 
 //Send emails
 Route::get('emails/oracleissues','EmailController@olacle');

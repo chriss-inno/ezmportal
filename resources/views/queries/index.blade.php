@@ -73,7 +73,7 @@
                      $(".queryDetails").click(function(){
                          var id1 = $(this).parent().attr('id');
                          var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                         modal+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                         modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
                          modal+= '<div class="modal-content">';
                          modal+= '<div class="modal-header">';
                          modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
@@ -94,7 +94,6 @@
                          })
 
                      })
-
                     $(".deleteuser").click(function(){
                         var id1 = $(this).parent().attr('id');
                         $(".deleteuser").show("slow").parent().parent().find("span").remove();
@@ -330,7 +329,7 @@
                                         <td>{{date("d M, Y H:i",strtotime($qr->reporting_Date))}}</td>
                                         <td>{{$qr->toDepartment->department_name}}</td>
                                        @if($qr->assignment != null && $qr->assignment !="")
-                                            <td style="background-color:#78CD51; color: #FFF;">{{$qr->assignment->user->first_name.' '.$qr->user->last_name}}</td>
+                                            <td style="background-color:#78CD51; color: #FFF;">{{$qr->assignment->user->first_name.' '.$qr->assignment->user->last_name}}</td>
                                            @else
                                             <td style="background-color:#FF6C60; color: #FFF;">Not Assigned</td>
                                            @endif

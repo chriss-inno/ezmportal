@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Oracle Support Logged issues
+   Support Logged Query
 @stop
 @section('page_scripts')
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
@@ -14,107 +14,100 @@
 
 
             $('#branches').dataTable( {
-                "aaSorting": [[ 4, "desc" ]]
+                "fnDrawCallback": function( oSettings ) {
+
+                    //adding company user
+                    $(".addMessage").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                        modal+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modal+= '<div class="modal-content">';
+                        modal+= '<div class="modal-header">';
+                        modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modal+= '<h2 class="modal-title" id="myModalLabel">Additional Query Message</h2>';
+                        modal+= '</div>';
+                        modal+= '<div class="modal-body">';
+                        modal+= ' </div>';
+                        modal+= '</div>';
+                        modal+= '</div>';
+
+                        $("body").append(modal);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("queries/message") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    })
+                    $(".queryAttend").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                        modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                        modal+= '<div class="modal-content">';
+                        modal+= '<div class="modal-header">';
+                        modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modal+= '<h2 class="modal-title" id="myModalLabel">Query details</h2>';
+                        modal+= '</div>';
+                        modal+= '<div class="modal-body">';
+                        modal+= ' </div>';
+                        modal+= '</div>';
+                        modal+= '</div>';
+
+                        $("body").append(modal);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("queries/attend") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    })
+                    $(".queryDetails").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                        modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                        modal+= '<div class="modal-content">';
+                        modal+= '<div class="modal-header">';
+                        modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modal+= '<h2 class="modal-title" id="myModalLabel">Support logged query details</h2>';
+                        modal+= '</div>';
+                        modal+= '<div class="modal-body">';
+                        modal+= ' </div>';
+                        modal+= '</div>';
+                        modal+= '</div>';
+
+                        $("body").append(modal);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("queries/show") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    })
+
+                    $(".deleteuser").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        $(".deleteuser").show("slow").parent().parent().find("span").remove();
+                        var btn = $(this).parent().parent();
+                        $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
+                        $("#no").click(function(){
+                            $(this).parent().parent().find(".deleteuser").show("slow");
+                            $(this).parent().parent().find("span").remove();
+                        });
+                        $("#yes").click(function(){
+                            $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
+                            $.post("<?php echo url('company/delete') ?>/"+id1,function(data){
+                                btn.hide("slow").next("hr").hide("slow");
+                            });
+                        });
+                    });//endof deleting category
+                }
             } );
-
-            $(".deleteUser").click(function(){
-                var id1 = $(this).parent().parent().attr('id');
-                $(".deleteUser").show("slow").parent().parent().find("span").remove();
-                var btn = $(this).parent().parent();
-                $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
-                $("#no").click(function(){
-                    $(this).parent().parent().parent().find(".deleteUser").show("slow");
-                    $(this).parent().parent().parent().find("span").remove();
-                });
-                $("#yes").click(function(){
-                    $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                    $.get("<?php echo url('users/remove') ?>/"+id1,function(data){
-                        btn.hide("slow").next("hr").hide("slow");
-                    });
-                });
-            });
-
-            //Edit class streams
-            $(".userCreate").click(function(){
-                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
-                modaldis+= '<div class="modal-content">';
-                modaldis+= '<div class="modal-header">';
-                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">Update School Class Level</span>';
-                modaldis+= '</div>';
-                modaldis+= '<div class="modal-body">';
-                modaldis+= ' </div>';
-                modaldis+= '</div>';
-                modaldis+= '</div>';
-                $('body').css('overflow','hidden');
-
-                $("body").append(modaldis);
-                jQuery.noConflict();
-                $("#myModal").modal("show");
-                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("users/create") ?>");
-                $("#myModal").on('hidden.bs.modal',function(){
-                    $("#myModal").remove();
-                });
-
-            });
-
-            //Show isue details
-            $(".issueDetails").click(function(){
-                var id1 = $(this).parent().attr('id');
-
-                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
-                modaldis+= '<div class="modal-content">';
-                modaldis+= '<div class="modal-header">';
-                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">Issue detailed information</span>';
-                modaldis+= '</div>';
-                modaldis+= '<div class="modal-body">';
-                modaldis+= ' </div>';
-                modaldis+= '</div>';
-                modaldis+= '</div>';
-                $('body').css('overflow','hidden');
-
-                $("body").append(modaldis);
-                jQuery.noConflict();
-                $("#myModal").modal("show");
-                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("support/oracle/show") ?>/"+id1);
-                $("#myModal").on('hidden.bs.modal',function(){
-                    $("#myModal").remove();
-                });
-
-            });
-
-            //Edit class streams
-            $(".userProfile").click(function(){
-                var id1 = $(this).parent().attr('id');
-
-                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
-                modaldis+= '<div class="modal-content">';
-                modaldis+= '<div class="modal-header">';
-                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="color: #FFF;">Update Issue current status</span>';
-                modaldis+= '</div>';
-                modaldis+= '<div class="modal-body">';
-                modaldis+= ' </div>';
-                modaldis+= '</div>';
-                modaldis+= '</div>';
-                $('body').css('overflow','hidden');
-
-                $("body").append(modaldis);
-                jQuery.noConflict();
-                $("#myModal").modal("show");
-                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("support/oracle/status") ?>/"+id1);
-                $("#myModal").on('hidden.bs.modal',function(){
-                    $("#myModal").remove();
-                });
-
-            });
         } );
 
 
@@ -263,12 +256,30 @@
     <section class="site-min-height">
         <!-- page start-->
         <div class="row">
-            <div class="col-lg-10 col-md-10">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
                         <h3 class="text-info"> <strong><i class="fa  fa-tasks"></i> MY TASK </strong></h3>
                     </header>
                     <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                <div class="btn-group btn-group-justified">
+                                    <a href="{{url('queries/create')}}" class=" btn  btn-primary"><i class="fa fa-folder-open-o"></i> Log New Query</a>
+
+                                    <a href="{{url('queries/mytask')}}" class="btn btn-file btn-primary"><i class="fa fa-tasks"></i> My Tasks</a>
+
+                                    <a href="{{url('queries/progress')}}" class="btn btn-file btn-primary"><i class="fa fa-archive"></i> My logged queries Progress</a>
+
+                                    <a href="{{url('queries/history')}}" class="btn btn-file btn-primary"> <i class="fa fa-bars"></i> History</a>
+
+                                    <a href="{{url('queries/report')}}" class="btn btn-file btn-danger"><i class=" fa fa-bar-chart-o"></i> Reports</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="adv-table">
                             <table  class="display table table-bordered table-striped" id="branches">
                                 <thead>
@@ -278,12 +289,13 @@
                                     <th>Date reported</th>
                                     <th>From</th>
                                     <th>Reported By</th>
+                                    <th>Date assigned</th>
                                     <th>Critical level</th>
                                     <th>Status</th>
                                     <th>Module</th>
                                     <th>Details</th>
                                     <th>Attend</th>
-                                    <th>Progress</th>
+                                    <th>Message</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -292,23 +304,24 @@
                                     <tr>
                                         <td>{{$c++}}</td>
                                         <td>{{$qr->queries->query_code}}</td>
-                                        <td>{{date("d-m-Y H:i",strtotime($qr->queries->reporting_Date))}}</td>
+                                        <td>{{date("d M ,Y H:i",strtotime($qr->queries->reporting_Date))}}</td>
                                         <td>{{$qr->queries->fromDepartment->department_name}}</td>
-                                        <td>{{$qr->queries->user->first_name.' '.$qr->user->last_name}}</td>
+                                        <td>{{$qr->queries->user->first_name.' '.$qr->queries->user->last_name}}</td>
+                                        @if($qr->assigned_date_time !=null && $qr->assigned_date_time !="" )
+                                        <td>{{date("d M ,Y H:i",strtotime($qr->assigned_date_time))}}</td>
+                                        @else
+                                            <td></td>
+                                            @endif
                                         <td>{{$qr->queries->critical_level}}</td>
                                         <td>{{$qr->queries->status}}</td>
                                         <td>{{$qr->queries->module->module_name}}</td>
                                         <td id="{{$qr->queries->id}}">
-                                            <a href="#" class="issueDetails btn btn-info btn-xs" title="Detailed Information"><i class="fa fa-eye"></i> View </a>
+                                            <a href="#" class="queryDetails btn btn-info btn-xs" title="Detailed Information"><i class="fa fa-eye"></i> View </a>
                                         </td>
-                                        <td id="{{$qr->queries->id}}" class="text-center"> <a  href="#" title="Attend Query" class="addUnit btn btn-success btn-xs"><i class="fa fa-pencil"></i></a>
+                                        <td id="{{$qr->queries->id}}" class="text-center"> <a  href="#" title="Attend Query" class="queryAttend btn btn-success btn-xs"><i class="fa fa-pencil"></i></a>
                                         </td>
-                                        <td>
-                                            <div class="progress progress-striped progress-sm">
-                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                                    <span class="sr-only">20% Complete</span>
-                                                </div>
-                                            </div>
+                                        <td id="{{$qr->id}}">
+                                            <a href="#" class="addMessage btn btn-primary btn-xs" title="Additional Query Message"><i class="fa fa-envelope-o"></i> </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -320,46 +333,17 @@
                                     <th>Date reported</th>
                                     <th>From</th>
                                     <th>Reported By</th>
+                                    <th>Date assigned</th>
                                     <th>Critical level</th>
                                     <th>Status</th>
                                     <th>Module</th>
                                     <th>Details</th>
                                     <th>Attend</th>
-                                    <th>Progress</th>
+                                    <th>Message</th>
                                 </tr>
                                 </tfoot>
                             </table>
                         </div>
-                    </div>
-                </section>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <section class="panel">
-                    <div class="panel-body">
-
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/create')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-folder-open-o"></i> Log Query</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/mytask')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-tasks"></i> My Tasks</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/progress')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-archive"></i>  Progress</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/history')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> History</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/report')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Reports</a>
                             </div>
                         </div>
                     </div>

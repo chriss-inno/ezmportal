@@ -7,6 +7,7 @@
     {!!HTML::style("assets/bootstrap-datepicker/css/datepicker.css" )!!}
     {!!HTML::style("assets/bootstrap-colorpicker/css/colorpicker.css" )!!}
     {!!HTML::style("assets/bootstrap-daterangepicker/daterangepicker.css" )!!}
+    <link href="{{asset("assets/jquery-file-upload/css/jquery.fileupload-ui.css")}}" rel="stylesheet" type="text/css" >
 
     @stop
     @section('page_scripts')
@@ -256,10 +257,12 @@
                             <textarea class="ckeditor form-control" id="description" name="description">{{old('description')}}</textarea>
                         </div>
                         <div class="form-group">
-                            <label for="reference_file">Attach file</label>
-                            <input type="file" id="reference_file" name="reference_file">
-                            <p class="help-block">Attach file for reference.</p>
-                            <p class="help-block"><input type="checkbox" value="1" id="referencecheck" name="referencecheck"  @if(old('referencecheck')) checked @endif> <label for="file_upload">Tick here to submit attachment with query</label></p>
+                            <span class="btn green fileinput-button">
+                               <i class="fa fa-plus fa fa-white"></i>
+                                 <span>Attachment</span>
+                                  <input type="file" id="reference_file" name="reference_file">
+                            </span>
+                            <p class="help-block"><input type="checkbox" value="1" id="referencecheck" name="referencecheck"  @if(old('referencecheck')) checked @endif> <label for="file_upload">Tick here to attach file for reference</label></p>
                         </div>
 
                             <button type="submit" class="btn btn-primary pull-right col-md-2">Submit Query</button>
