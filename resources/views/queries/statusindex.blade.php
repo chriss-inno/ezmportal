@@ -295,7 +295,7 @@
                                 @foreach($queriesStatus as $qs)
                                     <tr>
                                         <td>{{$i++}}</td>
-                                        <td>{{$qs->enabler_name}}</td>
+                                        <td>{{$qs->status_name}}</td>
                                         <td>{{$qs->description}}</td>
                                         <td id="{{$qs->id}}" align="center">
                                             <a  href="#" title="Edit Enabler" class="editItem btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
