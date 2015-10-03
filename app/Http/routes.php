@@ -173,6 +173,9 @@ Route::get('queries/message/{id}',['middleware' => 'auth', 'uses' =>'QueryContro
 Route::post('queries/message',['middleware' => 'auth', 'uses' =>'QueryController@postMessage']);
 Route::post('queries/attend',['middleware' => 'auth', 'uses' =>'QueryController@postQueryAttend']);
 Route::get('queries/attend/{id}',['middleware' => 'auth', 'uses' =>'QueryController@queryAttend']);
+Route::get('queries/assign',['middleware' => 'auth', 'uses' =>'QueryController@queryAssign']);
+Route::get('queries/assign/users/{id}',['middleware' => 'auth', 'uses' =>'QueryController@queryAssignUsers']);
+Route::post('queries/assign/users',['middleware' => 'auth', 'uses' =>'QueryController@postQueryAssignUsers']);
 
 //Send emails
 Route::get('emails/oracleissues','EmailController@olacle');

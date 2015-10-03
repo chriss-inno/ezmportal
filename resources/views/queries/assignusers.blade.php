@@ -61,44 +61,49 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
-                        <p><h4 class="text-info"><strong>Attend Query</strong></h4></p>
-                        {!! Form::open(array('url'=>'queries/message','role'=>'form','id'=>'queryMessageForm')) !!}
+                        <p><h4 class="text-info"><strong>Query Assign</strong></h4></p>
+                        {!! Form::open(array('url'=>'queries/assign/users','role'=>'form','id'=>'queryAssignForm')) !!}
+                        <div class="form-group">
+                            <label for="enabler">Current Assigned To </label>
+                            <input type="text" class="form-control" readonly  @if($query->assignment != null && $query->assignment !="")value="{{$query->assignment->user->first_name.' '.$query->assignment->user->last_name}}"@else value="Not Assigned" @endif >
+                        </div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="enabler">Enabler</label>
-                                    <select class="form-control"  id="enabler" name="enabler">
-                                        @if(old('enabler'))
-                                            <?php $enabler=\App\Enabler::find(old('enabler'))?>
-                                            <option value="{{$enabler->id}}">{{$enabler->enabler_name}}</option>
-                                            @else
-                                            <option value="">----</option>
-                                        @endif
-                                           @foreach(\App\Enabler::all() as $enabler)
-                                            <option value="{{$enabler->id}}">{{$enabler->enabler_name}}</option>
-                                               @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="status">Progress Status</label>
-                                    <select class="form-control"  id="status" name="status">
-                                        @if(old('status'))
-                                            <?php $qStatus=\App\QueryStatus::find(old('status'))?>
-                                            <option value="{{$qStatus->id}}">{{$qStatus->status}}</option>
+                                    <label for="user_id">@if($query->assignment != null && $query->assignment !="") Reassign To @else Assign To @endif</label>
+                                    <select class="form-control"  id="user_id" name="user_id">
+                                        @if(old('user_id') !="")
+                                            <?php $users=\App\User::find(old('user_id'))?>
+                                            <option value="{{$users->id}}">{{$users->first_name.' '.$users->last_name}}</option>
                                         @else
                                             <option value="">----</option>
                                         @endif
-                                        @foreach(\App\QueryStatus::all() as $status)
-                                            <option value="{{$status->id}}">{{$status->status}}</option>
-                                        @endforeach
+                                            @if($query->assignment != null && $query->assignment !="")
+                                                @foreach(\App\User::where('department_id','=',Auth::user()->department_id)->where('id','<>',$query->assignment->user->id)->get() as $users)
+                                                    <option value="{{$users->id}}">{{$users->first_name.' '.$users->last_name}}</option>
+                                                @endforeach
+                                          @else
+                                                @foreach(\App\User::where('department_id','=',Auth::user()->department_id)->get() as $users)
+                                                    <option value="{{$users->id}}">{{$users->first_name.' '.$users->last_name}}</option>
+                                                @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="status">Status</label>
+                                    <select class="form-control"  id="status" name="status">
+                                        @if(old('status'))
+                                            <?php $qStatus=\App\QueryStatus::find(old('status'))?>
+                                            <option value="{{old('status')}}">{{old('status')}}</option>
+                                        @else
+                                            <option value="">----</option>
+                                        @endif
+                                            <option value="Assigned">Assigned</option>
+                                            <option value="Reassigned">Reassigned</option>
                                     </select>
                                 </div>
                             </div>
 
-                        </div>
-                        <div class="form-group">
-                            <label for="current_update">Descriptions</label>
-                            <textarea class="ckeditor form-control" name="message" rows="10" id="message"></textarea>
                         </div>
                         <div class="row">
                             <div class="col-md-8 pull-left" id="output"></div>
@@ -123,18 +128,20 @@
 {!!HTML::script("js/respond.min.js"  ) !!}
 {!!HTML::script("js/form-validation-script.js") !!}
 <script>
-    $("#queryMessageForm").validate({
+    $("#queryAssignForm").validate({
         rules: {
-            message: "required"
+            user_id: "required",
+            status: "required"
 
         },
         messages: {
-            message: "Please enter Message"
+            user_id: "Please Select user to assign query",
+            status: "Please select status"
         },
         submitHandler: function(form) {
             $("#output").html("<h3><span class='text-info'><i class='icon-spinner icon-spin'></i> Making changes please wait...</span><h3>");
-            var postData = $('#queryMessageForm').serializeArray();
-            var formURL = $('#queryMessageForm').attr("action");
+            var postData = $('#queryAssignForm').serializeArray();
+            var formURL = $('#queryAssignForm').attr("action");
             $.ajax(
                     {
                         url : formURL,

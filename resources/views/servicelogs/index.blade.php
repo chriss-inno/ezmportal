@@ -18,136 +18,137 @@
         $(document).ready(function() {
 
 
-            $('#branches').dataTable( {
-                "aaSorting": [[ 4, "desc" ]]
-            } );
+            $('#branches').dataTable({
 
-            $(".delService").click(function(){
-                var id1 = $(this).parent().attr('id');
-                $(".delService").show("slow").parent().parent().find("span").remove();
-                var btn = $(this).parent().parent();
-                $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
-                $("#no").click(function(){
-                    $(this).parent().parent().find(".delService").show("slow");
-                    $(this).parent().parent().find("span").remove();
-                });
-                $("#yes").click(function(){
-                    $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                    $.get("<?php echo url('serviceslogs/remove') ?>/"+id1,function(data){
-                        btn.hide("slow").next("hr").hide("slow");
+                "fnDrawCallback": function (oSettings) {
+                    $(".delService").click(function () {
+                        var id1 = $(this).parent().attr('id');
+                        $(".delService").show("slow").parent().parent().find("span").remove();
+                        var btn = $(this).parent().parent();
+                        $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
+                        $("#no").click(function () {
+                            $(this).parent().parent().find(".delService").show("slow");
+                            $(this).parent().parent().find("span").remove();
+                        });
+                        $("#yes").click(function () {
+                            $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
+                            $.get("<?php echo url('serviceslogs/remove') ?>/" + id1, function (data) {
+                                btn.hide("slow").next("hr").hide("slow");
+                            });
+                        });
                     });
-                });
-            });
 
-            //Edit class streams
-            $(".addService").click(function(){
-                var id1 = $(this).parent().attr('id');
-                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                    //Edit class streams
+                    $(".addService").click(function () {
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
-                modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
-                modaldis+= '<div class="modal-content">';
-                modaldis+= '<div class="modal-header">';
-                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Log service status</span>';
-                modaldis+= '</div>';
-                modaldis+= '<div class="modal-body">';
-                modaldis+= ' </div>';
-                modaldis+= '</div>';
-                modaldis+= '</div>';
-                $('body').css('overflow','hidden');
+                        modaldis += '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis += '<div class="modal-content">';
+                        modaldis += '<div class="modal-header">';
+                        modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Log service status</span>';
+                        modaldis += '</div>';
+                        modaldis += '<div class="modal-body">';
+                        modaldis += ' </div>';
+                        modaldis += '</div>';
+                        modaldis += '</div>';
+                        $('body').css('overflow', 'hidden');
 
-                $("body").append(modaldis);
-                jQuery.noConflict();
-                $("#myModal").modal("show");
-                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("serviceslogs/create") ?>");
-                $("#myModal").on('hidden.bs.modal',function(){
-                    $("#myModal").remove();
-                })
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("serviceslogs/create") ?>");
+                        $("#myModal").on('hidden.bs.modal', function () {
+                            $("#myModal").remove();
+                        })
 
-            });
+                    });
 
-            //Edit class streams
-            $(".viewService").click(function(){
-                var id1 = $(this).parent().attr('id');
-                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                    //Edit class streams
+                    $(".viewService").click(function () {
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
-                modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
-                modaldis+= '<div class="modal-content">';
-                modaldis+= '<div class="modal-header">';
-                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Service Status Details</span>';
-                modaldis+= '</div>';
-                modaldis+= '<div class="modal-body">';
-                modaldis+= ' </div>';
-                modaldis+= '</div>';
-                modaldis+= '</div>';
-                $('body').css('overflow','hidden');
+                        modaldis += '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis += '<div class="modal-content">';
+                        modaldis += '<div class="modal-header">';
+                        modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Service Status Details</span>';
+                        modaldis += '</div>';
+                        modaldis += '<div class="modal-body">';
+                        modaldis += ' </div>';
+                        modaldis += '</div>';
+                        modaldis += '</div>';
+                        $('body').css('overflow', 'hidden');
 
-                $("body").append(modaldis);
-                jQuery.noConflict();
-                $("#myModal").modal("show");
-                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("serviceslogs/show") ?>/"+id1);
-                $("#myModal").on('hidden.bs.modal',function(){
-                    $("#myModal").remove();
-                })
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("serviceslogs/show") ?>/" + id1);
+                        $("#myModal").on('hidden.bs.modal', function () {
+                            $("#myModal").remove();
+                        })
 
-            });
+                    });
 
-            //viewService
-            $(".editService").click(function(){
-                var id1 = $(this).parent().attr('id');
-                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                    //viewService
+                    $(".editService").click(function () {
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
-                modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
-                modaldis+= '<div class="modal-content">';
-                modaldis+= '<div class="modal-header">';
-                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Update Service</span>';
-                modaldis+= '</div>';
-                modaldis+= '<div class="modal-body">';
-                modaldis+= ' </div>';
-                modaldis+= '</div>';
-                modaldis+= '</div>';
-                $('body').css('overflow','hidden');
+                        modaldis += '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                        modaldis += '<div class="modal-content">';
+                        modaldis += '<div class="modal-header">';
+                        modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Update Service</span>';
+                        modaldis += '</div>';
+                        modaldis += '<div class="modal-body">';
+                        modaldis += ' </div>';
+                        modaldis += '</div>';
+                        modaldis += '</div>';
+                        $('body').css('overflow', 'hidden');
 
-                $("body").append(modaldis);
-                jQuery.noConflict();
-                $("#myModal").modal("show");
-                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("serviceslogs/edit") ?>/"+id1);
-                $("#myModal").on('hidden.bs.modal',function(){
-                    $("#myModal").remove();
-                })
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("serviceslogs/edit") ?>/" + id1);
+                        $("#myModal").on('hidden.bs.modal', function () {
+                            $("#myModal").remove();
+                        })
 
-            });
-            //logService class streams
-            $(".logService").click(function(){
-                var id1 = $(this).parent().attr('id');
-                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                    });
+                    //logService class streams
+                    $(".logService").click(function () {
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
-                modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
-                modaldis+= '<div class="modal-content">';
-                modaldis+= '<div class="modal-header">';
-                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Update Service</span>';
-                modaldis+= '</div>';
-                modaldis+= '<div class="modal-body">';
-                modaldis+= ' </div>';
-                modaldis+= '</div>';
-                modaldis+= '</div>';
-                $('body').css('overflow','hidden');
+                        modaldis += '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                        modaldis += '<div class="modal-content">';
+                        modaldis += '<div class="modal-header">';
+                        modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Update Service</span>';
+                        modaldis += '</div>';
+                        modaldis += '<div class="modal-body">';
+                        modaldis += ' </div>';
+                        modaldis += '</div>';
+                        modaldis += '</div>';
+                        $('body').css('overflow', 'hidden');
 
-                $("body").append(modaldis);
-                jQuery.noConflict();
-                $("#myModal").modal("show");
-                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("services/log") ?>/"+id1);
-                $("#myModal").on('hidden.bs.modal',function(){
-                    $("#myModal").remove();
-                })
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("services/log") ?>/" + id1);
+                        $("#myModal").on('hidden.bs.modal', function () {
+                            $("#myModal").remove();
+                        })
 
+                    });
+                }
             });
         } );
 
@@ -196,10 +197,10 @@
                 <span>Downloads</span>
             </a>
             <ul class="sub">
-                <li><a  href="#" title="System/services History">ICT Department</a></li>
-                <li><a  href="#" title="Report System/Service problem or issue">Operation</a></li>
-                <li><a  href="#" title="View today system status">Administration</a></li>
-                <li><a  href="#" title="View today system status">Human Resource</a></li>
+                <li><a  href="#" title="ICT Department">ICT Department</a></li>
+                <li><a  href="#" title="Operation">Operation</a></li>
+                <li><a  href="#" title="Administration">Administration</a></li>
+                <li><a  href="#" title="Human Resource">Human Resource</a></li>
             </ul>
         </li>
         @endif
@@ -207,17 +208,72 @@
         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-info"></i>
-                <span>Special Portals</span>
+                <span>Service Delivery</span>
             </a>
             <ul class="sub">
-                <li><a  href="#" title="System/services History">COPS Issues Tracking</a></li>
-                <li><a  href="#" title="Report System/Service problem or issue">CMF Reports</a></li>
-                <li><a  href="#" title="View today system status">Money Msafiri</a></li>
-                <li><a  href="#" title="View today system status">Human Resource</a></li>
+                <li><a  href="#" title="Customer Issues Tracking">Customer Issues Tracking</a></li>
             </ul>
         </li>
         @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5))
+         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5))
+        <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-info"></i>
+                <span>Money Msafiri</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="#" title="Money Msafiri System">Money Msafiri System</a></li>
+            </ul>
+        </li>
+        @endif
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,6))
+        <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-info"></i><span>Treasury</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="#" title="Money Msafiri System">Forex Deal Slip</a></li>
+            </ul>
+        </li>
+        @endif
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7))
+        <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-info"></i>
+                <span>Credit</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="#" title="Credit Request">Credit Request</a></li>
+                <li><a  href="#" title="CA Portal">CA Portal</a></li>
+            </ul>
+        </li>
+        @endif
+         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,8))
+        <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-user"></i>
+                <span>Human Resource</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="#" title="HR Portal">HR Portal</a></li>
+              
+            </ul>
+        </li>
+        @endif
+         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,9))
+        <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-user"></i>
+                <span>COP'S</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="#" title="HR Portal">Tracker</a></li>
+              
+            </ul>
+        </li>
+        @endif
+        
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,10))
         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-folder-open-o"></i>
@@ -228,15 +284,32 @@
                 <li><a  href="{{url('queries/mytask')}}" title="Report System/Service problem or issue">My Tasks</a></li>
                 <li><a  href="{{url('queries/progress')}}" title="Report System/Service problem or issue">Query Progress</a></li>
                 <li><a  href="{{url('queries/history')}}" title="Report System/Service problem or issue">Query History</a></li>
-                <li><a  href="{{url('queries/report')}}" title="View today system status">Queries Reports</a></li>
+                 @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,6))
+                    <li><a  href="{{url('queries/report')}}" title="View today system status">Queries Reports</a></li>
+                @endif
+                 @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,6))
+                 <li><a  href="{{url('queries/assign')}}" title="View today system status">Queries Assign</a></li>
+                 @endif
             </ul>
         </li>
         @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,6))
+         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,11))
           <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
-                <span>Oracle Support Isssues</span>
+                <span>Reminder</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('support/oracle/create')}}" title="Report System/Service problem or issue">Create Reminder</a></li>
+                <li><a  href="{{url('support/oracle/opened')}}" title="Report System/Service problem or issue">Reminder List</a></li>
+              
+            </ul>
+        </li>
+        @endif
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,12))
+          <li class="sub-menu">
+            <a href="javascript:;" >
+                <i class="fa fa-laptop"></i><span>Oracle Support Issues</span>
             </a>
             <ul class="sub">
                 <li><a  href="{{url('support/oracle/create')}}" title="Report System/Service problem or issue">New Issue</a></li>
@@ -247,7 +320,7 @@
             </ul>
         </li>
         @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7))
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,13))
          <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
@@ -261,7 +334,7 @@
             </ul>
         </li>
         @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,8))
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
          <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
@@ -275,7 +348,8 @@
             </ul>
         </li>
         @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,9)) <li class="sub-menu">
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
+        <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-cogs"></i>
                 <span>Portal Administration</span>

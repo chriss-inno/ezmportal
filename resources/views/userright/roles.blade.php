@@ -25,7 +25,7 @@
                         </thead>
                         <tbody>
                         <?php
-                        $modules=array('Reports','Photo Galley','Downloads','COPS Issues Tracking','CMF Reports','Money Msafiri','Human Resource','Queries and Task','System service status','ICT Inventory','Portal Administration');
+                        $modules=array('Reports','Photo Galley','Downloads','Service Delivery','Money Msafiri','Treasury','Credit','Human Resource','COPS','Queries and Tasks','Reminder','Oracle Support Issues','System service status','ICT Inventory','Portal Administration');
                         $count=1;
                         ?>
                         @foreach($modules as $module )

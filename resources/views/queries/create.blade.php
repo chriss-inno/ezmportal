@@ -128,8 +128,7 @@
         </li>
          <li class="sub-menu">
             <a href="javascript:;" >
-                <i class="fa fa-laptop"></i>
-                <span>Oracle Support Isssues</span>
+                <i class="fa fa-laptop"></i><span>Oracle Support Issues</span>
             </a>
             <ul class="sub">
                 <li><a  href="{{url('support/oracle/create')}}" title="Report System/Service problem or issue">New Issue</a></li>

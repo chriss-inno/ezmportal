@@ -258,6 +258,63 @@ class QueryController extends Controller
         return view('queries.index',compact('queries'));
 
     }
+    //load query reports
+    public function report()
+    {
+        $queries=Query::where('from_department','=',Auth::user()->department_id)->where('to_department','=',Auth::user()->department_id)->get();
+        return view('queries.reports',compact('queries'));
+
+    }
+    //Load query history
+    public function queryAssign()
+    {
+        //load query from user department only
+        $queries=Query::where('to_department','=',Auth::user()->department_id)->get();
+        return view('queries.assign',compact('queries'));
+
+    }
+    public function queryAssignUsers($id)
+    {
+        //load query from user department only
+        $query=Query::find($id);
+        return view('queries.assignusers',compact('query'));
+
+    }
+    public function postQueryAssignUsers(Request $request)
+    {
+        $today=date("Y-m-d");
+        $query=Query::find($request->query_id);
+        if($query->assignment != null && $query->assignment !="")
+        {
+            $queryAssignment = QueryAssignment::where('query_id','=',$query->id)->get()->first();
+            $queryAssignment->query_id = $query->id;
+            $queryAssignment->user_id = $request->user_id;
+            $queryAssignment->module_id = $query->module_id;
+            $queryAssignment->assigned_date = $today;
+            $queryAssignment->save();
+
+            //Change status to assigned
+            $query->assigned = 1;
+            $query->save();
+
+            return "Data saved successful";
+        }
+        else
+        {
+            $queryAssignment =new QueryAssignment;
+            $queryAssignment->query_id = $query->id;
+            $queryAssignment->user_id = $request->user_id;
+            $queryAssignment->module_id = $query->module_id;
+            $queryAssignment->assigned_date = $today;
+            $queryAssignment->save();
+
+            //Change status to assigned
+            $query->assigned = 1;
+            $query->save();
+            return "Data saved successful";
+        }
+
+    }
 
     //Task
     public function task()
