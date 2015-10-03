@@ -187,7 +187,7 @@
             </ul>
         </li>
         @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14))
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
          <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
@@ -201,7 +201,7 @@
             </ul>
         </li>
         @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14))
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-cogs"></i>
