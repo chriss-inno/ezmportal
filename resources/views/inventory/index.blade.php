@@ -447,12 +447,12 @@
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('types')}}" class="btn btn-primary btn-block">List Items types</a>
+                                <a href="{{url('types')}}" class="btn btn-primary btn-block">List items types</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('inventory-import')}}" class="btn btn-primary btn-block">Import items From Excel</a>
+                                <a href="{{url('inventory-import')}}" class="btn btn-primary btn-block">Import items from Excel</a>
                             </div>
                         </div>
                     </div>
