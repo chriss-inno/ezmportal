@@ -394,7 +394,7 @@
                                         <td>{{$item->antivirus}}</td>
                                         <td id="{{$item->id}}" align="center">
                                             <div class="pull-right hidden-phone" id="{{$item->id}}">
-                                                <a  href="#" title="show item details" class="showDetails btn btn-info btn-xs"><i class="fa fa-eye"></i></a>
+                                                <a  href="#" title="show item details" class="showDetails btn btn-info btn-xs"><i class="fa fa-eye"> View</i></a>
                                             </div>
 
                                         </td>
