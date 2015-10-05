@@ -394,9 +394,9 @@
                                         <td>{{$item->usb}}</td>
                                         <td>{{$item->antivirus}}</td>
                                         @if($item->status =="Working" || $item->status =="working")
-                                            <td><a  href="#" title="show item details" class="showDetails btn btn-success btn-xs"> {{$item->status}}</a></td>
+                                            <td><a  href="#" title="show item details" class="showDetails btn btn-success btn-xs"> {{ucwords(strtolower($item->status)) }} </a></td>
                                         @else
-                                            <td><a  href="#" title="show item details" class="showDetails btn btn-danger btn-xs"> {{$item->status}}</a></td>
+                                            <td><a  href="#" title="show item details" class="showDetails btn btn-danger btn-xs"> {{ucwords(strtolower($item->status)) }} </a></td>
                                             @endif
                                         <td id="{{$item->id}}" align="center">
                                             <div class="pull-right hidden-phone" id="{{$item->id}}">
