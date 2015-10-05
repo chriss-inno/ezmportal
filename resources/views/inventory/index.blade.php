@@ -371,6 +371,7 @@
                                     <th>Serial number</th>
                                     <th>USB</th>
                                     <th>Antivirus</th>
+                                    <th>Status</th>
                                     <th>Details</th>
                                     <th>Action</th>
                                 </tr>
@@ -392,6 +393,11 @@
                                         <td>{{$item->serial_number}}</td>
                                         <td>{{$item->usb}}</td>
                                         <td>{{$item->antivirus}}</td>
+                                        @if($item->status =="Working" || $item->status =="working")
+                                            <td><a  href="#" title="show item details" class="showDetails btn btn-success btn-xs"> {{$item->status}}</a></td>
+                                        @else
+                                            <td><a  href="#" title="show item details" class="showDetails btn btn-danger btn-xs"> {{$item->status}}</a></td>
+                                            @endif
                                         <td id="{{$item->id}}" align="center">
                                             <div class="pull-right hidden-phone" id="{{$item->id}}">
                                                 <a  href="#" title="show item details" class="showDetails btn btn-info btn-xs"><i class="fa fa-eye"> View</i></a>
@@ -418,6 +424,7 @@
                                     <th>Serial number</th>
                                     <th>USB</th>
                                     <th>Antivirus</th>
+                                    <th>Status</th>
                                     <th>Details</th>
                                     <th>Action</th>
                                 </tr>
