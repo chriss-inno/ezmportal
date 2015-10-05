@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Branches
+    Services
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
@@ -19,8 +19,9 @@
 
 
             $('#branches').dataTable( {
-                "aaSorting": [[ 4, "desc" ]]
-            } );
+                "fnDrawCallback": function( oSettings ) {
+
+
 
             $(".deleteuser").click(function(){
                 var id1 = $(this).parent().attr('id');
@@ -121,6 +122,8 @@
                 })
 
             });
+                }
+            } );
         } );
 
 
@@ -354,7 +357,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        List of Service Monitoring
+                        <h3 class="text-info"> <strong> <i class="fa fa-cogs"></i> Service Monitoring </strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="adv-table">

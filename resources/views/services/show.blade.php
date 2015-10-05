@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Modules
+    Services
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
@@ -17,9 +17,9 @@
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
             $('#branches').dataTable( {
-                "aaSorting": [[ 4, "desc" ]]
-            } );
-        } );
+                "fnDrawCallback": function( oSettings ) {
+
+
 
         $("#branch").change(function () {
             var id1 = this.value;
@@ -56,6 +56,9 @@
             })
 
         });
+                }
+            } );
+        } );
 
     </script>
 
