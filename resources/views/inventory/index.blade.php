@@ -355,7 +355,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa fa-bars"></i> MANAGE INVENTORY ITEM</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-suitcase"></i> MANAGE INVENTORY ITEMS</strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="adv-table">
@@ -432,27 +432,27 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <a href="#" class="createItem btn btn-compose btn-block">New Item</a>
+                                <a href="#" class="createItem btn btn-compose btn-block">New inventory item</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('inventory')}}" class="btn btn-compose btn-block">View Items</a>
+                                <a href="{{url('inventory')}}" class="btn btn-compose btn-block">List inventory items</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('inventory-reports')}}" class="btn btn-compose btn-block">Inventory Reports</a>
+                                <a href="{{url('inventory-reports')}}" class="btn btn-compose btn-block">Inventory items reports</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('types')}}" class="btn btn-primary btn-block">View Item types</a>
+                                <a href="{{url('types')}}" class="btn btn-primary btn-block">List Items types</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('inventory-import')}}" class="btn btn-primary btn-block">Import From Excel</a>
+                                <a href="{{url('inventory-import')}}" class="btn btn-primary btn-block">Import items From Excel</a>
                             </div>
                         </div>
                     </div>
