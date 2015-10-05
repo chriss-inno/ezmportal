@@ -278,7 +278,7 @@
                     </div>
                     <div class="value">
                         <h1 class=" count4">
-                            {{count(\App\OracleSupport::all())}}
+                            {{count(\App\OracleSupport::where('status','=','Opened')->get())}}
                         </h1>
                         <p>Oracle Opened Issues</p>
                     </div>

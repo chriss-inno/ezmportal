@@ -355,7 +355,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa fa-bars"></i> MANAGE ITEM INVENTORY</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-bars"></i> MANAGE INVENTORY ITEM</strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="adv-table">
