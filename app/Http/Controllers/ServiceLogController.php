@@ -34,7 +34,7 @@ class ServiceLogController extends Controller
         //
         $today=date("Y-m-d");
         $services =ServiceLog::where('logdate','=',$today)->get();
-        return view('servicelogs.index',compact('services'));
+        return view('servicelogs.today',compact('services'));
     }
     /**
      * Show the form for creating a new resource.
