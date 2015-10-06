@@ -22,7 +22,7 @@ class CreateServiceLogsTable extends Migration
             $table->string('end_time')->nullable();
             $table->text('remarks')->nullable();
             $table->date('logdate');
-            $table->date('status');
+            $table->string('status')->nullable();
             $table->string('input_by');
             $table->timestamps();
         });

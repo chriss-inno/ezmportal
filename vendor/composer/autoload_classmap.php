@@ -614,5 +614,6 @@ return array(
     'TestCase' => $baseDir . '/tests/TestCase.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
     'UpdateInventoryTable' => $baseDir . '/database/migrations/2015_09_30_062924_update_inventory_table.php',
+    'UpdateServiceLog' => $baseDir . '/database/migrations/2015_10_06_122722_update_service_log.php',
     'UserTableSeeder' => $baseDir . '/database/seeds/UserTableSeeder.php',
 );

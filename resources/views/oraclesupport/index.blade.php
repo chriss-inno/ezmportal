@@ -295,19 +295,18 @@
             </ul>
         </li>
         @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,18)  || Auth::user()->user_type=="Administrator")
-         <li class="sub-menu">
-            <a href="javascript:;" >
-                <i class="fa fa-laptop"></i>
-                <span>System service status</span>
-            </a>
-            <ul class="sub">
-                <li><a  href="{{url('serviceslogs/create')}}" title="Log Status">Log Status</a></li>
-                <li><a  href="{{url('services')}}" title="Services">Services</a></li>
-                <li><a  href="{{url('serviceslogs/today')}}" title="Today Status">Today Status</a></li>
-                <li><a  href="{{url('serviceslogs')}}" title="Status History">Status History</a></li>
-            </ul>
-        </li>
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,18)  || Auth::user()->user_type=="Administrator") <li class="sub-menu">
+                <a href="javascript:;" >
+                    <i class="fa fa-laptop"></i>
+                    <span>Services monitoring</span>
+                </a>
+                <ul class="sub">
+                    <li><a  href="{{url('serviceslogs/create')}}" title="Log Status">Log downtime</a></li>
+                    <li><a  href="{{url('services')}}" title="Services">List services </a></li>
+                    <li><a  href="{{url('serviceslogs/today')}}" title="View today status">Today Status</a></li>
+                    <li><a  href="{{url('serviceslogs')}}" title="Status History">Downtime History</a></li>
+                </ul>
+            </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,19) || Auth::user()->user_type=="Administrator")
          <li class="sub-menu">

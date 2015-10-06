@@ -63,7 +63,7 @@ class ServiceLogController extends Controller
         $sl->reason=$request->reason;
         $sl->start_time=$request->start_time;
         $sl->end_time=$request->end_time;
-        $sl->Remarks=$request->Remarks;
+        $sl->remarks=$request->remarks;
         $sl->status=$request->status;
         $sl->input_by=Auth::user()->username;;
         $sl->logdate=date('Y-m-d');
@@ -185,5 +185,8 @@ class ServiceLogController extends Controller
         {
             $a->delete();
         }
+        $sl->delete();
+
+        return "Delete of service log successful";
     }
 }

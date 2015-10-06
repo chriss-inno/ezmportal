@@ -12,25 +12,25 @@
 </div>
 <div class="form-group">
     <label for="unit_name">Log Title</label>
-    <input type="text" class="form-control" id="log_title" name="log_title" value="{{old('log_title')}}" placeholder="Enter title">
+    <input type="text" class="form-control" id="log_title" name="log_title" value="{{$service->log_title}}" placeholder="Enter title">
 </div>
 <div class="form-group">
     <label for="unit_name">Description</label>
-    <textarea class="ckeditor form-control" id="description" name="description"></textarea>
+   <span class="form-control"><?php echo $service->description?></span>
 </div>
 <div class="form-group">
     <label for="unit_name">Specify Reason</label>
-    <input type="text" class="form-control" id="reason" name="reason" value="{{old('log_title')}}" placeholder="Enter reason">
+    <input type="text" class="form-control" id="reason" name="reason" value="{{$service->reason}}" placeholder="Enter reason">
 </div>
 <div class="form-group">
     <div class="row">
         <div class="col-md-6">
             <label for="status">Start Time</label>
-            <input type="text" class="form-control form-control form-control-inline input-medium default-date-picker" id="start_time" name="start_time" value="{{old('start_time')}}" placeholder="(YYYY-MM-DD HH:MM)">
+            <input type="text" class="form-control form-control form-control-inline input-medium default-date-picker" id="start_time" name="start_time" value="{{$service->start_time}}" placeholder="(YYYY-MM-DD HH:MM)">
         </div>
         <div class="col-md-6">
             <label for="status">Restoration Time</label>
-            <input type="text" class="form-control" id="end_time" name="end_time" value="{{old('end_time')}}" placeholder="(YYYY-MM-DD HH:MM)">
+            <input type="text" class="form-control" id="end_time" name="end_time" value="{{$service->end_time}}" placeholder="(YYYY-MM-DD HH:MM)">
         </div>
     </div>
 </div>
@@ -63,14 +63,14 @@
     </div>
     <div class="form-group">
         <label for="unit_name">Remarks</label>
-        <input type="text" class="form-control" id="remarks" name="remarks" value="{{old('remarks')}}" placeholder="Enter Remarks">
+        <input type="text" class="form-control" id="remarks" name="remarks" value="{{$service->remarks}}" placeholder="Enter Remarks">
     </div>
     <div class="form-group">
         <div class="row">
             <div class="col-md-4">
                 <label for="status">Status</label>
                 <select name="status" class="form-control" id="status">
-                    <option selected value="">----</option>
+                    <option selected value="{{$service->status}}">{{$service->status}}</option>
                     <option value="Sorted">Sorted</option>
                     <option value="Not Sorted">Not Sorted</option>
                 </select>

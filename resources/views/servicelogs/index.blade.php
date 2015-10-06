@@ -328,19 +328,18 @@
             </ul>
         </li>
         @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,18)  || Auth::user()->user_type=="Administrator")
-         <li class="sub-menu">
-            <a href="javascript:;" >
-                <i class="fa fa-laptop"></i>
-                <span>System service status</span>
-            </a>
-            <ul class="sub">
-                <li><a  href="{{url('serviceslogs/create')}}" title="Log Status">Log Status</a></li>
-                <li><a  href="{{url('services')}}" title="Services">Services</a></li>
-                <li><a  href="{{url('serviceslogs/today')}}" title="Today Status">Today Status</a></li>
-                <li><a  href="{{url('serviceslogs')}}" title="Status History">Status History</a></li>
-            </ul>
-        </li>
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,18)  || Auth::user()->user_type=="Administrator") <li class="sub-menu">
+                <a href="javascript:;" >
+                    <i class="fa fa-laptop"></i>
+                    <span>Services monitoring</span>
+                </a>
+                <ul class="sub">
+                    <li><a  href="{{url('serviceslogs/create')}}" title="Log Status">Log downtime</a></li>
+                    <li><a  href="{{url('services')}}" title="Services">List services </a></li>
+                    <li><a  href="{{url('serviceslogs/today')}}" title="View today status">Today Status</a></li>
+                    <li><a  href="{{url('serviceslogs')}}" title="Status History">Downtime History</a></li>
+                </ul>
+            </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,19) || Auth::user()->user_type=="Administrator")
          <li class="sub-menu">
@@ -409,7 +408,11 @@
                                         <td>{{$ser->log_title}}</td>
                                         <td>{{$ser->start_time}}</td>
                                         <td>{{$ser->end_time}}</td>
-                                        <td>{{$ser->status}}</td>
+                                        @if($ser->status =="Sorted")
+                                            <td><div class=" btn btn-success btn-xs"> {{$ser->status}}</div></td>
+                                        @else
+                                            <td><div class=" btn btn-danger btn-xs"> {{$ser->status}}</div></td>
+                                            @endif
                                         <td id="{{$ser->id}}" class="text-center">
                                             <a  href="#" title="Edit Service" class="viewService btn btn-success btn-xs"><i class="fa fa-folder-open-o"></i>View </a>
 
@@ -456,6 +459,11 @@
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
                                 <a href="{{url('serviceslogs')}}" class="btn btn-file btn-danger btn-block">Status History</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-md-12">
+                                <a href="{{url('services')}}" class="btn btn-file btn-primary btn-block">View  Service</a>
                             </div>
                         </div>
                     </div>

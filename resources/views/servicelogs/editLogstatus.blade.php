@@ -7,6 +7,7 @@
 <div class="form-group">
     <label for="service_id">Service Name</label>
     <select class="form-control"  id="service_id" name="service_id">
+        <option  selected value="{{$service->service->service_name}}">{{$service->service->service_name}}</option>
         <option value="">----</option>
         <?php $services=\App\Service::all();?>
         @foreach($services as $se)
@@ -17,15 +18,15 @@
 </div>
 <div class="form-group">
     <label for="unit_name">Log Title</label>
-    <input type="text" class="form-control" id="log_title" name="log_title" value="{{old('log_title')}}" placeholder="Enter title">
+    <input type="text" class="form-control" id="log_title" name="log_title" value="{{$service->log_title}}" placeholder="Enter title">
 </div>
 <div class="form-group">
     <label for="unit_name">Description</label>
-    <textarea class="ckeditor form-control" id="description" name="description"></textarea>
+    <textarea class="ckeditor form-control" id="description" name="description"><?php echo $service->description?></textarea>
 </div>
 <div class="form-group">
     <label for="unit_name">Specify Reason</label>
-    <input type="text" class="form-control" id="reason" name="reason" value="{{old('log_title')}}" placeholder="Enter reason">
+    <input type="text" class="form-control" id="reason" name="reason" value="{{$service->log_title)}}" placeholder="Enter reason">
 </div>
 <div class="form-group">
     <div class="row">
@@ -35,7 +36,7 @@
         </div>
         <div class="col-md-6">
             <label for="status">Restoration Time</label>
-            <input type="text" class="form-control" id="end_time" name="end_time" value="{{old('end_time')}}" placeholder="(YYYY-MM-DD HH:MM)">
+            <input type="text" class="form-control" id="end_time" name="end_time" value="{{$service->end_time}}" placeholder="(YYYY-MM-DD HH:MM)">
         </div>
     </div>
 </div>

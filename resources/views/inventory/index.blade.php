@@ -300,19 +300,18 @@
             </ul>
         </li>
         @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,18)  || Auth::user()->user_type=="Administrator")
-         <li class="sub-menu">
-            <a href="javascript:;" >
-                <i class="fa fa-laptop"></i>
-                <span>System service status</span>
-            </a>
-            <ul class="sub">
-                <li><a  href="{{url('serviceslogs/create')}}" title="Log Status">Log Status</a></li>
-                <li><a  href="{{url('services')}}" title="Services">Services</a></li>
-                <li><a  href="{{url('serviceslogs/today')}}" title="Today Status">Today Status</a></li>
-                <li><a  href="{{url('serviceslogs')}}" title="Status History">Status History</a></li>
-            </ul>
-        </li>
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,18)  || Auth::user()->user_type=="Administrator") <li class="sub-menu">
+                <a href="javascript:;" >
+                    <i class="fa fa-laptop"></i>
+                    <span>Services monitoring</span>
+                </a>
+                <ul class="sub">
+                    <li><a  href="{{url('serviceslogs/create')}}" title="Log Status">Log downtime</a></li>
+                    <li><a  href="{{url('services')}}" title="Services">List services </a></li>
+                    <li><a  href="{{url('serviceslogs/today')}}" title="View today status">Today Status</a></li>
+                    <li><a  href="{{url('serviceslogs')}}" title="Status History">Downtime History</a></li>
+                </ul>
+            </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,19) || Auth::user()->user_type=="Administrator")
          <li class="sub-menu">
@@ -394,9 +393,9 @@
                                         <td>{{$item->usb}}</td>
                                         <td>{{$item->antivirus}}</td>
                                         @if($item->status =="Working" || $item->status =="working")
-                                            <td><a  href="#" title="show item details" class="showDetails btn btn-success btn-xs"> {{ucwords(strtolower($item->status)) }} </a></td>
+                                            <td><a  href="#" title="This Item is working property" class=" btn btn-success btn-xs"> {{ucwords(strtolower($item->status)) }} </a></td>
                                         @else
-                                            <td><a  href="#" title="show item details" class="showDetails btn btn-danger btn-xs"> {{ucwords(strtolower($item->status)) }} </a></td>
+                                            <td><a  href="#" title="This Item is not working property" class=" btn btn-danger btn-xs"> {{ucwords(strtolower($item->status)) }} </a></td>
                                             @endif
                                         <td id="{{$item->id}}" align="center">
                                             <div class="pull-right hidden-phone" id="{{$item->id}}">
