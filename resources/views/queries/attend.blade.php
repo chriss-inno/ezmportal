@@ -84,12 +84,12 @@
                                     <select class="form-control"  id="status" name="status">
                                         @if(old('status'))
                                             <?php $qStatus=\App\QueryStatus::find(old('status'))?>
-                                            <option value="{{$qStatus->id}}">{{$qStatus->status}}</option>
+                                            <option value="{{$qStatus->id}}">{{$qStatus->status_name}}</option>
                                         @else
                                             <option value="">----</option>
                                         @endif
-                                        @foreach(\App\QueryStatus::all() as $status)
-                                            <option value="{{$status->id}}">{{$status->status}}</option>
+                                        @foreach(\App\QueryStatus::all() as $qs)
+                                            <option value="{{$qs->id}}">{{$qs->status_name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
