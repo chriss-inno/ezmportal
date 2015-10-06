@@ -18,6 +18,7 @@ return array(
     'CreateModulesTable' => $baseDir . '/database/migrations/2015_09_16_155825_create_modules_table.php',
     'CreateOracleSupportsTable' => $baseDir . '/database/migrations/2015_09_21_084143_create_oracle_supports_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+    'CreatePhotoGalleriesTable' => $baseDir . '/database/migrations/2015_10_04_124553_create_photo_galleries_table.php',
     'CreateQueriesTable' => $baseDir . '/database/migrations/2015_09_26_065723_create_queries_table.php',
     'CreateQueryAssignmentsTable' => $baseDir . '/database/migrations/2015_09_19_042355_create_query_assignments_table.php',
     'CreateQueryStatusesTable' => $baseDir . '/database/migrations/2015_10_02_091030_create_query_statuses_table.php',

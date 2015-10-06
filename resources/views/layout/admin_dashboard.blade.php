@@ -24,10 +24,13 @@
                 <span>Reports</span>
             </a>
             <ul class="sub">
-                <li><a  href="#" title="Report System/Service problem or issue">Daily Reports</a></li>
-                <li><a  href="#" title="View today system status">Monthly Reports</a></li>
-                <li><a  href="#" title="System/services History">Custom Reports</a></li>
-                <li><a  href="#" title="Generate System/Service status report">Search Report</a></li>
+                <li><a  href="#" title="Daily Reports">Daily Reports</a></li>
+                <li><a  href="#" title="Monthly Reports">Monthly Reports</a></li>
+                <li><a  href="#" title="Custom Reports">Custom Reports</a></li>
+                <li><a  href="#" title="Search Report">Search Report</a></li>
+                 @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2))
+                  <li><a  href="#" title=">Manage Report">Manage Report</a></li>
+                  @endif
             </ul>
         </li>
         @endif
@@ -35,11 +38,13 @@
         <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-picture-o"></i>
-                <span>Photo Galley</span>
+                <span>Photo Gallery</span>
             </a>
             <ul class="sub">
-                <li><a  href="#" title="System/services History">Upload Photos</a></li>
-                <li><a  href="#" title="Report System/Service problem or issue">List Albums</a></li>
+                <li><a  href="#" title="photo/gallery">Galleries</a></li>
+                 @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,3))
+                <li><a  href="photo/gallery/manage" title=">Manage Gallery">Manage Gallery</a></li>
+                 @endif
             </ul>
         </li>
         @endif
@@ -71,7 +76,7 @@
          @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5))
         <li class="sub-menu">
             <a href="javascript:;" >
-                <i class="fa fa-info"></i>
+                <i class="fa money"></i>
                 <span>Money Msafiri</span>
             </a>
             <ul class="sub">
@@ -82,7 +87,7 @@
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,6))
         <li class="sub-menu">
             <a href="javascript:;" >
-                <i class="fa fa-info"></i><span>Treasury</span>
+                <i class="fa fa-building-o"></i><span>Treasury</span>
             </a>
             <ul class="sub">
                 <li><a  href="#" title="Money Msafiri System">Forex Deal Slip</a></li>
@@ -92,7 +97,7 @@
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7))
         <li class="sub-menu">
             <a href="javascript:;" >
-                <i class="fa fa-info"></i>
+                <i class="fa fa-money"></i>
                 <span>Credit</span>
             </a>
             <ul class="sub">
@@ -133,28 +138,28 @@
                 <span>Queries and Tasks</span>
             </a>
             <ul class="sub">
-                <li><a  href="{{url('queries/create')}}" title="System/services History">Log Query</a></li>
-                <li><a  href="{{url('queries/mytask')}}" title="Report System/Service problem or issue">My Tasks</a></li>
-                <li><a  href="{{url('queries/progress')}}" title="Report System/Service problem or issue">Query Progress</a></li>
-                <li><a  href="{{url('queries/history')}}" title="Report System/Service problem or issue">Query History</a></li>
-                 @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,6))
-                    <li><a  href="{{url('queries/report')}}" title="View today system status">Queries Reports</a></li>
+                <li><a  href="{{url('queries/create')}}" title="Log Query">Log Query</a></li>
+                <li><a  href="{{url('queries/mytask')}}" title="My Tasks">My Tasks</a></li>
+                <li><a  href="{{url('queries/progress')}}" title="Query Progres">Query Progress</a></li>
+                <li><a  href="{{url('queries/history')}}" title="Query Historye">Query History</a></li>
+                 @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,11))
+                    <li><a  href="{{url('queries/report')}}" title="Queries Reports">Queries Reports</a></li>
                 @endif
-                 @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,6))
-                 <li><a  href="{{url('queries/assign')}}" title="View today system status">Queries Assign</a></li>
+                 @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,12))
+                 <li><a  href="{{url('queries/assign')}}" title="Queries Assign">Queries Assign</a></li>
                  @endif
             </ul>
         </li>
         @endif
-         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,11))
+         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,31))
           <li class="sub-menu">
             <a href="javascript:;" >
                 <i class="fa fa-laptop"></i>
                 <span>Reminder</span>
             </a>
             <ul class="sub">
-                <li><a  href="{{url('support/oracle/create')}}" title="Report System/Service problem or issue">Create Reminder</a></li>
-                <li><a  href="{{url('support/oracle/opened')}}" title="Report System/Service problem or issue">Reminder List</a></li>
+                <li><a  href="{{url('reminder/create')}}" title="Create Reminder">Create Reminder</a></li>
+                <li><a  href="{{url('reminders')}}" title="Reminder List">Reminder List</a></li>
               
             </ul>
         </li>
@@ -165,11 +170,11 @@
                 <i class="fa fa-laptop"></i><span>Oracle Support Issues</span>
             </a>
             <ul class="sub">
-                <li><a  href="{{url('support/oracle/create')}}" title="Report System/Service problem or issue">New Issue</a></li>
-                <li><a  href="{{url('support/oracle/opened')}}" title="Report System/Service problem or issue">Opened Issues</a></li>
-                <li><a  href="{{url('support/oracle/closed')}}" title="View today system status">Closed Issues</a></li>
-                <li><a  href="{{url('support/oracle/history')}}" title="System/services History">Issues History</a></li>
-                 <li><a  href="{{url('support/oracle/report')}}" title="System/services History">Issues Report</a></li>
+                <li><a  href="{{url('support/oracle/create')}}" title="New Issue">New Issue</a></li>
+                <li><a  href="{{url('support/oracle/opened')}}" title="Opened Issues">Opened Issues</a></li>
+                <li><a  href="{{url('support/oracle/closed')}}" title="Closed Issues">Closed Issues</a></li>
+                <li><a  href="{{url('support/oracle/history')}}" title="Issues History">Issues History</a></li>
+                 <li><a  href="{{url('support/oracle/report')}}" title="Issues Report">Issues Report</a></li>
             </ul>
         </li>
         @endif
@@ -194,9 +199,9 @@
                 <span>ICT Inventory</span>
             </a>
             <ul class="sub">
-                <li><a  href="{{url('types')}}" title="Report System/Service problem or issue">Item types</a></li>
-                <li><a  href="{{url('inventory')}}" title="Report System/Service problem or issue">Inventory Items</a></li>
-                <li><a  href="{{url('inventory-reports')}}" title="View today system status">Inventory Reports</a></li>
+                <li><a  href="{{url('types')}}" title="Item types">Item types</a></li>
+                <li><a  href="{{url('inventory')}}" title="Inventory Items">Inventory Items</a></li>
+                <li><a  href="{{url('inventory-reports')}}" title="Inventory Reports">Inventory Reports</a></li>
             
             </ul>
         </li>
