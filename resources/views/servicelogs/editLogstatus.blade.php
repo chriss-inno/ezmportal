@@ -26,7 +26,7 @@
 </div>
 <div class="form-group">
     <label for="unit_name">Specify Reason</label>
-    <input type="text" class="form-control" id="reason" name="reason" value="{{$service->log_title)}}" placeholder="Enter reason">
+    <input type="text" class="form-control" id="reason" name="reason" value="{{$service->log_title}}" placeholder="Enter reason">
 </div>
 <div class="form-group">
     <div class="row">

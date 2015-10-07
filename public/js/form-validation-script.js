@@ -17,7 +17,22 @@ var Script = function () {
                     department_name: "Please enter department name"
                 }
             });
+            //Validate service log form
+            $("#serviceStatusForm").validate({
+                rules: {
+                    start_time: "required",
+                    service_id: "required",
+                    log_title: "required",
 
+                    status: "required"
+                },
+                messages: {
+                    service_id: "Please select service name",
+                    log_title: "Please enter title",
+                    start_time: "Please enter start time",
+                    status: "Please select status"
+                }
+            });
         // validate signup form on keyup and submit
         $("#adminUserform").validate({
                 rules: {

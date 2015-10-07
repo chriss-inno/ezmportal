@@ -1,160 +1,58 @@
 @extends('layout.master')
 @section('page-title')
-    Branches
+    Today service status
 @stop
 @section('page_scripts')
-    {!!HTML::script("js/sparkline-chart.js") !!}
-    {!!HTML::script("js/easy-pie-chart.js") !!}
-    {!!HTML::script("js/count.js") !!}
-    {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
-    {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
-    {!!HTML::script("js/jquery.scrollTo.min.js") !!}
-    {!!HTML::script("js/jquery.nicescroll.js") !!}
-    {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
-    {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
-
-
+    {!!HTML::script("assets/highcharts/js/highcharts.js") !!}
     <script type="text/javascript" charset="utf-8">
-        $(document).ready(function() {
+    $(document).ready(function() {
+        $(function () {
+            $('#container').highcharts({
+                title: {
+                    text: 'Daily service downtime status',
+                    x: -20 //center
+                },
+                subtitle: {
+                    text: 'Portal reports services',
+                    x: -20
+                },
+                xAxis: { title: {
+                    text: 'Hour'
+                },
+                    categories: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00',
+                        '14:00', '15:00', '16:00', '17:00', '18:00', '19:00','20:00']
+                },
+                yAxis: {
+                    title: {
+                        text: 'Frequency'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    valueSuffix: ''
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
+                },
 
-
-            $('#branches').dataTable({
-
-                "fnDrawCallback": function (oSettings) {
-                    $(".delService").click(function () {
-                        var id1 = $(this).parent().attr('id');
-                        $(".delService").show("slow").parent().parent().find("span").remove();
-                        var btn = $(this).parent().parent();
-                        $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
-                        $("#no").click(function () {
-                            $(this).parent().parent().find(".delService").show("slow");
-                            $(this).parent().parent().find("span").remove();
-                        });
-                        $("#yes").click(function () {
-                            $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                            $.get("<?php echo url('serviceslogs/remove') ?>/" + id1, function (data) {
-                                btn.hide("slow").next("hr").hide("slow");
-                            });
-                        });
-                    });
-
-                    //Edit class streams
-                    $(".addService").click(function () {
-                        var id1 = $(this).parent().attr('id');
-                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-
-                        modaldis += '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
-                        modaldis += '<div class="modal-content">';
-                        modaldis += '<div class="modal-header">';
-                        modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Log service status</span>';
-                        modaldis += '</div>';
-                        modaldis += '<div class="modal-body">';
-                        modaldis += ' </div>';
-                        modaldis += '</div>';
-                        modaldis += '</div>';
-                        $('body').css('overflow', 'hidden');
-
-                        $("body").append(modaldis);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("serviceslogs/create") ?>");
-                        $("#myModal").on('hidden.bs.modal', function () {
-                            $("#myModal").remove();
-                        })
-
-                    });
-
-                    //Edit class streams
-                    $(".viewService").click(function () {
-                        var id1 = $(this).parent().attr('id');
-                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-
-                        modaldis += '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
-                        modaldis += '<div class="modal-content">';
-                        modaldis += '<div class="modal-header">';
-                        modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Service Status Details</span>';
-                        modaldis += '</div>';
-                        modaldis += '<div class="modal-body">';
-                        modaldis += ' </div>';
-                        modaldis += '</div>';
-                        modaldis += '</div>';
-                        $('body').css('overflow', 'hidden');
-
-                        $("body").append(modaldis);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("serviceslogs/show") ?>/" + id1);
-                        $("#myModal").on('hidden.bs.modal', function () {
-                            $("#myModal").remove();
-                        })
-
-                    });
-
-                    //viewService
-                    $(".editService").click(function () {
-                        var id1 = $(this).parent().attr('id');
-                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-
-                        modaldis += '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
-                        modaldis += '<div class="modal-content">';
-                        modaldis += '<div class="modal-header">';
-                        modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Update Service</span>';
-                        modaldis += '</div>';
-                        modaldis += '<div class="modal-body">';
-                        modaldis += ' </div>';
-                        modaldis += '</div>';
-                        modaldis += '</div>';
-                        $('body').css('overflow', 'hidden');
-
-                        $("body").append(modaldis);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("serviceslogs/edit") ?>/" + id1);
-                        $("#myModal").on('hidden.bs.modal', function () {
-                            $("#myModal").remove();
-                        })
-
-                    });
-                    //logService class streams
-                    $(".logService").click(function () {
-                        var id1 = $(this).parent().attr('id');
-                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-
-                        modaldis += '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
-                        modaldis += '<div class="modal-content">';
-                        modaldis += '<div class="modal-header">';
-                        modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Update Service</span>';
-                        modaldis += '</div>';
-                        modaldis += '<div class="modal-body">';
-                        modaldis += ' </div>';
-                        modaldis += '</div>';
-                        modaldis += '</div>';
-                        $('body').css('overflow', 'hidden');
-
-                        $("body").append(modaldis);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("services/log") ?>/" + id1);
-                        $("#myModal").on('hidden.bs.modal', function () {
-                            $("#myModal").remove();
-                        })
-
-                    });
-                }
+                series: [
+                        @foreach(\App\Service::all() as $ser){
+                        name: '{{$ser->service_name}}',
+                        data: [{{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','8')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','9')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','10')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','11')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','12')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','13')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','14')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','15')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','16')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','17')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','18')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','19')->get())}},{{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','20')->get())}}]
+                    },
+                    @endforeach
+                   ]
             });
-        } );
-
-
+        });
+    } );
     </script>
-
 @stop
 @section('menus')
     <ul class="sidebar-menu" id="nav-accordion">
@@ -374,6 +272,7 @@
         @endif
     </ul>
 @stop
+
 @section('contents')
 
     <section class="site-min-height">
@@ -388,108 +287,64 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <table  border="0" align="center" cellpadding="1" cellspacing="0" class="table table-bordered">
-                                <tr>
-                                    <td width="149" align="center" bgcolor="#CCCCCC"><h3><strong>Services</strong></h3></td>
-                                    <td colspan="13" align="center" bgcolor="#CCCCCC"><h3><strong>Today service status</strong></h3></td>
-                                </tr>
-                                @foreach($services as $ser)
-                                <tr bgcolor="#f0f2f7">
-                                    <td align="center" bgcolor="#CCCCCC">{{$ser->service->service_name}}</td>
-                                    <td align="center" ><div class="progress progress-xs">
-                                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                <span class="sr-only">60% Complete</span>
-                                            </div>
-                                        </div></td>
-                                    <td align="center" >&nbsp;</td>
-                                    <td align="center">&nbsp;</td>
-                                    <td align="center" >&nbsp;</td>
-                                    <td align="center" >&nbsp;</td>
-                                    <td align="center" >&nbsp;</td>
-                                    <td align="center" >&nbsp;</td>
-                                    <td align="center" >&nbsp;</td>
-                                    <td align="center" >&nbsp;</td>
-                                    <td align="center" >&nbsp;</td>
-                                    <td align="center" >&nbsp;</td>
-                                    <td align="center" >&nbsp;</td>
-                                    <td align="center" >&nbsp;</td>
-                                </tr>
-
-                                @endforeach
-                                <tr>
-                                    <td align="center" bgcolor="#CCCCCC">&nbsp;</td>
-                                    <td align="center" bgcolor="#CCCCCC"><strong>8:00 </strong></td>
-                                    <td align="center" bgcolor="#CCCCCC"><strong>9:00 </strong></td>
-                                    <td align="center" bgcolor="#CCCCCC"><strong>10:00 </strong></td>
-                                    <td align="center" bgcolor="#CCCCCC"><strong>11:00 </strong></td>
-                                    <td align="center" bgcolor="#CCCCCC"><strong>12:00</strong></td>
-                                    <td align="center" bgcolor="#CCCCCC"><strong>13:00 </strong></td>
-                                    <td align="center" bgcolor="#CCCCCC"><strong>14:00 </strong></td>
-                                    <td align="center" bgcolor="#CCCCCC"><strong>15:00</strong></td>
-                                    <td align="center" bgcolor="#CCCCCC"><strong>16:00</strong></td>
-                                    <td align="center" bgcolor="#CCCCCC"><strong>17:00 </strong></td>
-                                    <td align="center" bgcolor="#CCCCCC"><strong>18:00 </strong></td>
-                                    <td align="center" bgcolor="#CCCCCC"><strong>19:00 </strong></td>
-                                    <td align="center" bgcolor="#CCCCCC"><strong>20:00 </strong></td>
-                                </tr>
-                            </table>
+                                <div id="container" style="width:100%; height:400px;"></div>
                             </div>
                         </div>
                         <div class="row">
-                        <div class="adv-table">
-                            <table  class="display table table-bordered table-striped" id="branches">
-                                <thead>
-                                <tr>
-                                    <th>SNO</th>
-                                    <th>Service</th>
-                                    <th>Log Title</th>
-                                    <th>Start Time</th>
-                                    <th>End Time</th>
-                                    <th>Status</th>
-                                    <th>Detailed</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody id="serviceList">
-                                <?php $i=1;?>
-                                @foreach($services as $ser)
+                            <div class="adv-table">
+                                <table  class="display table table-bordered table-striped" id="branches">
+                                    <thead>
                                     <tr>
-                                        <td>{{$i++}}</td>
-                                        <td>{{$ser->service->service_name}}</td>
-                                        <td>{{$ser->log_title}}</td>
-                                        <td>{{$ser->start_time}}</td>
-                                        <td>{{$ser->end_time}}</td>
-                                        @if($ser->status =="Sorted")
-                                            <td><div class=" btn btn-success btn-xs"> {{$ser->status}}</div></td>
-                                        @else
-                                            <td><div class=" btn btn-danger btn-xs"> {{$ser->status}}</div></td>
-                                        @endif
-                                        <td id="{{$ser->id}}" class="text-center">
-                                            <a  href="#" title="Edit Service" class="viewService btn btn-success btn-xs"><i class="fa fa-folder-open-o"></i>View </a>
-
-                                        </td>
-                                        <td id="{{$ser->id}}" class="text-center">
-                                            <a  href="#" title="Edit Service" class="editService btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
-                                            <a href="#b" title="Delete Department" class="delService btn btn-danger btn-xs"><i class="fa fa-trash-o "></i>Delete </a>
-                                        </td>
+                                        <th>SNO</th>
+                                        <th>Service</th>
+                                        <th>Log Title</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Status</th>
+                                        <th>Detailed</th>
+                                        <th>Action</th>
                                     </tr>
+                                    </thead>
+                                    <tbody id="serviceList">
+                                    <?php $i=1;?>
+                                    @foreach($services as $ser)
+                                        <tr>
+                                            <td>{{$i++}}</td>
+                                            <td>{{$ser->service->service_name}}</td>
+                                            <td>{{$ser->log_title}}</td>
+                                            <td>{{$ser->start_time}}</td>
+                                            <td>{{$ser->end_time}}</td>
+                                            @if($ser->status =="Sorted")
+                                                <td><div class=" btn btn-success btn-xs"> {{$ser->status}}</div></td>
+                                            @else
+                                                <td><div class=" btn btn-danger btn-xs"> {{$ser->status}}</div></td>
+                                            @endif
+                                            <td id="{{$ser->id}}" class="text-center">
+                                                <a  href="#" title="Edit Service" class="viewService btn btn-success btn-xs"><i class="fa fa-folder-open-o"></i>View </a>
 
-                                @endforeach
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>SNO</th>
-                                    <th>Service</th>
-                                    <th>Log Title</th>
-                                    <th>Start Time</th>
-                                    <th>End Time</th>
-                                    <th>Status</th>
-                                    <th>Detailed</th>
-                                    <th>Action</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
+                                            </td>
+                                            <td id="{{$ser->id}}" class="text-center">
+                                                <a  href="#" title="Edit Service" class="editService btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+                                                <a href="#b" title="Delete Department" class="delService btn btn-danger btn-xs"><i class="fa fa-trash-o "></i>Delete </a>
+                                            </td>
+                                        </tr>
+
+                                    @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>SNO</th>
+                                        <th>Service</th>
+                                        <th>Log Title</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Status</th>
+                                        <th>Detailed</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </section>

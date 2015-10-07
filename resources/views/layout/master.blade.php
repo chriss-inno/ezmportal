@@ -290,8 +290,8 @@
 </section>
 
 <!-- js placed at the end of the document so the pages load faster -->
-{!!HTML::script("js/jquery.js") !!}
 {!!HTML::script("js/jquery-1.8.3.min.js") !!}
+{!!HTML::script("js/jquery.js") !!}
 {!!HTML::script("js/bootstrap.min.js") !!}
 {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
 {!!HTML::script("js/jquery.scrollTo.min.js") !!}

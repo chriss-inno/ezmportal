@@ -4,9 +4,31 @@
 @stop
         @section('page_style')
 
-{!!HTML::style("assets/bootstrap-datepicker/css/datepicker.css" )!!}
-{!!HTML::style("assets/bootstrap-colorpicker/css/colorpicker.css" )!!}
-{!!HTML::style("assets/bootstrap-daterangepicker/daterangepicker.css" )!!}
+        <!-- Bootstrap core CSS -->
+    {!!HTML::style("css/bootstrap.min.css" )!!}
+    {!!HTML::style("css/bootstrap-reset.css")!!}
+    <!--external css-->
+   {!!HTML::style("assets/font-awesome/css/font-awesome.css" )!!}
+
+   {!!HTML::style("assets/bootstrap-fileupload/bootstrap-fileupload.css" )!!}
+   {!!HTML::style("assets/bootstrap-wysihtml5/bootstrap-wysihtml5.css" )!!}
+   {!!HTML::style("assets/bootstrap-datepicker/css/datepicker.css" )!!}
+   {!!HTML::style("assets/bootstrap-timepicker/compiled/timepicker.css" )!!}
+   {!!HTML::style("assets/bootstrap-colorpicker/css/colorpicker.css" )!!}
+   {!!HTML::style("assets/bootstrap-daterangepicker/daterangepicker-bs3.css" )!!}
+   {!!HTML::style("assets/bootstrap-datetimepicker/css/datetimepicker.css" )!!}
+   {!!HTML::style("assets/jquery-multi-select/css/multi-select.css")!!}
+
+
+    <!-- Custom styles for this template -->
+    {!!HTML::style("css/style.css" )!!}
+   {!!HTML::style("css/style-responsive.css" )!!}
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+    <!--[if lt IE 9]>
+    {!!HTML::script("js/html5shiv.js") !!}
+    {!!HTML::script("js/respond.min.js") !!}
+    <![endif]-->
 
 @stop
 @section('page_scripts')
@@ -23,26 +45,33 @@
     {!!HTML::script("assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js") !!}
     {!!HTML::script("assets/ckeditor/ckeditor.js") !!}
     {!!HTML::script("js/jquery.validate.min.js" ) !!}
-    {!!HTML::script("js/respond.min.js"  ) !!}
+
+    {!!HTML::script("assets/datetimepicker/js/bootstrap-datetimepicker.min.js") !!}
+
+            <!-- js placed at the end of the document so the pages load faster -->
+
+    <!--this page plugins-->
+
+    {!!HTML::script("assets/fuelux/js/spinner.min.js") !!}
+   {!!HTML::script("assets/bootstrap-fileupload/bootstrap-fileupload.js") !!}
+   {!!HTML::script("assets/bootstrap-wysihtml5/wysihtml5-0.3.0.js") !!}
+   {!!HTML::script("assets/bootstrap-wysihtml5/bootstrap-wysihtml5.js") !!}
+   {!!HTML::script("assets/bootstrap-datepicker/js/bootstrap-datepicker.js") !!}
+   {!!HTML::script("assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js") !!}
+   {!!HTML::script("assets/bootstrap-daterangepicker/moment.min.js") !!}
+    {!!HTML::script("assets/bootstrap-daterangepicker/daterangepicker.js") !!}
+   {!!HTML::script("assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js") !!}
+  {!!HTML::script("assets/bootstrap-timepicker/js/bootstrap-timepicker.js") !!}
+  {!!HTML::script("assets/jquery-multi-select/js/jquery.multi-select.js") !!}
+   {!!HTML::script("assets/jquery-multi-select/js/jquery.quicksearch.js") !!}
+
+    <!--common script for all pages-->
+    {!!HTML::script("js/common-scripts.js") !!}
+    <!--this page  script only-->
+   {!!HTML::script("js/advanced-form-components.js") !!}
     {!!HTML::script("js/form-validation-script.js") !!}
-    <script>
-        $("#serviceForm").validate({
-            rules: {
-                start_time: "required",
-                service_id: "required",
-                log_title: "required",
 
-                status: "required"
-            },
-            messages: {
-                service_id: "Please select service name",
-                log_title: "Please enter title",
-                start_time: "Please enter start time",
-                status: "Please select status"
-            }
-        });
 
-    </script>
 
 
 @stop
@@ -285,7 +314,7 @@
                         </div>
                     @endif
                     <hr/>
-                    {!! Form::open(array('url'=>'serviceslogs/create','role'=>'form','id'=>'serviceForm')) !!}
+                    {!! Form::open(array('url'=>'serviceslogs/create','role'=>'form','id'=>'serviceStatusForm')) !!}
                        <div class="form-group">
 							<label for="service_id">Service Name</label>
 							<select class="form-control"  id="service_id" name="service_id">
@@ -313,11 +342,11 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <label for="status">Start Time</label>
-                                    <input type="text" class="form-control form-control form-control-inline input-medium default-date-picker" id="start_time" name="start_time" value="{{old('start_time')}}" placeholder="(YYYY-MM-DD HH:MM)">
-                                   </div>
+                                    <input size="16" type="text" id="start_time" name="start_time" value="{{old('start_time')}}" readonly class="form_datetime form-control">
+                                </div>
                                 <div class="col-md-6">
                                     <label for="status">Restoration Time</label>
-                                    <input type="text" class="form-control" id="end_time" name="end_time" value="{{old('end_time')}}" placeholder="(YYYY-MM-DD HH:MM)">
+                                    <input size="16" type="text" id="end_time" name="end_time" value="{{old('end_time')}}" readonly class="form_datetime form-control">
                                 </div>
                             </div>
                         </div>
