@@ -61,7 +61,7 @@ class ServiceLogController extends Controller
         //
         $sl=new ServiceLog;
         $sl->service_id=$request->service_id;
-        $sl->log_title=$request->log_title;
+        //$sl->log_title=$request->log_title;
         $sl->description=$request->description;
         $sl->reason=$request->reason;
         $sl->start_time=$request->start_time;
@@ -134,7 +134,7 @@ class ServiceLogController extends Controller
         //
         $sl= ServiceLog::find($request->id);
         $sl->service_id=$request->service_id;
-        $sl->log_title=$request->log_title;
+       // $sl->log_title=$request->log_title;
         $sl->description=$request->description;
         $sl->reason=$request->reason;
         $sl->start_time=$request->start_time;

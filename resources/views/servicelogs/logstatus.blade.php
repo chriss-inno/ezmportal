@@ -326,10 +326,12 @@
 
 							</select>
 						</div>
+                    <!-- page
 						<div class="form-group">
 							<label for="unit_name">Log Title</label>
 							<input type="text" class="form-control" id="log_title" name="log_title" value="{{old('log_title')}}" placeholder="Enter title">
 						</div>
+						 -->
 						<div class="form-group">
 							<label for="unit_name">Description</label>
 							<textarea class="ckeditor form-control" id="description" name="description"></textarea>
@@ -406,7 +408,7 @@
 
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('serviceslogs/create')}}" class=" btn btn-file btn-danger btn-block">Log Status</a>
+                                <a href="{{url('serviceslogs/create')}}" class=" btn btn-file btn-danger btn-block">Log Downtime</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">

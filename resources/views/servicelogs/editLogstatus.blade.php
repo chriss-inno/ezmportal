@@ -3,7 +3,7 @@
 {!!HTML::style("assets/bootstrap-daterangepicker/daterangepicker.css" )!!}
 
 
-{!! Form::open(array('url'=>'serviceslogs/create','role'=>'form','id'=>'serviceForm')) !!}
+{!! Form::open(array('url'=>'serviceslogs/create','role'=>'form','id'=>'serviceLogEditForm')) !!}
 <div class="form-group">
     <label for="service_id">Service Name</label>
     <select class="form-control"  id="service_id" name="service_id">
@@ -16,10 +16,12 @@
 
     </select>
 </div>
+<!-- page
 <div class="form-group">
     <label for="unit_name">Log Title</label>
     <input type="text" class="form-control" id="log_title" name="log_title" value="{{$service->log_title}}" placeholder="Enter title">
 </div>
+  -->
 <div class="form-group">
     <label for="unit_name">Description</label>
     <textarea class="ckeditor form-control" id="description" name="description"><?php echo $service->description?></textarea>

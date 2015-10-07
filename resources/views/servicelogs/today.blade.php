@@ -435,7 +435,6 @@
                                     <tr>
                                         <th>SNO</th>
                                         <th>Service</th>
-                                        <th>Log Title</th>
                                         <th>Start Time</th>
                                         <th>End Time</th>
                                         <th>Status</th>
@@ -449,7 +448,6 @@
                                         <tr>
                                             <td>{{$i++}}</td>
                                             <td>{{$ser->service->service_name}}</td>
-                                            <td>{{$ser->log_title}}</td>
                                             <td>{{$ser->start_time}}</td>
                                             <td>{{$ser->end_time}}</td>
                                             @if($ser->status =="Sorted")
@@ -473,7 +471,6 @@
                                     <tr>
                                         <th>SNO</th>
                                         <th>Service</th>
-                                        <th>Log Title</th>
                                         <th>Start Time</th>
                                         <th>End Time</th>
                                         <th>Status</th>
@@ -494,7 +491,7 @@
 
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('serviceslogs/create')}}" class=" btn btn-file btn-danger btn-block">Log Status</a>
+                                <a href="{{url('serviceslogs/create')}}" class=" btn btn-file btn-danger btn-block">Log Downtime</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">

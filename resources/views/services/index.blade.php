@@ -415,7 +415,7 @@
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('serviceslogs/create')}}" class=" btn btn-file btn-primary  btn-block">Log Status</a>
+                                <a href="{{url('serviceslogs/create')}}" class=" btn btn-file btn-primary  btn-block">Log Downtime</a>
                             </div>
                         </div>
 

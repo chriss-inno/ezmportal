@@ -10,10 +10,12 @@
             <option value="{{$service->service->service_name}}">{{$service->service->service_name}}</option>
     </select>
 </div>
+<!-- page
 <div class="form-group">
     <label for="unit_name">Log Title</label>
     <input type="text" class="form-control" id="log_title" name="log_title" value="{{$service->log_title}}" placeholder="Enter title">
 </div>
+ -->
 <div class="form-group">
     <label for="unit_name">Description</label>
    <span class="form-control"><?php echo $service->description?></span>
