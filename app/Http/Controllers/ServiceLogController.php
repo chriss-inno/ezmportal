@@ -33,11 +33,10 @@ class ServiceLogController extends Controller
     public function serviceToday()
     {
         //
-       // $today=date("Y-m-d");
-       //$services =ServiceLog::where('logdate','=',$today)->get();
-       // return view('servicelogs.backup',compact('services'));
-        $services=Service::where('email_sent','=','N')->get();
-        return view('emails.servicestartus',compact('services'));
+       $today=date("Y-m-d");
+       $services =ServiceLog::where('logdate','=',$today)->get();
+       return view('servicelogs.backup',compact('services'));
+
     }
 
     /**
