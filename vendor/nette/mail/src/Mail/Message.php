@@ -1,8 +1,8 @@
 <?php
 
 /**
- * This file is part of the Nette Framework (http://nette.org)
- * Copyright (c) 2004 David Grudl (http://davidgrudl.com)
+ * This file is part of the Nette Framework (https://nette.org)
+ * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
 
 namespace Nette\Mail;
@@ -399,6 +399,7 @@ class Message extends MimePart
 		$text = Strings::replace($html, array(
 			'#<(style|script|head).*</\\1>#Uis' => '',
 			'#<t[dh][ >]#i' => ' $0',
+			'#<a [^>]*href=("|\')([^\\1]+)\\1[^>]*>(.*?)</a>#i' =>  '$3 &lt;$2&gt;',
 			'#[\r\n]+#' => ' ',
 			'#<(/?p|/?h\d|li|br|/tr)[ >/]#i' => "\n$0",
 		));
