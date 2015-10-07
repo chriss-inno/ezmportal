@@ -1,23 +1,16 @@
 @extends('layout.master')
 @section('page-title')
-    Branches
+    Service status
 @stop
 @section('page_scripts')
-    {!!HTML::script("js/sparkline-chart.js") !!}
-    {!!HTML::script("js/easy-pie-chart.js") !!}
-    {!!HTML::script("js/count.js") !!}
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
     {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
-    {!!HTML::script("js/jquery.scrollTo.min.js") !!}
-    {!!HTML::script("js/jquery.nicescroll.js") !!}
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
     {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
 
 
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
-
-
             $('#branches').dataTable({
 
                 "fnDrawCallback": function (oSettings) {
@@ -151,7 +144,6 @@
                 }
             });
         } );
-
 
     </script>
 

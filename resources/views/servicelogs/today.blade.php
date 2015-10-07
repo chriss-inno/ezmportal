@@ -3,11 +3,16 @@
     Today service status
 @stop
 @section('page_scripts')
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
+    {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
+    {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
     {!!HTML::script("assets/highcharts/js/highcharts.js") !!}
+
     <script type="text/javascript" charset="utf-8">
     $(document).ready(function() {
         $(function () {
-            $('#container').highcharts({
+            $('#highchart').highcharts({
                 title: {
                     text: 'Daily service downtime status',
                     x: -20 //center
@@ -50,6 +55,138 @@
                     @endforeach
                    ]
             });
+        });
+        $('#branches').dataTable({
+
+            "fnDrawCallback": function (oSettings) {
+                $(".delService").click(function () {
+                    var id1 = $(this).parent().attr('id');
+                    $(".delService").show("slow").parent().parent().find("span").remove();
+                    var btn = $(this).parent().parent();
+                    $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
+                    $("#no").click(function () {
+                        $(this).parent().parent().find(".delService").show("slow");
+                        $(this).parent().parent().find("span").remove();
+                    });
+                    $("#yes").click(function () {
+                        $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
+                        $.get("<?php echo url('serviceslogs/remove') ?>/" + id1, function (data) {
+                            btn.hide("slow").next("hr").hide("slow");
+                        });
+                    });
+                });
+
+                //Edit class streams
+                $(".addService").click(function () {
+                    var id1 = $(this).parent().attr('id');
+                    var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                    modaldis += '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                    modaldis += '<div class="modal-content">';
+                    modaldis += '<div class="modal-header">';
+                    modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                    modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Log service status</span>';
+                    modaldis += '</div>';
+                    modaldis += '<div class="modal-body">';
+                    modaldis += ' </div>';
+                    modaldis += '</div>';
+                    modaldis += '</div>';
+                    $('body').css('overflow', 'hidden');
+
+                    $("body").append(modaldis);
+                    jQuery.noConflict();
+                    $("#myModal").modal("show");
+                    $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                    $(".modal-body").load("<?php echo url("serviceslogs/create") ?>");
+                    $("#myModal").on('hidden.bs.modal', function () {
+                        $("#myModal").remove();
+                    })
+
+                });
+
+                //Edit class streams
+                $(".viewService").click(function () {
+                    var id1 = $(this).parent().attr('id');
+                    var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                    modaldis += '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                    modaldis += '<div class="modal-content">';
+                    modaldis += '<div class="modal-header">';
+                    modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                    modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Service Status Details</span>';
+                    modaldis += '</div>';
+                    modaldis += '<div class="modal-body">';
+                    modaldis += ' </div>';
+                    modaldis += '</div>';
+                    modaldis += '</div>';
+                    $('body').css('overflow', 'hidden');
+
+                    $("body").append(modaldis);
+                    jQuery.noConflict();
+                    $("#myModal").modal("show");
+                    $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                    $(".modal-body").load("<?php echo url("serviceslogs/show") ?>/" + id1);
+                    $("#myModal").on('hidden.bs.modal', function () {
+                        $("#myModal").remove();
+                    })
+
+                });
+
+                //viewService
+                $(".editService").click(function () {
+                    var id1 = $(this).parent().attr('id');
+                    var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                    modaldis += '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                    modaldis += '<div class="modal-content">';
+                    modaldis += '<div class="modal-header">';
+                    modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                    modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Update Service</span>';
+                    modaldis += '</div>';
+                    modaldis += '<div class="modal-body">';
+                    modaldis += ' </div>';
+                    modaldis += '</div>';
+                    modaldis += '</div>';
+                    $('body').css('overflow', 'hidden');
+
+                    $("body").append(modaldis);
+                    jQuery.noConflict();
+                    $("#myModal").modal("show");
+                    $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                    $(".modal-body").load("<?php echo url("serviceslogs/edit") ?>/" + id1);
+                    $("#myModal").on('hidden.bs.modal', function () {
+                        $("#myModal").remove();
+                    })
+
+                });
+                //logService class streams
+                $(".logService").click(function () {
+                    var id1 = $(this).parent().attr('id');
+                    var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                    modaldis += '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                    modaldis += '<div class="modal-content">';
+                    modaldis += '<div class="modal-header">';
+                    modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                    modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Update Service</span>';
+                    modaldis += '</div>';
+                    modaldis += '<div class="modal-body">';
+                    modaldis += ' </div>';
+                    modaldis += '</div>';
+                    modaldis += '</div>';
+                    $('body').css('overflow', 'hidden');
+
+                    $("body").append(modaldis);
+                    jQuery.noConflict();
+                    $("#myModal").modal("show");
+                    $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                    $(".modal-body").load("<?php echo url("services/log") ?>/" + id1);
+                    $("#myModal").on('hidden.bs.modal', function () {
+                        $("#myModal").remove();
+                    })
+
+                });
+            }
         });
     } );
     </script>
@@ -287,11 +424,12 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div id="container" style="width:100%; height:400px;"></div>
+                                <div id="highchart" style="height:400px;"></div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="adv-table">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <div class="adv-table">
                                 <table  class="display table table-bordered table-striped" id="branches">
                                     <thead>
                                     <tr>
@@ -344,6 +482,7 @@
                                     </tr>
                                     </tfoot>
                                 </table>
+                            </div>
                             </div>
                         </div>
                     </div>

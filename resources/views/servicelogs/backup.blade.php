@@ -438,6 +438,55 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <table  border="0" align="center" cellpadding="1" cellspacing="0" class="table table-bordered">
+                                    <tr>
+                                        <td width="149" align="center" bgcolor="#CCCCCC"><h3><strong>Services</strong></h3></td>
+                                        <td colspan="13" align="center" bgcolor="#CCCCCC"><h3><strong>Today service status</strong></h3></td>
+                                    </tr>
+                                    @foreach(\App\Service::all() as $ser)
+                                        <tr bgcolor="#f0f2f7">
+                                            <td align="center" bgcolor="#CCCCCC">{{$ser->service_name}}</td>
+                                            <td align="center" ><div class="progress progress-xs">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                        <span class="sr-only">60% Complete</span>
+                                                    </div>
+                                                </div></td>
+                                            <td align="center" >&nbsp;</td>
+                                            <td align="center">&nbsp;</td>
+                                            <td align="center" >&nbsp;</td>
+                                            <td align="center" >&nbsp;</td>
+                                            <td align="center" >&nbsp;</td>
+                                            <td align="center" >&nbsp;</td>
+                                            <td align="center" >&nbsp;</td>
+                                            <td align="center" >&nbsp;</td>
+                                            <td align="center" >&nbsp;</td>
+                                            <td align="center" >&nbsp;</td>
+                                            <td align="center" >&nbsp;</td>
+                                            <td align="center" >&nbsp;</td>
+                                        </tr>
+
+                                    @endforeach
+                                    <tr>
+                                        <td align="center" bgcolor="#CCCCCC">&nbsp;</td>
+                                        <td align="center" bgcolor="#CCCCCC"><strong>8:00 </strong></td>
+                                        <td align="center" bgcolor="#CCCCCC"><strong>9:00 </strong></td>
+                                        <td align="center" bgcolor="#CCCCCC"><strong>10:00 </strong></td>
+                                        <td align="center" bgcolor="#CCCCCC"><strong>11:00 </strong></td>
+                                        <td align="center" bgcolor="#CCCCCC"><strong>12:00</strong></td>
+                                        <td align="center" bgcolor="#CCCCCC"><strong>13:00 </strong></td>
+                                        <td align="center" bgcolor="#CCCCCC"><strong>14:00 </strong></td>
+                                        <td align="center" bgcolor="#CCCCCC"><strong>15:00</strong></td>
+                                        <td align="center" bgcolor="#CCCCCC"><strong>16:00</strong></td>
+                                        <td align="center" bgcolor="#CCCCCC"><strong>17:00 </strong></td>
+                                        <td align="center" bgcolor="#CCCCCC"><strong>18:00 </strong></td>
+                                        <td align="center" bgcolor="#CCCCCC"><strong>19:00 </strong></td>
+                                        <td align="center" bgcolor="#CCCCCC"><strong>20:00 </strong></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="adv-table">
                                 <table  class="display table table-bordered table-striped" id="branches">
                                     <thead>

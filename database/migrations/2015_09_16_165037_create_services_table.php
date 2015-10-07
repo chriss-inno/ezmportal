@@ -19,6 +19,7 @@ class CreateServicesTable extends Migration
             $table->string('status');
             $table->string('input_by');
             $table->string('auth_by');
+            $table->string('email_sent',1)->default('N');
             $table->string('auth_status',1)->default('U');
             $table->timestamps();
         });

@@ -179,3 +179,4 @@ Route::post('queries/assign/users',['middleware' => 'auth', 'uses' =>'QueryContr
 
 //Send emails
 Route::get('emails/oracleissues','EmailController@olacle');
+Route::get('portal/cronejob','EmailController@cronejob');

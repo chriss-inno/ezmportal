@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Service;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -85,6 +86,47 @@ class EmailController extends Controller
     {
         //
     }
+    public function cronejob()
+    {
+        //
+        $this->serviceStarts(); //Send service starts
+        $this->olacle(); //Send oracle logged issues
+    }
+
+
+    //
+    public function serviceStarts()
+    {
+        //
+
+        $services=Service::where('email_sent','=','N')->get();
+        if(date("H:i") =="21:00") {
+            if(count($services) >0 ) {
+                //Send email
+                $data = array(
+                    'service' => $services,
+                );
+
+                \Mail::queue('emails.servicestartus', $data, function ($message) {
+
+                    $emails = ['adolph.mwakalinga@bankm.com','innocent.christopher@bankm.com']; //List emails
+                    $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                    $message->to($emails)->subject('SYSTEM SERVICE STATUS REPORT AS OF '.date("d F Y"));
+
+                });
+
+            }
+        }
+        else
+        {
+            $services=Service::all();
+            foreach($services as $issue)
+            {
+                $issue->email_sent='N';
+                $issue->save();
+            }
+        }
+    }
 
     //Oracle issues
     public function olacle()
@@ -100,7 +142,7 @@ class EmailController extends Controller
                           'issues' => $issues,
                       );
                       //Send email
-                      \Mail::send('emails.oracle', $data, function ($message) {
+                      \Mail::queue('emails.oracle', $data, function ($message) {
 
                           $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
 
