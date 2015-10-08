@@ -254,14 +254,28 @@ class QueryController extends Controller
     //Load query history
     public function history()
     {
-        $queries=Query::where('reported_by','=',Auth::user()->id)->get();
+        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
+        {
+            $queries=Query::all();
+        }
+        else
+        {
+            $queries=Query::where('reported_by','=',Auth::user()->id)->get();
+        }
+
         return view('queries.index',compact('queries'));
 
     }
     //load query reports
     public function report()
     {
-        $queries=Query::where('from_department','=',Auth::user()->department_id)->where('to_department','=',Auth::user()->department_id)->get();
+        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
+        {
+            $queries=Query::all();
+        }
+        else {
+            $queries = Query::where('from_department', '=', Auth::user()->department_id)->where('to_department', '=', Auth::user()->department_id)->get();
+        }
         return view('queries.reports',compact('queries'));
 
     }
@@ -319,8 +333,14 @@ class QueryController extends Controller
     //Task
     public function task()
     {
-        $user=User::find(Auth::user()->id);
-        $queries=$user->queries;
+        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
+        {
+            $queries=Query::all();
+        }
+        else {
+            $user = User::find(Auth::user()->id);
+            $queries = $user->queries;
+        }
         return view('queries.mytask',compact('queries'));
 
     }

@@ -84,7 +84,7 @@
                     tooltip: {
                         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                        '<td style="padding:0"><b>{point.y:.0f} Queries</b></td></tr>',
                         footerFormat: '</table>',
                         shared: true,
                         useHTML: true
@@ -105,9 +105,9 @@
                     //Get all departments queries count for each month
                     foreach(\App\Department::all() as $department)
                     {
-                       $data1.="'".count( \App\Query::where('from_department','=',$department->id)->where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y',strtotime($m1)))->where(\DB::raw('MONTH(reporting_Date)'), '=',date('n',strtotime($m1)))->get())."',";
-                       $data2.="'".count( \App\Query::where('from_department','=',$department->id)->where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y',strtotime($m2)))->where(\DB::raw('MONTH(reporting_Date)'), '=',date('n',strtotime($m2)))->get())."',";
-                       $data3.="'".count( \App\Query::where('from_department','=',$department->id)->where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y',strtotime($m3)))->where(\DB::raw('MONTH(reporting_Date)'), '=',date('n',strtotime($m3)))->get())."',";
+                       $data1.=count( \App\Query::where('from_department','=',$department->id)->where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y',strtotime($m1)))->where(\DB::raw('MONTH(reporting_Date)'), '=',date('n',strtotime($m1)))->get()).",";
+                       $data2.=count( \App\Query::where('from_department','=',$department->id)->where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y',strtotime($m2)))->where(\DB::raw('MONTH(reporting_Date)'), '=',date('n',strtotime($m2)))->get()).",";
+                       $data3.=count( \App\Query::where('from_department','=',$department->id)->where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y',strtotime($m3)))->where(\DB::raw('MONTH(reporting_Date)'), '=',date('n',strtotime($m3)))->get()).",";
                     }
                     $data1=substr($data1,0,strlen($data1)-1);
                     $data2=substr($data2,0,strlen($data2)-1);
@@ -117,7 +117,7 @@
                      ?>
                     series: [{
                         name: '{{date("F",strtotime($m3))}}',
-                        data: [<?php echo $data1?>]
+                        data: [<?php echo $data3?>]
 
                     }, {
                         name: '{{date("F",strtotime($m2))}}',
@@ -125,12 +125,72 @@
 
                     }, {
                         name: '{{date("F",strtotime($m1))}}',
-                        data: [<?php echo $data3?>]
+                        data: [<?php echo $data1?>]
 
                     }]
                 });
             });
+            $(function () {
+                $('#pieChart').highcharts({
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Total Query logged by branches'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.0f} %',
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            }
+                        }
+                    },
+                    <?php
+                      //Get all branches
+                      $dataPieDis=$dataPie="";
+                      $checkselect=1;
+                       foreach(\App\Branch::all() as $br)
+                       {
+                          if($checkselect ==1){
+                           $dataPie.='{';
+                            $dataPie.='name: "'.$br->branch_Name.'",';
+                          //Get number of logs for all time
+                            $dataPie.=' y: '. count(\App\Query::where('from_branch','=',$br->id)->get()).',
+                                sliced: true,
+                                selected: true';
+                           $dataPie.='},';
 
+                          }else
+                          {
+                           $dataPie.='{';
+                            $dataPie.='name: "'.$br->branch_Name.'",';
+                          //Get number of logs for all time
+                            $dataPie.=' y: '. count(\App\Query::where('from_branch','=',$br->id)->get());
+                           $dataPie.='},';
+                          }
+                         $checkselect++;
+                       }
+                        $dataPieDis= substr($dataPie,0,strlen($dataPie)-1);
+                     ?>
+                    series: [{
+                        name: "Branches",
+                        colorByPoint: true,
+                        data: [<?php echo $dataPieDis;?>]
+                    }]
+                });
+            });
             $('#branches').dataTable({
 
                 "fnDrawCallback": function (oSettings) {
@@ -492,21 +552,56 @@
 
         <div class="row">
             <div class="col-lg-10 col-md-10">
-                <section class="panel">
-                    <header class="panel-heading">
-                        <h3 class="text-info"> <strong> <i class="fa fa-bar-chart-o"></i> SERVICE PORTAL QUERIES REPORTS </strong></h3>
-                    </header>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div id="highchart" style="height:400px;"></div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <section class="panel">
+                            <header class="panel-heading">
+                                <h3 class="text-info"> <strong> <i class="fa fa-bar-chart-o"></i> SERVICE PORTAL QUERIES REPORTS VISUALIZATION</strong></h3>
+                            </header>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div id="currentMonth" style="height:400px;"></div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-
+                        </section>
                     </div>
-                </section>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <section class="panel">
+                            <header class="panel-heading">
+                            </header>
+                            <div class="panel-body">
+                               <div id="highchart" style="height:400px;"></div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <section class="panel">
+                            <header class="panel-heading">
+                            </header>
+                            <div class="panel-body">
+                                <div id="currentYear" style="height:400px;"></div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <section class="panel">
+                            <header class="panel-heading">
+                            </header>
+                            <div class="panel-body">
+                              <div id="pieChart" style="height:400px;"></div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
             </div>
-            <div class="col-lg-2 col-md-2">
+             <div class="col-lg-2 col-md-2">
                 <section class="panel">
                     <div class="panel-body">
 
