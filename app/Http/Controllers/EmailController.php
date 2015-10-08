@@ -133,23 +133,22 @@ class EmailController extends Controller
     {
         //
         $issues=OracleSupport::where('status','=','Opened')->where('email_sent','=','N')->get(); //retrieve all opened issues
-              echo date("H:i");
-             
+
              //Send every day at 9 pm, the email is sent to support
-              if(date("H:i") =="23:15") {
+          echo date("H:i");
+              if(date("H:i") =="21:00") {
+
                   if(count($issues) >0 ) {
                       $data = array(
-                          'issues' => $issues,
+                          'supportissues' => $issues,
                       );
                       //Send email
                       \Mail::queue('emails.oracle', $data, function ($message) {
 
                           $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
-
-                          $message->to('innocent.christopher@bankm.com')->subject('DAILY ISSUES LOGGED');
-                     echo "Email sent";
+                          $message->to('support@bankm.com')->subject('DAILY ISSUES LOGGED');
                       });
-					   
+					  echo "Sent";
                   }
               
              
@@ -163,8 +162,7 @@ class EmailController extends Controller
                      $issue->email_sent='N';
                      $issue->save();
                  }
-				echo "Email not sent";
-				 
+                 echo " not Sent";
              }
 			 
 

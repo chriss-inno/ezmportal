@@ -24,4 +24,8 @@ class Department extends Model
     {
         return $this::hasMany('\App\User','department_id','id');
     }
+    public function queries()
+    {
+        return $this::hasMany('\App\Query','from_department','id');
+    }
 }
