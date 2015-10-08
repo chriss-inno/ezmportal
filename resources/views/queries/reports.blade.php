@@ -14,7 +14,7 @@
             $(function () {
                 $('#departmentRepo').highcharts({
                     title: {
-                        text: 'Daily service downtime status',
+                        text: 'Daily Logged queries per departments',
                         x: -20 //center
                     },
                     subtitle: {
@@ -22,14 +22,23 @@
                         x: -20
                     },
                     xAxis: { title: {
-                        text: 'Hour'
+                        text: '<?php echo date("F")?>'
                     },
-                        categories: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00',
-                            '14:00', '15:00', '16:00', '17:00', '18:00', '19:00','20:00']
+                        <?php
+                             $d=cal_days_in_month(CAL_GREGORIAN,date('n'),date("Y"));
+                             $categories="";
+                             for($i=1; $i<= $d; $i++)
+                             {
+                               $categories.="'".$i."',";
+                             }
+                             $days=substr($categories,0,strlen($categories)-1);
+                             ?>
+
+                         categories: [<?php echo $days;?>]
                     },
                     yAxis: {
                         title: {
-                            text: 'Frequency'
+                            text: 'Logged Queries'
                         },
                         plotLines: [{
                             value: 0,
@@ -48,9 +57,9 @@
                     },
 
                     series: [
-                            @foreach(\App\Service::all() as $ser){
-                            name: '{{$ser->service_name}}',
-                            data: [{{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','8')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','9')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','10')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','11')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','12')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','13')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','14')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','15')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','16')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','17')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','18')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','19')->get())}},{{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','20')->get())}}]
+                            @foreach(\App\Department::all() as $dep){
+                            name: '{{$dep->department_name}}',
+                            data: []
                         },
                         @endforeach
                        ]
