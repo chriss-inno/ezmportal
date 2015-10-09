@@ -160,7 +160,7 @@
                         type: 'pie'
                     },
                     title: {
-                        text: 'Total Query logged by branches'
+                        text: 'Query logged by branches percentage wise'
                     },
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
@@ -209,6 +209,52 @@
                         name: "Branches",
                         colorByPoint: true,
                         data: [<?php echo $dataPieDis;?>]
+                    }]
+                });
+            });
+            $(function () {
+                $('#currentYear').highcharts({
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: {
+                        text: 'Monthly Average Support Queries'
+                    },
+                    xAxis: {
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Average Queries'
+                        }
+                    },
+                    tooltip: {
+                        crosshairs: true,
+                        shared: true
+                    },
+                    plotOptions: {
+                        spline: {
+                            marker: {
+                                radius: 4,
+                                lineColor: '#666666',
+                                lineWidth: 1
+                            }
+                        }
+                    },
+                    <?php
+                          $MonthCount="";
+                          $monthData="";
+                             for($i=1; $i<= 12; $i++)
+                             {
+                                $MonthCount.=count(\App\Query::where(\DB::raw('Month(reporting_Date)'),'=',$i)->get()).",";
+                             }
+                             $monthData.=substr($MonthCount,0,strlen($MonthCount)-1);
+                    ?>
+                    series: [{
+                        name: 'Monthly Average Queries',
+                        data: [<?php echo $monthData;?>]
+
                     }]
                 });
             });
