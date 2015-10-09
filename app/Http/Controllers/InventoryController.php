@@ -88,7 +88,7 @@ class InventoryController extends Controller
     {
         //
         $items=Inventory::all();
-        return view('inventory.index',compact('items'));
+        return view('inventory.reports',compact('items'));
     }
 
 

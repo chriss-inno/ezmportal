@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Today service status
+    Inventory Reports
 @stop
 @section('page_scripts')
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
@@ -93,10 +93,10 @@
                     },
                     xAxis: {
                         categories: [
-                           @foreach(\App\Department::all() as $department)
-                            '{{$department->department_name}}',
-                           @endforeach
-                        ],
+                            @foreach(\App\Department::all() as $department)
+                             '{{$department->department_name}}',
+                            @endforeach
+                         ],
                         crosshair: true
                     },
                     yAxis: {
@@ -270,138 +270,110 @@
                     }]
                 });
             });
-            $('#branches').dataTable({
+            $('#branches').dataTable( {
+                "fnDrawCallback": function( oSettings ) {
 
-                "fnDrawCallback": function (oSettings) {
-                    $(".delService").click(function () {
+
+                    $(".deleteItem").click(function(){
                         var id1 = $(this).parent().attr('id');
-                        $(".delService").show("slow").parent().parent().find("span").remove();
+                        $(".deleteItem").show("slow").parent().parent().find("span").remove();
                         var btn = $(this).parent().parent();
                         $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
-                        $("#no").click(function () {
-                            $(this).parent().parent().find(".delService").show("slow");
+                        $("#no").click(function(){
+                            $(this).parent().parent().find(".deleteItem").show("slow");
                             $(this).parent().parent().find("span").remove();
                         });
-                        $("#yes").click(function () {
+                        $("#yes").click(function(){
                             $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                            $.get("<?php echo url('serviceslogs/remove') ?>/" + id1, function (data) {
+                            $.get("<?php echo url('inventory-remove') ?>/"+id1,function(data){
                                 btn.hide("slow").next("hr").hide("slow");
+                                // $(this).parent().parent().parent().parent().remove();
                             });
                         });
                     });
-
-                    //Edit class streams
-                    $(".addService").click(function () {
+                    //Edit Module
+                    $(".editItem").click(function(){
                         var id1 = $(this).parent().attr('id');
                         var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-
-                        modaldis += '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
-                        modaldis += '<div class="modal-content">';
-                        modaldis += '<div class="modal-header">';
-                        modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Log service status</span>';
-                        modaldis += '</div>';
-                        modaldis += '<div class="modal-body">';
-                        modaldis += ' </div>';
-                        modaldis += '</div>';
-                        modaldis += '</div>';
-                        $('body').css('overflow', 'hidden');
+                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center" style="color: #FFF">Update Inventory Item</span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
 
                         $("body").append(modaldis);
                         jQuery.noConflict();
                         $("#myModal").modal("show");
                         $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("serviceslogs/create") ?>");
-                        $("#myModal").on('hidden.bs.modal', function () {
+                        $(".modal-body").load("<?php echo url("inventory") ?>/"+id1+"/edit");
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    })
+                    //Create module
+                    $(".createItem").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">New Inventory Item </span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("inventory/create") ?>");
+                        $("#myModal").on('hidden.bs.modal',function(){
                             $("#myModal").remove();
                         })
 
                     });
 
-                    //Edit class streams
-                    $(".viewService").click(function () {
+                    //Display Item details
+                    $(".showDetails").click(function(){
                         var id1 = $(this).parent().attr('id');
                         var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
-                        modaldis += '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
-                        modaldis += '<div class="modal-content">';
-                        modaldis += '<div class="modal-header">';
-                        modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Service Status Details</span>';
-                        modaldis += '</div>';
-                        modaldis += '<div class="modal-body">';
-                        modaldis += ' </div>';
-                        modaldis += '</div>';
-                        modaldis += '</div>';
-                        $('body').css('overflow', 'hidden');
+                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Item details </span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
 
                         $("body").append(modaldis);
                         jQuery.noConflict();
                         $("#myModal").modal("show");
                         $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("serviceslogs/show") ?>/" + id1);
-                        $("#myModal").on('hidden.bs.modal', function () {
-                            $("#myModal").remove();
-                        })
-
-                    });
-
-                    //viewService
-                    $(".editService").click(function () {
-                        var id1 = $(this).parent().attr('id');
-                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-
-                        modaldis += '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
-                        modaldis += '<div class="modal-content">';
-                        modaldis += '<div class="modal-header">';
-                        modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Update Service</span>';
-                        modaldis += '</div>';
-                        modaldis += '<div class="modal-body">';
-                        modaldis += ' </div>';
-                        modaldis += '</div>';
-                        modaldis += '</div>';
-                        $('body').css('overflow', 'hidden');
-
-                        $("body").append(modaldis);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("serviceslogs/edit") ?>/" + id1);
-                        $("#myModal").on('hidden.bs.modal', function () {
-                            $("#myModal").remove();
-                        })
-
-                    });
-                    //logService class streams
-                    $(".logService").click(function () {
-                        var id1 = $(this).parent().attr('id');
-                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-
-                        modaldis += '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
-                        modaldis += '<div class="modal-content">';
-                        modaldis += '<div class="modal-header">';
-                        modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Update Service</span>';
-                        modaldis += '</div>';
-                        modaldis += '<div class="modal-body">';
-                        modaldis += ' </div>';
-                        modaldis += '</div>';
-                        modaldis += '</div>';
-                        $('body').css('overflow', 'hidden');
-
-                        $("body").append(modaldis);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("services/log") ?>/" + id1);
-                        $("#myModal").on('hidden.bs.modal', function () {
+                        $(".modal-body").load("<?php echo url("inventory") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
                             $("#myModal").remove();
                         })
 
                     });
                 }
-            });
+            } );
         } );
     </script>
 @stop
@@ -635,7 +607,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <section class="panel">
                             <header class="panel-heading">
-                                <h3 class="text-info"> <strong> <i class="fa fa-bar-chart-o"></i> SERVICE PORTAL QUERIES REPORTS VISUALIZATION</strong></h3>
+                                <h3 class="text-info"> <strong> <i class="fa fa-bar-chart-o"></i> INVENTORY REPORTS VISUALIZATION</strong></h3>
                             </header>
                             <div class="panel-body">
                                 <div class="row">
@@ -653,7 +625,7 @@
                             <header class="panel-heading">
                             </header>
                             <div class="panel-body">
-                               <div id="highchart" style="height:400px;"></div>
+                                <div id="highchart" style="height:400px;"></div>
                             </div>
                         </section>
                     </div>
@@ -673,77 +645,76 @@
                             <header class="panel-heading">
                             </header>
                             <div class="panel-body">
-                              <div id="pieChart" style="height:400px;"></div>
+                                <div id="pieChart" style="height:400px;"></div>
                             </div>
                         </section>
                     </div>
                 </div>
 
             </div>
-             <div class="col-lg-2 col-md-2">
-                 <div class="row">
-                   <section class="panel">
-                    <div class="panel-body">
+            <div class="col-lg-2 col-md-2">
+                <div class="row">
+                    <section class="panel">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a href="#" class="createItem btn btn-compose btn-block">New inventory item</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('inventory')}}" class="btn btn-compose btn-block">List inventory items</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('inventory-reports')}}" class="btn btn-compose btn-block">Inventory items reports</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('types')}}" class="btn btn-primary btn-block">List items types</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('inventory-import')}}" class="btn btn-primary btn-block">Import items from Excel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="row">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            <span class="text-info"> <strong> <i class="fa fa-download"></i> Download reports</strong></span>
+                        </header>
+                        <div class="panel-body">
 
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/create')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-folder-open-o"></i> Log Query</a>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="#" class=" btn btn-file btn-primary btn-block"><i class="fa fa-clock-o"></i> Daily Report</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="#" class="btn btn-file btn-success btn-block"><i class="fa fa-calendar"></i> Month Report</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="#" class="btn btn-file btn-info btn-block"><i class="fa fa-calendar"></i> Year Report</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="#" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> Custom Report </a>
+                                </div>
                             </div>
                         </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/mytask')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-tasks"></i> My Tasks</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/progress')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-archive"></i>  Progress</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/history')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> History</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/report')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Reports</a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                 </div>
-                 <div class="row">
-                     <section class="panel">
-                         <header class="panel-heading">
-                             <span class="text-info"> <strong> <i class="fa fa-download"></i> Download reports</strong></span>
-                         </header>
-                         <div class="panel-body">
-
-                             <div class="row" style="margin-top: 10px">
-                                 <div class="col-md-12">
-                                     <a href="#" class=" btn btn-file btn-primary btn-block"><i class="fa fa-clock-o"></i> Daily Report</a>
-                                 </div>
-                             </div>
-                             <div class="row" style="margin-top: 10px">
-                                 <div class="col-md-12">
-                                     <a href="#" class="btn btn-file btn-success btn-block"><i class="fa fa-calendar"></i> Month Report</a>
-                                 </div>
-                             </div>
-                             <div class="row" style="margin-top: 10px">
-                                 <div class="col-md-12">
-                                     <a href="#" class="btn btn-file btn-info btn-block"><i class="fa fa-calendar"></i> Year Report</a>
-                                 </div>
-                             </div>
-                             <div class="row" style="margin-top: 10px">
-                                 <div class="col-md-12">
-                                     <a href="#" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> Custom Report </a>
-                                 </div>
-                             </div>
-                         </div>
-                     </section>
-                 </div>
-             </div>
+                    </section>
+                </div>
+            </div>
         </div>
     </section>
     <!-- page end-->

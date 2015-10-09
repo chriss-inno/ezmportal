@@ -177,6 +177,9 @@ Route::get('queries/assign',['middleware' => 'auth', 'uses' =>'QueryController@q
 Route::get('queries/assign/users/{id}',['middleware' => 'auth', 'uses' =>'QueryController@queryAssignUsers']);
 Route::post('queries/assign/users',['middleware' => 'auth', 'uses' =>'QueryController@postQueryAssignUsers']);
 
+
+//Queries reports controller
+
 //Send emails
 Route::get('emails/oracleissues','EmailController@olacle');
 Route::get('portal/cronejob','EmailController@cronejob');
