@@ -14,7 +14,7 @@
             $(function () {
                 $('#departmentRepo').highcharts({
                     title: {
-                        text: 'Daily Logged queries per departments',
+                        text: 'Daily Logged queries per department for the Month of <?php echo date("F,Y");?>',
                         x: -20 //center
                     },
                     subtitle: {
@@ -27,9 +27,11 @@
                         <?php
                              $d=cal_days_in_month(CAL_GREGORIAN,date('n'),date("Y"));
                              $categories="";
+
                              for($i=1; $i<= $d; $i++)
                              {
                                $categories.="'".$i."',";
+
                              }
                              $days=substr($categories,0,strlen($categories)-1);
                              ?>
@@ -55,14 +57,24 @@
                         verticalAlign: 'middle',
                         borderWidth: 0
                     },
+                    <?php
+                     $dayData="";
+                     foreach(\App\Department::all() as $dep)
+                     {
+                        $dayData.="{name: '".$dep->department_name."',";
+                            $da=cal_days_in_month(CAL_GREGORIAN,date('n'),date("Y"));
+                             $dateCount="";
+                             for($i=1; $i<= $da; $i++)
+                             {
+                                $dateCount.=count(\App\Query::where(\DB::raw('DAY(reporting_Date)'),'=',$i)->where('from_department','=',$dep->id)->get()).",";
+                             }
+                             $dayData.="data: [".substr($dateCount,0,strlen($dateCount)-1)."]},";
+                     }
+                     $dataContent=substr($dayData,0,strlen($dayData)-1);
+                    ?>
 
-                    series: [
-                            @foreach(\App\Department::all() as $dep){
-                            name: '{{$dep->department_name}}',
-                            data: []
-                        },
-                        @endforeach
-                       ]
+
+                   series: [<?php echo $dataContent;?>]
                 });
             });
             $(function () {
@@ -570,7 +582,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div id="currentMonth" style="height:400px;"></div>
+                                        <div id="departmentRepo" style="height:400px;"></div>
                                     </div>
                                 </div>
                             </div>
