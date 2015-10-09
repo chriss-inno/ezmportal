@@ -21,6 +21,9 @@
                         text: 'Portal reports services',
                         x: -20
                     },
+                    credits: {
+                        enabled: false
+                    },
                     xAxis: { title: {
                         text: '<?php echo date("F")?>'
                     },
@@ -102,6 +105,9 @@
                             text: 'Number of Queries Logged'
                         }
                     },
+                    credits: {
+                        enabled: false
+                    },
                     tooltip: {
                         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
@@ -161,6 +167,9 @@
                     },
                     title: {
                         text: 'Query logged by branches percentage wise'
+                    },
+                    credits: {
+                        enabled: false
                     },
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
@@ -223,6 +232,9 @@
                     xAxis: {
                         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                             'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    },
+                    credits: {
+                        enabled: false
                     },
                     yAxis: {
                         title: {
