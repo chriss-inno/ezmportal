@@ -157,119 +157,6 @@
                     }]
                 });
             });
-            $(function () {
-                $('#pieChart').highcharts({
-                    chart: {
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false,
-                        type: 'pie'
-                    },
-                    title: {
-                        text: 'Query logged by branches percentage wise'
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    tooltip: {
-                        pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                format: '<b>{point.name}</b>: {point.percentage:.0f} %',
-                                style: {
-                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                                }
-                            }
-                        }
-                    },
-                    <?php
-                      //Get all branches
-                      $dataPieDis=$dataPie="";
-                      $checkselect=1;
-                       foreach(\App\Branch::all() as $br)
-                       {
-                          if($checkselect ==1){
-                           $dataPie.='{';
-                            $dataPie.='name: "'.$br->branch_Name.'",';
-                          //Get number of logs for all time
-                            $dataPie.=' y: '. count(\App\Query::where('from_branch','=',$br->id)->get()).',
-                                sliced: true,
-                                selected: true';
-                           $dataPie.='},';
-
-                          }else
-                          {
-                           $dataPie.='{';
-                            $dataPie.='name: "'.$br->branch_Name.'",';
-                          //Get number of logs for all time
-                            $dataPie.=' y: '. count(\App\Query::where('from_branch','=',$br->id)->get());
-                           $dataPie.='},';
-                          }
-                         $checkselect++;
-                       }
-                        $dataPieDis= substr($dataPie,0,strlen($dataPie)-1);
-                     ?>
-                    series: [{
-                        name: "Branches",
-                        colorByPoint: true,
-                        data: [<?php echo $dataPieDis;?>]
-                    }]
-                });
-            });
-            $(function () {
-                $('#currentYear').highcharts({
-                    chart: {
-                        type: 'spline'
-                    },
-                    title: {
-                        text: 'Monthly Average Support Queries'
-                    },
-                    xAxis: {
-                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Average Queries'
-                        }
-                    },
-                    tooltip: {
-                        crosshairs: true,
-                        shared: true
-                    },
-                    plotOptions: {
-                        spline: {
-                            marker: {
-                                radius: 4,
-                                lineColor: '#666666',
-                                lineWidth: 1
-                            }
-                        }
-                    },
-                    <?php
-                          $MonthCount="";
-                          $monthData="";
-                             for($i=1; $i<= 12; $i++)
-                             {
-                                $MonthCount.=count(\App\Query::where(\DB::raw('Month(reporting_Date)'),'=',$i)->get()).",";
-                             }
-                             $monthData.=substr($MonthCount,0,strlen($MonthCount)-1);
-                    ?>
-                    series: [{
-                        name: 'Monthly Average Queries',
-                        data: [<?php echo $monthData;?>]
-
-                    }]
-                });
-            });
             $('#branches').dataTable( {
                 "fnDrawCallback": function( oSettings ) {
 
@@ -607,7 +494,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <section class="panel">
                             <header class="panel-heading">
-                                <h3 class="text-info"> <strong> <i class="fa fa-bar-chart-o"></i> INVENTORY REPORTS VISUALIZATION</strong></h3>
+                                <h3 class="text-info"> <strong> <i class="fa fa-laptop text-danger"> </i> <i class="fa fa-database"></i> <i class="fa fa-bar-chart-o"></i> INVENTORY REPORTS VISUALIZATION</strong></h3>
                             </header>
                             <div class="panel-body">
                                 <div class="row">
@@ -626,26 +513,6 @@
                             </header>
                             <div class="panel-body">
                                 <div id="highchart" style="height:400px;"></div>
-                            </div>
-                        </section>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                        <section class="panel">
-                            <header class="panel-heading">
-                            </header>
-                            <div class="panel-body">
-                                <div id="currentYear" style="height:400px;"></div>
-                            </div>
-                        </section>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                        <section class="panel">
-                            <header class="panel-heading">
-                            </header>
-                            <div class="panel-body">
-                                <div id="pieChart" style="height:400px;"></div>
                             </div>
                         </section>
                     </div>
@@ -686,29 +553,12 @@
                 </div>
                 <div class="row">
                     <section class="panel">
-                        <header class="panel-heading">
-                            <span class="text-info"> <strong> <i class="fa fa-download"></i> Download reports</strong></span>
-                        </header>
+
                         <div class="panel-body">
 
                             <div class="row" style="margin-top: 10px">
                                 <div class="col-md-12">
-                                    <a href="#" class=" btn btn-file btn-primary btn-block"><i class="fa fa-clock-o"></i> Daily Report</a>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-top: 10px">
-                                <div class="col-md-12">
-                                    <a href="#" class="btn btn-file btn-success btn-block"><i class="fa fa-calendar"></i> Month Report</a>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-top: 10px">
-                                <div class="col-md-12">
-                                    <a href="#" class="btn btn-file btn-info btn-block"><i class="fa fa-calendar"></i> Year Report</a>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-top: 10px">
-                                <div class="col-md-12">
-                                    <a href="#" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> Custom Report </a>
+                                    <a href="#" class=" btn btn-file btn-success btn-block"><i class="fa fa-download"></i> Download reports</a>
                                 </div>
                             </div>
                         </div>
