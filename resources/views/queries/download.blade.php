@@ -3,15 +3,15 @@
 {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
 
 
-    {!! Form::open(array('url'=>'inventory','role'=>'form','id'=>'InventoryForm')) !!}
+{!! Form::open(array('url'=>'queries/download','role'=>'form','id'=>'InventoryForm')) !!}
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border" style="color:#005DAD">Basic Item details</legend>
+    <legend class="scheduler-border" style="color:#005DAD">Queries Custom reports</legend>
     <div class="form-group">
         <div class="row">
             <div class="col-md-12">
                 <label for="type_id">Item Type</label>
                 <select class="form-control"  id="type_id" name="type_id">
-                    <option value="">----</option>
+                    <option>All</option>
                     <?php $inventories=\App\InventoryType::all();?>
                     @foreach($inventories as $inv)
                         <option value="{{$inv->id}}">{{$inv->type_name}}</option>
@@ -22,65 +22,11 @@
         </div>
     </div>
     <div class="form-group">
-            <label for="item_name">Item Name</label>
-            <input type="text" class="form-control" id="item_name" name="item_name" value="{{old('item_name')}}" placeholder="Enter Item Name ie Computer name">
-    </div>
-    <div class="form-group">
-        <label for="item_name">Username</label>
-        <input type="text" class="form-control" id="user_name" name="user_name" value="{{old('user_name')}}" placeholder="Enter Username">
-    </div>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-md-4">
-                <label for="machine_model">Machine Model</label>
-                <input type="text" class="form-control" id="machine_model" name="machine_model" value="{{old('machine_model')}}" placeholder="Enter Item Model">
-            </div>
-            <div class="col-md-4">
-                <label for="serial_number">Serial Number</label>
-                <input type="text" class="form-control" id="serial_number" name="serial_number" value="{{old('serial_number')}}" placeholder="Enter Serial Number">
-            </div>
-            <div class="col-md-4">
-                <label for="ip_address">IP Address</label>
-                <input type="text" class="form-control" id="item_name" name="ip_address" value="{{old('ip_address')}}" placeholder="Enter IP Address ie 192.168.1.1">
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-md-6">
-                <label for="usb">USB</label>
-                <select class="form-control"  id="usb" name="usb">
-                    <option value="">----</option>
-                    <option value="N/A">N/A</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-
-            </div>
-            <div class="col-md-6">
-                <label for="antivirus">Antivirus</label>
-                <select class="form-control"  id="antivirus" name="antivirus">
-                    <option value="">----</option>
-                    <option value="N/A">N/A</option>
-                    <option value="Yes">Done</option>
-                </select>
-            </div>
-
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="description">Item Descriptions</label>
-        <textarea class="form-control" id="description" name="description">{{old('description')}}</textarea>
-    </div>
-</fieldset>
-<fieldset class="scheduler-border">
-    <legend class="scheduler-border" style="color:#005DAD">Item Location</legend>
-    <div class="form-group">
         <div class="row">
             <div class="col-md-6">
                 <label for="branch_id">Branch</label>
                 <select class="form-control"  id="branch_id" name="branch_id">
-                    <option value="">----</option>
+                    <option value="All">All</option>
                     <?php $branches=\App\Branch::all();?>
                     @foreach($branches as $br)
                         <option value="{{$br->id}}">{{$br->branch_Name}}</option>
@@ -91,18 +37,40 @@
             <div class="col-md-6">
                 <label for="department_id">Department</label>
                 <select class="form-control"  id="department_id" name="department_id">
-                    <option value="">----</option>
+                    <option value="All">All</option>
                 </select>
             </div>
         </div>
     </div>
-</fieldset>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="usb">USB</label>
+                <select class="form-control"  id="usb" name="usb">
+                    <option value="All">All</option>
+                    <option value="N/A">N/A</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+
+            </div>
+            <div class="col-md-6">
+                <label for="antivirus">Antivirus</label>
+                <select class="form-control"  id="antivirus" name="antivirus">
+                    <option value="All">All</option>
+                    <option value="N/A">N/A</option>
+                    <option value="Yes">Done</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
     <div class="form-group">
         <div class="row">
             <div class="col-md-6">
                 <label for="status">Status</label>
                 <select name="status" class="form-control" id="status">
-                    <option selected value="">----</option>
+                    <option value="All">All</option>
                     <option value="Working">Working</option>
                     <option value="Not Working">Not Working</option>
                 </select>
@@ -116,21 +84,21 @@
             </div>
         </div>
     </div>
+</fieldset>
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-2 col-sm-2 col-xs-2 pull-right">
+            <a href="#" data-dismiss="modal" class="btn btn-danger btn-block"> <i class="icon-remove"></i>  Cancel</a>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-3 pull-right">
+            <button type="submit" class="btn btn-success btn-block">Download now</button>
+        </div>
+        <div class="col-md-7 col-sm-7 col-xs-7 pull-left" id="output">
 
-    <div class="form-group">
-        <div class="row">
-            <div class="col-md-2 col-sm-2 col-xs-2 pull-right">
-                <a href="#" data-dismiss="modal" class="btn btn-danger btn-block"> <i class="icon-remove"></i>  Cancel</a>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-3 pull-right">
-                <button type="submit" class="btn btn-primary btn-block">Submit</button>
-            </div>
-            <div class="col-md-7 col-sm-7 col-xs-7 pull-left" id="output">
-
-            </div>
         </div>
     </div>
-    {!! Form::close() !!}
+</div>
+{!! Form::close() !!}
 
 
 

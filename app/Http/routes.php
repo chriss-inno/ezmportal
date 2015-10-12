@@ -128,6 +128,8 @@ Route::get('inventory-reports',['middleware' => 'auth', 'uses' =>'InventoryContr
 Route::get('inventory-remove/{id}',['middleware' => 'auth', 'uses' =>'InventoryController@destroy']);
 Route::get('inventory-import',['middleware' => 'auth', 'uses' =>'InventoryController@showImportExcel']);
 Route::post('inventory-import',['middleware' => 'auth', 'uses' =>'InventoryController@importExcel']);
+Route::get('inventory-download',['middleware' => 'auth', 'uses' =>'InventoryController@showDownloadReport']);
+Route::post('inventory-download',['middleware' => 'auth', 'uses' =>'InventoryController@postDownloadReport']);
 
 //Inventory type
 Route::resource('types','InventoryTypeController');
@@ -176,7 +178,8 @@ Route::get('queries/attend/{id}',['middleware' => 'auth', 'uses' =>'QueryControl
 Route::get('queries/assign',['middleware' => 'auth', 'uses' =>'QueryController@queryAssign']);
 Route::get('queries/assign/users/{id}',['middleware' => 'auth', 'uses' =>'QueryController@queryAssignUsers']);
 Route::post('queries/assign/users',['middleware' => 'auth', 'uses' =>'QueryController@postQueryAssignUsers']);
-
+Route::get('queries/download',['middleware' => 'auth', 'uses' =>'QueriesReportsController@showDownloadReport']);
+Route::post('queries/download',['middleware' => 'auth', 'uses' =>'QueriesReportsController@postDownloadReport']);
 
 //Queries reports controller
 

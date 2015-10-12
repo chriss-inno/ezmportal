@@ -270,6 +270,33 @@
                     }]
                 });
             });
+            //Edit class streams
+            $(".customReports").click(function () {
+                var id1 = $(this).parent().attr('id');
+                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                modaldis += '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                modaldis += '<div class="modal-content">';
+                modaldis += '<div class="modal-header">';
+                modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Queries custom reports</span>';
+                modaldis += '</div>';
+                modaldis += '<div class="modal-body">';
+                modaldis += ' </div>';
+                modaldis += '</div>';
+                modaldis += '</div>';
+                $('body').css('overflow', 'hidden');
+
+                $("body").append(modaldis);
+                jQuery.noConflict();
+                $("#myModal").modal("show");
+                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                $(".modal-body").load("<?php echo url("queries/download") ?>");
+                $("#myModal").on('hidden.bs.modal', function () {
+                    $("#myModal").remove();
+                })
+
+            });
             $('#branches').dataTable({
 
                 "fnDrawCallback": function (oSettings) {
@@ -288,117 +315,6 @@
                                 btn.hide("slow").next("hr").hide("slow");
                             });
                         });
-                    });
-
-                    //Edit class streams
-                    $(".addService").click(function () {
-                        var id1 = $(this).parent().attr('id');
-                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-
-                        modaldis += '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
-                        modaldis += '<div class="modal-content">';
-                        modaldis += '<div class="modal-header">';
-                        modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Log service status</span>';
-                        modaldis += '</div>';
-                        modaldis += '<div class="modal-body">';
-                        modaldis += ' </div>';
-                        modaldis += '</div>';
-                        modaldis += '</div>';
-                        $('body').css('overflow', 'hidden');
-
-                        $("body").append(modaldis);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("serviceslogs/create") ?>");
-                        $("#myModal").on('hidden.bs.modal', function () {
-                            $("#myModal").remove();
-                        })
-
-                    });
-
-                    //Edit class streams
-                    $(".viewService").click(function () {
-                        var id1 = $(this).parent().attr('id');
-                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-
-                        modaldis += '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
-                        modaldis += '<div class="modal-content">';
-                        modaldis += '<div class="modal-header">';
-                        modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Service Status Details</span>';
-                        modaldis += '</div>';
-                        modaldis += '<div class="modal-body">';
-                        modaldis += ' </div>';
-                        modaldis += '</div>';
-                        modaldis += '</div>';
-                        $('body').css('overflow', 'hidden');
-
-                        $("body").append(modaldis);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("serviceslogs/show") ?>/" + id1);
-                        $("#myModal").on('hidden.bs.modal', function () {
-                            $("#myModal").remove();
-                        })
-
-                    });
-
-                    //viewService
-                    $(".editService").click(function () {
-                        var id1 = $(this).parent().attr('id');
-                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-
-                        modaldis += '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
-                        modaldis += '<div class="modal-content">';
-                        modaldis += '<div class="modal-header">';
-                        modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Update Service</span>';
-                        modaldis += '</div>';
-                        modaldis += '<div class="modal-body">';
-                        modaldis += ' </div>';
-                        modaldis += '</div>';
-                        modaldis += '</div>';
-                        $('body').css('overflow', 'hidden');
-
-                        $("body").append(modaldis);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("serviceslogs/edit") ?>/" + id1);
-                        $("#myModal").on('hidden.bs.modal', function () {
-                            $("#myModal").remove();
-                        })
-
-                    });
-                    //logService class streams
-                    $(".logService").click(function () {
-                        var id1 = $(this).parent().attr('id');
-                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-
-                        modaldis += '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
-                        modaldis += '<div class="modal-content">';
-                        modaldis += '<div class="modal-header">';
-                        modaldis += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis += '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Update Service</span>';
-                        modaldis += '</div>';
-                        modaldis += '<div class="modal-body">';
-                        modaldis += ' </div>';
-                        modaldis += '</div>';
-                        modaldis += '</div>';
-                        $('body').css('overflow', 'hidden');
-
-                        $("body").append(modaldis);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("services/log") ?>/" + id1);
-                        $("#myModal").on('hidden.bs.modal', function () {
-                            $("#myModal").remove();
-                        })
-
                     });
                 }
             });
@@ -737,7 +653,7 @@
                              </div>
                              <div class="row" style="margin-top: 10px">
                                  <div class="col-md-12">
-                                     <a href="#" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> Custom Report </a>
+                                     <a href="#" class="customReports btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> Custom Report </a>
                                  </div>
                              </div>
                          </div>

@@ -11,85 +11,14 @@
 
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
-            $(function () {
-                $('#departmentRepo').highcharts({
-                    title: {
-                        text: 'Daily Logged queries per department for the Month of <?php echo date("F,Y");?>',
-                        x: -20 //center
-                    },
-                    subtitle: {
-                        text: 'Portal reports services',
-                        x: -20
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    xAxis: { title: {
-                        text: '<?php echo date("F")?>'
-                    },
-                        <?php
-                             $d=cal_days_in_month(CAL_GREGORIAN,date('n'),date("Y"));
-                             $categories="";
 
-                             for($i=1; $i<= $d; $i++)
-                             {
-                               $categories.="'".$i."',";
-
-                             }
-                             $days=substr($categories,0,strlen($categories)-1);
-                             ?>
-
-                         categories: [<?php echo $days;?>]
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Logged Queries'
-                        },
-                        plotLines: [{
-                            value: 0,
-                            width: 1,
-                            color: '#808080'
-                        }]
-                    },
-                    tooltip: {
-                        valueSuffix: ''
-                    },
-                    legend: {
-                        layout: 'vertical',
-                        align: 'right',
-                        verticalAlign: 'middle',
-                        borderWidth: 0
-                    },
-                    <?php
-                     $dayData="";
-                     foreach(\App\Department::all() as $dep)
-                     {
-                        $dayData.="{name: '".$dep->department_name."',";
-                            $da=cal_days_in_month(CAL_GREGORIAN,date('n'),date("Y"));
-                             $dateCount="";
-                             for($i=1; $i<= $da; $i++)
-                             {
-                                $dateCount.=count(\App\Query::where(\DB::raw('DAY(reporting_Date)'),'=',$i)->where('from_department','=',$dep->id)->get()).",";
-                             }
-                             $dayData.="data: [".substr($dateCount,0,strlen($dateCount)-1)."]},";
-                     }
-                     $dataContent=substr($dayData,0,strlen($dayData)-1);
-                    ?>
-
-
-                   series: [<?php echo $dataContent;?>]
-                });
-            });
             $(function () {
                 $('#highchart').highcharts({
                     chart: {
                         type: 'column'
                     },
                     title: {
-                        text: 'Last three months average queries per departments'
-                    },
-                    subtitle: {
-                        text: 'Source: Bank M Service Portal'
+                        text: 'Number of Items per departments'
                     },
                     xAxis: {
                         categories: [
@@ -111,7 +40,7 @@
                     tooltip: {
                         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y:.0f} Queries</b></td></tr>',
+                        '<td style="padding:0"><b>{point.y:.0f}</b></td></tr>',
                         footerFormat: '</table>',
                         shared: true,
                         useHTML: true
@@ -123,144 +52,103 @@
                         }
                     },
                     <?php
-                    $m1=date("Y-m-d",strtotime(date("Y-m-d").'-1 months'));
-                    $m2=date("Y-m-d",strtotime(date("Y-m-d").'-2 months'));
                     $m3=date("Y-m-d",strtotime(date("Y-m-d").'-3 months'));
-                    $data1="";
-                    $data2="";
                     $data3="";
                     //Get all departments queries count for each month
                     foreach(\App\Department::all() as $department)
                     {
-                       $data1.=count( \App\Query::where('from_department','=',$department->id)->where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y',strtotime($m1)))->where(\DB::raw('MONTH(reporting_Date)'), '=',date('n',strtotime($m1)))->get()).",";
-                       $data2.=count( \App\Query::where('from_department','=',$department->id)->where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y',strtotime($m2)))->where(\DB::raw('MONTH(reporting_Date)'), '=',date('n',strtotime($m2)))->get()).",";
-                       $data3.=count( \App\Query::where('from_department','=',$department->id)->where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y',strtotime($m3)))->where(\DB::raw('MONTH(reporting_Date)'), '=',date('n',strtotime($m3)))->get()).",";
+                        $data3.=count( \App\Inventory::where('department_id','=',$department->id)->get()).",";
                     }
-                    $data1=substr($data1,0,strlen($data1)-1);
-                    $data2=substr($data2,0,strlen($data2)-1);
                     $data3=substr($data3,0,strlen($data3)-1);
-
-
                      ?>
                     series: [{
-                        name: '{{date("F",strtotime($m3))}}',
+                        name: 'Total Items',
                         data: [<?php echo $data3?>]
-
-                    }, {
-                        name: '{{date("F",strtotime($m2))}}',
-                        data: [<?php echo $data2?>]
-
-                    }, {
-                        name: '{{date("F",strtotime($m1))}}',
-                        data: [<?php echo $data1?>]
 
                     }]
                 });
-            });
-            $('#branches').dataTable( {
-                "fnDrawCallback": function( oSettings ) {
+                //Create module
+                $(".createInventory").click(function(){
+                    var id1 = $(this).parent().attr('id');
+                    var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
+                    modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                    modaldis+= '<div class="modal-content">';
+                    modaldis+= '<div class="modal-header">';
+                    modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                    modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Inventory Items Reports</span>';
+                    modaldis+= '</div>';
+                    modaldis+= '<div class="modal-body">';
+                    modaldis+= ' </div>';
+                    modaldis+= '</div>';
+                    modaldis+= '</div>';
+                    $('body').css('overflow','hidden');
 
-                    $(".deleteItem").click(function(){
-                        var id1 = $(this).parent().attr('id');
-                        $(".deleteItem").show("slow").parent().parent().find("span").remove();
-                        var btn = $(this).parent().parent();
-                        $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
-                        $("#no").click(function(){
-                            $(this).parent().parent().find(".deleteItem").show("slow");
-                            $(this).parent().parent().find("span").remove();
-                        });
-                        $("#yes").click(function(){
-                            $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                            $.get("<?php echo url('inventory-remove') ?>/"+id1,function(data){
-                                btn.hide("slow").next("hr").hide("slow");
-                                // $(this).parent().parent().parent().parent().remove();
-                            });
-                        });
-                    });
-                    //Edit Module
-                    $(".editItem").click(function(){
-                        var id1 = $(this).parent().attr('id');
-                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
-                        modaldis+= '<div class="modal-content">';
-                        modaldis+= '<div class="modal-header">';
-                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center" style="color: #FFF">Update Inventory Item</span>';
-                        modaldis+= '</div>';
-                        modaldis+= '<div class="modal-body">';
-                        modaldis+= ' </div>';
-                        modaldis+= '</div>';
-                        modaldis+= '</div>';
-                        $('body').css('overflow','hidden');
-
-                        $("body").append(modaldis);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("inventory") ?>/"+id1+"/edit");
-                        $("#myModal").on('hidden.bs.modal',function(){
-                            $("#myModal").remove();
-                        })
-
+                    $("body").append(modaldis);
+                    jQuery.noConflict();
+                    $("#myModal").modal("show");
+                    $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                    $(".modal-body").load("<?php echo url("inventory/create") ?>");
+                    $("#myModal").on('hidden.bs.modal',function(){
+                        $("#myModal").remove();
                     })
-                    //Create module
-                    $(".createItem").click(function(){
-                        var id1 = $(this).parent().attr('id');
-                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
-                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
-                        modaldis+= '<div class="modal-content">';
-                        modaldis+= '<div class="modal-header">';
-                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">New Inventory Item </span>';
-                        modaldis+= '</div>';
-                        modaldis+= '<div class="modal-body">';
-                        modaldis+= ' </div>';
-                        modaldis+= '</div>';
-                        modaldis+= '</div>';
-                        $('body').css('overflow','hidden');
+                });
+                $(".downloadReport").click(function(){
+                    var id1 = $(this).parent().attr('id');
+                    var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
-                        $("body").append(modaldis);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("inventory/create") ?>");
-                        $("#myModal").on('hidden.bs.modal',function(){
-                            $("#myModal").remove();
-                        })
+                    modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                    modaldis+= '<div class="modal-content">';
+                    modaldis+= '<div class="modal-header">';
+                    modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                    modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;"><i class="fa fa-download"></i> Download Inventory Items Reports</span>';
+                    modaldis+= '</div>';
+                    modaldis+= '<div class="modal-body">';
+                    modaldis+= ' </div>';
+                    modaldis+= '</div>';
+                    modaldis+= '</div>';
+                    $('body').css('overflow','hidden');
 
-                    });
+                    $("body").append(modaldis);
+                    jQuery.noConflict();
+                    $("#myModal").modal("show");
+                    $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                    $(".modal-body").load("<?php echo url("inventory-download") ?>");
+                    $("#myModal").on('hidden.bs.modal',function(){
+                        $("#myModal").remove();
+                    })
 
-                    //Display Item details
-                    $(".showDetails").click(function(){
-                        var id1 = $(this).parent().attr('id');
-                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                });
+                //Display Item details
+                $(".showDetails").click(function(){
+                    var id1 = $(this).parent().attr('id');
+                    var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
-                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
-                        modaldis+= '<div class="modal-content">';
-                        modaldis+= '<div class="modal-header">';
-                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Item details </span>';
-                        modaldis+= '</div>';
-                        modaldis+= '<div class="modal-body">';
-                        modaldis+= ' </div>';
-                        modaldis+= '</div>';
-                        modaldis+= '</div>';
-                        $('body').css('overflow','hidden');
+                    modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                    modaldis+= '<div class="modal-content">';
+                    modaldis+= '<div class="modal-header">';
+                    modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                    modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Item details </span>';
+                    modaldis+= '</div>';
+                    modaldis+= '<div class="modal-body">';
+                    modaldis+= ' </div>';
+                    modaldis+= '</div>';
+                    modaldis+= '</div>';
+                    $('body').css('overflow','hidden');
 
-                        $("body").append(modaldis);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("inventory") ?>/"+id1);
-                        $("#myModal").on('hidden.bs.modal',function(){
-                            $("#myModal").remove();
-                        })
+                    $("body").append(modaldis);
+                    jQuery.noConflict();
+                    $("#myModal").modal("show");
+                    $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                    $(".modal-body").load("<?php echo url("inventory") ?>/"+id1);
+                    $("#myModal").on('hidden.bs.modal',function(){
+                        $("#myModal").remove();
+                    })
 
-                    });
-                }
-            } );
+                });
+            });
+
         } );
     </script>
 @stop
@@ -490,29 +378,13 @@
 
         <div class="row">
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <section class="panel">
-                            <header class="panel-heading">
-                                <h3 class="text-info"> <strong> <i class="fa fa-laptop text-danger"> </i> <i class="fa fa-database"></i> <i class="fa fa-bar-chart-o"></i> INVENTORY REPORTS VISUALIZATION</strong></h3>
-                            </header>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div id="departmentRepo" style="height:400px;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                </div>
-                <div class="row">
+                            <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <section class="panel">
                             <header class="panel-heading">
                             </header>
                             <div class="panel-body">
-                                <div id="highchart" style="height:400px;"></div>
+                                <div id="highchart" style="height:600px;"></div>
                             </div>
                         </section>
                     </div>
@@ -525,7 +397,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a href="#" class="createItem btn btn-compose btn-block">New inventory item</a>
+                                    <a href="#" class="createInventory btn btn-compose btn-block">New inventory item</a>
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 10px">
@@ -558,7 +430,7 @@
 
                             <div class="row" style="margin-top: 10px">
                                 <div class="col-md-12">
-                                    <a href="#" class=" btn btn-file btn-success btn-block"><i class="fa fa-download"></i> Download reports</a>
+                                    <a href="#" class="downloadReport btn btn-file btn-success btn-block"><i class="fa fa-download"></i> Download reports</a>
                                 </div>
                             </div>
                         </div>

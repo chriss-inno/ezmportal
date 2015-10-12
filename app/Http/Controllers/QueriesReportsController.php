@@ -17,6 +17,19 @@ class QueriesReportsController extends Controller
     {
         //
     }
+    //showDownloadReport
+    public function showDownloadReport()
+    {
+        //
+        return view('queries.download');
+    }
+
+    //showDownloadReport
+    public function postDownloadReport()
+    {
+        //
+
+    }
 
     /**
      * Show the form for creating a new resource.

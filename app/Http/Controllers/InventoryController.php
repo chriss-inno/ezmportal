@@ -152,7 +152,17 @@ class InventoryController extends Controller
         return view('inventory.import');
     }
 
-
+    //Reports download
+    public function postDownloadReport(Request $request)
+    {
+        //
+        return view('inventory.import');
+    }
+    public function showDownloadReport()
+    {
+        //
+        return view('inventory.download');
+    }
     //Upload ms excel file
     public function importExcel(Request $request)
     {
