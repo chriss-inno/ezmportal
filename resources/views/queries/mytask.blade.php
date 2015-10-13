@@ -20,11 +20,11 @@
                     $(".addMessage").click(function(){
                         var id1 = $(this).parent().attr('id');
                         var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                        modal+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
                         modal+= '<div class="modal-content">';
                         modal+= '<div class="modal-header">';
                         modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modal+= '<h2 class="modal-title" id="myModalLabel">Additional Query Message</h2>';
+                        modal+= '<h2 class="modal-title" id="myModalLabel">Query updates details</h2>';
                         modal+= '</div>';
                         modal+= '<div class="modal-body">';
                         modal+= ' </div>';
@@ -35,7 +35,7 @@
                         jQuery.noConflict();
                         $("#myModal").modal("show");
                         $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("queries/message") ?>/"+id1);
+                        $(".modal-body").load("<?php echo url("queries/message/composer") ?>/"+id1);
                         $("#myModal").on('hidden.bs.modal',function(){
                             $("#myModal").remove();
                         })
@@ -376,36 +376,38 @@
                                     <th>Module</th>
                                     <th>Details</th>
                                     <th>Attend</th>
-                                    <th>Message</th>
+                                    <th>Query Updates</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php $c=1;?>
+                                @if(count($queries) >0 && $queries !=null)
                                 @foreach($queries as $qr)
                                     <tr>
                                         <td>{{$c++}}</td>
-                                        <td>{{$qr->queries->query_code}}</td>
-                                        <td>{{date("d M ,Y H:i",strtotime($qr->queries->reporting_Date))}}</td>
-                                        <td>{{$qr->queries->fromDepartment->department_name}}</td>
-                                        <td>{{$qr->queries->user->first_name.' '.$qr->queries->user->last_name}}</td>
+                                        <td>{{$qr->query_code}}</td>
+                                        <td>{{date("d M ,Y H:i",strtotime($qr->reporting_Date))}}</td>
+                                        <td>{{$qr->fromDepartment->department_name}}</td>
+                                        <td>{{$qr->user->first_name.' '.$qr->user->last_name}}</td>
                                         @if($qr->assigned_date_time !=null && $qr->assigned_date_time !="" )
                                         <td>{{date("d M ,Y H:i",strtotime($qr->assigned_date_time))}}</td>
                                         @else
                                             <td></td>
                                             @endif
-                                        <td>{{$qr->queries->critical_level}}</td>
-                                        <td>{{$qr->queries->status}}</td>
-                                        <td>{{$qr->queries->module->module_name}}</td>
-                                        <td id="{{$qr->queries->id}}">
+                                        <td>{{$qr->critical_level}}</td>
+                                        <td>{{$qr->status}}</td>
+                                        <td>{{$qr->module->module_name}}</td>
+                                        <td id="{{$qr->id}}">
                                             <a href="#" class="queryDetails btn btn-info btn-xs" title="Detailed Information"><i class="fa fa-eye"></i> View </a>
                                         </td>
-                                        <td id="{{$qr->queries->id}}" class="text-center"> <a  href="#" title="Attend Query" class="queryAttend btn btn-success btn-xs"><i class="fa fa-pencil"></i></a>
+                                        <td id="{{$qr->id}}" class="text-center"> <a  href="#" title="Attend Query" class="queryAttend btn btn-success btn-xs"><i class="fa fa-pencil"></i></a>
                                         </td>
                                         <td id="{{$qr->id}}">
                                             <a href="#" class="addMessage btn btn-primary btn-xs" title="Additional Query Message"><i class="fa fa-envelope-o"></i> </a>
                                         </td>
                                     </tr>
                                 @endforeach
+                                    @endif
                                 </tbody>
                                 <tfoot>
                                 <tr>
@@ -420,7 +422,7 @@
                                     <th>Module</th>
                                     <th>Details</th>
                                     <th>Attend</th>
-                                    <th>Message</th>
+                                    <th>Query Updates</th>
                                 </tr>
                                 </tfoot>
                             </table>

@@ -46,7 +46,10 @@
                                     <th colspan="10">Query Description</th>
                                 </tr>
                                 <tr>
-                                    <td colspan="10"><?php echo $query->description;?></td>
+                                    <td colspan="10"><?php echo $query->description;?>
+                                        @if($query->reference_file != null && $query->reference_file !="")
+                                            [ <a href="{{url('uploads')}}/{{$query->reference_file}}"><i class="fa fa-download text-danger"></i> Get attachment</a> ]
+                                        @endif</td>
                                 </tr>
 
 
@@ -70,7 +73,11 @@
                                                 <span class="arrow"></span>
                                                 <div class="text">
                                                     <p class="attribution"><a href="#">{{$message->mSender->first_name.' '.$message->mSender->last_name}}</a> at {{date('h:i A',strtotime($message->created_at))}}, {{date("l, jS F Y",strtotime($message->created_at))}}</p>
-                                                    <p>{{$message->message}}</p>
+                                                    <p>{{$message->message}}
+                                                        @if($message->reference_file != null && $message->reference_file !="")
+                                                            [ <a href="{{url('uploads/messages')}}/{{$message->reference_file}}"><i class="fa fa-download text-danger"></i> Get attachment</a> ]
+                                                        @endif
+                                                    </p>
                                                 </div>
                                             </div>
                                     </div>

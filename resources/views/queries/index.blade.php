@@ -49,11 +49,11 @@
                     $(".addMessage").click(function(){
                         var id1 = $(this).parent().attr('id');
                         var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                        modal+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
                         modal+= '<div class="modal-content">';
                         modal+= '<div class="modal-header">';
                         modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modal+= '<h2 class="modal-title" id="myModalLabel">Additional Query Message</h2>';
+                        modal+= '<h2 class="modal-title" id="myModalLabel">Query updates details</h2>';
                         modal+= '</div>';
                         modal+= '<div class="modal-body">';
                         modal+= ' </div>';
@@ -64,7 +64,7 @@
                         jQuery.noConflict();
                         $("#myModal").modal("show");
                         $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("queries/message") ?>/"+id1);
+                        $(".modal-body").load("<?php echo url("queries/message/composer") ?>/"+id1);
                         $("#myModal").on('hidden.bs.modal',function(){
                             $("#myModal").remove();
                         })
@@ -396,7 +396,7 @@
                                     <th>Critical</th>
                                     <th>Status</th>
                                     <th>Module</th>
-                                    <th>Message</th>
+                                    <th>Query Updates</th>
                                     <th>Details</th>
                                     <th>Action</th>
                                 </tr>
@@ -418,7 +418,7 @@
                                         <td>{{$qr->status}}</td>
                                         <td>{{$qr->module->module_name}}</td>
                                         <td id="{{$qr->id}}">
-                                            <a href="#" class="addMessage btn btn-primary btn-xs" title="Additional Query Message"><i class="fa fa-envelope-o"></i> </a>
+                                            <a href="#" class="addMessage  btn btn-primary btn-xs" title="Additional Query Message"><i class="fa fa-envelope-o"></i> </a>
                                         </td>
                                         <td id="{{$qr->id}}">
                                             <a href="#" class="queryDetails btn btn-info btn-xs" title=" Query Details"><i class="fa fa-eye-slash"></i>View </a>

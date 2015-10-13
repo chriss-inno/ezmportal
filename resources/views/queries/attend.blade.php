@@ -62,7 +62,7 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
                         <p><h4 class="text-info"><strong>Attend Query</strong></h4></p>
-                        {!! Form::open(array('url'=>'queries/message','role'=>'form','id'=>'queryMessageForm')) !!}
+                        {!! Form::open(array('url'=>'queries/attend','role'=>'form','id'=>'queryMessageForm')) !!}
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6">
@@ -125,11 +125,15 @@
 <script>
     $("#queryMessageForm").validate({
         rules: {
-            message: "required"
+            message: "required",
+            status: "required",
+            enabler: "required"
 
         },
         messages: {
-            message: "Please enter Message"
+            message: "Please enter Message",
+            status: "Please select status",
+            enabler: "Please select enabler"
         },
         submitHandler: function(form) {
             $("#output").html("<h3><span class='text-info'><i class='icon-spinner icon-spin'></i> Making changes please wait...</span><h3>");

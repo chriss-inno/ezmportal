@@ -180,6 +180,8 @@ Route::get('queries/assign/users/{id}',['middleware' => 'auth', 'uses' =>'QueryC
 Route::post('queries/assign/users',['middleware' => 'auth', 'uses' =>'QueryController@postQueryAssignUsers']);
 Route::get('queries/download',['middleware' => 'auth', 'uses' =>'QueriesReportsController@showDownloadReport']);
 Route::post('queries/download',['middleware' => 'auth', 'uses' =>'QueriesReportsController@postDownloadReport']);
+Route::get('queries/message/composer/{id}',['middleware' => 'auth', 'uses' =>'QueryController@messageComposer']);
+Route::post('queries/message/composer/{id}',['middleware' => 'auth', 'uses' =>'QueryController@postMessageComposer']);
 
 //Queries reports controller
 
