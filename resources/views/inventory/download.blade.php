@@ -3,7 +3,7 @@
 {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
 
 
-{!! Form::open(array('url'=>'inventory-download','role'=>'form','id'=>'InventoryForm')) !!}
+{!! Form::open(array('url'=>'inventory-download','role'=>'form','id'=>'InventoryFormhh')) !!}
 <fieldset class="scheduler-border">
     <legend class="scheduler-border" style="color:#005DAD">Item Filtering</legend>
     <div class="form-group">
@@ -154,10 +154,11 @@
                         success:function(data)
                         {
                             console.log(data);
+                            $("#output").html(data);
                             setTimeout(function() {
                                 $("#output").html("");
-                                jQuery.noConflict();
-                                $("#myModal").modal("hide");
+                               // jQuery.noConflict();
+                               // $("#myModal").modal("hide");
                             }, 2000);
                         },
                         error: function(data)

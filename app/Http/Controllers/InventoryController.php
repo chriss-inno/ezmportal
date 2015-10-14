@@ -156,7 +156,45 @@ class InventoryController extends Controller
     public function postDownloadReport(Request $request)
     {
         //
-        return view('inventory.import');
+        $type_id=$request->type_id;
+        $branch_id=$request->branch_id;
+        $department_id=$request->department_id;
+        $usb=$request->usb;
+        $antivirus=$request->antivirus;
+        $status=$request->status;
+        $downloadType=$request->downloadType;
+
+        $items=Inventory::all();
+
+        if($downloadType =="PDF")
+        {
+            $pages = array();
+            $pages[] = view('inventory.pdf',compact('items'));
+
+            $fo = 'Bank M service portal Inventory report';
+            $rep = "Bank M service porta Inventory report" . strtotime(date("Y-m-d h:m:s")) . ".pdf";
+            $pdf = \PDF::loadView('pdf.general', ['pages' => $pages])
+                ->setOption('footer-font-size', 7)
+                ->setOption('footer-spacing',3 )
+                ->setOption('page-size','Letter' )
+                ->setOption('title', $fo)
+                ->setOption('footer-left', $fo)
+                ->setOption('footer-right', 'Page [page]')
+                ->setOption('page-offset', 0);
+            return $pdf->download($rep);
+        }else
+        {
+           $inventory_report="inventory_report_".date('YmdHis');
+            Excel::create($inventory_report, function($excel) use($items)  {
+
+                $excel->sheet('sheet', function($sheet) use($items){
+                    $sheet->loadView('inventory.excel')->with('items', $items);
+
+                });
+
+            })->download('xlsx');
+        }
+
     }
     public function showDownloadReport()
     {
