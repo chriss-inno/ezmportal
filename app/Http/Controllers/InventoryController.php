@@ -60,6 +60,8 @@ class InventoryController extends Controller
         $item->user_name=ucwords(strtolower($request->user_name));
         $item->machine_model=$request->machine_model;
         $item->serial_number=strtoupper(strtolower($request->serial_number));
+        $item->domain=$request->domain;
+        $item->platform=$request->platform;
         $item->usb=$request->usb;
         $item->antivirus=$request->antivirus;
         $item->description=$request->description;
@@ -122,6 +124,8 @@ class InventoryController extends Controller
         $item->user_name=ucwords(strtolower($request->user_name));
         $item->machine_model=$request->machine_model;
         $item->serial_number=strtoupper(strtolower($request->serial_number));
+        $item->domain=$request->domain;
+        $item->platform=$request->platform;
         $item->usb=$request->usb;
         $item->antivirus=$request->antivirus;
         $item->description=$request->description;
@@ -225,6 +229,8 @@ class InventoryController extends Controller
                         $item->user_name=ucwords(strtolower($row->username));
                         $item->machine_model=$row->machine_model;
                         $item->serial_number=strtoupper(strtolower($row->serial_number));
+                        $item->platform=$row->operation_system;
+                        $item->domain=$row->domain;
                         $item->usb=$row->usb;
                         $item->antivirus=$row->antivirus;
                         $item->status='working';

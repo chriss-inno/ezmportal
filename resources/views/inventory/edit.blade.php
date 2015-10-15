@@ -52,6 +52,20 @@
     <div class="form-group">
         <div class="row">
             <div class="col-md-6">
+                <label for="platform">Operation System</label>
+                <input type="text" class="form-control" id="platform" name="platform" value="{{$item->platform}}" placeholder="Enter Operating System">
+
+            </div>
+            <div class="col-md-6">
+                <label for="domain">Domain</label>
+                <input type="text" class="form-control" id="domain" name="domain" value="{{$item->domain}}" placeholder="Enter Domain">
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
                 <label for="usb">USB</label>
                 <select class="form-control"  id="usb" name="usb">
                     @if($item->usb != null && $item->usb !="")

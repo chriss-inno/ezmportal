@@ -37,7 +37,7 @@
         <div class="row">
             <div class="col-md-4">
                 <label for="machine_model">Machine Model</label>
-                <input type="text" class="form-control" id="machine_model" name="machine_model" value="{{$item->machine_model}}" readonly  placeholder="Enter Item Model">
+                <input type="text" class="form-control" id="machine_model" name="machine_model" value="{{$item->machine_model}}" readonly  placeholder="Enter Item Model" >
             </div>
             <div class="col-md-4">
                 <label for="serial_number">Serial Number</label>
@@ -47,6 +47,20 @@
                 <label for="ip_address">IP Address</label>
                 <input type="text" class="form-control" id="item_name" name="ip_address" value="{{$item->ip_address}}" readonly placeholder="Enter IP Address ie 192.168.1.1">
             </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="platform">Operation System</label>
+                <input type="text" class="form-control" id="platform" name="platform" value="{{$item->platform}}" placeholder="Enter Operating System" readonly>
+
+            </div>
+            <div class="col-md-6">
+                <label for="domain">Domain</label>
+                <input type="text" class="form-control" id="domain" name="domain" value="{{$item->domain}}" placeholder="Enter Domain" readonly>
+            </div>
+
         </div>
     </div>
     <div class="form-group">

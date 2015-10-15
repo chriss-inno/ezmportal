@@ -350,13 +350,32 @@
     <section class="site-min-height">
         <!-- page start-->
         <div class="row">
-            <div class="col-lg-10 col-md-10">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
                         <h3 class="text-info"> <strong><i class="fa fa-laptop text-danger"> </i><i class="fa fa-database"></i> ICT INVENTORY ITEMS</strong></h3>
                     </header>
                     <div class="panel-body">
-                        <div class="adv-table">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                <div class="btn-group btn-group-justified">
+                                    <a href="#" class="createItem btn btn-file btn-primary">New inventory item</a>
+
+                                    <a href="{{url('inventory')}}" class="btn btn-file btn-primary">List inventory items</a>
+
+                                    <a href="{{url('inventory-reports')}}" class="btn btn-file btn-primary">Inventory items reports</a>
+
+                                    <a href="{{url('types')}}" class="btn btn-file btn-primary">List items types</a>
+
+                                    <a href="{{url('inventory-import')}}" class="btn btn-file btn-primary">Import items from Excel</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="adv-table">
                             <table  class="display table table-bordered table-striped" id="branches">
                                 <thead>
                                 <tr>
@@ -367,6 +386,8 @@
                                     <th>Username</th>
                                     <th>Machine Model</th>
                                     <th>Serial number</th>
+                                    <th>Operation System</th>
+                                    <th>Domain</th>
                                     <th>USB</th>
                                     <th>Antivirus</th>
                                     <th>Status</th>
@@ -389,6 +410,8 @@
                                         <td>{{$item->user_name}}</td>
                                         <td>{{$item->machine_model}}</td>
                                         <td>{{$item->serial_number}}</td>
+                                        <td>{{$item->platform}}</td>
+                                        <td>{{$item->domain}}</td>
                                         <td>{{$item->usb}}</td>
                                         <td>{{$item->antivirus}}</td>
                                         @if($item->status =="Working" || $item->status =="working")
@@ -420,6 +443,8 @@
                                     <th>Username</th>
                                     <th>Machine Model</th>
                                     <th>Serial number</th>
+                                    <th>Operation System</th>
+                                    <th>Domain</th>
                                     <th>USB</th>
                                     <th>Antivirus</th>
                                     <th>Status</th>
@@ -429,40 +454,12 @@
                                 </tfoot>
                             </table>
                         </div>
-                    </div>
-                </section>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <section class="panel">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <a href="#" class="createItem btn btn-compose btn-block">New inventory item</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('inventory')}}" class="btn btn-compose btn-block">List inventory items</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('inventory-reports')}}" class="btn btn-compose btn-block">Inventory items reports</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('types')}}" class="btn btn-primary btn-block">List items types</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('inventory-import')}}" class="btn btn-primary btn-block">Import items from Excel</a>
                             </div>
                         </div>
                     </div>
                 </section>
             </div>
+
         </div>
     </section>
     <!-- page end-->

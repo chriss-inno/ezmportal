@@ -187,7 +187,7 @@
     <section class="site-min-height">
         <!-- page start-->
         <div class="row">
-            <div class="col-lg-10 col-md-10">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
                         <h3 class="text-info"> <strong><i class="fa fa-bars"></i> </strong></h3>

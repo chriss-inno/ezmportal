@@ -12,6 +12,8 @@
                                         <th>Username</th>
                                         <th>Machine Model</th>
                                         <th>Serial number</th>
+                                        <th>Operation System</th>
+                                        <th>Domain</th>
                                         <th>USB</th>
                                         <th>Antivirus</th>
                                         <th>Status</th>
@@ -32,6 +34,8 @@
                                             <td>{{$item->user_name}}</td>
                                             <td>{{$item->machine_model}}</td>
                                             <td>{{$item->serial_number}}</td>
+                                            <td>{{$item->platform}}</td>
+                                            <td>{{$item->domain}}</td>
                                             <td>{{$item->usb}}</td>
                                             <td>{{$item->antivirus}}</td>
                                             @if($item->status =="Working" || $item->status =="working")
