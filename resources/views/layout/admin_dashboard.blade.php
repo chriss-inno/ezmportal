@@ -24,12 +24,12 @@
                     <span>Reports</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="#" title="Daily Reports">Daily Reports</a></li>
-                    <li><a  href="#" title="Monthly Reports">Monthly Reports</a></li>
-                    <li><a  href="#" title="Custom Reports">Custom Reports</a></li>
-                    <li><a  href="#" title="Search Report">Search Report</a></li>
+                    <li><a  href="{{url('portal/reports/daily')}}" title="Daily Reports">Daily Reports</a></li>
+                    <li><a  href="{{url('portal/reports/monthly')}}" title="Monthly Reports">Monthly Reports</a></li>
+                    <li><a  href="{{url('portal/reports/custom')}}" title="Custom Reports">Custom Reports</a></li>
+                    <li><a  href="{{url('portal/reports/search')}}" title="Search Report">Search Report</a></li>
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2)  || Auth::user()->user_type=="Administrator")
-                        <li><a  href="#" title="Manage Reports">Manage Reports</a></li>
+                        <li><a  href="{{url('portal/reports')}}" title="Manage Reports">Manage Reports</a></li>
                     @endif
                 </ul>
             </li>

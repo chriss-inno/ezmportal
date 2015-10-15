@@ -144,6 +144,24 @@ Route::get('units/remove/{id}',['middleware' => 'auth', 'uses' =>'UnitController
 Route::get('units/edit/{id}',['middleware' => 'auth', 'uses' =>'UnitController@edit']);
 Route::post('units/edit',['middleware' => 'auth', 'uses' =>'UnitController@update']);
 
+//Portal Reports
+Route::get('portal/reports',['middleware' => 'auth', 'uses' =>'PortalReportController@index']);
+Route::get('portal/reports/daily',['middleware' => 'auth', 'uses' =>'PortalReportController@dailyReports']);
+Route::get('portal/reports/monthly',['middleware' => 'auth', 'uses' =>'PortalReportController@monthlyReports']);
+Route::get('portal/reports/custom',['middleware' => 'auth', 'uses' =>'PortalReportController@customReports']);
+Route::get('portal/reports/generate',['middleware' => 'auth', 'uses' =>'PortalReportController@generateReports']);
+Route::get('portal/reports/edit/{id}',['middleware' => 'auth', 'uses' =>'PortalReportController@edit']);
+Route::post('portal/reports/edit',['middleware' => 'auth', 'uses' =>'PortalReportController@update']);
+Route::get('portal/reports/show/{id}',['middleware' => 'auth', 'uses' =>'PortalReportController@show']);
+Route::get('portal/reports/remove/{id}',['middleware' => 'auth', 'uses' =>'PortalReportController@destroy']);
+Route::get('portal/reports/create',['middleware' => 'auth', 'uses' =>'PortalReportController@create']);
+Route::post('portal/reports/create',['middleware' => 'auth', 'uses' =>'PortalReportController@store']);
+Route::get('portal/reports/import',['middleware' => 'auth', 'uses' =>'PortalReportController@showImport']);
+Route::post('portal/reports/import',['middleware' => 'auth', 'uses' =>'PortalReportController@importExcel']);
+Route::get('portal/reports/departments/{id}',['middleware' => 'auth', 'uses' =>'PortalReportController@showDepartments']);
+Route::post('portal/reports/departments',['middleware' => 'auth', 'uses' =>'PortalReportController@postDepartments']);
+Route::get('portal/reports/search',['middleware' => 'auth', 'uses' =>'PortalReportController@searchReport']);
+
 //Services
 Route::get('services',['middleware' => 'auth', 'uses' =>'ServicesController@index']);
 Route::get('services/create',['middleware' => 'auth', 'uses' =>'ServicesController@create']);

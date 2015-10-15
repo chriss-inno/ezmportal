@@ -99,19 +99,12 @@
 </fieldset>
     <div class="form-group">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <label for="status">Status</label>
                 <select name="status" class="form-control" id="status">
                     <option selected value="">----</option>
                     <option value="Working">Working</option>
                     <option value="Not Working">Not Working</option>
-                </select>
-            </div>
-            <div class="col-md-6">
-                <label for="downloadType">Download File Type</label>
-                <select name="downloadType" class="form-control" id="status">
-                    <option value="PDF">PDF</option>
-                    <option value="EXCEL">MS EXCEL</option>
                 </select>
             </div>
         </div>

@@ -97,7 +97,7 @@
 
                         </div>
                         <div class="form-group">
-                            <label for="current_update">Descriptions</label>
+                            <label for="current_update">Query updates</label>
                             <textarea class="ckeditor form-control" name="message" rows="10" id="message"></textarea>
                         </div>
                         <div class="row">

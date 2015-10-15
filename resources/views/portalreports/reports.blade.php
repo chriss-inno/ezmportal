@@ -1,62 +1,156 @@
 @extends('layout.master')
 @section('page-title')
-    Queries
-    @stop
-    @section('page_style')
+    Inventory Reports
+@stop
+@section('page_scripts')
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
+    {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
+    {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
+    {!!HTML::script("assets/highcharts/js/highcharts.js") !!}
 
-    {!!HTML::style("assets/bootstrap-datepicker/css/datepicker.css" )!!}
-    {!!HTML::style("assets/bootstrap-colorpicker/css/colorpicker.css" )!!}
-    {!!HTML::style("assets/bootstrap-daterangepicker/daterangepicker.css" )!!}
-    <link href="{{asset("assets/jquery-file-upload/css/jquery.fileupload-ui.css")}}" rel="stylesheet" type="text/css" >
-
-    @stop
-    @section('page_scripts')
-            <!-- js placed at the end of the document so the pages load faster -->
-
-
-    <!--custom tagsinput-->
-    {!!HTML::script("js/jquery.tagsinput.js") !!}
-            <!--custom checkbox & radio-->
-    {!!HTML::script("js/ga.js") !!}
-    {!!HTML::script("assets/bootstrap-datepicker/js/bootstrap-datepicker.js") !!}
-    {!!HTML::script("assets/bootstrap-daterangepicker/date.js") !!}
-    {!!HTML::script("assets/bootstrap-daterangepicker/daterangepicker.js") !!}
-    {!!HTML::script("assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js") !!}
-    {!!HTML::script("assets/ckeditor/ckeditor.js") !!}
-    {!!HTML::script("js/jquery.validate.min.js" ) !!}
-    {!!HTML::script("js/respond.min.js"  ) !!}
-    {!!HTML::script("js/form-validation-script.js") !!}
     <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
 
-        $("#to_department").change(function () {
-            var id1 = this.value;
-            if(id1 != "")
-            {
-                $.get("<?php echo url('getModules') ?>/"+id1,function(data){
-                    $("#module").html(data);
+            $(function () {
+                $('#highchart').highcharts({
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Number of reports per departments'
+                    },
+                    xAxis: {
+                        categories: [
+                            @foreach(\App\Department::all() as $department)
+                             '{{$department->department_name}}',
+                            @endforeach
+                         ],
+                        crosshair: true
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Number of reports'
+                        }
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.0f}</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    <?php
+                    $m3=date("Y-m-d",strtotime(date("Y-m-d").'-3 months'));
+                    $data3="";
+                    //Get all departments queries count for each month
+                    foreach(\App\Department::all() as $department)
+                    {
+                        $data3.=count( \App\ReportDepartment::where('department_id','=',$department->id)->get()).",";
+                    }
+                    $data3=substr($data3,0,strlen($data3)-1);
+                     ?>
+                    series: [{
+                        name: 'Reports',
+                        data: [<?php echo $data3?>]
+
+                    }]
                 });
+                //Create module
+                $(".createInventory").click(function(){
+                    var id1 = $(this).parent().attr('id');
+                    var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
-            }else{$("#module").html("<option value=''>----</option>");}
-        });
+                    modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                    modaldis+= '<div class="modal-content">';
+                    modaldis+= '<div class="modal-header">';
+                    modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                    modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Inventory Items Reports</span>';
+                    modaldis+= '</div>';
+                    modaldis+= '<div class="modal-body">';
+                    modaldis+= ' </div>';
+                    modaldis+= '</div>';
+                    modaldis+= '</div>';
+                    $('body').css('overflow','hidden');
 
-        $("#serviceForm").validate({
-            rules: {
-                to_department: "required",
-                description: "required",
-                module: "required",
-                critical_level: "required"
-            },
-            messages: {
-                to_department: "Please select department",
-                description: "Please enter description",
-                module: "Please select module",
-                critical_level: "Please select critical level"
-            }
-        });
+                    $("body").append(modaldis);
+                    jQuery.noConflict();
+                    $("#myModal").modal("show");
+                    $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                    $(".modal-body").load("<?php echo url("inventory/create") ?>");
+                    $("#myModal").on('hidden.bs.modal',function(){
+                        $("#myModal").remove();
+                    })
 
+                });
+                $(".downloadReport").click(function(){
+                    var id1 = $(this).parent().attr('id');
+                    var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                    modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                    modaldis+= '<div class="modal-content">';
+                    modaldis+= '<div class="modal-header">';
+                    modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                    modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;"><i class="fa fa-download"></i> Download Inventory Items Reports</span>';
+                    modaldis+= '</div>';
+                    modaldis+= '<div class="modal-body">';
+                    modaldis+= ' </div>';
+                    modaldis+= '</div>';
+                    modaldis+= '</div>';
+                    $('body').css('overflow','hidden');
+
+                    $("body").append(modaldis);
+                    jQuery.noConflict();
+                    $("#myModal").modal("show");
+                    $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                    $(".modal-body").load("<?php echo url("inventory-download") ?>");
+                    $("#myModal").on('hidden.bs.modal',function(){
+                        $("#myModal").remove();
+                    })
+
+                });
+                //Display Item details
+                $(".showDetails").click(function(){
+                    var id1 = $(this).parent().attr('id');
+                    var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                    modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                    modaldis+= '<div class="modal-content">';
+                    modaldis+= '<div class="modal-header">';
+                    modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                    modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Item details </span>';
+                    modaldis+= '</div>';
+                    modaldis+= '<div class="modal-body">';
+                    modaldis+= ' </div>';
+                    modaldis+= '</div>';
+                    modaldis+= '</div>';
+                    $('body').css('overflow','hidden');
+
+                    $("body").append(modaldis);
+                    jQuery.noConflict();
+                    $("#myModal").modal("show");
+                    $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                    $(".modal-body").load("<?php echo url("inventory") ?>/"+id1);
+                    $("#myModal").on('hidden.bs.modal',function(){
+                        $("#myModal").remove();
+                    })
+
+                });
+            });
+
+        } );
     </script>
-
-
 @stop
 @section('menus')
     <ul class="sidebar-menu" id="nav-accordion">
@@ -230,17 +324,17 @@
             </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,18)  || Auth::user()->user_type=="Administrator") <li class="sub-menu">
-                <a href="javascript:;" >
-                    <i class="fa fa-laptop"></i>
-                    <span>Services monitoring</span>
-                </a>
-                <ul class="sub">
-                    <li><a  href="{{url('serviceslogs/create')}}" title="Log Status">Log downtime</a></li>
-                    <li><a  href="{{url('services')}}" title="Services">List services </a></li>
-                    <li><a  href="{{url('serviceslogs/today')}}" title="View today status">Today Status</a></li>
-                    <li><a  href="{{url('serviceslogs')}}" title="Status History">Downtime History</a></li>
-                </ul>
-            </li>
+            <a href="javascript:;" >
+                <i class="fa fa-laptop"></i>
+                <span>Services monitoring</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('serviceslogs/create')}}" title="Log Status">Log downtime</a></li>
+                <li><a  href="{{url('services')}}" title="Services">List services </a></li>
+                <li><a  href="{{url('serviceslogs/today')}}" title="View today status">Today Status</a></li>
+                <li><a  href="{{url('serviceslogs')}}" title="Status History">Downtime History</a></li>
+            </ul>
+        </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,19) || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
@@ -274,133 +368,53 @@
             </li>
         @endif
     </ul>
-    @stop
+@stop
+
 @section('contents')
+
     <section class="site-min-height">
         <!-- page start-->
-        <div class="row">
-            <div class="col-lg-10 col-md-10">
-                <section class="panel">
-                    <header class="panel-heading">
-                        <h3 class="text-info"> <strong> <i class="fa fa-smile"></i> SERVICE PORTAL QUERIES</strong></h3>
-                    </header>
-                    <div class="panel-body">
-                        <p> <h3>Query details </h3>
-                        @if(Session::has('message'))
-                            <div class="alert fade in alert-danger">
-                                <i class="icon-remove close" data-dismiss="alert"></i>
-                                {{Session::get('message')}}
-                            </div>
-                        @endif
+        <header class="panel-heading">
+            <h3 class="text-info"> <strong><i class="fa  fa-pie-chart"></i> Portal Reports </strong></h3>
+        </header>
+        <div class="panel-body">
+           <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                        @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        <hr/>
-                        {!! Form::open(array('url'=>'queries/create','role'=>'form','id'=>'serviceForm','files' => true)) !!}
-                        <div class="form-group">
-                            <label for="to_department">To Department</label>
-                            <select class="form-control"  id="to_department" name="to_department">
-                                @if(old('to_department'))
-                                    <?php $depa=\App\Department::find(old('to_department'));?>
-                                    <option value="{{$depa->id}}">{{$depa->department_name}}</option>
-                                @else
-                                    <option value="">----</option>
-                                @endif
-                                <?php $departments=\App\Department::where('receive_query','=','1')->get();?>
-                                @foreach($departments as $de)
-                                    <option value="{{$de->id}}">{{$de->department_name}}</option>
-                                @endforeach
+                        <div class="btn-group btn-group-justified">
+                            @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2)  || Auth::user()->user_type=="Administrator")
+                                <a href="#" class="addNewReport  btn  btn-primary"><i class="fa fa-folder-open-o"></i>Add Reports</a>
+                            @endif
 
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="module">Module</label>
-                                    <select class="form-control"  id="module" name="module">
-                                        @if(old('module'))
-                                            <?php $module=\App\Module::find(old('module'))?>
-                                            <option value="{{$module->id}}">{{$module->module_name}}</option>
-                                        @endif
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="critical_level">Critical Level</label>
-                                    <select class="form-control"  id="critical_level" name="critical_level">
-                                        @if(old('critical_level'))
-                                            <option value="{{old('critical_level')}}">{{old('critical_level')}}</option>
-                                            @else
-                                            <option value="">----</option>
-                                            @endif
+                            <a href="{{url('portal/reports/daily')}}" class="btn btn-file btn-primary"><i class="fa fc-agenda-days"></i> Daily Reports</a>
 
-                                        <option value="Low">Low</option>
-                                        <option value="Medium">Medium</option>
-                                        <option value="High">High</option>
-                                        <option value="Emergency">Emergency</option>
-                                    </select>
-                                </div>
-                            </div>
+                            <a href="{{url('portal/reports/monthly')}}" class="btn btn-file btn-primary"><i class="fa fa-calendar-plus-o"></i>Monthly Reports</a>
 
-                        </div>
-                        <div class="form-group">
-                            <label for="unit_name">Description</label>
-                            <textarea class="ckeditor form-control" id="description" name="description">{{old('description')}}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <span class="btn green fileinput-button">
-                               <i class="fa fa-plus fa fa-white"></i>
-                                 <span>Attachment</span>
-                                  <input type="file" id="reference_file" name="reference_file">
-                            </span>
-                            <p class="help-block"><input type="checkbox" value="1" id="referencecheck" name="referencecheck"  @if(old('referencecheck')) checked @endif> <label for="file_upload">Tick here to attach file for reference</label></p>
-                        </div>
+                            <a href="{{url('portal/reports/custom')}}" class="btn btn-file btn-primary"> <i class="fa fa-bars"></i> Custom Reports</a>
 
-                            <button type="submit" class="btn btn-primary pull-right col-md-2">Submit Query</button>
-                            {!! Form::close() !!}
-
-                    </div>
-                </section>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <section class="panel">
-                    <div class="panel-body">
-
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/create')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-folder-open-o"></i> Log Query</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/mytask')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-tasks"></i> My Tasks</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/progress')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-archive"></i>  Progress</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/history')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> History</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/report')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Reports</a>
-                            </div>
+                            @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
+                                <a href="{{url('portal/reports/generate')}}" class="btn btn-file btn-danger"><i class=" fa fa-bar-chart-o"></i> Reports</a>
+                            @endif
                         </div>
                     </div>
-                </section>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <section class="panel">
+                            <header class="panel-heading">
+                            </header>
+                            <div class="panel-body">
+                                <div id="highchart" style="height:600px;"></div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
             </div>
         </div>
+         </div>
     </section>
     <!-- page end-->
 @stop
