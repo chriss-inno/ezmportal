@@ -71,12 +71,12 @@ class PortalReportController extends Controller
         if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
         {
             $reports=PortalReport::where('report_type','=','Daily')->get();
-            return view('portalreports.index',compact('reports'));
+            return view('portalreports.calendar',compact('reports'));
         }
         else
         {
             $reports=PortalReport::where('report_type','=','Daily')->where('department_id','=',Auth::user()->department_id)->get();
-            return view('portalreports.index',compact('reports'));
+            return view('portalreports.calendar',compact('reports'));
         }
 
     }
@@ -87,11 +87,11 @@ class PortalReportController extends Controller
         if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
         {
             $reports=PortalReport::where('report_type','=','Monthly')->get();
-            return view('portalreports.index',compact('reports'));
+            return view('portalreports.calendar',compact('reports'));
         }
         else {
             $reports = PortalReport::where('report_type', '=', 'Monthly')->where('department_id', '=', Auth::user()->department_id)->get();
-            return view('portalreports.index', compact('reports'));
+            return view('portalreports.calendar', compact('reports'));
         }
     }
     //Custom
@@ -101,11 +101,11 @@ class PortalReportController extends Controller
         if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
         {
             $reports=PortalReport::where('report_type','=','Custom')->get();
-            return view('portalreports.index',compact('reports'));
+            return view('portalreports.calendar',compact('reports'));
         }
         else {
             $reports = PortalReport::where('report_type', '=', 'Custom')->where('department_id', '=', Auth::user()->department_id)->get();
-            return view('portalreports.index', compact('reports'));
+            return view('portalreports.calendar', compact('reports'));
         }
     }
 
