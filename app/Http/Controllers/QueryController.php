@@ -430,13 +430,15 @@ class QueryController extends Controller
     {
         if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
         {
-            $queries=Query::all();
+            $queries=Query::where('status','<>','CLOSED')->get();
+            return view('queries.mytask',compact('queries'));
         }
         else {
             $user = User::find(Auth::user()->id);
             $queries = $user->queries;
+            return view('queries.usertask',compact('queries'));
         }
-        return view('queries.mytask',compact('queries'));
+
 
     }
 
