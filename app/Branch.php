@@ -11,4 +11,8 @@ class Branch extends Model
     {
         return $this::hasMany('\App\Department','branch_id','id');
     }
+    public function reportsAssigned()
+    {
+        return $this::hasMany('\App\ReportDepartment','branch_id','id');
+    }
 }

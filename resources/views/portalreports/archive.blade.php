@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-   Portal Reports Management
+    Portal Reports Management
 @stop
 @section('page_scripts')
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
@@ -356,14 +356,22 @@
     </ul>
 @stop
 @section('contents')
-
+    <?php
+    if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
+    {
+        $reports=\App\PortalReport::where('report_type','=','Monthly')->get();
+    }
+    else {
+        $reports = \App\PortalReport::where('report_type', '=', 'Monthly')->where('department_id', '=', Auth::user()->department_id)->get();
+    }
+    ?>
     <section class="site-min-height">
         <!-- page start-->
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa  fa-pie-chart"></i> Portal Reports </strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa  fa-pie-chart"></i> <i class="fa fa-archive text-danger"></i> Archive Portal Reports as of {{date("d F, Y",strtotime($dateas))}} </strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
@@ -390,9 +398,8 @@
                                             <th>Report Name</th>
                                             <th>Report Type</th>
                                             <th>Status</th>
-                                            <th>Assigned Department</th>
                                             <th>Report details</th>
-                                            <th>Actions</th>
+                                            <th align="center">Download</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -405,14 +412,12 @@
                                                     <td>{{$report->report_type}}</td>
                                                     <td>{{$report->status}}</td>
                                                     <td id="{{$report->id}}">
-                                                        <a href="#" class="showDepartments btn btn-info btn-xs" title="Assigned department"><i class="fa fa-eye"></i> View </a>
-                                                    </td>
-                                                    <td id="{{$report->id}}">
                                                         <a href="#" class="showReportDetails btn btn-primary btn-xs" title="Report details"><i class="fa fa-eye"></i> View </a>
                                                     </td>
                                                     <td id="{{$report->id}}" align="center">
-                                                        <a  href="#" title="Edit" class="editReport btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                                        <a href="#b" title="Delete" class="deleteReport btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                                        <a  href="#" title="Download in PDF format" class=" btn btn-danger btn-xs"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                                                        <a  href="#" title="Download in MS Excel format" class=" btn btn-success btn-xs"><i class="fa fa-file-excel-o"></i> Excel</a>
+                                                        <a href="#b" title="Download in Text format" class=" btn btn-primary btn-xs"><i class="fa fa-file-text "></i> Text</a>
                                                     </td>
 
                                                 </tr>
@@ -425,9 +430,8 @@
                                             <th>Report Name</th>
                                             <th>Report Type</th>
                                             <th>Status</th>
-                                            <th>Assigned Department</th>
                                             <th>Report details</th>
-                                            <th>Actions</th>
+                                            <th>Download</th>
                                         </tr>
                                         </tfoot>
                                     </table>

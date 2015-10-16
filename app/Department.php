@@ -28,4 +28,8 @@ class Department extends Model
     {
         return $this::hasMany('\App\Query','from_department','id');
     }
+    public function reportsAssigned()
+    {
+        return $this::hasMany('\App\ReportDepartment','department_id','id');
+    }
 }

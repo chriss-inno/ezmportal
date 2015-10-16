@@ -50,13 +50,15 @@
                     </thead>
                     <tbody>
                     <?php $c=1; ?>
-                    @if($report !="" && $report !=null)
+                    @if(count($report->assignedDepartments) > 0 && $report->assignedDepartments !="" && $report->assignedDepartments !=null)
+                        @foreach($report->assignedDepartments as $dpas)
                         <tr>
                             <td>{{$c++}}</td>
-                            <td>{{$report->other_name}}</td>
-                            <td>{{$report->report_type}}</td>
+                            <td>{{$dpas->department->department_name}}</td>
+                            <td>{{$dpas->department->branch->branch_Name}}</td>
 
                         </tr>
+                        @endforeach
                     @endif
                     </tbody>
                 </table>

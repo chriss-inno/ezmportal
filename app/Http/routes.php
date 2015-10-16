@@ -161,6 +161,8 @@ Route::post('portal/reports/import',['middleware' => 'auth', 'uses' =>'PortalRep
 Route::get('portal/reports/departments/{id}',['middleware' => 'auth', 'uses' =>'PortalReportController@showDepartments']);
 Route::post('portal/reports/departments',['middleware' => 'auth', 'uses' =>'PortalReportController@postDepartments']);
 Route::get('portal/reports/search',['middleware' => 'auth', 'uses' =>'PortalReportController@searchReport']);
+Route::get('dailyreports/{y}/{m}/{d}',['middleware' => 'auth', 'uses' =>'PortalReportController@getDailyReports']);
+Route::get('archivedreports/{y}/{m}/{d}',['middleware' => 'auth', 'uses' =>'PortalReportController@getArchivedReports']);
 
 //Services
 Route::get('services',['middleware' => 'auth', 'uses' =>'ServicesController@index']);

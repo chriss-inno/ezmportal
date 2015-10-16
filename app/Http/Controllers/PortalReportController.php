@@ -87,11 +87,11 @@ class PortalReportController extends Controller
         if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
         {
             $reports=PortalReport::where('report_type','=','Monthly')->get();
-            return view('portalreports.calendar',compact('reports'));
+            return view('portalreports.month',compact('reports'));
         }
         else {
             $reports = PortalReport::where('report_type', '=', 'Monthly')->where('department_id', '=', Auth::user()->department_id)->get();
-            return view('portalreports.calendar', compact('reports'));
+            return view('portalreports.month', compact('reports'));
         }
     }
     //Custom
@@ -101,11 +101,11 @@ class PortalReportController extends Controller
         if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
         {
             $reports=PortalReport::where('report_type','=','Custom')->get();
-            return view('portalreports.calendar',compact('reports'));
+            return view('portalreports.custom',compact('reports'));
         }
         else {
             $reports = PortalReport::where('report_type', '=', 'Custom')->where('department_id', '=', Auth::user()->department_id)->get();
-            return view('portalreports.calendar', compact('reports'));
+            return view('portalreports.custom', compact('reports'));
         }
     }
 
@@ -264,5 +264,19 @@ class PortalReportController extends Controller
         $report->delete();
 
         return "Delete success";
+    }
+
+    //Get day report
+    public  function getDailyReports($y,$m,$d)
+    {
+        $dateas=$y."-".$m."-".$d;
+        return view('portalreports.daily',compact('dateas'));
+    }
+
+    //
+    public  function getArchivedReports($y,$m,$d)
+    {
+        $dateas=$y."-".$m."-".$d;
+        return view('portalreports.archive',compact('dateas'));
     }
 }

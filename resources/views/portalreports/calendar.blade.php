@@ -82,44 +82,53 @@
                 },
                 <?php //Process calendar
                      //Get year to start with
-                     $events="";
+                       $events="";
                       $eventslist="";
-                    if(date("Y") >=2015)
-                     {
-                        for($m=10; $m <12; $m++)
-                        {
-                           $y=date("Y");
-                           $number = cal_days_in_month(CAL_GREGORIAN, ($m+1), date("Y"));
-                           for($i=1; $i <=$number; $i++)
-                            {
-                               $events .="{";
-                              $events .="title: 'View report',
-                                    start: new Date(". $y.", ".$m.", ".$i."),
-                                    end: new Date(". $y.", ".$m.", ".$i."),
-                                    url: ''";
-                               $events .="},";
-                            }
-                        }
 
 
-                    }
-                    else
-                    {
-                       for($m=10; $m <12; $m++)
-                        {
-                           $y=date("Y");
-                           $number = cal_days_in_month(CAL_GREGORIAN, ($m+1), date("Y"));
-                           for($i=1; $i <=$number; $i++)
-                            {
-                               $events .="{";
-                              $events .="title: 'View report',
-                                    start: new Date(". $y.", ".$m.", ".$i."),
-                                    end: new Date(". $y.", ".$m.", ".$i."),
-                                    url: 'today.com'";
-                               $events .="},";
-                            }
-                        }
-                    }
+                       //Minimum year makes to be 2007
+                       $y=date("Y"); //Current year
+                       for($yc=$y; $yc > 2012 ; $yc--)
+                       {
+
+                               for($m=0; $m <12; $m++)
+                                {
+
+                                    if(($yc >=2015 && $m >=10) || ($yc >2015) ) // separation day for achieve and new reports
+                                    {
+                                      $number = cal_days_in_month(CAL_GREGORIAN, ($m+1), $yc);
+                                       for($i=1; $i <=$number; $i++)
+                                        {
+                                          $dateTd=$yc."-".($m+1)."-".$i;
+                                          $dt=date("m",strtotime($dateTd));
+                                          $events .="{";
+                                          $events .="title: 'View reports',
+                                                start: new Date(". $yc.", ".$m.", ".$i."),
+                                                end: new Date(". $yc.", ".$m.", ".$i."),
+                                                url: '".url('dailyreports')."/".$yc."/".$dt."/".$i."'";
+                                           $events .="},";
+                                        }
+                                    }
+                                    else
+                                    {
+                                       $number = cal_days_in_month(CAL_GREGORIAN, ($m+1), $yc);
+                                       for($i=1; $i <=$number; $i++)
+                                        {
+                                          $dateTd=$yc."-".($m+1)."-".$i;
+                                          $dt=date("m",strtotime($dateTd));
+                                          $events .="{";
+                                          $events .="title: 'View reports',
+                                                start: new Date(". $yc.", ".$m.", ".$i."),
+                                                end: new Date(". $yc.", ".$m.", ".$i."),
+                                                url: '".url('archivedreports')."/".$yc."/".$dt."/".$i."'";
+                                           $events .="},";
+                                        }
+                                    }
+                                }
+
+                       }
+
+
 
 
                     $eventslist =substr($events,0,strlen($events)-1);
