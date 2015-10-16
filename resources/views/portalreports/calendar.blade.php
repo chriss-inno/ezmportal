@@ -55,8 +55,8 @@
                     center: 'title',
                     right: 'month,basicWeek,basicDay'
                 },
-                editable: true,
-                droppable: true, // this allows things to be dropped onto the calendar !!!
+                editable: false,
+                droppable: false, // this allows things to be dropped onto the calendar !!!
                 drop: function(date, allDay) { // this function is called when something is dropped
 
                     // retrieve the dropped element's stored Event Object
@@ -86,16 +86,17 @@
                       $eventslist="";
                     if(date("Y") >=2015)
                      {
-                        for($m=10; $m <=12; $m++)
+                        for($m=10; $m <12; $m++)
                         {
-                           $number = cal_days_in_month(CAL_GREGORIAN, $m, date("Y"));
+                           $y=date("Y");
+                           $number = cal_days_in_month(CAL_GREGORIAN, ($m+1), date("Y"));
                            for($i=1; $i <=$number; $i++)
                             {
-                              $events .="{";
+                               $events .="{";
                               $events .="title: 'View report',
-                                    start: new Date(".date("Y").", ".$m.", ".$i."),
-                                    end: new Date(".date("Y").", ".$m.", ".$i."),
-                                    url: 'today.com'";
+                                    start: new Date(". $y.", ".$m.", ".$i."),
+                                    end: new Date(". $y.", ".$m.", ".$i."),
+                                    url: ''";
                                $events .="},";
                             }
                         }
@@ -104,16 +105,20 @@
                     }
                     else
                     {
-                      $number = cal_days_in_month(CAL_GREGORIAN, $m, date("Y"));
+                       for($m=10; $m <12; $m++)
+                        {
+                           $y=date("Y");
+                           $number = cal_days_in_month(CAL_GREGORIAN, ($m+1), date("Y"));
                            for($i=1; $i <=$number; $i++)
                             {
-                              $events .="{";
+                               $events .="{";
                               $events .="title: 'View report',
-                                    start: new Date(y, m, ".$i."),
-                                    end: new Date(y, m, ".$i."),
+                                    start: new Date(". $y.", ".$m.", ".$i."),
+                                    end: new Date(". $y.", ".$m.", ".$i."),
                                     url: 'today.com'";
                                $events .="},";
                             }
+                        }
                     }
 
 
