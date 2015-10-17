@@ -369,8 +369,11 @@
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="btn-group btn-group-justified">
-                                    <a href="#" class="addNewReport btn  btn-primary"><i class="fa fa-folder-open-o"></i> Add Reports</a>
-                                    <a href="{{url('portal/reports/import')}}" class=" btn  btn-primary"><i class="fa fa-file-excel-o"></i> Import reports</a>
+                                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2)  || Auth::user()->user_type=="Administrator")
+                                        <a href="#" class="addNewReport btn  btn-primary"><i class="fa fa-folder-open-o"></i> Add Reports</a>
+                                        <a href="{{url('portal/reports/import')}}" class=" btn  btn-primary"><i class="fa fa-file-excel-o"></i> Import reports</a>
+                                        <a href="{{url('portal/reports')}}" class=" btn  btn-primary"><i class="fa fa-bar-chart"></i> Manage reports</a>
+                                    @endif
                                     <a href="{{url('portal/reports/daily')}}" class="btn btn-file btn-primary"><i class="fa fa-clock-o"></i> Daily Reports</a>
                                     <a href="{{url('portal/reports/monthly')}}" class="btn btn-file btn-primary"><i class="fa fa-calendar-plus-o"></i> Monthly Reports</a>
                                     <a href="{{url('portal/reports/custom')}}" class="btn btn-file btn-primary"> <i class="fa fa-bars"></i> Custom Reports</a>

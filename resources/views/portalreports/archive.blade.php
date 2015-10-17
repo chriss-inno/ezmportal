@@ -357,12 +357,17 @@
 @stop
 @section('contents')
     <?php
-    if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
+    if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2) || Auth::user()->user_type=="Administrator")
     {
-        $reports=\App\PortalReport::where('report_type','=','Monthly')->get();
+        $reports=\App\PortalReport::where('report_type','=','Daily')->get();
     }
     else {
-        $reports = \App\PortalReport::where('report_type', '=', 'Monthly')->where('department_id', '=', Auth::user()->department_id)->get();
+       // $reports = \App\PortalReport::where('report_type', '=', 'Daily')->where('department_id', '=', Auth::user()->department_id)->get();
+        $reports =\DB::table('portal_reports')
+                ->join('report_departments', 'portal_reports.id', '=', 'report_departments.report_id')
+                ->where('report_type', '=', 'Daily')->where('department_id', '=', Auth::user()->department_id)
+                ->select('portal_reports.*')
+                ->get();
     }
     ?>
     <section class="site-min-height">
@@ -371,14 +376,17 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa  fa-pie-chart"></i> <i class="fa fa-archive text-danger"></i> Archive Portal Reports as of {{date("d F, Y",strtotime($dateas))}} </strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa  fa-pie-chart"></i> <i class="fa fa-archive text-danger"></i> Archived Portal Reports as of {{date("d F, Y",strtotime($dateas))}} </strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="btn-group btn-group-justified">
-                                    <a href="#" class="addNewReport btn  btn-primary"><i class="fa fa-folder-open-o"></i> Add Reports</a>
-                                    <a href="{{url('portal/reports/import')}}" class=" btn  btn-primary"><i class="fa fa-file-excel-o"></i> Import reports</a>
+                                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2)  || Auth::user()->user_type=="Administrator")
+                                        <a href="#" class="addNewReport btn  btn-primary"><i class="fa fa-folder-open-o"></i> Add Reports</a>
+                                        <a href="{{url('portal/reports/import')}}" class=" btn  btn-primary"><i class="fa fa-file-excel-o"></i> Import reports</a>
+                                        <a href="{{url('portal/reports')}}" class=" btn  btn-primary"><i class="fa fa-bar-chart"></i> Manage reports</a>
+                                    @endif
                                     <a href="{{url('portal/reports/daily')}}" class="btn btn-file btn-primary"><i class="fa fa-clock-o"></i> Daily Reports</a>
                                     <a href="{{url('portal/reports/monthly')}}" class="btn btn-file btn-primary"><i class="fa fa-calendar-plus-o"></i> Monthly Reports</a>
                                     <a href="{{url('portal/reports/custom')}}" class="btn btn-file btn-primary"> <i class="fa fa-bars"></i> Custom Reports</a>

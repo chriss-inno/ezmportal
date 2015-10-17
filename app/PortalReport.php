@@ -9,7 +9,7 @@ class PortalReport extends Model
     //
     public function department()
     {
-        return $this::belongsTo('\App\Department','department_id');
+        return $this::belongsTo('\App\Department','department');
     }
     public function branch()
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\PortalReport;
+use App\ReportDepartment;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -18,14 +19,19 @@ class PortalReportController extends Controller
     public function index()
     {
         //
-        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
+        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2) || Auth::user()->user_type=="Administrator")
         {
             $reports=PortalReport::all();
             return view('portalreports.index',compact('reports'));
         }
         else
         {
-            $reports=PortalReport::where('department_id','=',Auth::user()->department_id)->get();
+            //$reports=PortalReport::where('department_id','=',Auth::user()->department_id)->get();
+            $reports =\DB::table('portal_reports')
+                ->join('report_departments', 'portal_reports.id', '=', 'report_departments.report_id')
+                ->where('department_id', '=', Auth::user()->department_id)
+                ->select('portal_reports.*')
+                ->get();
             return view('portalreports.index',compact('reports'));
         }
 
@@ -33,14 +39,19 @@ class PortalReportController extends Controller
     public function searchReport()
     {
         //
-        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
+        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2) || Auth::user()->user_type=="Administrator")
         {
             $reports=PortalReport::all();
             return view('portalreports.index',compact('reports'));
         }
         else
         {
-            $reports=PortalReport::where('department_id','=',Auth::user()->department_id)->get();
+            //$reports=PortalReport::where('department_id','=',Auth::user()->department_id)->get();
+            $reports =\DB::table('portal_reports')
+                ->join('report_departments', 'portal_reports.id', '=', 'report_departments.report_id')
+                ->where('department_id', '=', Auth::user()->department_id)
+                ->select('portal_reports.*')
+                ->get();
             return view('portalreports.index',compact('reports'));
         }
 
@@ -50,14 +61,19 @@ class PortalReportController extends Controller
     public function generateReports()
     {
         //
-        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
+        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2) || Auth::user()->user_type=="Administrator")
         {
             $reports=PortalReport::all();
             return view('portalreports.reports',compact('reports'));
         }
         else
         {
-            $reports=PortalReport::where('department_id','=',Auth::user()->department_id)->get();
+           // $reports=PortalReport::where('department_id','=',Auth::user()->department_id)->get();
+            $reports =\DB::table('portal_reports')
+                ->join('report_departments', 'portal_reports.id', '=', 'report_departments.report_id')
+                ->where('department_id', '=', Auth::user()->department_id)
+                ->select('portal_reports.*')
+                ->get();
             return view('portalreports.reports',compact('reports'));
         }
 
@@ -68,14 +84,19 @@ class PortalReportController extends Controller
     public function dailyReports()
     {
         //
-        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
+        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2) || Auth::user()->user_type=="Administrator")
         {
             $reports=PortalReport::where('report_type','=','Daily')->get();
             return view('portalreports.calendar',compact('reports'));
         }
         else
         {
-            $reports=PortalReport::where('report_type','=','Daily')->where('department_id','=',Auth::user()->department_id)->get();
+            //$reports=PortalReport::where('report_type','=','Daily')->where('department_id','=',Auth::user()->department_id)->get();
+            $reports =\DB::table('portal_reports')
+                ->join('report_departments', 'portal_reports.id', '=', 'report_departments.report_id')
+                ->where('report_type', '=', 'Daily')->where('department_id', '=', Auth::user()->department_id)
+                ->select('portal_reports.*')
+                ->get();
             return view('portalreports.calendar',compact('reports'));
         }
 
@@ -84,13 +105,18 @@ class PortalReportController extends Controller
     public function monthlyReports()
     {
         //
-        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
+        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2) || Auth::user()->user_type=="Administrator")
         {
             $reports=PortalReport::where('report_type','=','Monthly')->get();
             return view('portalreports.month',compact('reports'));
         }
         else {
-            $reports = PortalReport::where('report_type', '=', 'Monthly')->where('department_id', '=', Auth::user()->department_id)->get();
+           // $reports = PortalReport::where('report_type', '=', 'Monthly')->where('department_id', '=', Auth::user()->department_id)->get();
+            $reports =\DB::table('portal_reports')
+                ->join('report_departments', 'portal_reports.id', '=', 'report_departments.report_id')
+                ->where('report_type', '=', 'Monthly')->where('department_id', '=', Auth::user()->department_id)
+                ->select('portal_reports.*')
+                ->get();
             return view('portalreports.month', compact('reports'));
         }
     }
@@ -98,13 +124,18 @@ class PortalReportController extends Controller
     public function customReports()
     {
         //
-        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
+        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2) || Auth::user()->user_type=="Administrator")
         {
             $reports=PortalReport::where('report_type','=','Custom')->get();
             return view('portalreports.custom',compact('reports'));
         }
         else {
-            $reports = PortalReport::where('report_type', '=', 'Custom')->where('department_id', '=', Auth::user()->department_id)->get();
+           // $reports = PortalReport::where('report_type', '=', 'Custom')->where('department_id', '=', Auth::user()->department_id)->get();
+            $reports =\DB::table('portal_reports')
+                ->join('report_departments', 'portal_reports.id', '=', 'report_departments.report_id')
+                ->where('report_type', '=', 'Custom')->where('department_id', '=', Auth::user()->department_id)
+                ->select('portal_reports.*')
+                ->get();
             return view('portalreports.custom', compact('reports'));
         }
     }
@@ -222,6 +253,35 @@ class PortalReportController extends Controller
    //Post departments
     public function postDepartments(Request $request)
     {
+       //Remove previous assignments
+        if(count(ReportDepartment::where('report_id','=',$request->report_id)->get()) >0)
+        {
+            foreach(ReportDepartment::where('report_id','=',$request->report_id)->get() as $pre)
+            {
+                $pre->delete();
+            }
+        }
+      if($request->department != null && $request->department != "")
+      {
+          foreach($request->department as $dp)
+          {
+              $arr=explode("##",$dp);
+              $department_id=$arr[0]; //Get department ID
+              $branch_id=$arr[1]; //Get branch ID
+
+              $rd=new ReportDepartment();
+              $rd->report_id=$request->report_id;
+              $rd->branch_id=$branch_id;
+              $rd->department_id=$department_id;
+              $rd->save();
+          }
+          return "<h3 class='text-info'>Department successfully attached to report</h3>";
+      }
+        else
+        {
+            return "<h3 class='text-info'>No changes done report</h3>";
+        }
+
 
     }
     /**

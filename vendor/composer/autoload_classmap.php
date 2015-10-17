@@ -8,6 +8,8 @@ $baseDir = dirname($vendorDir);
 return array(
     'AddAssignedTime' => $baseDir . '/database/migrations/2015_10_02_072848_add_assigned_time.php',
     'CreateBranchesTable' => $baseDir . '/database/migrations/2015_08_28_115519_create_branches_table.php',
+    'CreateCopsIssuesRMsTable' => $baseDir . '/database/migrations/2015_10_17_193101_create_cops_issues_r_ms_table.php',
+    'CreateCopsIssuesTable' => $baseDir . '/database/migrations/2015_10_17_192803_create_cops_issues_table.php',
     'CreateDepartmentsTable' => $baseDir . '/database/migrations/2015_08_28_120137_create_departments_table.php',
     'CreateEnablersTable' => $baseDir . '/database/migrations/2015_10_02_090543_create_enablers_table.php',
     'CreateInventoriesTable' => $baseDir . '/database/migrations/2015_09_27_122215_create_inventories_table.php',
@@ -577,6 +579,7 @@ return array(
     'PHP_Token_XOR_EQUAL' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_Token_YIELD' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_Token_YIELD_FROM' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
+    'RenameReportPortalDepartment' => $baseDir . '/database/migrations/2015_10_17_230655_rename_report_portal_department.php',
     'SebastianBergmann\\Comparator\\ArrayComparator' => $vendorDir . '/sebastian/comparator/src/ArrayComparator.php',
     'SebastianBergmann\\Comparator\\Comparator' => $vendorDir . '/sebastian/comparator/src/Comparator.php',
     'SebastianBergmann\\Comparator\\ComparisonFailure' => $vendorDir . '/sebastian/comparator/src/ComparisonFailure.php',
