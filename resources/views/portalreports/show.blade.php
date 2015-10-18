@@ -36,7 +36,7 @@
     </div>
 </fieldset>
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border text-info"> <i class="fa fa-info"></i> Report is current used by</legend>
+    <legend class="scheduler-border text-info"> <i class="fa fa-info"></i> This report is shared to the below departments</legend>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="adv-table">

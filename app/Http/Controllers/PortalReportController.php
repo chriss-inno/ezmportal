@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\PortalReport;
 use App\ReportDepartment;
+use App\ReportSetup;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -163,6 +164,54 @@ class PortalReportController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function postReportSetup(Request $request)
+    {
+        $repser=ReportSetup::all()->first();
+        if($request->archive_start_date !="" && $request->archive_start_date !=null &&
+            $request->archive_end_date !="" && $request->archive_end_date !=null     &&
+            strtotime($request->archive_start_date) > strtotime($request->archive_end_date)
+        )
+        {
+            return "<h2 class='text-danger'><strong>Invalid dates, start date can not be lorger than end date </strong></h2>";
+        }
+        if($repser !="" && $repser !=null)
+        {
+            $repser->archive_path=str_replace("\\","/",$request->archive_path);
+            $repser->current_path=str_replace("\\","/",$request->current_path);
+            $repser->monthly_path=str_replace("\\","/",$request->monthly_path);
+            $repser->custom_path=str_replace("\\","/",$request->custom_path);
+            if($request->archive_start_date !="" && $request->archive_start_date !=null)
+               $repser->archive_start_date=date("Y-m-d",strtotime($request->archive_start_date));
+            if($request->archive_end_date !="" && $request->archive_end_date !=null)
+                $repser->archive_end_date=date("Y-m-d",strtotime($request->archive_end_date));
+            $repser->input_by=Auth::user()->username;
+            $repser->save();
+
+            return "<h3 class='text-info'>Data saved successfully</h3>";
+        }else
+        {
+            $repser=new ReportSetup;
+            $repser->archive_path=str_replace("\\","/",$request->archive_path);
+            $repser->current_path=str_replace("\\","/",$request->current_path);
+            $repser->monthly_path=str_replace("\\","/",$request->monthly_path);
+            $repser->custom_path=str_replace("\\","/",$request->custom_path);
+            if($request->archive_start_date !="" && $request->archive_start_date !=null)
+                $repser->archive_start_date=date("Y-m-d",strtotime($request->archive_start_date));
+            if($request->archive_end_date !="" && $request->archive_end_date !=null)
+                $repser->archive_end_date=date("Y-m-d",strtotime($request->archive_end_date));
+            $repser->input_by=Auth::user()->username;
+            $repser->save();
+
+            return "<h3 class='text-info'>Data saved successfully</h3>";
+        }
+    }
+
+    public function reportSetup()
+    {
+        $repser=\App\ReportSetup::all()->first();
+        return view('portalreports.setup',compact('repser'));
+    }
+
     public function store(Request $request)
     {
         //
@@ -339,4 +388,11 @@ class PortalReportController extends Controller
         $dateas=$y."-".$m."-".$d;
         return view('portalreports.archive',compact('dateas'));
     }
+
+    public function downloadDailyReport($date,$type,$id)
+    {
+        $report=PortalReport::find($id);
+    }
+
+
 }

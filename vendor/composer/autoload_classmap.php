@@ -26,6 +26,7 @@ return array(
     'CreateQueryAssignmentsTable' => $baseDir . '/database/migrations/2015_09_19_042355_create_query_assignments_table.php',
     'CreateQueryStatusesTable' => $baseDir . '/database/migrations/2015_10_02_091030_create_query_statuses_table.php',
     'CreateReportDepartmentsTable' => $baseDir . '/database/migrations/2015_10_15_121522_create_report_departments_table.php',
+    'CreateReportSetupsTable' => $baseDir . '/database/migrations/2015_10_18_012820_create_report_setups_table.php',
     'CreateRightsTable' => $baseDir . '/database/migrations/2015_09_19_160002_create_rights_table.php',
     'CreateServiceLogAreasTable' => $baseDir . '/database/migrations/2015_09_17_213658_create_service_log_areas_table.php',
     'CreateServiceLogsTable' => $baseDir . '/database/migrations/2015_09_16_165110_create_service_logs_table.php',

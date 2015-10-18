@@ -120,6 +120,30 @@
                     })
 
                 });
+                $(".setupReport").click(function(){
+                    var id1 = $(this).parent().attr('id');
+                    var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                    modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                    modal+= '<div class="modal-content">';
+                    modal+= '<div class="modal-header">';
+                    modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                    modal+= '<h2 class="modal-title" id="myModalLabel">Report settings</h2>';
+                    modal+= '</div>';
+                    modal+= '<div class="modal-body">';
+                    modal+= ' </div>';
+                    modal+= '</div>';
+                    modal+= '</div>';
+
+                    $("body").append(modal);
+                    jQuery.noConflict();
+                    $("#myModal").modal("show");
+                    $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                    $(".modal-body").load("<?php echo url("portal/reports/setup") ?>");
+                    $("#myModal").on('hidden.bs.modal',function(){
+                        $("#myModal").remove();
+                    })
+
+                })
                 //Display Item details
                 $(".showDetails").click(function(){
                     var id1 = $(this).parent().attr('id');
@@ -387,6 +411,7 @@
                                 <a href="#" class="addNewReport btn  btn-primary"><i class="fa fa-folder-open-o"></i> Add Reports</a>
                                 <a href="{{url('portal/reports/import')}}" class=" btn  btn-primary"><i class="fa fa-file-excel-o"></i> Import reports</a>
                                 <a href="{{url('portal/reports')}}" class=" btn  btn-primary"><i class="fa fa-bar-chart"></i> Manage reports</a>
+                                <a href="#" class="setupReport  btn btn-primary"><i class="fa fa-cog"></i> Reports Setup</a>
                             @endif
                             <a href="{{url('portal/reports/daily')}}" class="btn btn-file btn-primary"><i class="fa fa-clock-o"></i> Daily Reports</a>
                             <a href="{{url('portal/reports/monthly')}}" class="btn btn-file btn-primary"><i class="fa fa-calendar-plus-o"></i> Monthly Reports</a>
