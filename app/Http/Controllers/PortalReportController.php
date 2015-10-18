@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 
 class PortalReportController extends Controller
 {
@@ -203,6 +205,7 @@ class PortalReportController extends Controller
             $repser->save();
 
             return "<h3 class='text-info'>Data saved successfully</h3>";
+
         }
     }
 
@@ -389,9 +392,125 @@ class PortalReportController extends Controller
         return view('portalreports.archive',compact('dateas'));
     }
 
-    public function downloadDailyReport($date,$type,$id)
+    public function downloadDailyReport($dt,$t,$id)
     {
         $report=PortalReport::find($id);
+        $set=ReportSetup::all()->first(); //Get setup
+        //Get root report folder
+        $path=$set->current_path; //Get where currently files are stored
+
+        $report_name="";
+        switch($t)
+        {
+            case "pdf":
+                $report_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->report_name.".PDF";
+
+                if (File::exists($report_name))
+                {
+                    $headers = array(
+                        'Content-Type: application/pdf',
+                    );
+                    return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".PDF", $headers);
+                }
+                else
+                {
+                    return redirect()->back()->with("message","Report ".$report->report_name.".PDF was not found for this date" );
+                }
+
+                break;
+            case "xls":
+                $report_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->report_name.".XLS";
+                if (File::exists($report_name))
+                {
+                    $headers = array(
+                        'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet ',
+                    );
+                    return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".XLS", $headers);
+                }
+                else
+                {
+                    return redirect()->back()->with("message","Report ".$report->report_name.".XLS was not found for this date" );
+                }
+                break;
+            case "txt":
+                $report_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->report_name.".TXT";
+                if (File::exists($report_name))
+                {
+                    $headers = array(
+                        'Content-Type: text/plain',
+                    );
+                    return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".TXT", $headers);
+                }
+                else
+                    {
+                        return redirect()->back()->with("message","Report ".$report->report_name.".TXT was not found for this date" );
+                    }
+
+                break;
+        }
+
+
+
+
+    }
+
+    public function downloadArchivedReport($dt,$t,$id)
+    {
+        $report=PortalReport::find($id);
+        $set=ReportSetup::all()->first(); //Get setup
+
+        //Get root report folder
+        $path=$set->archive_path;  //Get where archive files are stored
+
+        $report_name="";
+        switch($t)
+        {
+            case "pdf":
+                $report_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->report_name.".PDF";
+
+                if (File::exists($report_name))
+                {
+                    $headers = array(
+                        'Content-Type: application/pdf',
+                    );
+                    return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".PDF", $headers);
+                }
+                else
+                {
+                    return redirect()->back()->with("message","Report ".$report->report_name.".PDF was not found for this date" );
+                }
+
+                break;
+            case "xls":
+                $report_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->report_name.".XLS";
+                if (File::exists($report_name))
+                {
+                    $headers = array(
+                        'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet ',
+                    );
+                    return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".XLS", $headers);
+                }
+                else
+                {
+                    return redirect()->back()->with("message","Report ".$report->report_name.".XLS was not found for this date" );
+                }
+                break;
+            case "txt":
+                $report_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->report_name.".TXT";
+                if (File::exists($report_name))
+                {
+                    $headers = array(
+                        'Content-Type: text/plain',
+                    );
+                    return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".TXT", $headers);
+                }
+                else
+                {
+                    return redirect()->back()->with("message","Report ".$report->report_name.".TXT was not found for this date" );
+                }
+
+                break;
+        }
     }
 
 

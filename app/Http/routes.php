@@ -166,6 +166,10 @@ Route::get('archivedreports/{y}/{m}/{d}',['middleware' => 'auth', 'uses' =>'Port
 Route::get('portal/reports/setup',['middleware' => 'auth', 'uses' =>'PortalReportController@reportSetup']);
 Route::post('portal/reports/setup',['middleware' => 'auth', 'uses' =>'PortalReportController@postReportSetup']);
 
+//Download reports
+Route::get('download/daily/reports/{dt}/{t}/{id}',['middleware' => 'auth', 'uses' =>'PortalReportController@downloadDailyReport']);
+Route::get('download/archived/reports/{dt}/{t}/{id}',['middleware' => 'auth', 'uses' =>'PortalReportController@downloadArchivedReport']);
+
 //Services
 Route::get('services',['middleware' => 'auth', 'uses' =>'ServicesController@index']);
 Route::get('services/create',['middleware' => 'auth', 'uses' =>'ServicesController@create']);

@@ -424,6 +424,32 @@
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="adv-table">
+                                    @if(Session::has('message'))
+                                     <script type="text/javascript" charset="utf-8">
+                                                    $(document).ready(function() {
+                                                        var modal = '<div class="modal fade" id="myModalconfig" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                                                        modal += '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%;margin-top: 15%">';
+                                                        modal += '<div class="modal-content">';
+                                                        modal += '<div class="modal-header">';
+                                                        modal += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                                                        modal += '<h4 class="modal-title" id="myModalLabel">Authorization Confirmation</h4>';
+                                                        modal += '</div>';
+                                                        modal += '<div class="modal-body"> <center> <p> <h1 class="text-danger">{{Session::get('message')}} </h1> </p>';
+                                                        modal += ' </div>';
+                                                        modal += '</div>';
+                                                        modal += '</div>';
+
+                                                        $("body").append(modal);
+                                                        jQuery.noConflict();
+                                                        $("#myModalconfig").modal("show");
+                                                        $("#myModalconfig").on('hidden.bs.modal', function () {
+                                                            $("#myModalconfig").remove();
+                                                        });
+                                                    });
+
+
+                                        </script>
+                                    @endif
                                     <table  class="display table table-bordered table-striped" id="branches">
                                         <thead>
                                         <tr>
@@ -448,9 +474,9 @@
                                                         <a href="#" class="showReportDetails btn btn-primary btn-xs" title="Report details"><i class="fa fa-eye"></i> View </a>
                                                     </td>
                                                     <td id="{{$report->id}}" align="center">
-                                                        <a  href="#" title="Download in PDF format" class=" btn btn-danger btn-xs"><i class="fa fa-file-pdf-o"></i> PDF</a>
-                                                        <a  href="#" title="Download in MS Excel format" class=" btn btn-success btn-xs"><i class="fa fa-file-excel-o"></i> Excel</a>
-                                                        <a href="#b" title="Download in Text format" class=" btn btn-primary btn-xs"><i class="fa fa-file-text "></i> Text</a>
+                                                        <a  href="{{url('download/archived/reports')}}/{{date("Y-m-d",strtotime($dateas))}}/pdf/{{$report->id}}" title="Download in PDF format" class=" btn btn-danger btn-xs"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                                                        <a  href="{{url('download/archived/reports')}}/{{date("Y-m-d",strtotime($dateas))}}/xls/{{$report->id}}" title="Download in MS Excel format" class=" btn btn-success btn-xs"><i class="fa fa-file-excel-o"></i> Excel</a>
+                                                        <a href="{{url('download/archived/reports')}}/{{date("Y-m-d",strtotime($dateas))}}/txt/{{$report->id}}" title="Download in Text format" class=" btn btn-primary btn-xs"><i class="fa fa-file-text "></i> Text</a>
                                                     </td>
 
                                                 </tr>
