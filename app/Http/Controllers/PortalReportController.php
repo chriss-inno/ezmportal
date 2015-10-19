@@ -218,52 +218,99 @@ class PortalReportController extends Controller
     public function store(Request $request)
     {
         //
-        $report=new PortalReport;
-        $report->report_name=$request->report_name;
-        $report->other_name=$request->other_name;
-        $report->report_type=$request->report_type;
-        $report->description=$request->description;
-        $report->status=$request->status;
-        $report->input_by=Auth::user()->username;
-        $report->save();
+        if(!count(PortalReport::where('report_name','=',$request->report_name)->get()) > 0) {
+            $report = new PortalReport;
+            $report->report_name = $request->report_name;
+            $report->other_name = $request->other_name;
+            $report->report_type = $request->report_type;
+            $report->description = $request->description;
+            $report->status = $request->status;
+            $report->input_by = Auth::user()->username;
+            $report->save();
+        }
 
     }
 
-    public function importExcel(Request $request)
+    public function importReports(Request $request)
     {
         try {
 
-            $file= $request->file('inventory_file');
-            $destinationPath = public_path() .'/uploads/temp/';
-            $filename   = str_replace(' ', '_', $file->getClientOriginalName());
+            $report_type=$request->report_type;
+            $importFrom=$request->importFrom;
+            $reportFolder=str_replace("\\","/",$request->reportFolder);
 
-            $file->move($destinationPath, $filename);
+           //Check how to import based on import From
+            if($importFrom =="folder") //Importing files from folder
+            {
+                if(File::exists($reportFolder)) {
+                    $filesInFolder =File::files($reportFolder);
 
-            Excel::load($destinationPath . $filename, function ($reader) {
+                    foreach($filesInFolder as $path)
+                    {
+                        $fileDetails = pathinfo($path);
+                        if($fileDetails['extension'] = ".rep") //Filter only BO files
+                        {
+                            if(!count(PortalReport::where('report_name','=',$fileDetails['filename'])->get()) > 0)
+                            {
+                                $report=new PortalReport;
+                                $report->report_name=$fileDetails['filename'];
+                                $report->other_name=$fileDetails['filename'];
+                                $report->report_type=$report_type;
+                                $report->status="In Use";
+                                $report->input_by=Auth::user()->username;
+                                $report->save();
+                            }
 
-                $results = $reader->get();
+                        }
 
-                $results->each(function($row) {
+                    }
 
-                    $report=new PortalReport;
-                    $report->report_name=$row->report_name;
-                    $report->other_name=$row->other_name;
-                    $report->report_type=$row->report_type;
-                    $report->status=$row->status;
-                    $report->description=$row->description;
-                    $report->input_by=Auth::user()->id;
-                    $report->save();
+                    return redirect('portal/reports')->with('messages',"Reports uploaded successfully.");
+                }
+                else
+                {
+
+                    return redirect()->back()->with('messages',"Folder is not exist or no permission");
+                }
+            }
+            else
+            {
+                $file= $request->file('reference_file');
+                $destinationPath = public_path() .'/uploads/temp/';
+                $filename   = str_replace(' ', '_', $file->getClientOriginalName());
+
+                $file->move($destinationPath, $filename);
+
+                Excel::load($destinationPath . $filename, function ($reader) use($request) {
+
+                    $results = $reader->get();
+
+                    $results->each(function($row) use($request) {
+
+                        if(!count(PortalReport::where('report_name','=',$row->report_name)->get()) > 0) {
+                            $report = new PortalReport;
+                            $report->report_name = $row->report_name;
+                            $report->other_name = $row->other_name;
+                            $report->status = $row->status;
+                            $report->report_type = $request->report_type;
+                            $report->description = $row->description;
+                            $report->input_by = Auth::user()->username;
+                            $report->save();
+                        }
+                    });
+
                 });
 
-            });
+                File::delete($destinationPath . $filename); //Delete after upload
 
-            File::delete($destinationPath . $filename); //Delete after upload
+                return redirect()->back()->with('messages', 'Reports uploaded successfully.');
+            }
 
-            return redirect('portal/reports')->with('success', 'Reports uploaded successfully.');
+
         } catch (\Exception $e) {
 
-            //echo $e->getMessage();
-            return redirect('portal/reports/import')->with('error',$e->getMessage());
+
+            return redirect()->back()->with('messages',$e->getMessage());
         }
 
     }

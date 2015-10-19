@@ -157,7 +157,7 @@ Route::get('portal/reports/remove/{id}',['middleware' => 'auth', 'uses' =>'Porta
 Route::get('portal/reports/create',['middleware' => 'auth', 'uses' =>'PortalReportController@create']);
 Route::post('portal/reports/create',['middleware' => 'auth', 'uses' =>'PortalReportController@store']);
 Route::get('portal/reports/import',['middleware' => 'auth', 'uses' =>'PortalReportController@showImport']);
-Route::post('portal/reports/import',['middleware' => 'auth', 'uses' =>'PortalReportController@importExcel']);
+Route::post('portal/reportsimport',['middleware' => 'auth', 'uses' =>'PortalReportController@importReports']);
 Route::get('portal/reports/departments/{id}',['middleware' => 'auth', 'uses' =>'PortalReportController@showDepartments']);
 Route::post('portal/reports/departments',['middleware' => 'auth', 'uses' =>'PortalReportController@postDepartments']);
 Route::get('portal/reports/search',['middleware' => 'auth', 'uses' =>'PortalReportController@searchReport']);

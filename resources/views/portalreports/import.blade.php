@@ -37,11 +37,15 @@
             $("#importReports").validate({
                 rules: {
                     report_type: "required",
-                    importFrom: "required"
+                    importFrom: "required",
+                    reportFolder: "required",
+                    reference_file: "required"
                 },
                 messages: {
                     report_type: "Please select report type",
-                    importFrom: "Please select option"
+                    importFrom: "Please select option",
+                    reportFolder: "Please enter folder path",
+                    reference_file: "Please select file"
                 }
             });
 
@@ -378,7 +382,7 @@
                                 </ul>
                             </div>
                         @endif
-                        @if(Session::has('error'))
+                        @if(Session::has('message'))
                             <div class="alert fade in alert-danger">
                                 <i class="icon-remove close" data-dismiss="alert"></i>
                                 {{Session::get('message')}}
@@ -386,7 +390,7 @@
                         @endif
                         <hr/>
                             <link href="{{asset("assets/jquery-file-upload/css/jquery.fileupload-ui.css")}}" rel="stylesheet" type="text/css" >
-                        {!! Form::open(array('url'=>'portal/reports/import','role'=>'form','id'=>'importReports','files' => true)) !!}
+                        {!! Form::open(array('url'=>'portal/reportsimport','role'=>'form','id'=>'importReports','files' => true)) !!}
                                 <fieldset class="scheduler-border">
                                     <legend class="scheduler-border" style="color:#005DAD"> Reports imports  details</legend>
                                     <div class="form-group">
@@ -395,7 +399,7 @@
                                                 <label for="report_type">Report Type</label>
                                                 <select class="form-control"  id="report_type" name="report_type">
                                                     @if(old('report_type') !="")
-                                                    <option value="{{old('report_type')}}">{{old('report_type')}}</option>
+                                                    <option value="{{old('report_type')}}" selected>{{old('report_type')}}</option>
                                                     @else
                                                         <option value="">--Select Report type--</option>
                                                         @endif
@@ -409,7 +413,7 @@
                                                 <label for="report_type">Import From</label>
                                                 <select class="form-control"  id="importFrom" name="importFrom">
                                                     @if(old('report_type') !="")
-                                                        <option value="{{old('report_type')}}">@if(old('report_type')=="msExcel") MS Excel @else Directory/Folder @endif</option>
+                                                        <option value="{{old('report_type')}}" selected>@if(old('report_type')=="msExcel") MS Excel @else Directory/Folder @endif</option>
                                                     @else
                                                         <option value="">--Select Option--</option>
                                                     @endif
