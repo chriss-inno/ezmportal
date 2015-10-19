@@ -6,18 +6,45 @@
     {!!HTML::script("js/sparkline-chart.js") !!}
     {!!HTML::script("js/easy-pie-chart.js") !!}
     {!!HTML::script("js/count.js") !!}
-    {!!HTML::script("js/jquery.tagsinput.js")!!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
     {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
     {!!HTML::script("js/jquery.scrollTo.min.js") !!}
     {!!HTML::script("js/jquery.nicescroll.js") !!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
+    {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
     {!!HTML::script("js/jquery.validate.min.js" ) !!}
     {!!HTML::script("js/respond.min.js"  ) !!}
     {!!HTML::script("js/form-validation-script.js") !!}
-
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
 
-        } );
+            $("#importFrom").change(function () {
+                var optsel = this.value;
+                if(optsel != "")
+                {
+                    if(optsel == "msExcel")
+                    {
+                        $("#importSelection").html("<label for='reportFolder'>Select MS Excel file for upload</label> <input type='file' id='reference_file' name='reference_file' class='form-control' required>'");
+
+                    }else  if(optsel == "folder")
+                    {
+                        $("#importSelection").html("<label for='reportFolder'>Directory Path</label><input type='text' class='form-control' name='reportFolder' id='reportFolder' placeholder='Enter location of the report folder' required>");
+                    }
+
+
+                }else{$("#importSelection").html("");}
+            });
+            $("#importReports").validate({
+                rules: {
+                    report_type: "required",
+                    importFrom: "required"
+                },
+                messages: {
+                    report_type: "Please select report type",
+                    importFrom: "Please select option"
+                }
+            });
+
         //Edit class streams
         $(".addBranch").click(function(){
             var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
@@ -90,6 +117,7 @@
             })
 
         });
+        } );
     </script>
 
 @stop
@@ -341,7 +369,6 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <p> <h3 class="text-center">Import From MS Excel </h3>
                         @if (count($errors) > 0)
                             <div class="alert alert-danger">
                                 <ul>
@@ -358,24 +385,64 @@
                             </div>
                         @endif
                         <hr/>
-                        {!! Form::open(array('url'=>'portal/reports/import','role'=>'form','id'=>'importInventory','files' => true)) !!}
+                            <link href="{{asset("assets/jquery-file-upload/css/jquery.fileupload-ui.css")}}" rel="stylesheet" type="text/css" >
+                        {!! Form::open(array('url'=>'portal/reports/import','role'=>'form','id'=>'importReports','files' => true)) !!}
+                                <fieldset class="scheduler-border">
+                                    <legend class="scheduler-border" style="color:#005DAD"> Reports imports  details</legend>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                                <label for="report_type">Report Type</label>
+                                                <select class="form-control"  id="report_type" name="report_type">
+                                                    @if(old('report_type') !="")
+                                                    <option value="{{old('report_type')}}">{{old('report_type')}}</option>
+                                                    @else
+                                                        <option value="">--Select Report type--</option>
+                                                        @endif
+                                                    <option value="N/A">N/A</option>
+                                                    <option value="Daily">Daily</option>
+                                                    <option value="Monthly">Monthly</option>
+                                                    <option value="Custom">Custom</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                                <label for="report_type">Import From</label>
+                                                <select class="form-control"  id="importFrom" name="importFrom">
+                                                    @if(old('report_type') !="")
+                                                        <option value="{{old('report_type')}}">@if(old('report_type')=="msExcel") MS Excel @else Directory/Folder @endif</option>
+                                                    @else
+                                                        <option value="">--Select Option--</option>
+                                                    @endif
+                                                    <option value="msExcel">MS Excel</option>
+                                                    <option value="folder">Directory/Folder</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="importSelection">
+                                        @if(old('report_type') !="")
+                                            @if(old('report_type')=="msExcel")
+                                                <label for='reportFolder'>Select MS Excel file for upload</label>
+                                                <input type='file' id='reference_file' name='reference_file' class='form-control' required>
+                                            @else
+                                                <label for='reportFolder'>Directory Path</label>
+                                                <input type='text' class='form-control' name='reportFolder' id='reportFolder' placeholder='Enter location of the report folder' required>
+                                            @endif
+                                        @endif
+                                    </div>
+
+                                </fieldset>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-4 col-sm-4 col-xs-4 col-sm-offset-4 col-md-offset-4 col-xs-offset-4">
-                                    <input type="file" id="inventory_file" name="inventory_file" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-4 col-sm-4 col-xs-4 col-sm-offset-4 col-md-offset-4 col-xs-offset-4">
-                                    <button type="submit" class="btn btn-primary btn-block">Import File</button>
+                                    <button type="submit" class="btn btn-primary btn-block">Import Reports Names</button>
                                 </div>
                             </div>
                         </div>
 
 
                         {!! Form::close() !!}
+
                             </div>
                         </div>
                     </div>

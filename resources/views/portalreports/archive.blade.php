@@ -425,6 +425,7 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="adv-table">
                                     @if(Session::has('message'))
+
                                      <script type="text/javascript" charset="utf-8">
                                                     $(document).ready(function() {
                                                         var modal = '<div class="modal fade" id="myModalconfig" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
