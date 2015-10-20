@@ -35,7 +35,7 @@
             <div data-original-title="Toggle Navigation" data-placement="right" class="fa fa-bars tooltips"></div>
         </div>
         <!--logo start-->
-        <a href="{{url('home')}}" class="logo" > {!!Html::image('img/logo.png') !!} Bank (M) Service Portal</a>
+        <a href="{{url('home')}}" class="logo" > {!!Html::image('img/logo.png') !!} <strong> Bank M Tanzania plc| </strong> Services System Portal</a>
         <!--logo end-->
 
         <div class="top-nav ">

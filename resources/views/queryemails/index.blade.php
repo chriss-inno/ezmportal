@@ -364,7 +364,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa  fa-envelope-o text-danger"></i> Email Settings </strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa  fa-envelope-o text-danger"></i><i class="fa fa-cogs"></i> Email Settings </strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
