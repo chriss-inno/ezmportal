@@ -32,4 +32,8 @@ class Department extends Model
     {
         return $this::hasMany('\App\ReportDepartment','department_id','id');
     }
+    public function queryEmails()
+    {
+        return $this::hasMany('\App\QueryEmail','department_id','id');
+    }
 }

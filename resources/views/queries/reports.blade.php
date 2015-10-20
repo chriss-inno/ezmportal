@@ -622,6 +622,11 @@
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
+                                <a href="{{url('queryemails')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-envelope"></i> Emails Setting</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-md-12">
                                 <a href="{{url('queries/report')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Reports</a>
                             </div>
                         </div>

@@ -376,9 +376,13 @@
                                     <a href="{{url('queries/progress')}}" class="btn btn-file btn-primary"><i class="fa fa-archive"></i> My logged queries Progress</a>
 
                                     <a href="{{url('queries/history')}}" class="btn btn-file btn-primary"> <i class="fa fa-bars"></i> History</a>
+
                                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
-                                        <a href="{{url('queries/report')}}" class="btn btn-file btn-danger"><i class=" fa fa-bar-chart-o"></i> Reports</a>
-                                        @endif
+                                        <a href="{{url('queryemails')}}" class="btn btn-file btn-primary"><i class=" fa fa-envelope"></i> Emails Setting</a>
+                                    @endif
+                                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
+                                        <a href="{{url('queries/report')}}" class="btn btn-file btn-primary"><i class=" fa fa-bar-chart-o"></i> Reports</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>

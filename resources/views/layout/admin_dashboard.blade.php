@@ -151,6 +151,9 @@
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,15))
                         <li><a  href="{{url('queries/assign')}}" title="Queries Assign">Queries Assign</a></li>
                     @endif
+                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,21))
+                        <li><a  href="{{url('queryemails')}}" title="Queries Emails">Queries Emails Setup</a></li>
+                    @endif
                 </ul>
             </li>
         @endif
