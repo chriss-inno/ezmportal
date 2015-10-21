@@ -180,7 +180,11 @@ class QueryController extends Controller
         //
         $query=Query::find($request->query_id);
         //Update query status
-        $query->status=$request->status;
+        if(strtolower($request->status) =="closed")
+        {
+            $query->closed=1; //Close the query
+        }
+        $query->status=ucwords(strtolower($request->status));
         $query->save();
 
         //Store message
@@ -350,7 +354,9 @@ class QueryController extends Controller
             $queries=Query::all();
         }
         else {
-            $queries = Query::where('reported_by', '=', Auth::user()->id)->where('closed', '=', '0')->get();
+            $queries = Query::where('reported_by', '=', Auth::user()->id)->where('closed', '=', '0')
+                ->orwhere('from_department', '=', Auth::user()->department_id)
+                ->orwhere('to_department', '=', Auth::user()->department_id)->get();
         }
         return view('queries.index',compact('queries'));
 
@@ -364,7 +370,9 @@ class QueryController extends Controller
         }
         else
         {
-            $queries=Query::where('reported_by','=',Auth::user()->id)->get();
+            $queries=Query::where('reported_by','=',Auth::user()->id)
+                ->orwhere('from_department', '=', Auth::user()->department_id)
+                ->orwhere('to_department', '=', Auth::user()->department_id)->get();
         }
 
         return view('queries.index',compact('queries'));
@@ -393,7 +401,7 @@ class QueryController extends Controller
             return view('queries.assign',compact('queries'));
         }
         else {
-        $queries=Query::where('to_department','=',Auth::user()->department_id)->get();
+        $queries=Query::where('to_department','=',Auth::user()->department_id)->where('closed', '=', '0')->get();
         return view('queries.assign',compact('queries'));
         }
 
@@ -415,7 +423,7 @@ class QueryController extends Controller
             $queryAssignment->query_id = $query->id;
             $queryAssignment->user_id = $request->user_id;
             $queryAssignment->module_id = $query->module_id;
-            $queryAssignment->assigned_date = $today;
+            $queryAssignment->assigned_date = date("Y-m-d");
             $queryAssignment->save();
 
             //Change status to assigned
@@ -432,7 +440,7 @@ class QueryController extends Controller
             $queryAssignment->query_id = $query->id;
             $queryAssignment->user_id = $request->user_id;
             $queryAssignment->module_id = $query->module_id;
-            $queryAssignment->assigned_date = $today;
+            $queryAssignment->assigned_date = date("Y-m-d");
             $queryAssignment->save();
 
             //Change status to assigned

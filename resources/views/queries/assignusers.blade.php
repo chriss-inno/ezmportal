@@ -79,7 +79,16 @@
                                             <option value="">----</option>
                                         @endif
                                             @if($query->assignment != null && $query->assignment !="")
-                                                @foreach(\App\User::where('department_id','=',Auth::user()->department_id)->where('id','<>',$query->assignment->user->id)->get() as $users)
+                                                <?php
+                                                $usersls = \DB::table('users')->join('user_modules','users.id','=','user_modules.user_id')
+                                                        ->select('users.id')
+                                                        ->where('users.query_exemption','=','No')
+                                                        ->where('user_modules.module_id','=',$query->module_id)
+                                                        ->lists('users.id');
+                                               $usersar =\App\User::whereIn('id',$usersls)->get();
+                                                ?>
+                                                @foreach($usersar as $users)
+
                                                     <option value="{{$users->id}}">{{$users->first_name.' '.$users->last_name}}</option>
                                                 @endforeach
                                           @else
