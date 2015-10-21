@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\QueryEmail;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -130,5 +131,64 @@ class QueryEmailController extends Controller
             return $e->getMessage();
         }
 
+    }
+
+   //Sending emails
+
+    public function sendQueryLaunchedEmail($query)
+    {
+         if($query != null && $query !="" >0 ) {
+            $data = array(
+                'query' => $query,
+            );
+            //Send email
+            \Mail::queue('emails.newquery', $data, function ($message) use($query) {
+
+                //Fetch emails of users to wchich query was sent
+                $emails=$query->toDepartment->users->lists('email');
+                $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                $message->to($emails)->subject('Bank M Service portal: New Query Request notifications');
+            });
+            echo "Sent";
+        }
+    }
+
+    //Query Assignment
+
+    public function sendQueryAssignmentEmail($query)
+    {
+        if($query != null && $query !="" >0 ) {
+            $data = array(
+                'query' => $query,
+            );
+            //Send email
+            \Mail::queue('emails.newquery', $data, function ($message) use($query) {
+
+                //Fetch emails of users to wchich query was sent
+                $emails=$query->toDepartment->users->lists('email');
+                $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                $message->to($emails)->subject('Bank M Service portal:Query Assignment notifications');
+            });
+            echo "Sent";
+        }
+    }
+
+    //
+    public function sendQueryProgressEmail($query)
+    {
+        if($query != null && $query !="" >0 ) {
+            $data = array(
+                'query' => $query,
+            );
+            //Send email
+            \Mail::queue('emails.newquery', $data, function ($message) use($query) {
+
+                //Fetch emails of users to wchich query was sent
+                $emails=$query->toDepartment->users->lists('email');
+                $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                $message->to($emails)->subject('Bank M Service portal:Query progress notifications');
+            });
+            echo "Sent";
+        }
     }
 }

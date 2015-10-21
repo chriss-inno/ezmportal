@@ -128,6 +128,7 @@ class EmailController extends Controller
         }
     }
 
+
     //Oracle issues
     public function olacle()
     {

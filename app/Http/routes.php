@@ -197,6 +197,7 @@ Route::get('queries/progress',['middleware' => 'auth', 'uses' =>'QueryController
 Route::get('queries/history',['middleware' => 'auth', 'uses' =>'QueryController@history']);
 Route::get('queries/report',['middleware' => 'auth', 'uses' =>'QueryController@report']);
 Route::get('queries/show/{id}',['middleware' => 'auth', 'uses' =>'QueryController@show']);
+Route::get('queries/edit/{id}',['middleware' => 'auth', 'uses' =>'QueryController@edit']);
 Route::get('queries/message/{id}',['middleware' => 'auth', 'uses' =>'QueryController@message']);
 Route::post('queries/message',['middleware' => 'auth', 'uses' =>'QueryController@postMessage']);
 Route::post('queries/attend',['middleware' => 'auth', 'uses' =>'QueryController@postQueryAttend']);

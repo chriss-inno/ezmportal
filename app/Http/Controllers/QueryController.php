@@ -301,6 +301,8 @@ class QueryController extends Controller
     public function edit($id)
     {
         //
+        $query=Query::find($id);
+        return view('emails.newquery',compact('query'));
     }
 
     /**
