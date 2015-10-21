@@ -17,6 +17,9 @@
                     text: 'Daily service downtime status',
                     x: -20 //center
                 },
+                credits: {
+                    enabled: false
+                },
                 subtitle: {
                     text: 'Portal reports services',
                     x: -20
@@ -329,7 +332,7 @@
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
                         <li><a  href="{{url('queries/report')}}" title="Queries Reports">Queries Reports</a></li>
                     @endif
-                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,15))
+                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,15) || Auth::user()->user_type=="Administrator")
                         <li><a  href="{{url('queries/assign')}}" title="Queries Assign">Queries Assign</a></li>
                     @endif
                 </ul>
