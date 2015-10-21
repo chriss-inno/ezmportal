@@ -1,4 +1,6 @@
-<?php $query = unserialize($query); ?>
+<?php $msg = unserialize($msg);
+   $query =$msg->mQuery;
+?>
 <table width="80%" border="0" align="center" cellpadding="0" cellspacing="0" style="border:1px solid #005DAD">
     <tr style="color:#FFF; border-bottom-color:#005DAD;">
         <td align="center" bgcolor="#005DAD"><h3 style="color:#FFF; border-bottom-color:#005DAD;"><strong>Bank M Tanzania plc - System Portal (Help desk)</strong><strong><br/>Support Portal Query Event Details</strong></h3></td>
@@ -43,6 +45,12 @@
                                 <td align="left">&nbsp;</td>
                             </tr>
                             <tr>
+                                <td colspan="5" bgcolor="#f0f2f7"><strong>Event Description</strong></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5"><?php echo $msg->message;?></td>
+                            </tr>
+                            <tr>
                                 <td colspan="5" bgcolor="#f0f2f7"><strong>Query Description</strong></td>
                             </tr>
                             <tr>
@@ -64,8 +72,8 @@
                             <tr>
                                 <td><strong>Assigned to</strong></td>
                                 @if($query->assignment != null && $query->assignment !="")
-                                <td align="left">{{$query->assignment->user->first_name.' '.$query->assignment->user->last_name}}</td>
-                                <td>&nbsp;</td>
+                                    <td align="left">{{$query->assignment->user->first_name.' '.$query->assignment->user->last_name}}</td>
+                                    <td>&nbsp;</td>
 
                                     <td>Assigned date</td>
                                     <td align="left">{{$query->assignment->assigned_date_time}}</td>

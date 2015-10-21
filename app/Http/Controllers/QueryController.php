@@ -76,7 +76,7 @@ class QueryController extends Controller
 
 
         //Generate query codes based on branch and department
-        $query->query_code=$query->toDepartment->branch->branch_code.strtoupper(substr($query->toDepartment->department_name,0,3)).date("y").date("d").date("m").$query->id;;
+        $query->query_code="BANKM".$query->toDepartment->branch->branch_code.strtoupper(substr($query->toDepartment->department_name,0,3)).$query->id;
         $query->save();
 
         //check if attachment
@@ -148,6 +148,9 @@ class QueryController extends Controller
 
         }
 
+        //Send email
+        \App\Http\Controllers\QueryEmailController::sendQueryLaunchedEmail($query); //Launched emails
+
         return redirect('queries/progress');
 
 
@@ -190,6 +193,7 @@ class QueryController extends Controller
         $msg->save();
 
         //Send attend email
+        \App\Http\Controllers\QueryEmailController::sendQueryProgressEmail($msg); //Passing messages
         return "Data saved successful";
     }
     //Query messages
@@ -218,6 +222,9 @@ class QueryController extends Controller
         $msg->message_type="OUT";
         $msg->message=$request->message;
         $msg->save();
+
+        //Send emails for update
+        \App\Http\Controllers\QueryEmailController::sendQueryProgressEmail($msg); //Passing messages
         return "Data saved successful";
     }
     public function postMessage(Request $request)
@@ -267,6 +274,9 @@ class QueryController extends Controller
                 $msg->reference_file= $filename;
                 $msg->save();
 
+                //Send emails for update
+                \App\Http\Controllers\QueryEmailController::sendQueryProgressEmail($msg); //Passing messages
+
                 return '<div class="alert fade in alert-success">
                     <i class="icon-remove close" data-dismiss="alert"></i>
                     Data submitted successfully
@@ -282,6 +292,9 @@ class QueryController extends Controller
             $msg->message_type="OUT";
             $msg->message=$request->message;
             $msg->save();
+
+            //Send emails for update
+            \App\Http\Controllers\QueryEmailController::sendQueryProgressEmail($msg); //Passing messages
 
             return '<div class="alert fade in alert-success">
                     <i class="icon-remove close" data-dismiss="alert"></i>
@@ -302,7 +315,8 @@ class QueryController extends Controller
     {
         //
         $query=Query::find($id);
-        return view('emails.newquery',compact('query'));
+
+        return view('queries.edit',compact('query'));
     }
 
     /**
@@ -408,6 +422,8 @@ class QueryController extends Controller
             $query->assigned = 1;
             $query->save();
 
+            //Send emails
+            \App\Http\Controllers\QueryEmailController::sendQueryAssignmentEmail($query); //Send assignment emails
             return "Data saved successful";
         }
         else
@@ -422,6 +438,10 @@ class QueryController extends Controller
             //Change status to assigned
             $query->assigned = 1;
             $query->save();
+
+            //Send emails
+            \App\Http\Controllers\QueryEmailController::sendQueryAssignmentEmail($query); //Send assignment emails
+
             return "Data saved successful";
         }
 

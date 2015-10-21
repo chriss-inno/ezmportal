@@ -135,60 +135,99 @@ class QueryEmailController extends Controller
 
    //Sending emails
 
-    public function sendQueryLaunchedEmail($query)
+    public static function sendQueryLaunchedEmail($query)
     {
-         if($query != null && $query !="" >0 ) {
+        if($query != null && $query !="" >0 ) {
             $data = array(
-                'query' => $query,
+                'query' => serialize($query)
             );
-            //Send email
-            \Mail::queue('emails.newquery', $data, function ($message) use($query) {
 
-                //Fetch emails of users to wchich query was sent
-                $emails=$query->toDepartment->users->lists('email');
-                $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
-                $message->to($emails)->subject('Bank M Service portal: New Query Request notifications');
-            });
-            echo "Sent";
+            //Send email
+            foreach($query->toDepartment->users as $us) {
+                if($us->email !="")
+                {
+                    $emails = $us->email;
+
+                    $emailData = array(
+                        'query' => serialize($query),
+                        'emails' => $emails
+                    );
+
+                    \Mail::queue('emails.newquery', $data, function ($message) use ($emailData) {
+
+                        //Fetch emails of users to wchich query was sent
+                        $query = unserialize($emailData['query']);
+                        $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                        $message->to($emailData['emails'])->subject('Issue Event Details for :'.$query->query_code.' -- New Request (Status : '.$query->status.')');
+                    });
+                }
+
+            }
         }
     }
 
     //Query Assignment
 
-    public function sendQueryAssignmentEmail($query)
+    public static function sendQueryAssignmentEmail($query)
     {
         if($query != null && $query !="" >0 ) {
             $data = array(
-                'query' => $query,
+                'query' => serialize($query)
             );
-            //Send email
-            \Mail::queue('emails.newquery', $data, function ($message) use($query) {
 
-                //Fetch emails of users to wchich query was sent
-                $emails=$query->toDepartment->users->lists('email');
-                $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
-                $message->to($emails)->subject('Bank M Service portal:Query Assignment notifications');
-            });
-            echo "Sent";
+            //Send email
+            foreach($query->toDepartment->users as $us) {
+                if($us->email !="")
+                {
+                    $emails = $us->email;
+
+                    $emailData = array(
+                        'query' => serialize($query),
+                        'emails' => $emails
+                    );
+
+                    \Mail::queue('emails.newquery', $data, function ($message) use ($emailData) {
+
+                        //Fetch emails of users to wchich query was sent
+                        $query = unserialize($emailData['query']);
+                        $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                        $message->to($emailData['emails'])->subject('Issue Event Details for :'.$query->query_code.' -- Assignment (Status : '.$query->status.')');
+                    });
+                }
+
+            }
         }
     }
 
     //
-    public function sendQueryProgressEmail($query)
+    public static function sendQueryProgressEmail($msg)
     {
-        if($query != null && $query !="" >0 ) {
+        if($msg != null && $msg !="" >0 ) {
             $data = array(
-                'query' => $query,
+                'msg' => serialize($msg)
             );
-            //Send email
-            \Mail::queue('emails.newquery', $data, function ($message) use($query) {
 
-                //Fetch emails of users to wchich query was sent
-                $emails=$query->toDepartment->users->lists('email');
-                $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
-                $message->to($emails)->subject('Bank M Service portal:Query progress notifications');
-            });
-            echo "Sent";
+            //Send email
+            foreach($msg->mQuery->toDepartment->users as $us) {
+                if($us->email !="")
+                {
+                    $emails = $us->email;
+
+                    $emailData = array(
+                        'msg' => serialize($msg),
+                        'emails' => $emails
+                    );
+
+                    \Mail::queue('emails.queryprogress', $data, function ($message) use ($emailData) {
+
+                        //Fetch emails of users to wchich query was sent
+                        $msg = unserialize($emailData['msg']);
+                        $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                        $message->to($emailData['emails'])->subject('Issue Event Details for :'.$msg->mQuery->query_code.' -- Attendance  (Status : '.$msg->mQuery->status.')');
+                    });
+                }
+
+            }
         }
     }
 }
