@@ -416,7 +416,7 @@
                                                 <label for="status">Status</label>
                                                 <select name="status" class="form-control" id="status">
                                                     @if($service->status !="")
-                                                          <option selected value="">{{$service->status}}</option>
+                                                          <option selected value="{{$service->status}}">{{$service->status}}</option>
                                                         @else
                                                           <option value="">----</option>
                                                         @endif
