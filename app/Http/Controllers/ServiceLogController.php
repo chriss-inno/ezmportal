@@ -47,7 +47,7 @@ class ServiceLogController extends Controller
     public function create()
     {
         //
-        return view('servicelogs.logstatus');
+        return view('servicelogs.create');
     }
 
     /**
@@ -80,6 +80,16 @@ class ServiceLogController extends Controller
             $sa->serviceLog_id=$sl->id;
             $sa->area_affected=$br;
             $sa->area_type='branch';
+            $sa->save();
+        }
+
+        //Departments
+        foreach($request->departments as $dp)
+        {
+            $sa=new ServiceLogArea;
+            $sa->serviceLog_id=$sl->id;
+            $sa->area_affected=$dp;
+            $sa->area_type='department';
             $sa->save();
         }
 
@@ -119,7 +129,7 @@ class ServiceLogController extends Controller
     {
         //
         $service =ServiceLog::find($id);
-        return view('servicelogs.editLogstatus',compact('service'));
+        return view('servicelogs.edit',compact('service'));
     }
 
     /**
@@ -133,6 +143,7 @@ class ServiceLogController extends Controller
     {
         //
         $sl= ServiceLog::find($request->id);
+
         $sl->service_id=$request->service_id;
        // $sl->log_title=$request->log_title;
         $sl->description=$request->description;
@@ -150,6 +161,7 @@ class ServiceLogController extends Controller
         {
             $a->delete();
         }
+
         //Save area affected
         //Branches
         foreach($request->branches as $br)
@@ -158,6 +170,16 @@ class ServiceLogController extends Controller
             $sa->serviceLog_id=$sl->id;
             $sa->area_affected=$br;
             $sa->area_type='branch';
+            $sa->save();
+        }
+
+        //Departments
+        foreach($request->departments as $dp)
+        {
+            $sa=new ServiceLogArea;
+            $sa->serviceLog_id=$sl->id;
+            $sa->area_affected=$dp;
+            $sa->area_type='department';
             $sa->save();
         }
 

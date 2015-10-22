@@ -418,13 +418,30 @@
         <!-- page start-->
 
         <div class="row">
-            <div class="col-lg-10 col-md-10">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> Service Monitoring</h3>
+                        <h3 class="text-info"> <i class="fa fa-tachometer text-danger"></i> <i class="fa fa-cogs"></i> Service Monitoring</h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                <div class="btn-group btn-group-justified">
+                                    <a href="{{url('serviceslogs/create')}}" class="createItem btn btn-file btn-primary">Log Downtime</a>
+
+                                    <a href="{{url('serviceslogs/today')}}"  class="btn btn-file btn-primary">Today Status</a>
+
+                                    <a href="{{url('inventory-reports')}}" class="btn btn-file btn-primary">Inventory items reports</a>
+
+                                    <a href="{{url('services')}}" class="btn btn-file btn-primary">View  Service</a>
+
+                                    <a href="{{url('serviceslogs')}}" class="btn btn-file btn-primary">Status History</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div id="highchart" style="height:400px;"></div>
                             </div>
@@ -462,8 +479,8 @@
 
                                             </td>
                                             <td id="{{$ser->id}}" class="text-center">
-                                                <a  href="#" title="Edit Service" class="editService btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
-                                                <a href="#b" title="Delete Department" class="delService btn btn-danger btn-xs"><i class="fa fa-trash-o "></i>Delete </a>
+                                                <a  href="{{url('serviceslogs/edit')}}/{{$ser->id}}" title="Edit Service" class=" btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+                                                <a href="#b" title="Delete Department" class=" btn btn-danger btn-xs"><i class="fa fa-trash-o "></i>Delete </a>
                                             </td>
                                         </tr>
 
@@ -482,33 +499,6 @@
                                     </tfoot>
                                 </table>
                             </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <section class="panel">
-                    <div class="panel-body">
-
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('serviceslogs/create')}}" class=" btn btn-file btn-danger btn-block">Log Downtime</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('serviceslogs/today')}}" class="btn btn-file btn-danger btn-block">Today Status</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('serviceslogs')}}" class="btn btn-file btn-danger btn-block">Status History</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('services')}}" class="btn btn-file btn-primary btn-block">View  Service</a>
                             </div>
                         </div>
                     </div>

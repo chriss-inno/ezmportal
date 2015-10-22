@@ -303,61 +303,68 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <p> <h3>Log new service status </h3>
-                                @if (count($errors) > 0)
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
-                                <hr/>
-                                {!! Form::open(array('url'=>'serviceslogs/create','role'=>'form','id'=>'serviceStatusForm')) !!}
-                                <div class="form-group">
-                                    <label for="service_id">Service Name</label>
-                                    <select class="form-control"  id="service_id" name="service_id">
-                                        <option value="">----</option>
-                                        <?php $services=\App\Service::all();?>
-                                        @foreach($services as $se)
-                                            <option value="{{$se->id}}">{{$se->service_name}}</option>
-                                        @endforeach
+                        <p> <h3>Log new service status </h3>
+                        @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <hr/>
+                        {!! Form::open(array('url'=>'serviceslogs/edit','role'=>'form','id'=>'serviceStatusForm')) !!}
+                        <div class="form-group">
+                            <label for="service_id">Service Name</label>
+                            <select class="form-control"  id="service_id" name="service_id">
+                                <option  selected value="{{$service->service->service_name}}">{{$service->service->service_name}}</option>
+                                <option value="">----</option>
+                                <?php $services=\App\Service::all();?>
+                                @foreach($services as $se)
+                                    <option value="{{$se->id}}">{{$se->service_name}}</option>
+                                @endforeach
 
-                                    </select>
-                                </div>
-                                <!-- page
+                            </select>
+                        </div>
+                        <!-- page
 						<div class="form-group">
 							<label for="unit_name">Log Title</label>
 							<input type="text" class="form-control" id="log_title" name="log_title" value="{{old('log_title')}}" placeholder="Enter title">
 						</div>
 						 -->
-                                <div class="form-group">
-                                    <label for="unit_name">Description</label>
-                                    <textarea class="ckeditor form-control" id="description" name="description"></textarea>
+                        <div class="form-group">
+                            <label for="unit_name">Description</label>
+                            <textarea class="ckeditor form-control" id="description" name="description"><?php echo $service->description?></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="unit_name">Specify Reason</label>
+                            <input type="text" class="form-control" id="reason" name="reason" value="{{$service->reason}}" placeholder="Enter reason">
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="status">Start Time</label>
+                                    <input type="text" class="form-control form-control form-control-inline input-medium default-date-picker" id="start_time" name="start_time" value="{{$service->start_time}}" placeholder="(YYYY-MM-DD HH:MM)">
                                 </div>
-                                <div class="form-group">
-                                    <label for="unit_name">Specify Reason</label>
-                                    <input type="text" class="form-control" id="reason" name="reason" value="{{old('log_title')}}" placeholder="Enter reason">
+                                <div class="col-md-6">
+                                    <label for="status">Restoration Time</label>
+                                    <input type="text" class="form-control" id="end_time" name="end_time" value="{{$service->end_time}}" placeholder="(YYYY-MM-DD HH:MM)">
                                 </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="status">Start Time</label>
-                                            <input size="16" type="text" id="start_time" name="start_time" value="{{old('start_time')}}"  class="form_datetime form-control">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="status">Restoration Time</label>
-                                            <input size="16" type="text" id="end_time" name="end_time" value="{{old('end_time')}}"  class="form_datetime form-control">
-                                        </div>
-                                    </div>
-                                </div>
+                            </div>
+                        </div>
                                 <div class="form-group">
                                     <h3 class="text-info"> Area Affected by the downtime</h3> <hr/>
                                     <div class="row" style="margin-bottom: 10px">
                                         <div class="col-md-4">
                                             <label for="status">Branches</label>
                                             <select name="branches[]" class="multi-select form-control" multiple="" id="branches" >
+                                                <?php $branchs=\App\ServiceLogArea::where('serviceLog_id','=',$service->id)->where('area_type','=','branch')->get()?>
+                                                    @if(count($branchs) > 0)
+                                                        @foreach($branchs as $br)
+                                                            <option selected>{{$br->area_affected}})</option>
+                                                        @endforeach
+                                                    @endif
                                                 @foreach(\App\Branch::all() as $br)
                                                     <option >{{$br->branch_Name}}</option>
                                                 @endforeach
@@ -366,9 +373,15 @@
                                         <div class="col-md-4">
                                             <label for="status">Departments</label>
                                             <select multiple class="multi-select form-control" name="departments[]" id="departments" multiple="">
+                                                <?php $departments=\App\ServiceLogArea::where('serviceLog_id','=',$service->id)->where('area_type','=','department')->get()?>
+                                                    @if(count($departments) > 0)
+                                                        @foreach($departments as $dp)
+                                                            <option selected>{{$dp->area_affected}})</option>
+                                                        @endforeach
+                                                    @endif
                                                 @foreach(\App\Branch::all() as $br)
                                                     @foreach($br->department as $dp)
-                                                            <option >{{$dp->department_name}}</option>
+                                                        <option >{{$dp->department_name}}</option>
                                                     @endforeach
                                                 @endforeach
                                             </select>
@@ -376,6 +389,12 @@
                                         <div class="col-md-4">
                                             <label for="units">Units</label>
                                             <select multiple class="multi-select form-control" name="units[]" id="units" multiple="">
+                                                <?php $units=\App\ServiceLogArea::where('serviceLog_id','=',$service->id)->where('area_type','=','unit')->get()?>
+                                                @if(count($units) > 0)
+                                                        @foreach($units as $un)
+                                                            <option selected>{{$un->area_affected}})</option>
+                                                        @endforeach
+                                                    @endif
                                                 @foreach(\App\Branch::all() as $br)
                                                     @foreach($br->department as $dp)
                                                         @foreach($dp->units as $un)
@@ -396,7 +415,11 @@
                                             <div class="col-md-4">
                                                 <label for="status">Status</label>
                                                 <select name="status" class="form-control" id="status">
-                                                    <option selected value="">----</option>
+                                                    @if($service->status !="")
+                                                          <option selected value="">{{$service->status}}</option>
+                                                        @else
+                                                          <option value="">----</option>
+                                                        @endif
                                                     <option value="Sorted">Sorted</option>
                                                     <option value="Not Sorted">Not Sorted</option>
                                                 </select>
@@ -404,10 +427,12 @@
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary pull-right col-md-2">Submit</button>
+                                     <input type="hidden" value="{{$service->id}}" name="id" id="id">
+                                    <input type="hidden" value="{{$service->service_id}}" name="service_id" id="service_id">
 
                                     {!! Form::close() !!}
                                 </div>
-                            </div>
+                    </div>
                         </div>
                     </div>
                 </section>

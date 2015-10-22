@@ -373,7 +373,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> Service Monitoring</h3>
+                        <h3 class="text-info"> <i class="fa fa-tachometer text-danger"></i> <i class="fa fa-cogs"></i> Service Monitoring</h3>
                     </header>
                     <div class="panel-body">
                         <div class="adv-table">
@@ -386,7 +386,6 @@
                                     <th>End Time</th>
                                     <th>Status</th>
                                     <th>Detailed</th>
-                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody id="serviceList">
@@ -406,10 +405,6 @@
                                             <a  href="#" title="Edit Service" class="viewService btn btn-success btn-xs"><i class="fa fa-folder-open-o"></i>View </a>
 
                                         </td>
-                                        <td id="{{$ser->id}}" class="text-center">
-                                            <a  href="#" title="Edit Service" class="editService btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
-                                            <a href="#b" title="Delete Department" class="delService btn btn-danger btn-xs"><i class="fa fa-trash-o "></i>Delete </a>
-                                        </td>
                                     </tr>
 
                                 @endforeach
@@ -422,7 +417,6 @@
                                     <th>End Time</th>
                                     <th>Status</th>
                                     <th>Detailed</th>
-                                    <th>Action</th>
                                 </tr>
                                 </tfoot>
                             </table>
