@@ -305,13 +305,22 @@
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <label for="status">Status</label>
                                     <select name="status" class="form-control" id="status">
                                         <option selected value="">----</option>
                                         <option value="enabled">enabled</option>
                                         <option value="disabled">disabled</option>
                                     </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="is_default">Is Default ?</label>
+                                    <select name="is_default" class="form-control" id="is_default">
+                                        <option selected value="">----</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                    <p class="text-danger"> Select default yes if you want the role to be default assigned to new users. Only one role will have this role</p>
                                 </div>
                             </div>
                         </div>

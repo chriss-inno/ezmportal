@@ -273,15 +273,29 @@ class UserController extends Controller
             $us->username = $uname;
             //Create email
             $us->email = $uname . "@bankm.com"; //Combine first and last names
+
+            //Assign user right
+            $right=Right::where('is_default','=','No')->get();
+            $rght=0;
+            if(count($right) >0)
+            {
+               foreach($right as $r)
+               {
+                   $rght =$r->id;
+               }
+            }
+            $us->right_id=$rght;
             $us->save();
 
             //Sent notifications to support team
+
+
 
             $data1 = array(
                 'user' => $us,
             );
 
-            \Mail::queue('emails.newuser', $data1, function ($message) {
+            \Mail::send('emails.newuser', $data1, function ($message) {
 
                 $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
 
@@ -296,13 +310,14 @@ class UserController extends Controller
                 'name' =>   $string = ucwords(strtolower($request->first_name . " " . $request->last_name)) ,
             );
 
-            \Mail::queue('emails.registration', $data, function ($message) use($us){
+            \Mail::send('emails.registration', $data, function ($message) use($us){
 
                 $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
 
                 $message->to($us->email)->subject('Portal registration notification');
 
             });
+
 
             return redirect('login')->with('message', 'You have successful registered to Bank M service Portal,Your login access was sent to your email and request was sent to ICT for approval');
 

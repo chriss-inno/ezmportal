@@ -44,14 +44,25 @@ class RightsController extends Controller
     public function store(Request $request)
     {
         //
-
+        //Check for default rights
+        if($request->is_default !="" && $request->is_default =="Yes")
+        {
+            foreach(Right::all() as $usrt)
+            {
+                $usrt->is_default="No";
+                $usrt->save();
+            }
+        }
 
                $right=new Right;
                $right->status=$request->status;
+               $right->is_default=$request->is_default;
                $right->description=$request->description;
                $right->right_name=$request->right_name;
                $right->input_by=Auth::user()->username;
                $right->save();
+
+
 
                $i=1;
           if($request->module !=null && $request->module !="")
@@ -169,8 +180,17 @@ class RightsController extends Controller
     public function update(Request $request)
     {
         //
-
+        //Check for default rights
+        if($request->is_default !="" && $request->is_default =="Yes")
+        {
+            foreach(Right::all() as $usrt)
+            {
+                $usrt->is_default="No";
+                $usrt->save();
+            }
+        }
         $right= Right::find($request->id);
+        $right->is_default=$request->is_default;
         $right->status=$request->status;
         $right->description=$request->description;
         $right->right_name=$request->right_name;

@@ -318,6 +318,19 @@
                                         <option value="disabled">disabled</option>
                                     </select>
                                 </div>
+                                <div class="col-md-6">
+                                    <label for="is_default">Is Default ?</label>
+                                    <select name="is_default" class="form-control" id="is_default">
+                                        @if($right->is_default !="")
+                                            <option selected value="{{$right->is_default}}">{{$right->is_default}}</option>
+                                        @else
+                                            <option selected value="">----</option>
+                                        @endif
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                    <p class="text-danger"> Select default yes if you want the role to be default assigned to new users. Only one role will have this role</p>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
