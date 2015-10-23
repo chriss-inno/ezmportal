@@ -120,6 +120,7 @@ class QueryController extends Controller
                 $queryAssignment->user_id=$user->user_id;
                 $queryAssignment->module_id=$query->module_id;
                 $queryAssignment->assigned_date=$today;
+                $queryAssignment->assigned_date_time=date("Y-m-d H:i");
                 $queryAssignment->save();
                 $query->assigned=1; //Change status to assigned
                 $query->save();
@@ -140,6 +141,7 @@ class QueryController extends Controller
                 $queryAssignment->user_id = $user[0]->userid;
                 $queryAssignment->module_id = $query->module_id;
                 $queryAssignment->assigned_date = $today;
+                $queryAssignment->assigned_date_time=date("Y-m-d H:i");
                 $queryAssignment->save();
                 $query->assigned = 1; //Change status to assigned
                 $query->save();
@@ -364,6 +366,7 @@ class QueryController extends Controller
     //Load query history
     public function history()
     {
+
         if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
         {
             $queries=Query::all();
@@ -424,6 +427,7 @@ class QueryController extends Controller
             $queryAssignment->user_id = $request->user_id;
             $queryAssignment->module_id = $query->module_id;
             $queryAssignment->assigned_date = date("Y-m-d");
+            $queryAssignment->assigned_date_time=date("Y-m-d H:i");
             $queryAssignment->save();
 
             //Change status to assigned

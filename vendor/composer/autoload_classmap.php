@@ -627,6 +627,7 @@ return array(
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
     'UpdateInventoryTable' => $baseDir . '/database/migrations/2015_09_30_062924_update_inventory_table.php',
     'UpdateMessagesTable' => $baseDir . '/database/migrations/2015_10_13_121826_Update_messages_table.php',
+    'UpdateQueryTable' => $baseDir . '/database/migrations/2015_10_23_185043_update_query_table.php',
     'UpdateRightTable' => $baseDir . '/database/migrations/2015_10_23_122925_Update_right_table.php',
     'UpdateServiceLog' => $baseDir . '/database/migrations/2015_10_06_122722_update_service_log.php',
     'UpdateServiceTable' => $baseDir . '/database/migrations/2015_10_07_172810_update_service_table.php',

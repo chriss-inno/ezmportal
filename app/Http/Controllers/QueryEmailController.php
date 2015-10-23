@@ -132,12 +132,56 @@ class QueryEmailController extends Controller
         }
 
     }
+     //Send reminder Query unassigned reminder
+    public static function unAssignedQueryReminder()
+    {
+         //Get query
+        $departments=\App\Department::where('receive_query','=','1')->get();
+        foreach($departments as $dp)
+        {
+            $queries=\DB::select(" SELECT * FROM prt_queries WHERE id not in(SELECT query_id FROM prt_query_assignments)
+                                 AND to_department ='".$dp->id."'");
 
+            if($queries != null && $queries !="" && count($queries)>0 ) {
+
+                //Send email
+
+                $emails=QueryEmail::where('department_id','=',$dp->id)->get();
+
+                if($emails != null && $emails != "" && count($emails) > 0)
+                {
+                     //Get emails from department
+                    $data = array(
+                        'queries' => $queries,
+                        'department' => $dp->department_name
+                    );
+
+                    foreach($emails as $em)
+                    {
+                           $email= $em->email;
+                           \Mail::send('emails.unassignedqueries', $data, function ($message) use ($email) {
+
+                               //Fetch emails of users to wchich query was sent
+                               $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                               $message->to($email)->subject('Remainder unassigned queries for past 15 minutes');
+                           });
+                    }
+
+
+
+
+                }
+
+
+            }
+        }
+
+    }
    //Sending emails
 
     public static function sendQueryLaunchedEmail($query)
     {
-        if($query != null && $query !="" >0 ) {
+        if($query != null && $query !="" && count($query)>0 ) {
             $data = array(
                 'query' => serialize($query)
             );

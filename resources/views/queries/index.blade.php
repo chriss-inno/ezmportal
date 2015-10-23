@@ -362,7 +362,7 @@
             <div class="col-lg-12 col-md-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa  fa-tasks"></i> MY LOGGED QUERIES PROGRESS</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa  fa-tasks"></i> QUERIES PROGRESS</strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
@@ -387,7 +387,7 @@
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div class="adv-table">
-                            <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
+                               <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
                                 <thead>
                                 <tr>
                                     <th>SNO</th>

@@ -58,15 +58,15 @@ return array(
     ),
 
     'properties' => array(
-        'creator'        => 'Maatwebsite',
-        'lastModifiedBy' => 'Maatwebsite',
-        'title'          => 'Spreadsheet',
-        'description'    => 'Default spreadsheet export',
+        'creator'        => 'Bank M Portal',
+        'lastModifiedBy' => 'Bank M Portal',
+        'title'          => 'Bank M Portal Reports',
+        'description'    => 'Bank M Portal Reports',
         'subject'        => 'Spreadsheet export',
         'keywords'       => 'maatwebsite, excel, export',
         'category'       => 'Excel',
-        'manager'        => 'Maatwebsite',
-        'company'        => 'Maatwebsite',
+        'manager'        => 'Bank M Portal',
+        'company'        => 'Bank M Portal',
     ),
 
     /*
