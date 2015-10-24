@@ -408,6 +408,18 @@
                                 </div>
                             </div>
                         </div>
+                        @if(Session::has('message'))
+                            <div class="row" style="margin-top: 10px; margin-bottom: 10px">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                        <div class="alert fade in alert-danger">
+                                            <i class="icon-remove close" data-dismiss="alert"></i>
+                                            {{Session::get('message')}}
+                                        </div>
+
+                                </div>
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="adv-table">

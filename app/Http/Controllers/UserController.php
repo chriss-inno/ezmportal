@@ -246,6 +246,13 @@ class UserController extends Controller
         return view('users.rights',compact('right'));
     }
 
+    //User profile
+    public function showProfile()
+    {
+        $user=User::find(Auth::user()->id);
+        return view('users.profile',compact('user'));
+    }
+
     //Process registration
     public function postRegister(UserRegistrationRequest $request)
     {
@@ -329,7 +336,7 @@ class UserController extends Controller
     {
         if (Auth::check())
         {
-            $user= \App\User::find(Auth::user()->id);
+            $user= User::find(Auth::user()->id);
             $user->last_logout=date("Y-m-d h:i:s");
             $user->save();
         }

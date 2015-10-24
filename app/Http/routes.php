@@ -81,6 +81,9 @@ Route::post('users/rights',['middleware' => 'auth', 'uses' =>'UserController@pos
 Route::get('users/exemption/{id}',['middleware' => 'auth', 'uses' =>'UserController@changeUserExemption']);
 Route::post('users/exemption',['middleware' => 'auth', 'uses' =>'UserController@postChangeUserExemption']);
 
+Route::get('profile',['middleware' => 'auth', 'uses' =>'UserController@showProfile']);
+Route::post('users/exemption',['middleware' => 'auth', 'uses' =>'UserController@postChangeUserExemption']);
+
 
 //Query exception
 
@@ -114,6 +117,8 @@ Route::get('support/oracle/remove/{id}',['middleware' => 'auth', 'uses' =>'Oracl
 Route::resource('modules','ModuleController');
 Route::get('modules-remove/{id}',['middleware' => 'auth', 'uses' =>'ModuleController@destroy']);
 
+//Service DeLivery
+Route::resource('servicedelivery','ServiceDeliveryController');
 //Query Enables
 Route::resource('enablers','EnablerController');
 Route::get('enablers-remove/{id}',['middleware' => 'auth', 'uses' =>'EnablerController@destroy']);
