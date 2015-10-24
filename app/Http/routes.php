@@ -116,7 +116,7 @@ Route::get('modules-remove/{id}',['middleware' => 'auth', 'uses' =>'ModuleContro
 
 //Query Enables
 Route::resource('enablers','EnablerController');
-Route::get('enablers-remove/{id}',['middleware' => 'auth', 'uses' =>'ModuleController@destroy']);
+Route::get('enablers-remove/{id}',['middleware' => 'auth', 'uses' =>'EnablerController@destroy']);
 
 //Query Progress status
 Route::resource('queriesstatus','QueryStatusController');
@@ -177,6 +177,7 @@ Route::post('services/create',['middleware' => 'auth', 'uses' =>'ServicesControl
 Route::get('services/list',['middleware' => 'auth', 'uses' =>'ServicesController@listService']);
 Route::post('services/edit',['middleware' => 'auth', 'uses' =>'ServicesController@update']);
 Route::get('services/edit/{id}',['middleware' => 'auth', 'uses' =>'ServicesController@edit']);
+Route::get('services-remove/{id}',['middleware' => 'auth', 'uses' =>'ServicesController@destroy']);
 
 //Service Logs
 Route::get('serviceslogs',['middleware' => 'auth', 'uses' =>'ServiceLogController@index']);

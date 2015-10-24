@@ -18,51 +18,54 @@ Branches
 
 
             $('#branches').dataTable( {
-                "aaSorting": [[ 4, "desc" ]]
-            } );
-
-            $(".deleteuser").click(function(){
-                var id1 = $(this).parent().attr('id');
-                $(".deleteuser").show("slow").parent().parent().find("span").remove();
-                var btn = $(this).parent().parent();
-                $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
-                $("#no").click(function(){
-                    $(this).parent().parent().find(".deleteuser").show("slow");
-                    $(this).parent().parent().find("span").remove();
-                });
-                $("#yes").click(function(){
-                    $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                    $.get("<?php echo url('branches/remove') ?>/"+id1,function(data){
-                        btn.hide("slow").next("hr").hide("slow");
+                "fnDrawCallback": function (oSettings) {
+                    $(".deleteBranch").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        $(".deleteBranch").show("slow").parent().parent().find("span").remove();
+                        var btn = $(this).parent().parent();
+                        $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
+                        $("#no").click(function(){
+                            $(this).parent().parent().find(".deleteBranch").show("slow");
+                            $(this).parent().parent().find("span").remove();
+                        });
+                        $("#yes").click(function(){
+                            $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
+                            $.get("<?php echo url('branches/remove') ?>/"+id1,function(data){
+                                btn.hide("slow").next("hr").hide("slow");
+                            });
+                        });
                     });
-                });
-            });
 
-            //Edit class streams
-            $(".addBranch").click(function(){
-                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
-                modaldis+= '<div class="modal-content">';
-                modaldis+= '<div class="modal-header">';
-                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="text-align: center">Update School Class Level</span>';
-                modaldis+= '</div>';
-                modaldis+= '<div class="modal-body">';
-                modaldis+= ' </div>';
-                modaldis+= '</div>';
-                modaldis+= '</div>';
-                $('body').css('overflow','hidden');
+                    //Edit class streams
+                    $(".addBranch").click(function(){
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                        modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info" style="text-align: center">Update School Class Level</span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
 
-                $("body").append(modaldis);
-                $("#myModal").modal("show");
-                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("branches/create") ?>");
-                $("#myModal").on('hidden.bs.modal',function(){
-                    $("#myModal").remove();
-                })
+                        $("body").append(modaldis);
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("branches/create") ?>");
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
 
-            });
-     } );
+                    });
+                }
+
+            } );
+        } );
+
+
 
 
     </script>
@@ -317,7 +320,7 @@ Branches
                                                <td>{{$br->status}}</td>
                                                <td id="{{$br->id}}" align="center">
                                                    <a  href="{{url('branches/edit')}}/{{$br->id}}" title="Edit branch" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                                   <a href="#b" title="Delete branch" class="deleteuser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                                   <a href="#b" title="Delete branch" class="deleteBranch btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
 
                                                </td>
                                            </tr>

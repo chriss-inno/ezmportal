@@ -26,9 +26,14 @@ class CreateInventoriesTable extends Migration
             $table->integer('department_id')->nullable();
             $table->integer('branch_id')->nullable();
             $table->string('status')->nullable();
+            $table->string('machine_model')->nullable();
+            $table->string('serial_number')->nullable();
+            $table->string('platform')->nullable();
+            $table->string('domain')->nullable();
             $table->string('input_by')->nullable();
             $table->string('auth_by')->nullable();
             $table->string('auth_status',1)->default('U');
+
             $table->timestamps();
         });
     }

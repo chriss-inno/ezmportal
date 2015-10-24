@@ -18,53 +18,57 @@
 
 
             $('#branches').dataTable( {
-                "aaSorting": [[ 4, "desc" ]]
+                "fnDrawCallback": function (oSettings) {
+
+                    $(".deleteDepartment").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        $(".deleteDepartment").show("slow").parent().parent().find("span").remove();
+                        var btn = $(this).parent().parent();
+                        $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
+                        $("#no").click(function(){
+                            $(this).parent().parent().find(".deleteDepartment").show("slow");
+                            $(this).parent().parent().find("span").remove();
+                        });
+                        $("#yes").click(function(){
+                            $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
+                            $.get("<?php echo url('departments/remove') ?>/"+id1,function(data){
+                                btn.hide("slow").next("hr").hide("slow");
+                            });
+                        });
+                    });
+
+                    //Edit class streams
+                    $(".addUnit").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                        modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Department Units</span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("units") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    });
+                }
+
             } );
 
-            $(".deleteuser").click(function(){
-                var id1 = $(this).parent().attr('id');
-                $(".deleteuser").show("slow").parent().parent().find("span").remove();
-                var btn = $(this).parent().parent();
-                $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
-                $("#no").click(function(){
-                    $(this).parent().parent().find(".deleteuser").show("slow");
-                    $(this).parent().parent().find("span").remove();
-                });
-                $("#yes").click(function(){
-                    $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                    $.get("<?php echo url('branches/remove') ?>/"+id1,function(data){
-                        btn.hide("slow").next("hr").hide("slow");
-                    });
-                });
-            });
 
-            //Edit class streams
-            $(".addUnit").click(function(){
-                var id1 = $(this).parent().attr('id');
-                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-
-                modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
-                modaldis+= '<div class="modal-content">';
-                modaldis+= '<div class="modal-header">';
-                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Department Units</span>';
-                modaldis+= '</div>';
-                modaldis+= '<div class="modal-body">';
-                modaldis+= ' </div>';
-                modaldis+= '</div>';
-                modaldis+= '</div>';
-                $('body').css('overflow','hidden');
-
-                $("body").append(modaldis);
-                jQuery.noConflict();
-                $("#myModal").modal("show");
-                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("units") ?>/"+id1);
-                $("#myModal").on('hidden.bs.modal',function(){
-                    $("#myModal").remove();
-                })
-
-            });
         } );
 
 
@@ -328,7 +332,7 @@
                                             @endif
                                         <td id="{{$d->id}}" class="text-center" title="{{$d->department_name}}">
                                           <a  href="{{url('departments/edit')}}/{{$d->id}}" title="Edit department" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                          <a href="#b" title="Delete Department" class="deleteuser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                          <a href="#b" title="Delete Department" class="deleteDepartment btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
                                         </td>
                                     </tr>
 

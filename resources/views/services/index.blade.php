@@ -23,18 +23,18 @@
 
 
 
-            $(".deleteuser").click(function(){
+            $(".deleteService").click(function(){
                 var id1 = $(this).parent().attr('id');
-                $(".deleteuser").show("slow").parent().parent().find("span").remove();
+                $(".deleteService").show("slow").parent().parent().find("span").remove();
                 var btn = $(this).parent().parent();
                 $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
                 $("#no").click(function(){
-                    $(this).parent().parent().find(".deleteuser").show("slow");
+                    $(this).parent().parent().find(".deleteService").show("slow");
                     $(this).parent().parent().find("span").remove();
                 });
                 $("#yes").click(function(){
                     $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                    $.get("<?php echo url('branches/remove') ?>/"+id1,function(data){
+                    $.get("<?php echo url('services-remove') ?>/"+id1,function(data){
                         btn.hide("slow").next("hr").hide("slow");
                     });
                 });
@@ -379,7 +379,7 @@
                                         <td>{{$ser->status}}</td>
                                         <td id="{{$ser->id}}" class="text-center">
                                             <a  href="#" title="Edit Service" class="editService btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                            <a href="#b" title="Delete Department" class="deleteuser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                            <a href="#b" title="Delete Department" class="deleteService btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
                                         </td>
                                     </tr>
 

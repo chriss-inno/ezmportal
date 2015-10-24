@@ -21,13 +21,13 @@
                 "fnDrawCallback": function( oSettings ) {
 
 
-            $(".deleteItem").click(function(){
+            $(".deleteEnabler").click(function(){
                 var id1 = $(this).parent().attr('id');
-                $(".deleteItem").show("slow").parent().parent().find("span").remove();
+                $(".deleteEnabler").show("slow").parent().parent().find("span").remove();
                 var btn = $(this).parent().parent();
                 $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
                 $("#no").click(function(){
-                    $(this).parent().parent().find(".deleteItem").show("slow");
+                    $(this).parent().parent().find(".deleteEnabler").show("slow");
                     $(this).parent().parent().find("span").remove();
                 });
                 $("#yes").click(function(){
@@ -375,7 +375,7 @@
                                         <td>{{$enabler->description}}</td>
                                         <td id="{{$enabler->id}}" align="center">
                                                 <a  href="#" title="Edit Enabler" class="editItem btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                                <a href="#b" title="Delete Enabler" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                                <a href="#b" title="Delete Enabler" class="deleteEnabler btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
                                         </td>
                                     </tr>
 
