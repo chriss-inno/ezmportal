@@ -105,11 +105,18 @@
                         success:function(data)
                         {
                             console.log(data);
-                            setTimeout(function() {
-                                $("#output").html("");
-                                jQuery.noConflict();
-                                $("#myModal").modal("hide");
-                            }, 2000);
+                            $("#output").html("<h3 class='text-success'>"+data+"</h3>");
+                            if(data == "Email saved successfully")
+                            {
+                                setTimeout(function() {
+                                    $("#output").html("");
+                                    location.reload();
+                                    jQuery.noConflict();
+                                    $("#myModal").modal("hide");
+                                }, 2000);
+                            }
+                            
+
                         },
                         error: function(data)
                         {

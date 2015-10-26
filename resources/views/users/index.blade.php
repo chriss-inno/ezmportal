@@ -21,7 +21,7 @@
             $('#branches').dataTable( {
                 "fnDrawCallback": function( oSettings ) {
                     $(".deleteUser").click(function(){
-                        var id1 = $(this).parent().parent().attr('id');
+                        var id1 = $(this).parent().attr('id');
                         $(".deleteUser").show("slow").parent().parent().find("span").remove();
                         var btn = $(this).parent().parent();
                         $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
@@ -372,18 +372,14 @@
                                             <a href="{{url('users/show')}}/{{$usr->id}}" class="btn btn-info btn-xs" title="User Profile"><i class="fa fa-eye"></i> View </a>
                                         </td>
                                         @if($usr->id != Auth::user()->id)
-                                        <td>
-                                            <div class="pull-right hidden-phone" id="{{$usr->id}}">
+                                        <td id="{{$usr->id}}">
                                                 <a  href="{{url('users/edit')}}/{{$usr->id}}" title="Edit user" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
                                                 <a href="#b" title="Delete user" class="deleteUser btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
-                                            </div>
                                         </td>
                                             @else
-                                            <td>
-                                                <div class="pull-right hidden-phone" id="{{$usr->id}}">
+                                            <td id="{{$usr->id}}">
                                                     <a  href="#" title="Can not edit yourself" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
                                                     <a href="#" title="Can not delete yourself" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
-                                                </div>
                                             </td>
                                             @endif
                                     </tr>

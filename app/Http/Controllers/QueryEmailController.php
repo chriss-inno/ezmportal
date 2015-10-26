@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\QueryEmail;
 use App\User;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -45,14 +46,32 @@ class QueryEmailController extends Controller
         //
         try
         {
-            $email=new QueryEmail;
-            $email->email=$request->email;
-            $email->department_id=$request->department_id;
-            $email->status=$request->status;
-            $email->input_by=Auth::user()->username;
-            $email->save();
+            $input = array('email' =>  $request->email);
 
-            return "<h3 class='text-info'>Email saved successfully</h3>";
+            $rules = array(
+                'email' => 'required|email|unique:query_emails'
+            );
+
+            // Now pass the input and rules into the validator
+            $validator = Validator::make($input, $rules);
+            if ($validator->fails()) {
+
+                return '<div class="alert fade in alert-danger">
+                    <i class="icon-remove close" data-dismiss="alert"></i>
+                    Save failed, email already exist Submit failed
+                </div>';
+            }
+            else
+            {
+                $email = new QueryEmail;
+                $email->email = $request->email;
+                $email->department_id = $request->department_id;
+                $email->status = $request->status;
+                $email->input_by = Auth::user()->username;
+                $email->save();
+
+                return "Email saved successfully";
+            }
         }catch (\Exception $e)
         {
             return $e->getMessage();

@@ -123,6 +123,7 @@ $units=$dep->units;
                             $("#dataDisplay").html(data);
 
                             setTimeout(function() {
+                                location.reload();
                                 $("#output").html("");
                             }, 2000);
                         },

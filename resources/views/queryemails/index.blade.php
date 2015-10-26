@@ -405,7 +405,7 @@
                                                     <td>{{$i++}}</td>
                                                     <td>{{$em->email}}</td>
                                                     <td>{{$em->department->department_name}}</td>
-                                                    @if($em->status =="Active" || $item->status =="active")
+                                                    @if($em->status =="Active" || $em->status =="active")
                                                         <td><a  href="#" title="This Item is working property" class=" btn btn-success btn-xs"> {{ucwords(strtolower($em->status)) }} </a></td>
                                                     @else
                                                         <td><a  href="#" title="This Item is not working property" class=" btn btn-danger btn-xs"> {{ucwords(strtolower($em->status)) }} </a></td>

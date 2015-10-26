@@ -29,6 +29,7 @@ class ServiceDeliveryController extends Controller
     public function create()
     {
         //
+        return view('servicedelivery.create');
     }
 
     /**
@@ -51,6 +52,8 @@ class ServiceDeliveryController extends Controller
     public function show($id)
     {
         //
+        $issue=CustomerIssues::all();
+        return view('servicedelivery.show',compact('issue'));
     }
 
     /**
@@ -62,6 +65,8 @@ class ServiceDeliveryController extends Controller
     public function edit($id)
     {
         //
+        $issue=CustomerIssues::all();
+        return view('servicedelivery.show',compact('issue'));
     }
 
     /**
@@ -85,5 +90,7 @@ class ServiceDeliveryController extends Controller
     public function destroy($id)
     {
         //
+        $issue=CustomerIssues::all();
+        $issue->delete();
     }
 }

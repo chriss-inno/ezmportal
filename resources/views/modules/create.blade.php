@@ -107,6 +107,7 @@
                             console.log(data);
                             setTimeout(function() {
                                 $("#output").html("");
+                                location.reload();
                                 jQuery.noConflict();
                                 $("#myModal").modal("hide");
                             }, 2000);

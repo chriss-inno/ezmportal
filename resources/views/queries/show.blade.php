@@ -14,8 +14,8 @@
                                     <th>Query code</th>
                                     <th>Reported date</th>
                                     <th>Reported by</th>
-                                    <th>From department</th>
-                                    <th>To Department</th>
+                                    <th>To department</th>
+                                    <th>From Department</th>
                                     <th>Person assigned </th>
                                     <th>Date assigned</th>
                                     <th>Critical</th>
@@ -72,8 +72,10 @@
                                                 @endif
                                                 <span class="arrow"></span>
                                                 <div class="text">
-                                                    <p class="attribution"><a href="#">{{$message->mSender->first_name.' '.$message->mSender->last_name}}</a> at {{date('h:i A',strtotime($message->created_at))}}, {{date("l, jS F Y",strtotime($message->created_at))}}</p>
-                                                    <p>{{$message->message}}
+                                                    <p class="attribution"> @if($message->mSender != null && $message->mSender != "")
+                                                            <a href="#">{{$message->mSender->first_name.' '.$message->mSender->last_name}}</a> @endif at {{date('h:i A',strtotime($message->created_at))}}, {{date("l, jS F Y",strtotime($message->created_at))}}</p>
+
+                                                        <p>{{$message->message}}
                                                         @if($message->reference_file != null && $message->reference_file !="")
                                                             [ <a href="{{url('uploads/messages')}}/{{$message->reference_file}}"><i class="fa fa-download text-danger"></i> Get attachment</a> ]
                                                         @endif

@@ -76,6 +76,7 @@
                             setTimeout(function() {
 
                                 $("#output").html("");
+                                location.reload();
                                 jQuery.noConflict();
                                 $("#myModal").modal("hide");
                                 $("#serviceList").load("<?php echo url('services/list')?>");

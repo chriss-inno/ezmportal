@@ -279,7 +279,7 @@ class UserController extends Controller
 
             $us->username = $uname;
             //Create email
-            $us->email = $uname . "@bankm.com"; //Combine first and last names
+            $us->email = $uname . "@bizplusnet.com"; //Combine first and last names
 
             //Assign user right
             $right=Right::where('is_default','=','No')->get();

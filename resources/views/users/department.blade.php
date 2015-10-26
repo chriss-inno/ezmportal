@@ -83,6 +83,7 @@
                             console.log(data);
                             setTimeout(function() {
                                 $("#output").html(data);
+                                location.reload();
                                 $("#myModal").modal("hide");
                             }, 2000);
                         },

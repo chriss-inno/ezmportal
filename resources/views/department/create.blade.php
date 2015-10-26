@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Branches
+    Departments
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}

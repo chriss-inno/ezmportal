@@ -432,6 +432,7 @@ class QueryController extends Controller
 
             //Change status to assigned
             $query->assigned = 1;
+            $query->status=$request->status;
             $query->save();
 
             //Send emails
@@ -449,6 +450,7 @@ class QueryController extends Controller
 
             //Change status to assigned
             $query->assigned = 1;
+            $query->status=$request->status;
             $query->save();
 
             //Send emails
