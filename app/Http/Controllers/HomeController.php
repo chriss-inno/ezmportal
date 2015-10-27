@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    public function __construc()
+    public function __construct()
     {
         if(Auth::guest())
         {

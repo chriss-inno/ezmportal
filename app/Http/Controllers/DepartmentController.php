@@ -51,6 +51,7 @@ class DepartmentController extends Controller
         $dep->input_by=Auth::user()->username;
         $dep->receive_query=$request->receive_query;
         $dep->status=$request->status;
+        $dep->download_check=$request->download_check;
         $dep->save();
 
         return redirect('departments');
@@ -100,6 +101,7 @@ class DepartmentController extends Controller
         $dep->input_by=Auth::user()->username;
         $dep->status=$request->status;
         $dep->receive_query=$request->receive_query;
+        $dep->download_check=$request->download_check;
         $dep->save();
 
         return redirect('departments');

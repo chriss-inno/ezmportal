@@ -140,6 +140,17 @@ Route::post('inventory-download',['middleware' => 'auth', 'uses' =>'InventoryCon
 Route::resource('types','InventoryTypeController');
 Route::get('types-remove/{id}',['middleware' => 'auth', 'uses' =>'InventoryTypeController@destroy']);
 
+//Downloads
+Route::get('downloads/manage',['middleware' => 'auth', 'uses' =>'DownloadController@index']);
+Route::get('downloads/reports',['middleware' => 'auth', 'uses' =>'DownloadController@reports']);
+Route::get('downloads/create',['middleware' => 'auth', 'uses' =>'DownloadController@create']);
+Route::post('downloads/create',['middleware' => 'auth', 'uses' =>'DownloadController@store']);
+Route::get('downloads/edit/{id}',['middleware' => 'auth', 'uses' =>'DownloadController@edit']);
+Route::get('downloads/download/{id}',['middleware' => 'auth', 'uses' =>'DownloadController@downloadFile']);
+Route::get('downloads/department/{id}',['middleware' => 'auth', 'uses' =>'DownloadController@showDepartmentDownload']);
+Route::post('downloads/edit',['middleware' => 'auth', 'uses' =>'DownloadController@update']);
+Route::get('downloads-remove/{id}',['middleware' => 'auth', 'uses' =>'DownloadController@destroy']);
+
 
 //Units controller
 Route::get('units/{id}',['middleware' => 'auth', 'uses' =>'UnitController@index']);

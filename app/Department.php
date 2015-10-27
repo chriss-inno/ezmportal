@@ -36,4 +36,8 @@ class Department extends Model
     {
         return $this::hasMany('\App\QueryEmail','department_id','id');
     }
+    public function downloads()
+    {
+        return $this::hasMany('\App\Download','department_id','id');
+    }
 }

@@ -84,23 +84,21 @@
                 <li><a  href="#" title="List Albums">List Albums</a></li>
             </ul>
         </li>
-        @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5)  || Auth::user()->user_type=="Administrator")
-        <li class="sub-menu">
-            <a href="javascript:;" >
-                <i class="fa fa-download"></i>
-                <span>Downloads</span>
-            </a>
-            <ul class="sub">
-                <li><a  href="#" title="ICT Department">ICT Department</a></li>
-                <li><a  href="#" title="Operation">Operation</a></li>
-                <li><a  href="#" title="Administration">Administration</a></li>
-                <li><a  href="#" title="Human Resource">Human Resource</a></li>
-                @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,6)  || Auth::user()->user_type=="Administrator")
-                  <li><a  href="#" title="Manage Downloads">Manage Downloads</a></li>
-                 @endif
-            </ul>
-        </li>
+        @endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5)  || Auth::user()->user_type=="Administrator")
+            <li class="sub-menu">
+                <a href="javascript:;" >
+                    <i class="fa fa-download"></i>
+                    <span>Downloads</span>
+                </a>
+                <ul class="sub">
+                    @foreach(\App\Department::where('download_check','=','Yes')->get() as $depart )
+                    <li><a  href="{{url('downloads/department')}}/{{$depart->id}}" title="Download for {{$depart->department_name}}">{{$depart->department_name}}</a></li>
+                    @endforeach
+                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,6)  || Auth::user()->user_type=="Administrator")
+                        <li><a  href="{{url('downloads/manage')}}" title="Manage Downloads">Manage Downloads</a></li>
+                    @endif
+                </ul>
+            </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
         <li class="sub-menu">
@@ -317,8 +315,15 @@
                                 <div class="col-md-4">
                                     <label for="receive_query">Receive support queries?</label>
                                     <select name="receive_query" class="form-control" id="status">
-                                        <option value="0">No</option>
+                                        <option value="0" selected>No</option>
                                         <option value="1">Yes</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="download_check">Appear in download?</label>
+                                    <select name="download_check" class="form-control" id="status">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
                                     </select>
                                 </div>
                             </div>
