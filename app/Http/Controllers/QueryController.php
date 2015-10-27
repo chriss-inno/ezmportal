@@ -435,8 +435,9 @@ class QueryController extends Controller
             $query->status=$request->status;
             $query->save();
 
+            $qry=Query::find($query->id);
             //Send emails
-            \App\Http\Controllers\QueryEmailController::sendQueryAssignmentEmail($query); //Send assignment emails
+            \App\Http\Controllers\QueryEmailController::sendQueryAssignmentEmail($qry); //Send assignment emails
             return "Data saved successful";
         }
         else
@@ -446,6 +447,7 @@ class QueryController extends Controller
             $queryAssignment->user_id = $request->user_id;
             $queryAssignment->module_id = $query->module_id;
             $queryAssignment->assigned_date = date("Y-m-d");
+            $queryAssignment->assigned_date_time=date("Y-m-d H:i");
             $queryAssignment->save();
 
             //Change status to assigned
@@ -454,7 +456,8 @@ class QueryController extends Controller
             $query->save();
 
             //Send emails
-            \App\Http\Controllers\QueryEmailController::sendQueryAssignmentEmail($query); //Send assignment emails
+            $qry=Query::find($query->id);
+            \App\Http\Controllers\QueryEmailController::sendQueryAssignmentEmail($qry); //Send assignment emails
 
             return "Data saved successful";
         }

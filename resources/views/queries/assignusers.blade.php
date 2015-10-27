@@ -33,8 +33,8 @@
                                     <td>{{$query->query_code}}</td>
                                     <td>{{date("d M, Y H:i",strtotime($query->reporting_Date))}}</td>
                                     <td>{{$query->user->first_name.' '.$query->user->last_name}}</td>
-                                    <td>{{$query->toDepartment->department_name}}</td>
                                     <td>{{$query->fromDepartment->department_name}}</td>
+                                    <td>{{$query->toDepartment->department_name}}</td>
                                     @if($query->assignment != null && $query->assignment !="")
                                         <td style="background-color:#78CD51; color: #FFF;">{{$query->assignment->user->first_name.' '.$query->assignment->user->last_name}}</td>
                                         <td>{{$query->assignment->assigned_date_time}}</td>
@@ -88,12 +88,15 @@
                                                $usersar =\App\User::whereIn('id',$usersls)->get();
                                                 ?>
                                                 @foreach($usersar as $users)
-
-                                                    <option value="{{$users->id}}">{{$users->first_name.' '.$users->last_name}}</option>
+                                                        @if($query->assignment->user_id != $users->id )
+                                                            <option value="{{$users->id}}">{{$users->first_name.' '.$users->last_name}}</option>
+                                                        @endif
                                                 @endforeach
                                           @else
                                                 @foreach(\App\User::where('department_id','=',Auth::user()->department_id)->get() as $users)
-                                                    <option value="{{$users->id}}">{{$users->first_name.' '.$users->last_name}}</option>
+
+                                                       <option value="{{$users->id}}">{{$users->first_name.' '.$users->last_name}}</option>
+
                                                 @endforeach
                                         @endif
                                     </select>
@@ -107,8 +110,12 @@
                                         @else
                                             <option value="">----</option>
                                         @endif
-                                            <option value="Assigned">Assigned</option>
+                                            @if($query->assignment != null && $query->assignment !="")
                                             <option value="Reassigned">Reassigned</option>
+                                                @else
+                                                <option value="Assigned">Assigned</option>
+                                            @endif
+
                                     </select>
                                 </div>
                             </div>
