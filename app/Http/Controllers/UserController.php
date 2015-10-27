@@ -282,7 +282,7 @@ class UserController extends Controller
             $us->email = $uname . "@bankm.com"; //Combine first and last names
 
             //Assign user right
-            $right=Right::where('is_default','=','No')->get();
+            $right=Right::where('is_default','=','Yes')->get();
             $rght=0;
             if(count($right) >0)
             {
@@ -292,6 +292,7 @@ class UserController extends Controller
                }
             }
             $us->right_id=$rght;
+            $us->status="Inactive";
             $us->save();
 
             //Sent notifications to support team
@@ -299,29 +300,28 @@ class UserController extends Controller
 
 
             $data1 = array(
-                'user' => $us,
+                'user' => serialize($us),
             );
 
-            \Mail::send('emails.newuser', $data1, function ($message) {
+            \Mail::queue('emails.newuser', $data1, function ($message) {
 
                 $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
 
-                $message->to('support@bankm.com')->subject('User Registration Notification');
+                $message->to('support@bankm.com')->subject('Bank M Services Portal: New User Registration Notification');
 
             });
 
             //Send email to registered user
             $data = array(
-                'username' => $uname,
-                'password' => $request->Password,
-                'name' =>   $string = ucwords(strtolower($request->first_name . " " . $request->last_name)) ,
+                'user' => serialize($us),
+                'password' => $request->Password
             );
 
-            \Mail::send('emails.registration', $data, function ($message) use($us){
+            \Mail::queue('emails.registration', $data, function ($message) use($us){
 
                 $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
 
-                $message->to($us->email)->subject('Portal registration notification');
+                $message->to($us->email)->subject('Bank M Services Portal: User registration notification');
 
             });
 
