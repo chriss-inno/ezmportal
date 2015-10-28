@@ -618,16 +618,20 @@
                                 <a href="{{url('queries/history')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> History</a>
                             </div>
                         </div>
+                        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,21) || Auth::user()->user_type=="Administrator")
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
                                 <a href="{{url('queryemails')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-envelope"></i> Emails Setting</a>
                             </div>
                         </div>
+                        @endif
+                        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
                                 <a href="{{url('queries/report')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Reports</a>
                             </div>
                         </div>
+                        @endif
                     </div>
                 </section>
                  </div>

@@ -230,7 +230,7 @@ class QueryController extends Controller
 
         $msg=new Message;
         $msg->query_id=$request->query_id;
-        $msg->sender=$query->reported_by;
+        $msg->sender=Auth::user()->id;
         $msg->sent_time=date("Y-m-d H:i");
         $msg->message_type="OUT";
         $msg->message=$request->message;
@@ -272,7 +272,7 @@ class QueryController extends Controller
             {
                 $msg=new Message;
                 $msg->query_id=$request->query_id;
-                $msg->sender=$query->reported_by;
+                $msg->sender=Auth::user()->id;
                 $msg->sent_time=date("Y-m-d H:i");
                 $msg->message_type="OUT";
                 $msg->message=$request->message;
@@ -303,7 +303,7 @@ class QueryController extends Controller
         {
             $msg=new Message;
             $msg->query_id=$request->query_id;
-            $msg->sender=$query->reported_by;
+            $msg->sender=Auth::user()->id;
             $msg->sent_time=date("Y-m-d H:i");
             $msg->message_type="OUT";
             $msg->message=$request->message;
