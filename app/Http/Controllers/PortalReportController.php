@@ -451,6 +451,7 @@ class PortalReportController extends Controller
         {
             case "pdf":
                 $report_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->report_name.".PDF";
+                $report_other_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->other_name.".PDF";
 
                 if (File::exists($report_name))
                 {
@@ -458,6 +459,13 @@ class PortalReportController extends Controller
                         'Content-Type: application/pdf',
                     );
                     return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".PDF", $headers);
+                }
+                elseif(File::exists($report_other_name))
+                {
+                    $headers = array(
+                        'Content-Type: application/pdf',
+                    );
+                    return Response::download($report_other_name, date("Y_M_d",strtotime($dt))."_".$report->other_name.".PDF", $headers);
                 }
                 else
                 {
@@ -467,12 +475,20 @@ class PortalReportController extends Controller
                 break;
             case "xls":
                 $report_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->report_name.".XLS";
+                $report_other_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->other_name.".XLS";
                 if (File::exists($report_name))
                 {
                     $headers = array(
                         'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet ',
                     );
                     return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".XLS", $headers);
+                }
+                elseif(File::exists($report_other_name))
+                {
+                    $headers = array(
+                        'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet ',
+                    );
+                    return Response::download($report_other_name, date("Y_M_d",strtotime($dt))."_".$report->other_name.".XLS", $headers);
                 }
                 else
                 {
@@ -481,12 +497,20 @@ class PortalReportController extends Controller
                 break;
             case "txt":
                 $report_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->report_name.".TXT";
+                $report_other_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->other_name.".TXT";
                 if (File::exists($report_name))
                 {
                     $headers = array(
                         'Content-Type: text/plain',
                     );
                     return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".TXT", $headers);
+                }
+                elseif(File::exists($report_other_name))
+                {
+                    $headers = array(
+                        'Content-Type: text/plain',
+                    );
+                    return Response::download($report_other_name, date("Y_M_d",strtotime($dt))."_".$report->other_name.".TXT", $headers);
                 }
                 else
                     {
@@ -514,13 +538,20 @@ class PortalReportController extends Controller
         {
             case "pdf":
                 $report_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->report_name.".PDF";
-
+                $report_other_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->other_name.".PDF";
                 if (File::exists($report_name))
                 {
                     $headers = array(
                         'Content-Type: application/pdf',
                     );
                     return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".PDF", $headers);
+                }
+                elseif(File::exists($report_other_name))
+                {
+                    $headers = array(
+                        'Content-Type: application/pdf',
+                    );
+                    return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->other_name.".PDF", $headers);
                 }
                 else
                 {
@@ -530,12 +561,20 @@ class PortalReportController extends Controller
                 break;
             case "xls":
                 $report_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->report_name.".XLS";
+                $report_other_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->other_name.".XLS";
                 if (File::exists($report_name))
                 {
                     $headers = array(
                         'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet ',
                     );
                     return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".XLS", $headers);
+                }
+                elseif(File::exists($report_other_name))
+                {
+                    $headers = array(
+                        'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet ',
+                    );
+                    return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->other_name.".XLS", $headers);
                 }
                 else
                 {
@@ -544,12 +583,20 @@ class PortalReportController extends Controller
                 break;
             case "txt":
                 $report_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->report_name.".TXT";
+                $report_other_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->other_name.".TXT";
                 if (File::exists($report_name))
                 {
                     $headers = array(
                         'Content-Type: text/plain',
                     );
                     return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".TXT", $headers);
+                }
+                elseif(File::exists($report_other_name))
+                {
+                    $headers = array(
+                        'Content-Type: text/plain',
+                    );
+                    return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->other_name.".TXT", $headers);
                 }
                 else
                 {
