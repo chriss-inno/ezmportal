@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\QueryLaunchedEmail;
+use App\Jobs\QueryProgressEmail;
+use App\Jobs\QueryAssignmentEmail;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -151,7 +154,9 @@ class QueryController extends Controller
         }
 
         //Send email
-        \App\Http\Controllers\QueryEmailController::sendQueryLaunchedEmail($query); //Launched emails
+        $job = (new QueryLaunchedEmail($query))->delay(10);
+        $this->dispatch($job);
+       // \App\Http\Controllers\QueryEmailController::sendQueryLaunchedEmail($query); //Launched emails
 
         return redirect('queries/progress');
 
@@ -199,7 +204,9 @@ class QueryController extends Controller
         $msg->save();
 
         //Send attend email
-        \App\Http\Controllers\QueryEmailController::sendQueryProgressEmail($msg); //Passing messages
+        $job = (new QueryProgressEmail($msg))->delay(10);
+        $this->dispatch($job);
+       // \App\Http\Controllers\QueryEmailController::sendQueryProgressEmail($msg); //Passing messages
         return "Data saved successful";
     }
     //Query messages
@@ -230,7 +237,10 @@ class QueryController extends Controller
         $msg->save();
 
         //Send emails for update
-        \App\Http\Controllers\QueryEmailController::sendQueryProgressEmail($msg); //Passing messages
+        //Send attend email
+        $job = (new QueryProgressEmail($msg))->delay(10);
+        $this->dispatch($job);
+        //\App\Http\Controllers\QueryEmailController::sendQueryProgressEmail($msg); //Passing messages
         return "Data saved successful";
     }
     public function postMessage(Request $request)
@@ -281,12 +291,12 @@ class QueryController extends Controller
                 $msg->save();
 
                 //Send emails for update
-                \App\Http\Controllers\QueryEmailController::sendQueryProgressEmail($msg); //Passing messages
+                //Send email
+                $job = (new QueryProgressEmail($msg))->delay(10);
+                $this->dispatch($job);
+               // \App\Http\Controllers\QueryEmailController::sendQueryProgressEmail($msg); //Passing messages
 
-                return '<div class="alert fade in alert-success">
-                    <i class="icon-remove close" data-dismiss="alert"></i>
-                    Data submitted successfully
-                </div>';
+                return "Data submitted successfully";
             }
         }
         else
@@ -300,12 +310,11 @@ class QueryController extends Controller
             $msg->save();
 
             //Send emails for update
-            \App\Http\Controllers\QueryEmailController::sendQueryProgressEmail($msg); //Passing messages
+            $job = (new QueryProgressEmail($msg))->delay(10);
+            $this->dispatch($job);
+            //\App\Http\Controllers\QueryEmailController::sendQueryProgressEmail($msg); //Passing messages
 
-            return '<div class="alert fade in alert-success">
-                    <i class="icon-remove close" data-dismiss="alert"></i>
-                    Data submitted successfully
-                </div>';
+            return "Data submitted successfully";
         }
 
 
@@ -437,7 +446,10 @@ class QueryController extends Controller
 
             $qry=Query::find($query->id);
             //Send emails
-            \App\Http\Controllers\QueryEmailController::sendQueryAssignmentEmail($qry); //Send assignment emails
+            //Send email
+            $job = (new QueryAssignmentEmail($qry))->delay(10);
+            $this->dispatch($job);
+            //\App\Http\Controllers\QueryEmailController::sendQueryAssignmentEmail($qry); //Send assignment emails
             return "Data saved successful";
         }
         else
@@ -457,7 +469,11 @@ class QueryController extends Controller
 
             //Send emails
             $qry=Query::find($query->id);
-            \App\Http\Controllers\QueryEmailController::sendQueryAssignmentEmail($qry); //Send assignment emails
+
+            //Send email
+            $job = (new QueryAssignmentEmail($qry))->delay(10);
+            $this->dispatch($job);
+            //\App\Http\Controllers\QueryEmailController::sendQueryAssignmentEmail($qry); //Send assignment emails
 
             return "Data saved successful";
         }

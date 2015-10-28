@@ -8,20 +8,20 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendEmail extends Job implements SelfHandling, ShouldQueue
+class QueryProgressEmail extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
-    protected $query;
+    protected $msg;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($query)
+    public function __construct($msg)
     {
         //
-        $this->query = $query;
+        $this->msg = $msg;
     }
 
     /**
@@ -32,28 +32,28 @@ class SendEmail extends Job implements SelfHandling, ShouldQueue
     public function handle()
     {
         //
-        if( $this->query != null &&  $this->query !="" && count( $this->query)>0 ) {
+        if( $this->msg != null &&  $this->msg !="" >0 ) {
             $data = array(
-                'query' => serialize($this->query)
+                'msg' => serialize( $this->msg)
             );
 
             //Send email
-            foreach($this->query->toDepartment->users as $us) {
+            foreach( $this->msg->mQuery->toDepartment->users as $us) {
                 if($us->email !="")
                 {
                     $emails = $us->email;
 
                     $emailData = array(
-                        'query' => serialize($this->query),
+                        'msg' => serialize( $this->msg),
                         'emails' => $emails
                     );
 
-                    \Mail::queue('emails.newquery', $data, function ($message) use ($emailData) {
+                    \Mail::queue('emails.queryprogress', $data, function ($message) use ($emailData) {
 
                         //Fetch emails of users to wchich query was sent
-                        $query = unserialize($emailData['query']);
+                        $msg = unserialize($emailData['msg']);
                         $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
-                        $message->to($emailData['emails'])->subject('Issue Event Details for :'.$query->query_code.' -- New Request (Status : '.$query->status.')');
+                        $message->to($emailData['emails'])->subject('Issue Event Details for :'.$msg->mQuery->query_code.' -- Attendance  (Status : '.$msg->mQuery->status.')');
                     });
                 }
 

@@ -33,8 +33,8 @@
                         <td>{{$query->query_code}}</td>
                         <td>{{date("d M, Y H:i",strtotime($query->reporting_Date))}}</td>
                         <td>{{$query->user->first_name.' '.$query->user->last_name}}</td>
-                        <td>{{$query->toDepartment->department_name}}</td>
                         <td>{{$query->fromDepartment->department_name}}</td>
+                        <td>{{$query->toDepartment->department_name}}</td>
                         @if($query->assignment != null && $query->assignment !="")
                             <td style="background-color:#78CD51; color: #FFF;">{{$query->assignment->user->first_name.' '.$query->assignment->user->last_name}}</td>
                             <td>{{$query->assignment->assigned_date_time}}</td>
@@ -127,10 +127,14 @@
                             console.log(data);
                             //data: return data from server
                             $("#output").html(data);
-                            setTimeout(function() {
-                                //jQuery.noConflict();
-                                //$("#myModal").modal("hide");
-                            }, 5000);
+                            if(data == "Data submitted successfully")
+                            {
+                                setTimeout(function() {
+                                    jQuery.noConflict();
+                                    $("#myModal").modal("hide");
+                                }, 5000);
+                            }
+
                         },
                         error: function(jqXHR, textStatus, errorMessage)
                         {
