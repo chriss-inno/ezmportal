@@ -10,6 +10,8 @@ use App\Query;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\OracleSupport;
+use PhpSpec\Exception\Exception;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EmailController extends Controller
 {
@@ -18,6 +20,9 @@ class EmailController extends Controller
      *
      * @return Response
      */
+    protected $pathToFile="";
+    protected $depatment="";
+
     public function index()
     {
         //
@@ -88,15 +93,95 @@ class EmailController extends Controller
     {
         //
     }
+
+    //
     public function cronejob()
     {
         //
-        //$this->serviceStarts(); //Send service starts
-        //$this->olacle(); //Send oracle logged issues
-        $this->unAssignedQueryReminder(); //Send reminder for unassigned queries
+        try
+        {
+            $this->serviceStarts(); //Send service starts
+            $this->olacle(); //Send oracle logged issues
+            $this->unAssignedQueryReminder(); //Send reminder for unassigned queries
+            $this->dailyLogged(); //Daily query logged
+
+        }catch (\Exception $ex)
+        {
+
+        }
+        finally
+        {
+            $this->serviceStarts(); //Send service starts
+            $this->olacle(); //Send oracle logged issues
+            $this->unAssignedQueryReminder(); //Send reminder for unassigned queries
+        }
+
     }
 
+    //Process daily logged email
+    public function dailyLogged()
+    {
+        if(date("H:i") =="21:00") {
 
+            $departments=\App\Department::where('receive_query','=','1')->get();
+            foreach($departments as $dp)
+            {
+
+                $queries=Query::where('to_department','=',$dp->id)->where('today_date','=',date("Y-m-d"))->orwhere('closed','=',0)->get(); //Get all queries under this department
+
+                $queries_report="daily_logged_queries_".date('YmdHis');
+                Excel::create($queries_report, function($excel) use($queries)  {
+
+                    $excel->sheet('sheet', function($sheet) use($queries){
+                        $sheet->loadView('excels.excel')->with('queries', $queries);
+
+                    });
+
+                })->store('xls', storage_path('exports/excel'));
+
+                $this->pathToFile=storage_path('exports/excel').$queries_report.".xls";
+                $this->depatment=$dp->department_name;
+
+                if($queries != null && $queries !="" && count($queries)>0 ) {
+
+                    //Send email
+
+                    $emails=QueryEmail::where('department_id','=',$dp->id)->get();
+
+                    if($emails != null && $emails != "" && count($emails) > 0)
+                    {
+                        //Get emails from department
+                        $data = array(
+                            'queries' => serialize($queries),
+                            'department' => $dp->department_name
+                        );
+
+                        foreach($emails as $em)
+                        {
+                            $email= $em->email;
+                            \Mail::queue('emails.dailyquery', $data, function ($message) use ($email) {
+
+                                //Fetch emails of users to wchich query was sent
+                                $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                                $message->to($email)->subject($this->depatment.' DAILY ISSUES LOGGED');
+                                $message->attach($this->pathToFile);
+                            });
+                        }
+
+
+
+
+                    }
+
+
+                }
+
+
+            }
+        }
+
+
+    }
     //
     public function serviceStarts()
     {

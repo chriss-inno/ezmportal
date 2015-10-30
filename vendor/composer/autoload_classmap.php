@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'AddAssignedTime' => $baseDir . '/database/migrations/2015_10_02_072848_add_assigned_time.php',
     'AddDownloadCheckInDepartment' => $baseDir . '/database/migrations/2015_10_27_162024_add_download_check_in-department.php',
+    'AddTodayCollumToqueries' => $baseDir . '/database/migrations/2015_10_30_174100_add_today_collum_toqueries.php',
     'CreateBranchesTable' => $baseDir . '/database/migrations/2015_08_28_115519_create_branches_table.php',
     'CreateCopsIssuesRMsTable' => $baseDir . '/database/migrations/2015_10_17_193101_create_cops_issues_r_ms_table.php',
     'CreateCopsIssuesTable' => $baseDir . '/database/migrations/2015_10_17_192803_create_cops_issues_table.php',

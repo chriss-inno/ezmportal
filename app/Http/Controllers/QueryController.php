@@ -75,6 +75,7 @@ class QueryController extends Controller
         $query->description=$request->description;
         $query->completed=0;
         $query->status="Launched";
+        $query->today_date=date("Y-m-d");
         $query->save();
 
 
