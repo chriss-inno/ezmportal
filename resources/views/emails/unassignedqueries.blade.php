@@ -1,4 +1,4 @@
-
+<?php $queries = unserialize($queries); ?>
         <!-- Bootstrap -->
 <html>
 <head>
@@ -26,6 +26,7 @@
     <tbody>
     <?php $c=1;?>
     @foreach($queries as $qr)
+
         @if($qr->next_check ==null || strtotime($qr->next_check) == strtotime(date("Y-m-d H:i")))
         <tr id="{{$qr->id}}">
             <td>{{$c++}}</td>
