@@ -21,6 +21,13 @@ class ServiceDeliveryController extends Controller
         return view('servicedelivery.index',compact('issues'));
     }
 
+    //Reports
+    public function reports()
+    {
+        //
+        $issues=CustomerIssues::all();
+        return view('servicedelivery.reports',compact('issues'));
+    }
     /**
      * Show the form for creating a new resource.
      *

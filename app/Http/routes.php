@@ -124,6 +124,16 @@ Route::post('servicedelivery/create',['middleware' => 'auth', 'uses' =>'ServiceD
 Route::get('servicedelivery/edit/{id}',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@edit']);
 Route::post('servicedelivery/edit',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@update']);
 Route::get('servicedelivery/remove/{id}',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@destroy']);
+Route::get('servicedelivery/reports',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@reports']);
+
+Route::resource('sdproducts','SDProductController');
+Route::get('sdproducts-remove/{id}',['middleware' => 'auth', 'uses' =>'SDProductController@destroy']);
+Route::resource('sdreceiptmodes','SDReceiptModeController');
+Route::get('sdreceiptmodes-remove/{id}',['middleware' => 'auth', 'uses' =>'SDReceiptModeController@destroy']);
+Route::resource('sdstatus','SDStatusController');
+Route::get('sdstatus-remove/{id}',['middleware' => 'auth', 'uses' =>'SDStatusController@destroy']);
+Route::resource('sdproductdetails','SDProductDetailsController');
+Route::get('sdproductdetails-remove/{id}',['middleware' => 'auth', 'uses' =>'SDProductDetailsController@destroy']);
 
 //Query Enables
 Route::resource('enablers','EnablerController');

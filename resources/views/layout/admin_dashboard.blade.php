@@ -8,6 +8,319 @@
     {!!HTML::script("js/sparkline-chart.js") !!}
     {!!HTML::script("js/easy-pie-chart.js") !!}
     {!!HTML::script("js/count.js") !!}
+    {!!HTML::script("assets/highcharts/js/highcharts.js") !!}
+
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            $(function () {
+                $('#departmentRepo').highcharts({
+                    title: {
+                        text: 'Daily Logged queries per department for the Month of <?php echo date("F,Y");?>',
+                        x: -20 //center
+                    },
+                    subtitle: {
+                        text: 'Portal reports services',
+                        x: -20
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    xAxis: { title: {
+                        text: '<?php echo date("F")?>'
+                    },
+                        <?php
+                             $d=cal_days_in_month(CAL_GREGORIAN,date('n'),date("Y"));
+                             $categories="";
+
+                             for($i=1; $i<= $d; $i++)
+                             {
+                               $categories.="'".$i."',";
+
+                             }
+                             $days=substr($categories,0,strlen($categories)-1);
+                             ?>
+
+                         categories: [<?php echo $days;?>]
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Logged Queries'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    },
+                    tooltip: {
+                        valueSuffix: ''
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle',
+                        borderWidth: 0
+                    },
+                    <?php
+                     $dayData="";
+                     foreach(\App\Department::all() as $dep)
+                     {
+                        $dayData.="{name: '".$dep->department_name."',";
+                            $da=cal_days_in_month(CAL_GREGORIAN,date('n'),date("Y"));
+                             $dateCount="";
+                             for($i=1; $i<= $da; $i++)
+                             {
+                                $dateCount.=count(\App\Query::where(\DB::raw('DAY(reporting_Date)'),'=',$i)->where('from_department','=',$dep->id)->get()).",";
+                             }
+                             $dayData.="data: [".substr($dateCount,0,strlen($dateCount)-1)."]},";
+                     }
+                     $dataContent=substr($dayData,0,strlen($dayData)-1);
+                    ?>
+
+
+                   series: [<?php echo $dataContent;?>]
+                });
+            });
+            $(function () {
+                $('#highchart').highcharts({
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Last three months average queries per departments'
+                    },
+                    subtitle: {
+                        text: 'Source: Bank M Service Portal'
+                    },
+                    xAxis: {
+                        categories: [
+                            @foreach(\App\Department::all() as $department)
+                             '{{$department->department_name}}',
+                            @endforeach
+                         ],
+                        crosshair: true
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Number of Queries Logged'
+                        }
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.0f} Queries</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    <?php
+                    $m1=date("Y-m-d",strtotime(date("Y-m-d").'-1 months'));
+                    $m2=date("Y-m-d",strtotime(date("Y-m-d").'-2 months'));
+                    $m3=date("Y-m-d",strtotime(date("Y-m-d").'-3 months'));
+                    $data1="";
+                    $data2="";
+                    $data3="";
+                    //Get all departments queries count for each month
+                    foreach(\App\Department::all() as $department)
+                    {
+                       $data1.=count( \App\Query::where('from_department','=',$department->id)->where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y',strtotime($m1)))->where(\DB::raw('MONTH(reporting_Date)'), '=',date('n',strtotime($m1)))->get()).",";
+                       $data2.=count( \App\Query::where('from_department','=',$department->id)->where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y',strtotime($m2)))->where(\DB::raw('MONTH(reporting_Date)'), '=',date('n',strtotime($m2)))->get()).",";
+                       $data3.=count( \App\Query::where('from_department','=',$department->id)->where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y',strtotime($m3)))->where(\DB::raw('MONTH(reporting_Date)'), '=',date('n',strtotime($m3)))->get()).",";
+                    }
+                    $data1=substr($data1,0,strlen($data1)-1);
+                    $data2=substr($data2,0,strlen($data2)-1);
+                    $data3=substr($data3,0,strlen($data3)-1);
+
+
+                     ?>
+                    series: [{
+                        name: '{{date("F",strtotime($m3))}}',
+                        data: [<?php echo $data3?>]
+
+                    }, {
+                        name: '{{date("F",strtotime($m2))}}',
+                        data: [<?php echo $data2?>]
+
+                    }, {
+                        name: '{{date("F",strtotime($m1))}}',
+                        data: [<?php echo $data1?>]
+
+                    }]
+                });
+            });
+            $(function () {
+                $('#pieChart').highcharts({
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Query logged by branches percentage wise'
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.0f} %',
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            }
+                        }
+                    },
+                    <?php
+                      //Get all branches
+                      $dataPieDis=$dataPie="";
+                      $checkselect=1;
+                       foreach(\App\Branch::all() as $br)
+                       {
+                          if($checkselect ==1){
+                           $dataPie.='{';
+                            $dataPie.='name: "'.$br->branch_Name.'",';
+                          //Get number of logs for all time
+                            $dataPie.=' y: '. count(\App\Query::where('from_branch','=',$br->id)->get()).',
+                                sliced: true,
+                                selected: true';
+                           $dataPie.='},';
+
+                          }else
+                          {
+                           $dataPie.='{';
+                            $dataPie.='name: "'.$br->branch_Name.'",';
+                          //Get number of logs for all time
+                            $dataPie.=' y: '. count(\App\Query::where('from_branch','=',$br->id)->get());
+                           $dataPie.='},';
+                          }
+                         $checkselect++;
+                       }
+                        $dataPieDis= substr($dataPie,0,strlen($dataPie)-1);
+                     ?>
+                    series: [{
+                        name: "Branches",
+                        colorByPoint: true,
+                        data: [<?php echo $dataPieDis;?>]
+                    }]
+                });
+            });
+            $(function () {
+                $('#currentYear').highcharts({
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: {
+                        text: 'Monthly Average Support Queries'
+                    },
+                    xAxis: {
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Average Queries'
+                        }
+                    },
+                    tooltip: {
+                        crosshairs: true,
+                        shared: true
+                    },
+                    plotOptions: {
+                        spline: {
+                            marker: {
+                                radius: 4,
+                                lineColor: '#666666',
+                                lineWidth: 1
+                            }
+                        }
+                    },
+                    <?php
+                          $MonthCount="";
+                          $monthData="";
+                             for($i=1; $i<= 12; $i++)
+                             {
+                                $MonthCount.=count(\App\Query::where(\DB::raw('Month(reporting_Date)'),'=',$i)->get()).",";
+                             }
+                             $monthData.=substr($MonthCount,0,strlen($MonthCount)-1);
+                    ?>
+                    series: [{
+                        name: 'Monthly Average Queries',
+                        data: [<?php echo $monthData;?>]
+
+                    }]
+                });
+            });
+            $(function () {
+                $('#serviceDowntime').highcharts({
+                    title: {
+                        text: 'Today service downtime status',
+                        x: -20 //center
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    subtitle: {
+                        text: 'Portal reports services',
+                        x: -20
+                    },
+                    xAxis: { title: {
+                        text: 'Hour'
+                    },
+                        categories: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00',
+                            '14:00', '15:00', '16:00', '17:00', '18:00', '19:00','20:00']
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Frequency'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    },
+                    tooltip: {
+                        valueSuffix: ''
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle',
+                        borderWidth: 0
+                    },
+
+                    series: [
+                            @foreach(\App\Service::all() as $ser){
+                            name: '{{$ser->service_name}}',
+                            data: [{{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','8')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','9')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','10')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','11')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','12')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','13')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','14')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','15')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','16')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','17')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','18')->get())}}, {{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','19')->get())}},{{count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->where(\DB::raw('HOUR(start_time)'), '=','20')->get())}}]
+                        },
+                        @endforeach
+                       ]
+                });
+            });
+        } );
+    </script>
 @stop
 @section('menus')
     <ul class="sidebar-menu" id="nav-accordion">
@@ -63,15 +376,14 @@
                     @endif
                 </ul>
             </li>
-        @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
+        @endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
                 <a href="javascript:;" >
                     <i class="fa fa-info"></i>
                     <span>Service Delivery</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="#" title="Customer Issues Tracking">Customer Issues Tracking</a></li>
+                    <li><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking">Customer Issues Tracking</a></li>
                 </ul>
             </li>
         @endif
@@ -249,11 +561,11 @@
         <div class="col-lg-3 col-sm-6">
             <section class="panel">
                 <div class="symbol blue">
-                    <i class="fa fa-tags"></i>
+                    <i class="fa fa-bar-chart"></i>
                 </div>
                 <div class="value">
                     <h1 class=" count2">
-                        0
+                        {{count(\App\PortalReport::all())}}
                     </h1>
                     <p>Reports</p>
                 </div>
@@ -287,140 +599,22 @@
         </div>
     </div>
     <!--state overview end-->
-
     <div class="row">
-        <div class="col-lg-8">
-            <!--custom chart start-->
-            <div class="border-head">
-                <h3><strong class="text-info">Logged Queries percentage (%) per month for year {{date('Y')}}</strong></h3>
-            </div>
-
-            <?php
-            //Get all queries per year
-            $allQ=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->get();
-            $QueryYear=count($allQ);
-            $allJan=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',1)->get();
-            $QueryJan=count($allJan);
-            $allFeb=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',2)->get();
-            $QueryFeb=count($allFeb);
-            $allMar=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',3)->get();
-            $QueryMar=count($allMar);
-            $allApr=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',4)->get();
-            $QueryApr=count($allApr);
-            $allMay=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',5)->get();
-            $QueryMay=count($allMay);
-            $allJun=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',6)->get();
-            $QueryJun=count($allJun);
-            $allJul=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',7)->get();
-            $QueryJul=count($allJul);
-            $allAug=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',8)->get();
-            $QueryAug=count($allAug);
-            $allSep=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',9)->get();
-            $QuerySep=count($allSep);
-            $allOct=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',10)->get();
-            $QueryOct=count($allOct);
-            $allNov=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',11)->get();
-            $QueryNov=count($allNov);
-            $allDec=\App\Query::where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y'))->where(\DB::raw('MONTH(reporting_Date)'), '=',12)->get();
-            $QueryDec=count($allDec);
-
-            ?>
-            <div class="custom-bar-chart">
-                <ul class="y-axis">
-                    <li><span>100</span></li>
-                    <li><span>80</span></li>
-                    <li><span>60</span></li>
-                    <li><span>40</span></li>
-                    <li><span>20</span></li>
-                    <li><span>0</span></li>
-                </ul>
-                <div class="bar">
-                    <div class="title">JAN</div>
-                    <div class="value tooltips" data-original-title="{{$QueryJan}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryJan >0){{($QueryJan*100)/$QueryYear}}@else{{$QueryJan}}@endif%</div>
-                </div>
-                <div class="bar ">
-                    <div class="title">FEB</div>
-                    <div class="value tooltips" data-original-title="{{$QueryFeb}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryFeb >0){{($QueryFeb*100)/$QueryYear}}@else{{$QueryFeb}}@endif%</div>
-                </div>
-                <div class="bar ">
-                    <div class="title">MAR</div>
-                    <div class="value tooltips" data-original-title="{{$QueryMar}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryMar >0){{($QueryMar*100)/$QueryYear}}@else{{$QueryMar}}@endif%</div>
-                </div>
-                <div class="bar ">
-                    <div class="title">APR</div>
-                    <div class="value tooltips" data-original-title="{{$QueryApr}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryApr >0){{($QueryApr*100)/$QueryYear}}@else{{$QueryApr}}@endif%</div>
-                </div>
-                <div class="bar">
-                    <div class="title">MAY</div>
-                    <div class="value tooltips" data-original-title="{{$QueryMay}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryMay >0){{($QueryMay*100)/$QueryYear}}@else{{$QueryMay}}@endif%</div>
-                </div>
-                <div class="bar ">
-                    <div class="title">JUN</div>
-                    <div class="value tooltips" data-original-title="{{$QueryJun}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryJun >0){{($QueryJun*100)/$QueryYear}}@else{{$QueryJun}}@endif%</div>
-                </div>
-                <div class="bar">
-                    <div class="title">JUL</div>
-                    <div class="value tooltips" data-original-title="{{$QueryJul}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryJul >0){{($QueryJul*100)/$QueryYear}}@else{{$QueryJul}}@endif%</div>
-                </div>
-                <div class="bar ">
-                    <div class="title">AUG</div>
-                    <div class="value tooltips" data-original-title="{{$QueryAug}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryAug >0){{($QueryAug*100)/$QueryYear}}@else{{$QueryAug}}@endif%</div>
-                </div>
-                <div class="bar ">
-                    <div class="title">SEP</div>
-                    <div class="value tooltips" data-original-title="{{$QuerySep}} Queries" data-toggle="tooltip" data-placement="top">@if($QuerySep >0){{($QuerySep*100)/$QueryYear}}@else{{$QuerySep}}@endif%</div>
-                </div>
-                <div class="bar ">
-                    <div class="title">OCT</div>
-                    <div class="value tooltips" data-original-title="{{$QueryOct}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryOct >0){{($QueryOct*100)/$QueryYear}}@else{{$QueryOct}}@endif%</div>
-                </div>
-                <div class="bar ">
-                    <div class="title">NOV</div>
-                    <div class="value tooltips" data-original-title="{{$QueryNov}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryNov >0){{($QueryNov*100)/$QueryYear}}@else{{$QueryNov}}@endif%</div>
-                </div>
-                <div class="bar ">
-                    <div class="title">DEC</div>
-                    <div class="value tooltips" data-original-title="{{$QueryDec}} Queries" data-toggle="tooltip" data-placement="top">@if($QueryDec >0){{($QueryDec*100)/$QueryYear}}@else{{$QueryDec}}@endif%</div>
-                </div>
-            </div>
-            <!--custom chart end-->
-        </div>
-        <div class="col-lg-4">
-            <!--new earning start-->
-            <div class="panel terques-chart">
-                <div class="panel-body chart-texture">
-                    <div class="chart">
-                        <div class="heading">
-                            <span>{{date('l')}}</span>
-                        </div>
-                        <div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="[0,0,0,0,0,0,0,0,0,0,0]"></div>
-                    </div>
-                </div>
-                <div class="chart-tittle">
-                    <span class="title">Today Service status</span>
-                </div>
-            </div>
-            <!--new earning end-->
-
-            <!--total earning start-->
-            <div class="panel green-chart">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <section class="panel">
                 <div class="panel-body">
-                    <div class="chart">
-                        <div class="heading">
-                            <span>{{date('F')}}</span>
-                            <strong>{{date('d')}} Days</strong>
-                        </div>
-                        <div id="barchart"></div>
-                    </div>
+                    <div id="serviceDowntime" style="height:400px;"></div>
                 </div>
-                <div class="chart-tittle">
-                    <span class="title">Closed Query</span>
-                    <span class="value">{{count(\App\Query::all())}}</span>
-                </div>
-            </div>
-            <!--total earning end-->
+            </section>
         </div>
     </div>
-
+    <div class="row" style="margin-top: 10px">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div id="departmentRepo" style="height:400px;"></div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div id="highchart" style="height:400px;"></div>
+        </div>
+    </div>
 
 @stop

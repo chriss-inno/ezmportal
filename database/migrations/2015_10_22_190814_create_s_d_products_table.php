@@ -14,7 +14,7 @@ class CreateSDProductsTable extends Migration
     {
         Schema::create('s_d_products', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('type');
+            $table->string('product_type');
             $table->string('details');
             $table->string('input_by')->nullable();
             $table->string('auth_by')->nullable();

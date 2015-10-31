@@ -180,15 +180,14 @@
                     @endif
                 </ul>
             </li>
-        @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
+        @endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
                 <a href="javascript:;" >
                     <i class="fa fa-info"></i>
                     <span>Service Delivery</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="#" title="Customer Issues Tracking">Customer Issues Tracking</a></li>
+                    <li><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking">Customer Issues Tracking</a></li>
                 </ul>
             </li>
         @endif
@@ -360,11 +359,13 @@
                                 <div class="btn-group btn-group-justified">
                                     <a href="#" class="createIsssue btn btn-file btn-primary">RECORD NEW ISSUE</a>
 
-                                    <a href="{{url('inventory')}}" class="btn btn-file btn-primary">UPDATE ISSUE</a>
+                                    <a href="{{url('servicedelivery')}}" class="btn btn-file btn-primary">UPDATE ISSUE</a>
+                                    <a href="{{url('sdproducts')}}" class="btn btn-file btn-primary">PRODUCTS TYPES</a>
+                                    <a href="{{url('sdproductdetails')}}" class="btn btn-file btn-primary">PRODUCTS DETAILS</a>
+                                    <a href="{{url('sdreceiptmodes')}}" class="btn btn-file btn-primary">RECEIPT MODES</a>
+                                    <a href="{{url('sdstatus')}}" class="btn btn-file btn-primary">MANAGE STATUS</a>
 
-                                    <a href="{{url('inventory-reports')}}" class="btn btn-file btn-primary">VIEW ISSUES PROGRESS</a>
-
-                                    <a href="{{url('types')}}" class="btn btn-file btn-primary">GENERATE ISSUES REPORT</a>
+                                    <a href="{{url('servicedelivery/reports')}}" class="btn btn-file btn-primary">GENERATE ISSUES REPORT</a>
 
 
                                 </div>

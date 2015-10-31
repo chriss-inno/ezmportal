@@ -181,17 +181,16 @@
                     @endif
                 </ul>
             </li>
-        @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
-        <li class="sub-menu">
-            <a href="javascript:;" >
-                <i class="fa fa-info"></i>
-                <span>Service Delivery</span>
-            </a>
-            <ul class="sub">
-                <li><a  href="#" title="Customer Issues Tracking">Customer Issues Tracking</a></li>
-            </ul>
-        </li>
+        @endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
+            <li class="sub-menu">
+                <a href="javascript:;" >
+                    <i class="fa fa-info"></i>
+                    <span>Service Delivery</span>
+                </a>
+                <ul class="sub">
+                    <li><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking">Customer Issues Tracking</a></li>
+                </ul>
+            </li>
         @endif
          @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,8)  || Auth::user()->user_type=="Administrator")
         <li class="sub-menu">
