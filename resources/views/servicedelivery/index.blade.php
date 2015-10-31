@@ -65,11 +65,11 @@
 
                     })
                     //Create module
-                    $(".createItem").click(function(){
+                    $(".createIsssue").click(function(){
                         var id1 = $(this).parent().attr('id');
                         var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
-                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
                         modaldis+= '<div class="modal-content">';
                         modaldis+= '<div class="modal-header">';
                         modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
@@ -85,7 +85,7 @@
                         jQuery.noConflict();
                         $("#myModal").modal("show");
                         $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("inventory/create") ?>");
+                        $(".modal-body").load("<?php echo url("servicedelivery/create") ?>");
                         $("#myModal").on('hidden.bs.modal',function(){
                             $("#myModal").remove();
                         })
@@ -358,7 +358,7 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                                 <div class="btn-group btn-group-justified">
-                                    <a href="#" class="createItem btn btn-file btn-primary">RECORD NEW ISSUE</a>
+                                    <a href="#" class="createIsssue btn btn-file btn-primary">RECORD NEW ISSUE</a>
 
                                     <a href="{{url('inventory')}}" class="btn btn-file btn-primary">UPDATE ISSUE</a>
 

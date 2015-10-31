@@ -118,9 +118,16 @@ Route::resource('modules','ModuleController');
 Route::get('modules-remove/{id}',['middleware' => 'auth', 'uses' =>'ModuleController@destroy']);
 
 //Service DeLivery
-Route::resource('servicedelivery','ServiceDeliveryController');
+Route::get('servicedelivery',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@index']);
+Route::get('servicedelivery/create',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@create']);
+Route::post('servicedelivery/create',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@store']);
+Route::get('servicedelivery/edit/{id}',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@edit']);
+Route::post('servicedelivery/edit',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@update']);
+Route::get('servicedelivery/remove/{id}',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@destroy']);
+
 //Query Enables
 Route::resource('enablers','EnablerController');
+
 Route::get('enablers-remove/{id}',['middleware' => 'auth', 'uses' =>'EnablerController@destroy']);
 
 //Query Progress status
