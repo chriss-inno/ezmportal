@@ -6,11 +6,11 @@
 <fieldset class="scheduler-border">
     <legend class="scheduler-border" style="color:#005DAD">Customer Details</legend>
     <div class="form-group">
-        <label for="item_name">Customer Name</label>
-        <input type="text" class="form-control" id="company_name" name="company_name" value="{{old('company_name')}}" placeholder="Enter customer name">
+        <label for="company_name">Company Name</label>
+        <input type="text" class="form-control" id="company_name" name="company_name" value="{{old('company_name')}}" placeholder="Enter company name ">
     </div>
     <div class="form-group">
-        <label for="item_name">Contact Person</label>
+        <label for="contact_person">Contact Person</label>
         <input type="text" class="form-control" id="contact_person" name="contact_person" value="{{old('contact_person')}}" placeholder="Enter contact person">
     </div>
 </fieldset>
@@ -19,23 +19,23 @@
     <div class="form-group">
         <div class="row">
             <div class="col-md-6">
-                <label for="branch_id">Product Type</label>
+                <label for="product_id">Product Type</label>
                 <select class="form-control"  id="product_id" name="product_id">
                     <option value="">Select Product Type</option>
                     <?php $products=\App\SDProduct::all();?>
                     @foreach($products as $pr)
-                        <option value="{{$pr->id}}">{{$pr->type}}</option>
+                        <option value="{{$pr->id}}">{{$pr->product_type}}</option>
                     @endforeach
 
                 </select>
             </div>
             <div class="col-md-6">
-                <label for="mode_id">Mode of receipt</label>
-                <select class="form-control"  id="mode_id" name="mode_id">
-                    <option value="">Select Mode of Receipt </option>
-                    <?php $sdmodes=\App\SDReceiptMode::all();?>
-                    @foreach($sdmodes as $rc)
-                        <option value="{{$rc->id}}">{{$rc->mode_name}}</option>
+                <label for="product_details_id">Product Details</label>
+                <select class="form-control"  id="product_details_id" name="product_details_id">
+                    <option value="">Select Product details</option>
+                    <?php $sdproductd=\App\SDProductDetails::all();?>
+                    @foreach($sdproductd as $rc)
+                        <option value="{{$rc->id}}">{{$rc->details_name}}</option>
                     @endforeach
                 </select>
             </div>
@@ -48,12 +48,24 @@
 
 <div class="form-group">
     <div class="row">
-        <div class="col-md-12">
-            <label for="status">Status</label>
+        <div class="col-md-6 col-sm-6 col-xs-6 col-lg-6">
+            <label for="mode_id">Mode of receipt</label>
+            <select class="form-control"  id="mode_id" name="mode_id">
+                <option value="">Select Mode of Receipt </option>
+                <?php $sdmodes=\App\SDReceiptMode::all();?>
+                @foreach($sdmodes as $rc)
+                    <option value="{{$rc->id}}">{{$rc->mode_name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-6 col-lg-6">
+            <label for="status_id">Status</label>
             <select name="status_id" class="form-control" id="status_id">
                 <option selected value="">Select Status</option>
-                <option value="Working">Working</option>
-                <option value="Not Working">Not Working</option>
+                <?php $sdstatus=\App\SDStatus::all();?>
+                @foreach($sdstatus as $rc)
+                    <option value="{{$rc->id}}">{{$rc->status_name}}</option>
+                @endforeach
             </select>
         </div>
     </div>
@@ -61,6 +73,16 @@
 <div class="form-group">
     <label for="description">Issue Descriptions</label>
     <textarea class="form-control" id="description" name="description" >{{old('description')}}</textarea>
+</div>
+<div class="form-group">
+        <label for="department_id">Department Responsible</label>
+        <select name="department_id" class="form-control" id="department_id">
+            <option selected value="">Select Department</option>
+            <?php $depatments=\App\Department::all();?>
+            @foreach($depatments as $rc)
+                <option value="{{$rc->id}}">{{$rc->department_name}}</option>
+            @endforeach
+        </select>
 </div>
 </fieldset>
 <div class="form-group">
@@ -98,27 +120,27 @@
 
     $("#InventoryForm").validate({
         rules: {
-            type_id: "required",
-            ip_address: "required",
-            item_name: "required",
-            machine_model: "required",
-            branch_id: "required",
-            status: "required",
-            serial_number: "required",
-            usb: "required",
-            antivirus: "required"
+            company_name: "required",
+            contact_person: "required",
+            product_id: "required",
+            product_details_id: "required",
+            mode_id: "required",
+            description: "required",
+            department_id: "required",
+            received_by: "required",
+            status_id: "required"
 
         },
         messages: {
-            type_id: "Please select item type",
-            item_name: "Please enter module name",
-            ip_address: "Please ip address",
-            machine_model: "Please enter machine model",
-            branch_id: "Please select branch",
-            status: "Please select status",
-            usb: "Please select usb status",
-            antivirus: "Please select antivirus status",
-            serial_number: "Please enter  serial number"
+            company_name: "Please enter company name",
+            contact_person: "Please enter contact person",
+            product_id: "Please select product type",
+            product_details_id: "Please select product details",
+            mode_id: "Please select receipt mode",
+            description: "Please enter description",
+            department_id: "Please select department",
+            received_by: "Please enter received by",
+            status_id: "Please select status"
         },
         submitHandler: function(form) {
             $("#output").html("<h3><span class='text-info'><i class='fa fa-spinner fa-spin'></i> Making changes please wait...</span><h3>");

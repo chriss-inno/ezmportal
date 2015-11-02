@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Inventory Reports
+    Customer Issues Reports
 @stop
 @section('page_scripts')
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}

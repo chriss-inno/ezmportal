@@ -70,7 +70,7 @@
                              $dateCount="";
                              for($i=1; $i<= $da; $i++)
                              {
-                                $dateCount.=count(\App\Query::where(\DB::raw('DAY(reporting_Date)'),'=',$i)->where('from_department','=',$dep->id)->get()).",";
+                                $dateCount.=count(\App\Query::where(\DB::raw('DAY(reporting_Date)'),'=',$i)->where(\DB::raw('MONTH(reporting_Date)'),'=',date('n'))->where('from_department','=',$dep->id)->get()).",";
                              }
                              $dayData.="data: [".substr($dateCount,0,strlen($dateCount)-1)."]},";
                      }

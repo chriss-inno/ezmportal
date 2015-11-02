@@ -6,6 +6,7 @@ use App\CustomerIssues;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceDeliveryController extends Controller
 {
@@ -48,6 +49,34 @@ class ServiceDeliveryController extends Controller
     public function store(Request $request)
     {
         //
+        try
+        {
+            $issues= new CustomerIssues;
+            $issues->company_name=$request->company_name;
+            $issues->contact_person=$request->contact_person;
+            $issues->product_id=$request->product_id;
+            $issues->product_details_id=$request->product_details_id;
+            $issues->mode_id=$request->mode_id;
+            $issues->description=$request->description;
+            $issues->department_id=$request->department_id;
+            $issues->received_by=$request->received_by;
+            $issues->status_id=$request->status_id;
+            $issues->date_created=date("Y-m-d");
+            $issues->input_by=Auth::user()->username;
+            $issues->save();
+
+            //Create Issue number
+            $issues->issues_number= "CIN".$issues->id;
+            $issues->save();
+            return "Data saved successfully";
+
+        }catch (\Exception $ex)
+        {
+            return $ex->getMessage();
+        }
+
+
+
     }
 
     /**
@@ -59,7 +88,7 @@ class ServiceDeliveryController extends Controller
     public function show($id)
     {
         //
-        $issue=CustomerIssues::all();
+        $issue=CustomerIssues::find($id);
         return view('servicedelivery.show',compact('issue'));
     }
 
@@ -72,8 +101,8 @@ class ServiceDeliveryController extends Controller
     public function edit($id)
     {
         //
-        $issue=CustomerIssues::all();
-        return view('servicedelivery.show',compact('issue'));
+        $issue=CustomerIssues::find($id);
+        return view('servicedelivery.edit',compact('issue'));
     }
 
     /**
@@ -83,9 +112,33 @@ class ServiceDeliveryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        try
+        {
+            $issues= CustomerIssues::find($request->issue_id);
+            $issues->company_name=$request->company_name;
+            $issues->contact_person=$request->contact_person;
+            $issues->product_id=$request->product_id;
+            $issues->product_details_id=$request->product_details_id;
+            $issues->mode_id=$request->mode_id;
+            $issues->description=$request->description;
+            $issues->department_id=$request->department_id;
+            $issues->received_by=$request->received_by;
+            $issues->status_id=$request->status_id;
+            $issues->input_by=Auth::user()->username;
+            $issues->save();
+
+            return "Data saved successfully";
+
+        }catch (\Exception $ex)
+        {
+            return $ex->getMessage();
+        }
+
+
+
     }
 
     /**
@@ -97,7 +150,7 @@ class ServiceDeliveryController extends Controller
     public function destroy($id)
     {
         //
-        $issue=CustomerIssues::all();
+        $issue=CustomerIssues::find($id);
         $issue->delete();
     }
 }

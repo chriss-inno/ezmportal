@@ -16,6 +16,7 @@ class CreateSDProductDetailsTable extends Migration
             $table->increments('id');
             $table->string('details_name');
             $table->string('description');
+            $table->integer('product_details_id')->nullable();
             $table->string('input_by')->nullable();
             $table->string('auth_by')->nullable();
             $table->string('auth_status',1)->default('U');

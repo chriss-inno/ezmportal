@@ -21,32 +21,31 @@
                 "fnDrawCallback": function( oSettings ) {
 
 
-                    $(".deleteItem").click(function(){
+                    $(".deleteIssues").click(function(){
                         var id1 = $(this).parent().attr('id');
-                        $(".deleteItem").show("slow").parent().parent().find("span").remove();
+                        $(".deleteIssues").show("slow").parent().parent().find("span").remove();
                         var btn = $(this).parent().parent();
                         $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
                         $("#no").click(function(){
-                            $(this).parent().parent().find(".deleteItem").show("slow");
+                            $(this).parent().parent().find(".deleteIssues").show("slow");
                             $(this).parent().parent().find("span").remove();
                         });
                         $("#yes").click(function(){
                             $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                            $.get("<?php echo url('inventory-remove') ?>/"+id1,function(data){
+                            $.get("<?php echo url('servicedelivery/remove') ?>/"+id1,function(data){
                                 btn.hide("slow").next("hr").hide("slow");
-                                // $(this).parent().parent().parent().parent().remove();
                             });
                         });
                     });
                     //Edit Module
-                    $(".editItem").click(function(){
+                    $(".editIssue").click(function(){
                         var id1 = $(this).parent().attr('id');
                         var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
                         modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
                         modaldis+= '<div class="modal-content">';
                         modaldis+= '<div class="modal-header">';
                         modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center" style="color: #FFF">Update Inventory Item</span>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center" style="color: #FFF">Update Issues</span>';
                         modaldis+= '</div>';
                         modaldis+= '<div class="modal-body">';
                         modaldis+= ' </div>';
@@ -58,7 +57,7 @@
                         jQuery.noConflict();
                         $("#myModal").modal("show");
                         $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("inventory") ?>/"+id1+"/edit");
+                        $(".modal-body").load("<?php echo url("servicedelivery/edit") ?>/"+id1);
                         $("#myModal").on('hidden.bs.modal',function(){
                             $("#myModal").remove();
                         })
@@ -73,7 +72,7 @@
                         modaldis+= '<div class="modal-content">';
                         modaldis+= '<div class="modal-header">';
                         modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">New Inventory Item </span>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Create New Issues </span>';
                         modaldis+= '</div>';
                         modaldis+= '<div class="modal-body">';
                         modaldis+= ' </div>';
@@ -101,7 +100,7 @@
                         modaldis+= '<div class="modal-content">';
                         modaldis+= '<div class="modal-header">';
                         modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Item details </span>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Customer Issue details</span>';
                         modaldis+= '</div>';
                         modaldis+= '<div class="modal-body">';
                         modaldis+= ' </div>';
@@ -113,7 +112,7 @@
                         jQuery.noConflict();
                         $("#myModal").modal("show");
                         $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("inventory") ?>/"+id1);
+                        $(".modal-body").load("<?php echo url("servicedelivery/show") ?>/"+id1);
                         $("#myModal").on('hidden.bs.modal',function(){
                             $("#myModal").remove();
                         })
@@ -365,7 +364,7 @@
                                     <a href="{{url('sdreceiptmodes')}}" class="btn btn-file btn-primary">RECEIPT MODES</a>
                                     <a href="{{url('sdstatus')}}" class="btn btn-file btn-primary">MANAGE STATUS</a>
 
-                                    <a href="{{url('servicedelivery/reports')}}" class="btn btn-file btn-primary">GENERATE ISSUES REPORT</a>
+                                    <a href="{{url('servicedelivery/reports')}}" class="btn btn-file btn-primary">GENERATE REPORT</a>
 
 
                                 </div>
@@ -379,14 +378,15 @@
                                         <tr>
                                             <th>SNO</th>
                                             <th>ISSUE #</th>
-                                            <th>CUSTOMER NAME</th>
-                                            <th>PRODUCT TYPE</th>
-                                            <th>RECEIVED BY</th>
-                                            <th>MODE OF RECEIPTS</th>
-                                            <th>STATUS</th>
-                                            <th>DATE INPUTED</th>
-                                            <th>DEPARTMENT RESPONSIBLE</th>
-                                            <th>ACTIONS</th>
+                                            <th>Company Name</th>
+                                            <th>Contact Person</th>
+                                            <th>Product Type</th>
+                                            <th>Received By</th>
+                                            <th>Date Issued</th>
+                                            <th>Department Responsible</th>
+                                            <th>Status</th>
+                                            <th>Details</th>
+                                            <th>Actions</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -394,53 +394,45 @@
                                         @foreach($issues as $issue)
                                             <tr>
                                                 <td>{{$i++}}</td>
-                                                <td>{{$issue->item_name}}</td>
-                                                <td>{{$issue->ip_address}}</td>
-                                                @if($issue->type_id != null && $issue->type_id !="" )
-                                                    <td>{{$issue->type->type_name}}</td>
+                                                <td>{{$issue->issues_number}}</td>
+                                                <td>{{$issue->company_name}}</td>
+                                                <td>{{$issue->contact_person}}</td>
+                                                @if($issue->product_id != null && $issue->product_id !="" )
+                                                    <td>{{$issue->producttype->product_type}}</td>
                                                 @else
                                                     <td></td>
                                                 @endif
-                                                <td>{{$issue->user_name}}</td>
-                                                <td>{{$issue->machine_model}}</td>
-                                                <td>{{$issue->serial_number}}</td>
-                                                <td>{{$issue->platform}}</td>
-                                                <td>{{$issue->domain}}</td>
-                                                <td>{{$issue->usb}}</td>
-                                                <td>{{$issue->antivirus}}</td>
-                                                @if($issue->status =="Working" || $issue->status =="working")
-                                                    <td><a  href="#" title="This Item is working property" class=" btn btn-success btn-xs"> {{ucwords(strtolower($issue->status)) }} </a></td>
+                                                @if($issue->received_by != null && $issue->received_by !="" )
+                                                    <td>{{$issue->received_by}}</td>
                                                 @else
-                                                    <td><a  href="#" title="This Item is not working property" class=" btn btn-danger btn-xs"> {{ucwords(strtolower($issue->status)) }} </a></td>
+                                                    <td></td>
+                                                @endif
+                                                @if($issue->date_created != null && $issue->date_created !="" )
+                                                    <td>{{$issue->date_created}}</td>
+                                                @else
+                                                    <td></td>
+                                                @endif
+                                                @if($issue->department_id != null && $issue->department_id !="" )
+                                                    <td>{{$issue->department->department_name}}</td>
+                                                @else
+                                                    <td></td>
+                                                @endif
+                                                @if($issue->status_id != null && $issue->status_id !="" )
+                                                    <td>{{$issue->status->status_name}}</td>
+                                                @else
+                                                    <td></td>
                                                 @endif
                                                 <td id="{{$issue->id}}" align="center">
-                                                    <div class="pull-right hidden-phone" id="{{$issue->id}}">
-                                                        <a  href="#" title="show item details" class="showDetails btn btn-info btn-xs"><i class="fa fa-eye"> View</i></a>
-                                                    </div>
-
+                                                    <a  href="#" title="Details" class="showDetails btn btn-primary btn-xs"><i class="fa fa-eye"> View</i></a>
                                                 </td>
                                                 <td id="{{$issue->id}}" align="center">
-                                                    <a  href="#" title="Edit Inventory Item" class="editItem btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                                    <a href="#b" title="Delete Inventory Item" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                                    <a  href="#" title="Edit" class="editIssue btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                    <a href="#b" title="Delete" class="deleteIssues btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
                                                 </td>
                                             </tr>
 
                                         @endforeach
                                         </tbody>
-                                        <tfoot>
-                                        <tr>
-                                            <th>SNO</th>
-                                            <th>ISSUE #</th>
-                                            <th>CUSTOMER NAME</th>
-                                            <th>PRODUCT TYPE</th>
-                                            <th>RECEIVED BY</th>
-                                            <th>MODE OF RECEIPTS</th>
-                                            <th>STATUS</th>
-                                            <th>DATE INPUTED</th>
-                                            <th>DEPARTMENT RESPONSIBLE</th>
-                                            <th>ACTIONS</th>
-                                        </tr>
-                                        </tfoot>
                                     </table>
                                 </div>
                             </div>

@@ -18,6 +18,7 @@ class CreateCustomerIssuesTable extends Migration
             $table->string('company_name');
             $table->string('contact_person')->nullable();
             $table->integer('product_id')->nullable();
+            $table->integer('product_details_id')->nullable();
             $table->integer('mode_id')->nullable();
             $table->text('description')->nullable();
             $table->integer('department_id')->nullable();
