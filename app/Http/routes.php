@@ -250,6 +250,10 @@ Route::resource('queryemails','QueryEmailController');
 Route::get('queryemails-remove/{id}','QueryEmailController@destroy');
 //Queries reports controller
 
+//System setting
+
+Route::get('systemsetups','SystemSetupController@index');
+Route::post('systemsetups','SystemSetupController@update');
 //Send emails
 Route::get('emails/oracleissues','EmailController@olacle');
 Route::get('portal/cronejob','EmailController@cronejob');

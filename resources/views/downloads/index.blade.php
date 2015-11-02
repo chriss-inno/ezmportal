@@ -134,7 +134,7 @@
                 <i class="fa fa-dashboard"></i>
                 <span>Dashboard</span>
             </a>
-        </li> @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,1))
+        </li> @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,1) || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
                 <a href="javascript:;" >
                     <i class=" fa fa-bar-chart-o"></i>
@@ -166,7 +166,7 @@
             </li>
         @endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" >
+                 <a href="javascript:;" class="active" >
                     <i class="fa fa-download"></i>
                     <span>Downloads</span>
                 </a>
@@ -336,6 +336,7 @@
                     <li><a  href="{{url('modules')}}">Query Modules</a></li>
                     <li><a  href="{{url('enablers')}}">Query Enablers</a></li>
                     <li><a  href="{{url('queriesstatus')}}">Query Status</a></li>
+                    <li><a  href="{{url('systemsetups')}}">System Settings</a></li>
                 </ul>
             </li>
         @endif

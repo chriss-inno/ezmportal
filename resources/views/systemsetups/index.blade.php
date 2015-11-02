@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-   Manage Portal Downloads
+   System setting
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
@@ -86,8 +86,8 @@
                 </ul>
             </li>
         @endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5)  || Auth::user()->user_type=="Administrator")
-             <li class="sub-menu">
-                 <a href="javascript:;" class="active" >
+            <li class="sub-menu">
+                <a href="javascript:;" class="active" >
                     <i class="fa fa-download"></i>
                     <span>Downloads</span>
                 </a>
@@ -270,100 +270,83 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa fa-download text-danger"> </i><i class="fa fa-cogs"></i> Portal Downloads</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-cog text-danger"> </i><i class="fa fa-cogs"></i> System setting</strong></h3>
                     </header>
                     <div class="panel-body">
-                        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2)  || Auth::user()->user_type=="Administrator")
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p> <h3>System setting </h3>
+                                @if (count($errors) > 0)
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                                <hr/>
+                                {!! Form::open(array('url'=>'systemsetups','role'=>'form','id'=>'DownloadForm','files' => true)) !!}
 
-                                    <div class="btn-group btn-group-justified">
+                                <div class="form-group">
+                                    <label for="title">File Name</label>
+                                    <input type="text" class="form-control" id="title" name="title" value="{{old('title')}}" placeholder="Enter file title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="title">Select file</label>
+                                    <input type="file" class="form-control" id="downloadFile" name="downloadFile" value="{{old('downloadFile')}}" placeholder="Select file title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Descriptions</label>
+                                    <textarea class="form-control" id="description" name="description">{{old('description')}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="branch_id">Branch</label>
+                                            <select class="form-control"  id="branch_id" name="branch_id">
+                                                <option value="">----</option>
+                                                <?php $branches=\App\Branch::all();?>
+                                                @foreach($branches as $br)
+                                                    <option value="{{$br->id}}">{{$br->branch_Name}}</option>
+                                                @endforeach
 
-                                        <a href="{{url('downloads/create')}}" class=" btn btn-file btn-primary">Upload File</a>
-
-
-                                        <a href="{{url('downloads/manage')}}" class="btn btn-file btn-primary">Manage Downloads</a>
-
-                                        <a href="{{url('downloads/reports')}}" class="btn btn-file btn-primary">Downloads reports</a>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="department_id">Department</label>
+                                            <select class="form-control"  id="department_id" name="department_id">
+                                                <option value="">----</option>
+                                            </select>
+                                        </div>
 
                                     </div>
                                 </div>
-                            </div>
-                        @endif
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <p> <h3>Basic File Information </h3>
-                        @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        <hr/>
-                        {!! Form::open(array('url'=>'downloads/create','role'=>'form','id'=>'DownloadForm','files' => true)) !!}
-
-                        <div class="form-group">
-                            <label for="title">File Name</label>
-                            <input type="text" class="form-control" id="title" name="title" value="{{old('title')}}" placeholder="Enter file title">
-                        </div>
-                        <div class="form-group">
-                            <label for="title">Select file</label>
-                            <input type="file" class="form-control" id="downloadFile" name="downloadFile" value="{{old('downloadFile')}}" placeholder="Select file title">
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Descriptions</label>
-                            <textarea class="form-control" id="description" name="description">{{old('description')}}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="branch_id">Branch</label>
-                                    <select class="form-control"  id="branch_id" name="branch_id">
-                                        <option value="">----</option>
-                                        <?php $branches=\App\Branch::all();?>
-                                        @foreach($branches as $br)
-                                            <option value="{{$br->id}}">{{$br->branch_Name}}</option>
-                                        @endforeach
-
-                                    </select>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="status">Status</label>
+                                            <select name="status" class="form-control" id="status">
+                                                <option selected value="">----</option>
+                                                <option value="enabled">enabled</option>
+                                                <option value="disabled">disabled</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="status">Is restricted?</label>
+                                            <select name="restricted" class="form-control" id="restricted">
+                                                <option selected value="">----</option>
+                                                <option value="No" selected>No</option>
+                                                <option value="Yes">Yes</option>
+                                            </select>
+                                            <p class="text-info">Restriction means the file will be available only to allowed department</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="department_id">Department</label>
-                                    <select class="form-control"  id="department_id" name="department_id">
-                                        <option value="">----</option>
-                                    </select>
-                                </div>
+                                <button type="submit" class="btn btn-primary pull-right col-md-2">Submit</button>
+
 
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="status">Status</label>
-                                    <select name="status" class="form-control" id="status">
-                                        <option selected value="">----</option>
-                                        <option value="enabled">enabled</option>
-                                        <option value="disabled">disabled</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="status">Is restricted?</label>
-                                    <select name="restricted" class="form-control" id="restricted">
-                                        <option selected value="">----</option>
-                                        <option value="No" selected>No</option>
-                                        <option value="Yes">Yes</option>
-                                    </select>
-                                    <p class="text-info">Restriction means the file will be available only to allowed department</p>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary pull-right col-md-2">Submit</button>
-
-
-                    </div>
                         </div>
                     </div>
                 </section>
