@@ -43,10 +43,7 @@
             <input type="password" name="password" id="password" class="form-control" placeholder="Password" required autocomplete=off>
             <label class="checkbox">
                 <input type="checkbox" value="remember-me"> Remember me
-                <span class="pull-right">
-                    <a data-toggle="modal" href="#myModal"> Forgot Password?</a>
 
-                </span>
             </label>
             <button class="btn btn-lg btn-login btn-block" type="submit">Sign in</button>
             <div class="registration">

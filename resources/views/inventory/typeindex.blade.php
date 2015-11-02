@@ -325,13 +325,14 @@
         </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
-        <li class="sub-menu">
-            <a href="javascript:;" >
-                <i class="fa fa-cogs"></i>
-                <span>Portal Administration</span>
-            </a><ul class="sub">
+            <li class="sub-menu">
+                <a href="javascript:;" >
+                    <i class="fa fa-cogs"></i>
+                    <span>Portal Administration</span>
+                </a><ul class="sub">
                     <li><a  href="{{url('branches')}}">Branches</a></li>
                     <li><a  href="{{url('departments')}}">Departments</a></li>
+                    <li><a  href="{{url('units')}}">Units</a></li>
                     <li><a  href="{{url('users')}}">Users</a></li>
                     <li><a  href="{{url('user/rights')}}">Users Rights</a></li>
                     <li><a  href="{{url('modules')}}">Query Modules</a></li>
@@ -339,7 +340,7 @@
                     <li><a  href="{{url('queriesstatus')}}">Query Status</a></li>
                     <li><a  href="{{url('systemsetups')}}">System Settings</a></li>
                 </ul>
-        </li>
+            </li>
         @endif
     </ul>
     @stop

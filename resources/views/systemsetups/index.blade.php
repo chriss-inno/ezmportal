@@ -29,19 +29,19 @@
 
             $("#DownloadForm").validate({
                 rules: {
-                    title: "required",
-                    downloadFile: "required",
-                    department_id: "required",
-                    status: "required",
-                    restricted: "required"
+                    credit_link_1: "required",
+                    credit_link_2: "required",
+                    hr_link_1: "required",
+                    mm_link_1: "required",
+                    portal_eod_report_date: "required"
 
                 },
                 messages: {
-                    title: "Please enter file name",
-                    department_id: "Please select department",
-                    downloadFile: "Please select file for upload",
-                    status: "Please select status",
-                    restricted: "Please select status"
+                    credit_link_1: "Please credit request",
+                    credit_link_2: "Please credit portal link",
+                    hr_link_1: "Please enter human resource link",
+                    mm_link_1: "Please enter money msafiri link",
+                    portal_eod_report_date: "Please portal_eod_report_date"
                 }
             });
         } );
@@ -87,7 +87,7 @@
             </li>
         @endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" class="active" >
+                <a href="javascript:;" >
                     <i class="fa fa-download"></i>
                     <span>Downloads</span>
                 </a>
@@ -245,7 +245,7 @@
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" >
+                <a href="javascript:;" class="active" >
                     <i class="fa fa-cogs"></i>
                     <span>Portal Administration</span>
                 </a><ul class="sub">
@@ -256,7 +256,7 @@
                     <li><a  href="{{url('modules')}}">Query Modules</a></li>
                     <li><a  href="{{url('enablers')}}">Query Enablers</a></li>
                     <li><a  href="{{url('queriesstatus')}}">Query Status</a></li>
-                    <li><a  href="{{url('systemsetups')}}">System Settings</a></li>
+                    <li><a  href="{{url('systemsetups')}}" class="active">System Settings</a></li>
                 </ul>
             </li>
         @endif
@@ -275,7 +275,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <p> <h3>System setting </h3>
+                                <p> <h3>Basic System setting </h3>
                                 @if (count($errors) > 0)
                                     <div class="alert alert-danger">
                                         <ul>
@@ -286,63 +286,55 @@
                                     </div>
                                 @endif
                                 <hr/>
+
                                 {!! Form::open(array('url'=>'systemsetups','role'=>'form','id'=>'DownloadForm','files' => true)) !!}
+                                <?php
+                                $credit_link_1="";
+                                $credit_link_2="";
+                                $hr_link_1="";
+                                $mm_link_1="";
+                                $portal_eod_report_date="";
+                                $save_request="Add_new";
 
-                                <div class="form-group">
-                                    <label for="title">File Name</label>
-                                    <input type="text" class="form-control" id="title" name="title" value="{{old('title')}}" placeholder="Enter file title">
-                                </div>
-                                <div class="form-group">
-                                    <label for="title">Select file</label>
-                                    <input type="file" class="form-control" id="downloadFile" name="downloadFile" value="{{old('downloadFile')}}" placeholder="Select file title">
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">Descriptions</label>
-                                    <textarea class="form-control" id="description" name="description">{{old('description')}}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="branch_id">Branch</label>
-                                            <select class="form-control"  id="branch_id" name="branch_id">
-                                                <option value="">----</option>
-                                                <?php $branches=\App\Branch::all();?>
-                                                @foreach($branches as $br)
-                                                    <option value="{{$br->id}}">{{$br->branch_Name}}</option>
-                                                @endforeach
+                                   if($system != null && $system != "")
+                                       {
+                                           $system->credit_link_1="";
+                                           $system->credit_link_2="";
+                                           $system->hr_link_1="";
+                                           $system->mm_link_1="";
+                                           $system->portal_eod_report_date="";
+                                           $save_request=2;
+                                       }
+                                ?>
 
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="department_id">Department</label>
-                                            <select class="form-control"  id="department_id" name="department_id">
-                                                <option value="">----</option>
-                                            </select>
-                                        </div>
+                                <fieldset class="scheduler-border">
+                                    <legend class="scheduler-border" style="color:#005DAD"> System Links </legend>
 
+                                    <div class="form-group">
+                                        <label for="credit_link_1">Credit Request Link</label>
+                                        <input type="text" class="form-control" id="credit_link_1" name="credit_link_1" @if($credit_link_1 != null && $credit_link_1 !="") value="{{$credit_link_1}}" @else value="" @endif placeholder="Enter credit portal link 1">
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="status">Status</label>
-                                            <select name="status" class="form-control" id="status">
-                                                <option selected value="">----</option>
-                                                <option value="enabled">enabled</option>
-                                                <option value="disabled">disabled</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="status">Is restricted?</label>
-                                            <select name="restricted" class="form-control" id="restricted">
-                                                <option selected value="">----</option>
-                                                <option value="No" selected>No</option>
-                                                <option value="Yes">Yes</option>
-                                            </select>
-                                            <p class="text-info">Restriction means the file will be available only to allowed department</p>
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="credit_link_2">Credit Portal Link</label>
+                                        <input type="text" class="form-control" id="credit_link_2" name="credit_link_2" @if($credit_link_2 != null && $credit_link_2 !="") value="{{$credit_link_2}}" @else value="" @endif placeholder="Enter credit portal link 2">
                                     </div>
-                                </div>
+                                    <div class="form-group">
+                                        <label for="hr_link_1">Human Resource system link</label>
+                                        <input type="text" class="form-control" id="hr_link_1" name="hr_link_1" @if($hr_link_1 != null && $hr_link_1 !="") value="{{$hr_link_1}}" @else value="" @endif placeholder="Enter Human resource link">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mm_link_1">Human Resource system link</label>
+                                        <input type="text" class="form-control" id="mm_link_1" name="mm_link_1" @if($mm_link_1 != null && $mm_link_1 !="") value="{{$mm_link_1}}" @else value="" @endif placeholder="Enter Money Msafiri Link">
+                                    </div>
+                                </fieldset>
+                                <fieldset class="scheduler-border">
+                                    <legend class="scheduler-border" style="color:#005DAD"> EOD Reports portal current date </legend>
+                                    <div class="form-group">
+                                        <label for="portal_eod_report_date">Human Resource system link</label>
+                                        <input type="text" class="form-control" id="portal_eod_report_date" name="portal_eod_report_date" @if($portal_eod_report_date != null && $portal_eod_report_date !="") value="{{$portal_eod_report_date}}" @else value="" @endif placeholder="Enter Money Msafiri Link">
+                                    </div>
+                                </fieldset>
+                                 <input type="hidden" name="save_request" id="save_request" value="{{$save_request}}">
                                 <button type="submit" class="btn btn-primary pull-right col-md-2">Submit</button>
 
 

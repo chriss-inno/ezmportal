@@ -320,7 +320,7 @@
                                         <td>{{$i++}}</td>
                                         <td>{{$d->branch->branch_Name}}</td>
                                         <td>{{$d->department_name}}</td>
-                                        <td id="{{$d->id}}" class="text-center"> <a  href="#" title="Department Units" class="addUnit btn btn-success btn-xs"><i class="fa fa-pencil"></i></a></td>
+                                        <td id="{{$d->id}}" class="text-center"> <a  href="{{url('units)}}" title="Department Units" class=" btn btn-success btn-xs"><i class="fa fa-pencil"></i></a></td>
                                         <td>{{$d->status}}</td>
                                         @if($d->receive_query ==0)
                                         <td id="{{$d->id}}" class="text-center"> <a  href="#" title="Allow department to receive Query" class="yesToQuery btn btn-danger btn-xs">No</a></td>

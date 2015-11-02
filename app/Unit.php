@@ -11,4 +11,8 @@ class Unit extends Model
     {
         return $this::belongsTo('\App\Department','department_id');
     }
+    public function subunit()
+    {
+        return $this::belongsTo('\App\Unit','parent_id');
+    }
 }

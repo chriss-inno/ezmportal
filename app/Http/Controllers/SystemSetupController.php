@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\SystemSetup;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class SystemSetupController extends Controller
 {
@@ -23,7 +25,8 @@ class SystemSetupController extends Controller
     public function index()
     {
         //
-        return view('systemsetups.index');
+        $system=SystemSetup::all()->first();
+        return view('systemsetups.index',compact('system'));
     }
 
     /**
@@ -45,6 +48,29 @@ class SystemSetupController extends Controller
     public function store(Request $request)
     {
         //
+        if($request->save_request =="Add_new")
+        {
+            $system=new SystemSetup;
+            $system->credit_link_1=$request->credit_link_1;
+            $system->credit_link_2=$request->credit_link_2;
+            $system->hr_link_1=$request->hr_link_1;
+            $system->mm_link_1=$request->mm_link_1;
+            $system->portal_eod_report_date=$request->portal_eod_report_date;
+            $system->input_by=Auth::user()->username;
+
+            $system->save();
+        }
+        else
+        {
+            $system=SystemSetup::all()->first();
+            $system->credit_link_1=$request->credit_link_1;
+            $system->credit_link_2=$request->credit_link_2;
+            $system->hr_link_1=$request->hr_link_1;
+            $system->mm_link_1=$request->mm_link_1;
+            $system->portal_eod_report_date=$request->portal_eod_report_date;
+            $system->input_by=Auth::user()->username;
+            $system->save();
+        }
     }
 
     /**

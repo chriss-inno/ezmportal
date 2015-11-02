@@ -171,7 +171,8 @@ Route::get('downloads-remove/{id}',['middleware' => 'auth', 'uses' =>'DownloadCo
 
 
 //Units controller
-Route::get('units/{id}',['middleware' => 'auth', 'uses' =>'UnitController@index']);
+Route::get('units',['middleware' => 'auth', 'uses' =>'UnitController@index']);
+Route::get('units/show/{id}',['middleware' => 'auth', 'uses' =>'UnitController@show']);
 Route::get('units/create',['middleware' => 'auth', 'uses' =>'UnitController@create']);
 Route::post('units/create',['middleware' => 'auth', 'uses' =>'UnitController@store']);
 Route::get('units/remove/{id}',['middleware' => 'auth', 'uses' =>'UnitController@destroy']);
@@ -253,7 +254,7 @@ Route::get('queryemails-remove/{id}','QueryEmailController@destroy');
 //System setting
 
 Route::get('systemsetups','SystemSetupController@index');
-Route::post('systemsetups','SystemSetupController@update');
+Route::post('systemsetups','SystemSetupController@store');
 //Send emails
 Route::get('emails/oracleissues','EmailController@olacle');
 Route::get('portal/cronejob','EmailController@cronejob');

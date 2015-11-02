@@ -327,10 +327,10 @@
                 <a href="javascript:;" >
                     <i class="fa fa-cogs"></i>
                     <span>Portal Administration</span>
-                </a>
-                <ul class="sub">
+                </a><ul class="sub">
                     <li><a  href="{{url('branches')}}">Branches</a></li>
                     <li><a  href="{{url('departments')}}">Departments</a></li>
+                    <li><a  href="{{url('units')}}">Units</a></li>
                     <li><a  href="{{url('users')}}">Users</a></li>
                     <li><a  href="{{url('user/rights')}}">Users Rights</a></li>
                     <li><a  href="{{url('modules')}}">Query Modules</a></li>

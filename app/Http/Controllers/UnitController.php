@@ -25,11 +25,11 @@ class UnitController extends Controller
      *
      * @return Response
      */
-    public function index($id)
+    public function index()
     {
         //
-
-        return view('units.index',compact('id'));
+        $units= Unit::all();
+        return view('units.index',compact('units'));
     }
 
     /**
@@ -40,6 +40,7 @@ class UnitController extends Controller
     public function create()
     {
         //
+        return view('units.create');
     }
 
     /**

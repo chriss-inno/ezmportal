@@ -20,6 +20,9 @@ class CreateSystemSetupsTable extends Migration
             $table->string('mm_link_1')->nullable();
             $table->datetime('query_exe_next_check')->nullable();
             $table->date('portal_eod_report_date')->nullable();
+            $table->string('input_by')->nullable();
+            $table->string('auth_by')->nullable();
+            $table->string('auth_status',1)->default('U');
             $table->timestamps();
         });
     }
