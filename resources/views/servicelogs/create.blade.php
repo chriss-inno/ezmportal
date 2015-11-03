@@ -306,7 +306,7 @@
 
                                     <a href="{{url('serviceslogs/today')}}"  class="btn btn-file btn-primary">Today Status</a>
 
-                                    <a href="{{url('inventory-reports')}}" class="btn btn-file btn-primary">Inventory items reports</a>
+                                    <a href="{{url('smemails')}}" class="btn btn-file btn-primary"> <i class="fa fa-envelope"></i> <i class="fa fa-cog text-danger"></i> Email Settings</a>
 
                                     <a href="{{url('services')}}" class="btn btn-file btn-primary">View  Service</a>
 

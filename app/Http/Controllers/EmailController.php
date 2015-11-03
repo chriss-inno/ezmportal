@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Service;
+use App\SMEmails;
 use Illuminate\Http\Request;
 use App\QueryEmail;
 use App\User;
@@ -101,13 +102,13 @@ class EmailController extends Controller
         try
         {
             $this->serviceStarts(); //Send service starts
-            $this->olacle(); //Send oracle logged issues
-            $this->unAssignedQueryReminder(); //Send reminder for unassigned queries
-            $this->dailyLogged(); //Daily query logged
+           // $this->olacle(); //Send oracle logged issues
+            //$this->unAssignedQueryReminder(); //Send reminder for unassigned queries
+            //$this->dailyLogged(); //Daily query logged
 
         }catch (\Exception $ex)
         {
-
+            return $ex->getMessage();
         }
         finally
         {
@@ -188,20 +189,42 @@ class EmailController extends Controller
         //
 
         $services=Service::where('email_sent','=','N')->get();
-        if(date("H:i") =="21:00") {
+        if(date("H:i") =="00:18") {
             if(count($services) >0 ) {
                 //Send email
                 $data = array(
                     'service' => $services,
                 );
+                $dataemail="";
+                $dtemail="";
 
-                \Mail::queue('emails.servicestartus', $data, function ($message) {
+                $emails=SMEmails::where('status','=','Active')->get();
 
-                    $emails = ['adolph.mwakalinga@bankm.com','innocent.christopher@bankm.com']; //List emails
-                    $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
-                    $message->to($emails)->subject('SYSTEM SERVICE STATUS REPORT AS OF '.date("d F Y"));
+                if(count($emails) >0 && $emails != null)
+                {
+                    foreach($emails as $em)
+                    {
+                        $dtemail .="'".$em->email."',";
+                    }
+                    $dataemail .= substr($dtemail,0,strlen($dtemail)-1);
 
-                });
+
+                }
+                if($dataemail !="")
+                {
+                    echo "yeeep".$dataemail;
+
+                    \Mail::queue('emails.servicestartus', $data, function ($message) use($dataemail) {
+
+                        $emails =$dataemail; //List emails
+                        $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                        $message->to($emails)->subject('SYSTEM SERVICE STATUS REPORT AS OF '.date("d F Y"));
+
+                    });
+
+
+                }
+
 
             }
         }

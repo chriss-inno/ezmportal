@@ -43,6 +43,7 @@ return array(
     'CreateSDProductsTable' => $baseDir . '/database/migrations/2015_10_22_190814_create_s_d_products_table.php',
     'CreateSDReceiptModesTable' => $baseDir . '/database/migrations/2015_10_22_190946_create_s_d_receipt_modes_table.php',
     'CreateSDStatusesTable' => $baseDir . '/database/migrations/2015_10_22_192503_create_s_d_statuses_table.php',
+    'CreateSMEmailsTable' => $baseDir . '/database/migrations/2015_11_03_225737_create_s_m_emails_table.php',
     'CreateServiceLogAreasTable' => $baseDir . '/database/migrations/2015_09_17_213658_create_service_log_areas_table.php',
     'CreateServiceLogsTable' => $baseDir . '/database/migrations/2015_09_16_165110_create_service_logs_table.php',
     'CreateServicesTable' => $baseDir . '/database/migrations/2015_09_16_165037_create_services_table.php',

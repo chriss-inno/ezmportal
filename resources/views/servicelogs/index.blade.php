@@ -384,12 +384,30 @@
     <section class="site-min-height">
         <!-- page start-->
         <div class="row">
-            <div class="col-lg-10 col-md-10">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
                         <h3 class="text-info"> <i class="fa fa-tachometer text-danger"></i> <i class="fa fa-cogs"></i> Service Monitoring</h3>
                     </header>
                     <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="btn-group btn-group-justified">
+                                    <a href="{{url('serviceslogs/create')}}" class="createItem btn btn-file btn-primary">Log Downtime</a>
+
+                                    <a href="{{url('serviceslogs/today')}}"  class="btn btn-file btn-primary">Today Status</a>
+
+                                    <a href="{{url('smemails')}}" class="btn btn-file btn-primary"> <i class="fa fa-envelope"></i> <i class="fa fa-cog text-danger"></i> Email Settings</a>
+
+                                    <a href="{{url('services')}}" class="btn btn-file btn-primary">View  Service</a>
+
+                                    <a href="{{url('serviceslogs')}}" class="btn btn-file btn-primary">Status History</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="adv-table">
                             <table  class="display table table-bordered table-striped" id="branches">
                                 <thead>
@@ -435,31 +453,6 @@
                                 </tfoot>
                             </table>
                         </div>
-                    </div>
-                </section>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <section class="panel">
-                    <div class="panel-body">
-
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('serviceslogs/create')}}" class=" btn btn-file btn-danger btn-block">Log Downtime</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('serviceslogs/today')}}" class="btn btn-file btn-danger btn-block">Today Status</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('serviceslogs')}}" class="btn btn-file btn-danger btn-block">Status History</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('services')}}" class="btn btn-file btn-primary btn-block">View  Service</a>
                             </div>
                         </div>
                     </div>

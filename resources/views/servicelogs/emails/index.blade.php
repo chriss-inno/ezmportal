@@ -1,50 +1,141 @@
 @extends('layout.master')
 @section('page-title')
-   System setting
+    Support Logged Query
 @stop
 @section('page_scripts')
-    {!!HTML::script("js/sparkline-chart.js") !!}
-    {!!HTML::script("js/easy-pie-chart.js") !!}
-    {!!HTML::script("js/count.js") !!}
-    {!!HTML::script("js/jquery.tagsinput.js")!!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
     {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
     {!!HTML::script("js/jquery.scrollTo.min.js") !!}
     {!!HTML::script("js/jquery.nicescroll.js") !!}
-    {!!HTML::script("js/jquery.validate.min.js" ) !!}
-    {!!HTML::script("js/respond.min.js"  ) !!}
-    {!!HTML::script("js/form-validation-script.js") !!}
-
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
+    {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
-            $("#branch_id").change(function () {
-                var id1 = this.value;
-                if(id1 != "")
-                {
-                    $.get("<?php echo url('getDepartment') ?>/"+id1,function(data){
-                        $("#department_id").html(data);
+
+
+            $('#branches').dataTable( {
+                "fnDrawCallback": function( oSettings ) {
+
+                    //adding company user
+                    $(".editEmail").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                        modal+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                        modal+= '<div class="modal-content">';
+                        modal+= '<div class="modal-header">';
+                        modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modal+= '<h2 class="modal-title" id="myModalLabel">Update email Address</h2>';
+                        modal+= '</div>';
+                        modal+= '<div class="modal-body">';
+                        modal+= ' </div>';
+                        modal+= '</div>';
+                        modal+= '</div>';
+
+                        $("body").append(modal);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("smemails") ?>/"+id1+"/edit");
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    })
+
+                    $(".createEmail").click(function(){
+                        var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                        modal+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                        modal+= '<div class="modal-content">';
+                        modal+= '<div class="modal-header">';
+                        modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modal+= '<h2 class="modal-title" id="myModalLabel"><i class="fa fa-envelope-square text-danger"></i> Email setting </h2>';
+                        modal+= '</div>';
+                        modal+= '<div class="modal-body">';
+                        modal+= ' </div>';
+                        modal+= '</div>';
+                        modal+= '</div>';
+
+                        $("body").append(modal);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("smemails/create")?>");
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    })
+                    $(".queryAttend").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                        modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                        modal+= '<div class="modal-content">';
+                        modal+= '<div class="modal-header">';
+                        modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modal+= '<h2 class="modal-title" id="myModalLabel">Query details</h2>';
+                        modal+= '</div>';
+                        modal+= '<div class="modal-body">';
+                        modal+= ' </div>';
+                        modal+= '</div>';
+                        modal+= '</div>';
+
+                        $("body").append(modal);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("queries/attend") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    })
+
+                    $(".queryDetails").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                        modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                        modal+= '<div class="modal-content">';
+                        modal+= '<div class="modal-header">';
+                        modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modal+= '<h2 class="modal-title" id="myModalLabel">Support logged query details</h2>';
+                        modal+= '</div>';
+                        modal+= '<div class="modal-body">';
+                        modal+= ' </div>';
+                        modal+= '</div>';
+                        modal+= '</div>';
+
+                        $("body").append(modal);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("queries/show") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    })
+
+                    $(".deleteEmail").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        $(".deleteEmail").show("slow").parent().parent().find("span").remove();
+                        var btn = $(this).parent().parent();
+                        $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
+                        $("#no").click(function(){
+                            $(this).parent().parent().find(".deleteEmail").show("slow");
+                            $(this).parent().parent().find("span").remove();
+                        });
+                        $("#yes").click(function(){
+                            $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
+                            $.get("<?php echo url('smemails-remove') ?>/"+id1,function(data){
+                                btn.hide("slow").next("hr").hide("slow");
+                            });
+                        });
                     });
-
-                }else{$("#department_id").html("<option value=''>----</option>");}
-            });
-
-            $("#DownloadForm").validate({
-                rules: {
-                    credit_link_1: "required",
-                    credit_link_2: "required",
-                    hr_link_1: "required",
-                    mm_link_1: "required",
-                    portal_eod_report_date: "required"
-
-                },
-                messages: {
-                    credit_link_1: "Please credit request",
-                    credit_link_2: "Please credit portal link",
-                    hr_link_1: "Please enter human resource link",
-                    mm_link_1: "Please enter money msafiri link",
-                    portal_eod_report_date: "Please portal_eod_report_date"
                 }
-            });
+            } );
         } );
+
+
     </script>
 
 @stop
@@ -294,74 +385,89 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa fa-cog text-danger"> </i><i class="fa fa-cogs"></i> System setting</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa  fa-envelope-o text-danger"></i><i class="fa fa-cogs"></i> Email Settings </strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <p> <h3>Basic System setting </h3>
-                                @if (count($errors) > 0)
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
+                                <div class="btn-group btn-group-justified">
+                                    <a href="{{url('serviceslogs/create')}}" class="createItem btn btn-file btn-primary">Log Downtime</a>
+
+                                    <a href="{{url('serviceslogs/today')}}"  class="btn btn-file btn-primary">Today Status</a>
+
+                                    <a href="{{url('smemails')}}" class="btn btn-file btn-primary"> <i class="fa fa-envelope"></i> <i class="fa fa-cog text-danger"></i> Email Settings</a>
+
+                                    <a href="{{url('services')}}" class="btn btn-file btn-primary">View  Service</a>
+
+                                    <a href="{{url('serviceslogs')}}" class="btn btn-file btn-primary">Status History</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                <div class="adv-table">
+                                    <table  class="display table table-bordered table-striped" id="branches">
+                                        <thead>
+                                        <tr>
+                                            <th>SNO</th>
+                                            <th>Email Address</th>
+                                            <th>Display Name</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php $i=1;?>
+                                        @if(count($emails) >0)
+                                            @foreach($emails as $em)
+                                                <tr>
+                                                    <td>{{$i++}}</td>
+                                                    <td>{{$em->email}}</td>
+                                                    <td>{{$em->display_name}}</td>
+                                                    @if($em->status =="Active" || $em->status =="active")
+                                                        <td><a  href="#" title="This email is working" class=" btn btn-success btn-xs"> {{ucwords(strtolower($em->status)) }} </a></td>
+                                                    @else
+                                                        <td><a  href="#" title="This email not working" class=" btn btn-danger btn-xs"> {{ucwords(strtolower($em->status)) }} </a></td>
+                                                    @endif
+                                                    <td id="{{$em->id}}" align="center">
+                                                        <a  href="#" title="Edit " class="editEmail btn btn-primary btn-xs"><i class="fa fa-pencil"></i> </a>
+                                                        <a href="#b" title="Delete " class="deleteEmail btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                                    </td>
+                                                </tr>
+
                                             @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
-                                <hr/>
-
-                                {!! Form::open(array('url'=>'systemsetups','role'=>'form','id'=>'DownloadForm','files' => true)) !!}
-                                <?php
-                                $credit_link_1="";
-                                $credit_link_2="";
-                                $hr_link_1="";
-                                $mm_link_1="";
-                                $portal_eod_report_date="";
-                                $save_request="Add_new";
-
-                                   if($system != null && $system != "")
-                                       {
-                                           $system->credit_link_1="";
-                                           $system->credit_link_2="";
-                                           $system->hr_link_1="";
-                                           $system->mm_link_1="";
-                                           $system->portal_eod_report_date="";
-                                           $save_request=2;
-                                       }
-                                ?>
-
-                                <fieldset class="scheduler-border">
-                                    <legend class="scheduler-border" style="color:#005DAD"> System Links </legend>
-
-                                    <div class="form-group">
-                                        <label for="credit_link_1">Credit Request Link</label>
-                                        <input type="text" class="form-control" id="credit_link_1" name="credit_link_1" @if($credit_link_1 != null && $credit_link_1 !="") value="{{$credit_link_1}}" @else value="" @endif placeholder="Enter credit portal link 1">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="credit_link_2">Credit Portal Link</label>
-                                        <input type="text" class="form-control" id="credit_link_2" name="credit_link_2" @if($credit_link_2 != null && $credit_link_2 !="") value="{{$credit_link_2}}" @else value="" @endif placeholder="Enter credit portal link 2">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="hr_link_1">Human Resource system link</label>
-                                        <input type="text" class="form-control" id="hr_link_1" name="hr_link_1" @if($hr_link_1 != null && $hr_link_1 !="") value="{{$hr_link_1}}" @else value="" @endif placeholder="Enter Human resource link">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="mm_link_1">Enter Money Msafiri Link</label>
-                                        <input type="text" class="form-control" id="mm_link_1" name="mm_link_1" @if($mm_link_1 != null && $mm_link_1 !="") value="{{$mm_link_1}}" @else value="" @endif placeholder="Enter Money Msafiri Link">
-                                    </div>
-                                </fieldset>
-                                <fieldset class="scheduler-border">
-                                    <legend class="scheduler-border" style="color:#005DAD"> EOD Reports portal current date </legend>
-                                    <div class="form-group">
-                                        <label for="portal_eod_report_date">Portal eod report date</label>
-                                        <input type="text" class="form-control" id="portal_eod_report_date" name="portal_eod_report_date" @if($portal_eod_report_date != null && $portal_eod_report_date !="") value="{{$portal_eod_report_date}}" @else value="" @endif placeholder="Enter Portal eod report date">
-                                    </div>
-                                </fieldset>
-                                 <input type="hidden" name="save_request" id="save_request" value="{{$save_request}}">
-                                <button type="submit" class="btn btn-primary pull-right col-md-2">Submit</button>
-
-
+                                        @endif
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th>SNO</th>
+                                            <th>Email Address</th>
+                                            <th>Display Name</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <div class="row">
+                                    <section class="panel">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <a href="#" class="createEmail btn btn-primary  btn-block"><i class="fa fa-file-o text-danger"></i> New email</a>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top: 10px">
+                                                <div class="col-md-12">
+                                                    <a href="{{url('smemails')}}" class="btn btn-primary btn-block"><i class="fa fa-tasks text-danger"></i> List emails</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
                             </div>
                         </div>
                     </div>

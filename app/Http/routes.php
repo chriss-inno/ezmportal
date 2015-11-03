@@ -251,6 +251,10 @@ Route::resource('queryemails','QueryEmailController');
 Route::get('queryemails-remove/{id}','QueryEmailController@destroy');
 //Queries reports controller
 
+//Service monitoring downtime
+Route::resource('smemails','SMEmailsController');
+Route::get('smemails-remove/{id}','SMEmailsController@destroy');
+
 //System setting
 
 Route::get('systemsetups','SystemSetupController@index');
