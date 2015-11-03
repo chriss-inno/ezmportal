@@ -1,4 +1,4 @@
-{!! Form::open(array('url'=>'users/password','role'=>'form','id'=>'changeUserPasswordForm')) !!}
+{!! Form::open(array('url'=>'users/password','role'=>'form','id'=>'adminPassChange')) !!}
 <fieldset class="scheduler-border" style="margin-top: 10px;">
     <legend class="scheduler-border" style="color:#005DAD">Login Details</legend>
     <div class="form-group">
@@ -9,15 +9,20 @@
     <div class="form-group">
         <div class="row">
             <div class="col-md-6">
-                <label for="Password">Password</label>
-                <input type="text" class="form-control"  id="Password" name="Password" placeholder="Enter Password" >
+                <label for="userpass">Password</label>
+                <input type="password" class="form-control"  id="userpass" name="userpass" placeholder="Enter Password" required>
+                @if($errors->first('userpass'))
+                    <label for="userpass" class="error">{{$errors->first('userpass')}}</label>
+                @endif
             </div>
             <div class="col-md-6">
-                <label for="Password">Confirm Password</label>
-                <input type="text" class="form-control"  id="password_confirmation" name="password_confirmation" placeholder="Confirm Password" >
+                <label for="passconfirmation">Confirm Password</label>
+                <input type="password" class="form-control"  id="passconfirmation" name="passconfirmation" placeholder="Confirm Password" required>
+                @if($errors->first('passconfirmation'))
+                    <label for="confirmation" class="error">{{$errors->first('passconfirmation')}}</label>
+                @endif
             </div>
         </div>
-        <p class="help-block">
     </div>
     <div class="row">
         <div class="col-md-2 col-sm-2 col-xs-2 pull-right">
@@ -37,24 +42,24 @@
 {!!HTML::script("js/respond.min.js"  ) !!}
 {!!HTML::script("js/form-validation-script.js") !!}
 <script>
-    $("#changeUserPasswordForm").validate({
+    $("#adminPassChange").validate({
         rules: {
-            Password: {
+            userpass: {
                 required: true,
                 minlength: 5
             },
-            password_confirmation: {
+            passconfirmation: {
                 required: true,
                 minlength: 5,
-                equalTo: "#Password"
+                equalTo: "#userpass"
             }
         },
         messages: {
-            Password: {
+            userpass: {
                 required: "Please provide a password",
                 minlength: "Your password must be at least 5 characters long"
             },
-            password_confirmation: {
+            passconfirmation: {
                 required: "Please provide a password",
                 minlength: "Your password must be at least 5 characters long",
                 equalTo: "Please enter the same password as above"
@@ -62,8 +67,8 @@
         },
         submitHandler: function(form) {
             $("#output").html("<h3><span class='text-info'><i class='fa fa-spinner fa-spin'></i> Making changes please wait...</span><h3>");
-            var postData = $('#adminUserDetailForm').serializeArray();
-            var formURL = $('#adminUserDetailForm').attr("action");
+            var postData = $('#adminPassChange').serializeArray();
+            var formURL = $('#adminPassChange').attr("action");
             $.ajax(
                     {
                         url : formURL,

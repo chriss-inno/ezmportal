@@ -394,7 +394,8 @@
                     <span>Money Msafiri</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="#" title="Money Msafiri System">Money Msafiri System</a></li>
+                    <?php  $system=\App\SystemSetup::all()->first();?>
+                    <li><a  @if($system != null && count($system) > 0 && $system->mm_link_1 != null && $system->mm_link_1 !="") href="{{$system->mm_link_1}}" @else href="#" @endif  title="Money Msafiri System" target="_blank">Money Msafiri System</a></li>
                 </ul>
             </li>
         @endif
@@ -415,8 +416,9 @@
                     <span>Credit</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="#" title="Credit Request">Credit Request</a></li>
-                    <li><a  href="#" title="CA Portal">CA Portal</a></li>
+
+                    <li><a  @if($system != null && count($system) > 0 && $system->credit_link_1 != null && $system->credit_link_1 !="") href="{{$system->credit_link_1}}" @else href="#" @endif title="Credit Request" TARGET="_blank">Credit Request</a></li>
+                    <li><a  @if($system != null && count($system) > 0 && $system->credit_link_2 != null && $system->credit_link_2 !="") href="{{$system->credit_link_2}}" @else href="#" @endif title="CA Portal" target="_blank">CA Portal</a></li>
                 </ul>
             </li>
         @endif
@@ -427,7 +429,7 @@
                     <span>Human Resource</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="#" title="HR Portal">HR Portal</a></li>
+                    <li><a   @if($system != null && count($system) > 0 && $system->hr_link_1 != null && $system->hr_link_1 !="") href="{{$system->hr_link_1}}" @else href="#" @endif title="HR Portal" TARGET="_blank">HR Portal</a></li>
 
                 </ul>
             </li>
@@ -527,15 +529,31 @@
                 <a href="javascript:;" >
                     <i class="fa fa-cogs"></i>
                     <span>Portal Administration</span>
-                </a><ul class="sub">
-                    <li><a  href="{{url('branches')}}">Branches</a></li>
-                    <li><a  href="{{url('departments')}}">Departments</a></li>
-                    <li><a  href="{{url('units')}}">Units</a></li>
-                    <li><a  href="{{url('users')}}">Users</a></li>
-                    <li><a  href="{{url('user/rights')}}">Users Rights</a></li>
-                    <li><a  href="{{url('modules')}}">Query Modules</a></li>
-                    <li><a  href="{{url('enablers')}}">Query Enablers</a></li>
-                    <li><a  href="{{url('queriesstatus')}}">Query Status</a></li>
+                </a>
+                <ul class="sub">
+                    <li class="sub-menu">
+                        <a  href="#">Branches</a>
+                        <ul class="sub">
+                            <li><a  href="{{url('branches')}}">Branches</a></li>
+                            <li><a  href="{{url('departments')}}">Departments</a></li>
+                            <li><a  href="{{url('units')}}">Units</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a  href="#">Users Management</a>
+                        <ul class="sub">
+                            <li><a  href="{{url('users')}}">Users</a></li>
+                            <li><a  href="{{url('user/rights')}}">Users Rights</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a  href="#">Queries Module</a>
+                        <ul class="sub">
+                            <li><a  href="{{url('modules')}}">Query Modules</a></li>
+                            <li><a  href="{{url('enablers')}}">Query Enablers</a></li>
+                            <li><a  href="{{url('queriesstatus')}}">Query Status</a></li>
+                        </ul>
+                    </li>
                     <li><a  href="{{url('systemsetups')}}">System Settings</a></li>
                 </ul>
             </li>

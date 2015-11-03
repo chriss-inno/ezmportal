@@ -43,12 +43,11 @@ $archive_end_date= "";
             <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
                 <label for="archive_date">Report Archive start  date</label>
                 <input type="text" class="form-control" id="archive_start_date" name="archive_start_date" value="{{$archive_start_date}}" placeholder="Please enter  archive date">
-                <p>This is last date for archiving reports next day from this report will be fetched from current files path</p>
+
             </div>
             <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
                 <label for="archive_date">Report Archive end  date</label>
                 <input type="text" class="form-control" id="archive_end_date" name="archive_end_date" value="{{$archive_end_date}}" placeholder="Please enter  archive date">
-                <p>This is stat date for archiving reports from which all the reports will be available from archive source</p>
             </div>
         </div>
 
@@ -134,8 +133,8 @@ $archive_end_date= "";
                             $("#output").html(data);
                             setTimeout(function() {
                                 $("#output").html("");
-                                //jQuery.noConflict();
-                               // $("#myModal").modal("hide");
+                                jQuery.noConflict();
+                                $("#myModal").modal("hide");
                             }, 2000);
                         },
                         error: function(data)

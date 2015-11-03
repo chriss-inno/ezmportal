@@ -330,15 +330,31 @@
                 <a href="javascript:;" >
                     <i class="fa fa-cogs"></i>
                     <span>Portal Administration</span>
-                </a><ul class="sub">
-                    <li><a  href="{{url('branches')}}">Branches</a></li>
-                    <li><a  href="{{url('departments')}}">Departments</a></li>
-                    <li><a  href="{{url('units')}}">Units</a></li>
-                    <li><a  href="{{url('users')}}">Users</a></li>
-                    <li><a  href="{{url('user/rights')}}">Users Rights</a></li>
-                    <li><a  href="{{url('modules')}}">Query Modules</a></li>
-                    <li><a  href="{{url('enablers')}}">Query Enablers</a></li>
-                    <li><a  href="{{url('queriesstatus')}}">Query Status</a></li>
+                </a>
+                <ul class="sub">
+                    <li class="sub-menu">
+                        <a  href="#">Branches</a>
+                        <ul class="sub">
+                            <li><a  href="{{url('branches')}}">Branches</a></li>
+                            <li><a  href="{{url('departments')}}">Departments</a></li>
+                            <li><a  href="{{url('units')}}">Units</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a  href="#">Users Management</a>
+                        <ul class="sub">
+                            <li><a  href="{{url('users')}}">Users</a></li>
+                            <li><a  href="{{url('user/rights')}}">Users Rights</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a  href="#">Queries Module</a>
+                        <ul class="sub">
+                            <li><a  href="{{url('modules')}}">Query Modules</a></li>
+                            <li><a  href="{{url('enablers')}}">Query Enablers</a></li>
+                            <li><a  href="{{url('queriesstatus')}}">Query Status</a></li>
+                        </ul>
+                    </li>
                     <li><a  href="{{url('systemsetups')}}">System Settings</a></li>
                 </ul>
             </li>

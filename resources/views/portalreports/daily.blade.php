@@ -362,15 +362,31 @@
                 <a href="javascript:;" >
                     <i class="fa fa-cogs"></i>
                     <span>Portal Administration</span>
-                </a><ul class="sub">
-                    <li><a  href="{{url('branches')}}">Branches</a></li>
-                    <li><a  href="{{url('departments')}}">Departments</a></li>
-                    <li><a  href="{{url('units')}}">Units</a></li>
-                    <li><a  href="{{url('users')}}">Users</a></li>
-                    <li><a  href="{{url('user/rights')}}">Users Rights</a></li>
-                    <li><a  href="{{url('modules')}}">Query Modules</a></li>
-                    <li><a  href="{{url('enablers')}}">Query Enablers</a></li>
-                    <li><a  href="{{url('queriesstatus')}}">Query Status</a></li>
+                </a>
+                <ul class="sub">
+                    <li class="sub-menu">
+                        <a  href="#">Branches</a>
+                        <ul class="sub">
+                            <li><a  href="{{url('branches')}}">Branches</a></li>
+                            <li><a  href="{{url('departments')}}">Departments</a></li>
+                            <li><a  href="{{url('units')}}">Units</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a  href="#">Users Management</a>
+                        <ul class="sub">
+                            <li><a  href="{{url('users')}}">Users</a></li>
+                            <li><a  href="{{url('user/rights')}}">Users Rights</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a  href="#">Queries Module</a>
+                        <ul class="sub">
+                            <li><a  href="{{url('modules')}}">Query Modules</a></li>
+                            <li><a  href="{{url('enablers')}}">Query Enablers</a></li>
+                            <li><a  href="{{url('queriesstatus')}}">Query Status</a></li>
+                        </ul>
+                    </li>
                     <li><a  href="{{url('systemsetups')}}">System Settings</a></li>
                 </ul>
             </li>
@@ -440,8 +456,8 @@
                                             <th>Report Name</th>
                                             <th>Report Type</th>
                                             <th>Status</th>
-                                            <th>Report details</th>
-                                            <th align="center">Download</th>
+                                            <th>Report Details</th>
+                                            <th align="center">View Report</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -457,9 +473,9 @@
                                                         <a href="#" class="showReportDetails btn btn-primary btn-xs" title="Report details"><i class="fa fa-eye"></i> View </a>
                                                     </td>
                                                     <td id="{{$report->id}}" align="center">
-                                                        <a  href="{{url('download/daily/reports')}}/{{date("Y-m-d",strtotime($dateas))}}/pdf/{{$report->id}}" title="Download in PDF format" class=" btn btn-danger btn-xs"><i class="fa fa-file-pdf-o"></i> PDF</a>
-                                                        <a  href="{{url('download/daily/reports')}}/{{date("Y-m-d",strtotime($dateas))}}/xls/{{$report->id}}" title="Download in MS Excel format" class=" btn btn-success btn-xs"><i class="fa fa-file-excel-o"></i> Excel</a>
-                                                        <a href="{{url('download/daily/reports')}}/{{date("Y-m-d",strtotime($dateas))}}/txt/{{$report->id}}" title="Download in Text format" class=" btn btn-primary btn-xs"><i class="fa fa-file-text "></i> Text</a>
+                                                        <a  href="{{url('download/daily/reports')}}/{{date("Y-m-d",strtotime($dateas))}}/pdf/{{$report->id}}" title="Download in PDF format" class=" btn btn-danger btn-xs" target="_blank"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                                                        <a  href="{{url('download/daily/reports')}}/{{date("Y-m-d",strtotime($dateas))}}/xls/{{$report->id}}" title="Download in MS Excel format" class=" btn btn-success btn-xs" target="_blank"><i class="fa fa-file-excel-o"></i> Excel</a>
+                                                        <a href="{{url('download/daily/reports')}}/{{date("Y-m-d",strtotime($dateas))}}/txt/{{$report->id}}" title="Download in Text format" class=" btn btn-primary btn-xs" target="_blank"><i class="fa fa-file-text "></i> Text</a>
                                                     </td>
 
                                                 </tr>
@@ -472,8 +488,9 @@
                                             <th>Report Name</th>
                                             <th>Report Type</th>
                                             <th>Status</th>
-                                            <th>Report details</th>
-                                            <th>Download</th>
+                                            <th>Report Details</th>
+                                            <th align="center">View Report</th>
+                                        </tr>
                                         </tr>
                                         </tfoot>
                                     </table>

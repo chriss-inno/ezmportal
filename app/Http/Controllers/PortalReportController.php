@@ -458,14 +458,22 @@ class PortalReportController extends Controller
                     $headers = array(
                         'Content-Type: application/pdf',
                     );
-                    return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".PDF", $headers);
+                    return Response::make(file_get_contents($report_name), 200, [
+                        'Content-Type' => 'application/pdf',
+                        'Content-Disposition' => 'inline; '.$report->report_name.".PDF",
+                    ]);
+                    //return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".PDF", $headers);
                 }
                 elseif(File::exists($report_other_name))
                 {
                     $headers = array(
                         'Content-Type: application/pdf',
                     );
-                    return Response::download($report_other_name, date("Y_M_d",strtotime($dt))."_".$report->other_name.".PDF", $headers);
+                    return Response::make(file_get_contents($report_other_name), 200, [
+                        'Content-Type' => 'application/pdf',
+                        'Content-Disposition' => 'inline; '.$report->report_name.".PDF",
+                    ]);
+                    //return Response::download($report_other_name, date("Y_M_d",strtotime($dt))."_".$report->other_name.".PDF", $headers);
                 }
                 else
                 {
@@ -503,14 +511,24 @@ class PortalReportController extends Controller
                     $headers = array(
                         'Content-Type: text/plain',
                     );
-                    return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".TXT", $headers);
+
+                    return Response::make(file_get_contents($report_name), 200, [
+                        'Content-Type' =>  'text/plain',
+                        'Content-Disposition' => 'inline; '.$report->report_name.".TXT",
+                    ]);
+
+                    //return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".TXT", $headers);
                 }
                 elseif(File::exists($report_other_name))
                 {
                     $headers = array(
                         'Content-Type: text/plain',
                     );
-                    return Response::download($report_other_name, date("Y_M_d",strtotime($dt))."_".$report->other_name.".TXT", $headers);
+                    return Response::make(file_get_contents($report_other_name), 200, [
+                        'Content-Type' =>  'text/plain',
+                        'Content-Disposition' => 'inline; '.$report->report_name.".TXT",
+                    ]);
+                    //return Response::download($report_other_name, date("Y_M_d",strtotime($dt))."_".$report->other_name.".TXT", $headers);
                 }
                 else
                     {
@@ -544,14 +562,24 @@ class PortalReportController extends Controller
                     $headers = array(
                         'Content-Type: application/pdf',
                     );
-                    return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".PDF", $headers);
+
+                    return Response::make(file_get_contents($report_name), 200, [
+                        'Content-Type' => 'application/pdf',
+                        'Content-Disposition' => 'inline; '.$report->report_name.".PDF",
+                    ]);
+                    //return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".PDF", $headers);
                 }
                 elseif(File::exists($report_other_name))
                 {
                     $headers = array(
                         'Content-Type: application/pdf',
                     );
-                    return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->other_name.".PDF", $headers);
+
+                    return Response::make(file_get_contents($report_other_name), 200, [
+                        'Content-Type' => 'application/pdf',
+                        'Content-Disposition' => 'inline; '.$report->report_name.".PDF",
+                    ]);
+                   //return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->other_name.".PDF", $headers);
                 }
                 else
                 {
@@ -567,6 +595,7 @@ class PortalReportController extends Controller
                     $headers = array(
                         'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet ',
                     );
+
                     return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".XLS", $headers);
                 }
                 elseif(File::exists($report_other_name))
@@ -589,14 +618,22 @@ class PortalReportController extends Controller
                     $headers = array(
                         'Content-Type: text/plain',
                     );
-                    return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".TXT", $headers);
+                    return Response::make(file_get_contents($report_name), 200, [
+                        'Content-Type' =>  'text/plain',
+                        'Content-Disposition' => 'inline; '.$report->report_name.".TXT",
+                    ]);
+                    //return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->report_name.".TXT", $headers);
                 }
                 elseif(File::exists($report_other_name))
                 {
                     $headers = array(
                         'Content-Type: text/plain',
                     );
-                    return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->other_name.".TXT", $headers);
+                    return Response::make(file_get_contents($report_other_name), 200, [
+                        'Content-Type' =>  'text/plain',
+                        'Content-Disposition' => 'inline; '.$report->report_name.".TXT",
+                    ]);
+                    //return Response::download($report_name, date("Y_M_d",strtotime($dt))."_".$report->other_name.".TXT", $headers);
                 }
                 else
                 {

@@ -443,10 +443,10 @@ class UserController extends Controller
     public function postUserPassword(Request $request)
     {
         $user=User::find($request->user_id);
-        $user->password=bcrypt($request->Password);
+        $user->password=bcrypt($request->userpass);
         $user->save();
 
-        return "Data saved successfully";
+        return "Password changed successfully";
     }
 
     public function changeUserRights($id)
