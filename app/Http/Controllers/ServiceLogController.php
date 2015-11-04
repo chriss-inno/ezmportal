@@ -74,34 +74,46 @@ class ServiceLogController extends Controller
 
         //Save area affected
         //Branches
-        foreach($request->branches as $br)
+        if($request->branches != null && $request->branches !="")
         {
-            $sa=new ServiceLogArea;
-            $sa->serviceLog_id=$sl->id;
-            $sa->area_affected=$br;
-            $sa->area_type='branch';
-            $sa->save();
+            foreach($request->branches as $br)
+            {
+                $sa=new ServiceLogArea;
+                $sa->serviceLog_id=$sl->id;
+                $sa->area_affected=$br;
+                $sa->area_type='branch';
+                $sa->save();
+            }
         }
+
 
         //Departments
-        foreach($request->departments as $dp)
+        if($request->departments != null && $request->departments !="")
         {
-            $sa=new ServiceLogArea;
-            $sa->serviceLog_id=$sl->id;
-            $sa->area_affected=$dp;
-            $sa->area_type='department';
-            $sa->save();
+            foreach($request->departments as $dp)
+            {
+                $sa=new ServiceLogArea;
+                $sa->serviceLog_id=$sl->id;
+                $sa->area_affected=$dp;
+                $sa->area_type='department';
+                $sa->save();
+            }
         }
 
+
         //Units
-        foreach($request->departments as $dp)
+        if($request->units != null && $request->units !="")
         {
-            $sa=new ServiceLogArea;
-            $sa->serviceLog_id=$sl->id;
-            $sa->area_affected=$dp;
-            $sa->area_type='unit';
-            $sa->save();
+            foreach($request->units as $dp)
+            {
+                $sa=new ServiceLogArea;
+                $sa->serviceLog_id=$sl->id;
+                $sa->area_affected=$dp;
+                $sa->area_type='unit';
+                $sa->save();
+            }
         }
+
 
         return redirect('serviceslogs/today');
     }
@@ -164,35 +176,45 @@ class ServiceLogController extends Controller
 
         //Save area affected
         //Branches
-        foreach($request->branches as $br)
+        if($request->branches != null && $request->branches !="")
         {
-            $sa=new ServiceLogArea;
-            $sa->serviceLog_id=$sl->id;
-            $sa->area_affected=$br;
-            $sa->area_type='branch';
-            $sa->save();
+            foreach($request->branches as $br)
+            {
+                $sa=new ServiceLogArea;
+                $sa->serviceLog_id=$sl->id;
+                $sa->area_affected=$br;
+                $sa->area_type='branch';
+                $sa->save();
+            }
         }
+
 
         //Departments
-        foreach($request->departments as $dp)
+        if($request->departments != null && $request->departments !="")
         {
-            $sa=new ServiceLogArea;
-            $sa->serviceLog_id=$sl->id;
-            $sa->area_affected=$dp;
-            $sa->area_type='department';
-            $sa->save();
+            foreach($request->departments as $dp)
+            {
+                $sa=new ServiceLogArea;
+                $sa->serviceLog_id=$sl->id;
+                $sa->area_affected=$dp;
+                $sa->area_type='department';
+                $sa->save();
+            }
         }
+
 
         //Units
-        foreach($request->departments as $dp)
+        if($request->units != null && $request->units !="")
         {
-            $sa=new ServiceLogArea;
-            $sa->serviceLog_id=$sl->id;
-            $sa->area_affected=$dp;
-            $sa->area_type='unit';
-            $sa->save();
+            foreach($request->units as $dp)
+            {
+                $sa=new ServiceLogArea;
+                $sa->serviceLog_id=$sl->id;
+                $sa->area_affected=$dp;
+                $sa->area_type='unit';
+                $sa->save();
+            }
         }
-
         return redirect('serviceslogs/today');
     }
 

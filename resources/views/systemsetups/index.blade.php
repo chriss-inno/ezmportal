@@ -319,14 +319,20 @@
                                 $mm_link_1="";
                                 $portal_eod_report_date="";
                                 $save_request="Add_new";
+                                $automation_end_tm="";
+                                $automation_start_tm="";
+                                $automation_status="";
 
                                    if($system != null && $system != "")
                                        {
-                                           $system->credit_link_1="";
-                                           $system->credit_link_2="";
-                                           $system->hr_link_1="";
-                                           $system->mm_link_1="";
-                                           $system->portal_eod_report_date="";
+                                           $credit_link_1=$system->credit_link_1;
+                                           $credit_link_2=$system->credit_link_2;
+                                           $hr_link_1=$system->hr_link_1;
+                                           $mm_link_1=$system->mm_link_1;
+                                           $portal_eod_report_date=$system->portal_eod_report_date;
+                                           $automation_end_tm=$system->automation_end_tm;
+                                           $automation_start_tm=$system->automation_start_tm;
+                                           $automation_status=$system->automation_status;
                                            $save_request=2;
                                        }
                                 ?>
@@ -350,6 +356,41 @@
                                         <label for="mm_link_1">Enter Money Msafiri Link</label>
                                         <input type="text" class="form-control" id="mm_link_1" name="mm_link_1" @if($mm_link_1 != null && $mm_link_1 !="") value="{{$mm_link_1}}" @else value="" @endif placeholder="Enter Money Msafiri Link">
                                     </div>
+                                </fieldset>
+                                <fieldset class="scheduler-border">
+                                    <legend class="scheduler-border" style="color:#005DAD"> Portal Automation </legend>
+                                    <div class="form-group">
+                                        <label for="portal_eod_report_date">Portal eod report date</label>
+                                        <input type="text" class="form-control" id="portal_eod_report_date" name="portal_eod_report_date" @if($portal_eod_report_date != null && $portal_eod_report_date !="") value="{{$portal_eod_report_date}}" @else value="" @endif placeholder="Enter Portal eod report date">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-4 col-xs-4 col-lg-4">
+                                                <label for="status">Automation Status</label>
+                                                <select name="automation_status" class="form-control" id="automation_status">
+                                                    @if($automation_status != null && $automation_status !="")
+                                                        <option selected value="">{{$automation_status}}</option>
+                                                         @else
+                                                        <option selected value="">----</option>
+                                                        @endif
+                                                    <option value="enabled">enabled</option>
+                                                    <option value="disabled">disabled</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4 col-xs-4 col-lg-4">
+                                                <label for="automation_start_tm">Automation start time</label>
+                                                <input type="text" class="form-control" id="automation_start_tm" name="automation_start_tm"
+                                                       @if($automation_start_tm != null && $automation_start_tm !="")
+                                                       value="{{$automation_start_tm}}" @else value="" @endif >
+                                            </div>
+                                            <div class="col-md-4 col-xs-4 col-lg-4">
+                                                <label for="automation_end_tm">Automation end time </label>
+                                                <input type="text" class="form-control" id="automation_end_tm" name="automation_end_tm"
+                                                       @if($automation_end_tm != null && $automation_end_tm !="")
+                                                       value="{{$automation_end_tm}}" @else value="" @endif >
+                                            </div>
+                                        </div>
+                                     </div>
                                 </fieldset>
                                 <fieldset class="scheduler-border">
                                     <legend class="scheduler-border" style="color:#005DAD"> EOD Reports portal current date </legend>

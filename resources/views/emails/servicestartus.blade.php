@@ -1,4 +1,4 @@
-<table width="80%"  border="1" align="center" cellpadding="1" cellspacing="0">
+<table width="100%"  border="1" align="center" cellpadding="1" cellspacing="0">
     <tr>
         <td width="153" align="center" bgcolor="#CCCCCC"><h3><strong>Services</strong></h3></td>
         <td colspan="4" align="center" bgcolor="#CCCCCC"><h3><strong>Today service status</strong></h3></td>
@@ -23,7 +23,7 @@
                 </td>
                 @foreach($serLogs as $sl)
                     <td align="center" >{{$sl->start_time}}</td>
-                    <td align="center" >{{$sl->end_time}}</td>
+                    <td align="center" >@if($sl->end_time != "" && $sl->end_time != null){{$sl->end_time}} @else Not Sorted @endif</td>
                     <td>
                         @if($sl->areas !="" && $sl->areas !=null && count($sl->areas) > 0)
                               <ol>

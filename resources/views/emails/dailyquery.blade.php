@@ -1,4 +1,14 @@
-<table>
+<!-- Bootstrap -->
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+<p>Team,</p>
+<p>Below table has summary of daily logged queries logged in support portal</p>
+
+<table width="100%"  border="1" align="center" cellpadding="1" cellspacing="0">
     <thead>
     <tr>
         <th bgcolor="#CCCCCC">SNO</th>
@@ -18,7 +28,6 @@
     <?php $c=1;?>
     @foreach($queries as $qr)
 
-        @if($qr->next_check ==null || strtotime($qr->next_check) == strtotime(date("Y-m-d H:i")))
             <tr id="{{$qr->id}}">
                 <td>{{$c++}}</td>
                 <td>{{$qr->query_code}}</td>
@@ -47,7 +56,11 @@
                     <td style="background-color:#FF6C60; color: #FFF;">Not Assigned</td>
                 @endif
             </tr>
-        @endif
     @endforeach
     </tbody>
 </table>
+</tbody>
+</table>
+
+</body>
+</html>

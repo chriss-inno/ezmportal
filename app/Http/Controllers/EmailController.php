@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ServiceDailyLogged;
+use App\Jobs\ServiceMonitoring;
+use App\Jobs\ServiceOracle;
+use App\Jobs\unAssignedQueryReminder;
 use App\Service;
 use App\SMEmails;
+use App\SystemSetup;
 use Illuminate\Http\Request;
 use App\QueryEmail;
 use App\User;
@@ -101,20 +106,39 @@ class EmailController extends Controller
         //
         try
         {
-            $this->serviceStarts(); //Send service starts
-           // $this->olacle(); //Send oracle logged issues
-            //$this->unAssignedQueryReminder(); //Send reminder for unassigned queries
-            //$this->dailyLogged(); //Daily query logged
+            $job = (new ServiceMonitoring())->delay(10);
+            $this->dispatch($job);
+
+            $job1 = (new ServiceOracle())->delay(10);
+            $this->dispatch($job1);
+
+            $job2 = (new ServiceDailyLogged())->delay(10);
+            $this->dispatch($job2);
+
+            $job3 = (new unAssignedQueryReminder())->delay(10);
+            $this->dispatch($job3);
+
 
         }catch (\Exception $ex)
         {
-            return $ex->getMessage();
+            echo  $ex->getMessage();
         }
         finally
         {
-            $this->serviceStarts(); //Send service starts
-            $this->olacle(); //Send oracle logged issues
-            $this->unAssignedQueryReminder(); //Send reminder for unassigned queries
+            $job = (new ServiceMonitoring())->delay(10);
+            $this->dispatch($job);
+
+            $job1 = (new ServiceOracle())->delay(10);
+            $this->dispatch($job1);
+
+            $job2 = (new ServiceDailyLogged())->delay(10);
+            $this->dispatch($job2);
+
+            $job3 = (new unAssignedQueryReminder())->delay(10);
+            $this->dispatch($job3);
+            // $this->serviceStarts(); //Send service starts
+            //$this->olacle(); //Send oracle logged issues
+            //$this->unAssignedQueryReminder(); //Send reminder for unassigned queries
         }
 
     }
@@ -189,38 +213,43 @@ class EmailController extends Controller
         //
 
         $services=Service::where('email_sent','=','N')->get();
-        if(date("H:i") =="00:18") {
+
+
+
+        if(date("H:i") >="07:00" && date("H:i") <="08:30") {
             if(count($services) >0 ) {
                 //Send email
                 $data = array(
                     'service' => $services,
                 );
-                $dataemail="";
+                $dataemail=array();
                 $dtemail="";
 
-                $emails=SMEmails::where('status','=','Active')->get();
+
+
+                $emails=SMEmails::where('status','=','Active')->select('email')->get()->toArray();
 
                 if(count($emails) >0 && $emails != null)
                 {
-                    foreach($emails as $em)
-                    {
-                        $dtemail .="'".$em->email."',";
-                    }
-                    $dataemail .= substr($dtemail,0,strlen($dtemail)-1);
 
+                    $dataemail = array_pluck($emails, 'email');
+
+                    echo "emails".dump($dataemail);
+                }
+                else
+                {
 
                 }
                 if($dataemail !="")
                 {
-                    echo "yeeep".$dataemail;
 
                     \Mail::queue('emails.servicestartus', $data, function ($message) use($dataemail) {
 
-                        $emails =$dataemail; //List emails
                         $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
-                        $message->to($emails)->subject('SYSTEM SERVICE STATUS REPORT AS OF '.date("d F Y"));
+                        $message->to($dataemail)->subject('SYSTEM SERVICE STATUS REPORT AS OF '.date("d F Y"));
 
                     });
+
 
 
                 }
@@ -230,6 +259,7 @@ class EmailController extends Controller
         }
         else
         {
+
             $services=Service::all();
             foreach($services as $issue)
             {
@@ -287,50 +317,64 @@ class EmailController extends Controller
     public  function unAssignedQueryReminder()
     {
         //Get query
-        $departments=\App\Department::where('receive_query','=','1')->get();
-        foreach($departments as $dp)
+        $sysset=SystemSetup::all()->first();
+        if($sysset->query_nextexe_check == null || $sysset->query_nextexe_check == "" || $sysset->query_nextexe_check == date("H:i"))
         {
-            /*$queries=\DB::select(" SELECT * FROM prt_queries WHERE id not in(SELECT query_id FROM prt_query_assignments)
-                                 AND to_department ='".$dp->id."'");
+            $departments=\App\Department::where('receive_query','=','1')->get();
+            foreach($departments as $dp)
+            {
+                /*$queries=\DB::select(" SELECT * FROM prt_queries WHERE id not in(SELECT query_id FROM prt_query_assignments)
+                                     AND to_department ='".$dp->id."'");
 
-            */
-            $queries=Query::where('assigned','=',0)->where('to_department','=',$dp->id)
-                ->where(\DB::raw('MINUTE(TIMEDIFF(sysdate(),reporting_Date))'), '>=', 15)->get();
+                */
+                $queries=Query::where('assigned','=',0)->where('to_department','=',$dp->id)
+                    ->where(\DB::raw('MINUTE(TIMEDIFF(sysdate(),reporting_Date))'), '>=', 15)->get();
 
-            if($queries != null && $queries !="" && count($queries)>0 ) {
+                if($queries != null && $queries !="" && count($queries)>0 ) {
 
-                //Send email
+                    //Send email
 
-                $emails=QueryEmail::where('department_id','=',$dp->id)->get();
+                    $emails=QueryEmail::where('department_id','=',$dp->id)->get();
 
-                if($emails != null && $emails != "" && count($emails) > 0)
-                {
-                    //Get emails from department
-                    $data = array(
-                        'queries' => serialize($queries),
-                        'department' => $dp->department_name
-                    );
-
-                    foreach($emails as $em)
+                    if($emails != null && $emails != "" && count($emails) > 0)
                     {
-                        $email= $em->email;
-                        \Mail::queue('emails.unassignedqueries', $data, function ($message) use ($email) {
+                        //Get emails from department
+                        $data = array(
+                            'queries' => serialize($queries),
+                            'department' => $dp->department_name
+                        );
 
-                            //Fetch emails of users to wchich query was sent
-                            $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
-                            $message->to($email)->subject('Remainder unassigned queries for past 15 minutes');
-                        });
+                        foreach($emails as $em)
+                        {
+                            $email= $em->email;
+                            \Mail::queue('emails.unassignedqueries', $data, function ($message) use ($email) {
+
+                                //Fetch emails of users to wchich query was sent
+                                $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                                $message->to($email)->subject('Remainder unassigned queries for past 15 minutes');
+                            });
+                        }
+
+
+
+
                     }
-
-
 
 
                 }
 
-
             }
 
+            $sysset->query_nextexe_check=strtotime('+15 minutes',$sysset->query_nextexe_check);
+            $sysset->save();
+
         }
+        else
+        {
+            $sysset->query_nextexe_check=strtotime('+15 minutes',$sysset->query_nextexe_check);
+            $sysset->save();
+        }
+
 
     }
 

@@ -1,0 +1,111 @@
+<?php
+
+namespace App\Jobs;
+
+use App\Jobs\Job;
+use App\Query;
+use App\QueryEmail;
+use App\SystemSetup;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Maatwebsite\Excel\Facades\Excel;
+
+class ServiceDailyLogged extends Job implements SelfHandling, ShouldQueue
+{
+    use InteractsWithQueue, SerializesModels;
+    protected $pathToFile;
+    protected $depatment;
+    /**
+     * Create a new job instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        //
+        if(date("H:i") >="09:00" && date("H:i") <="10:59") {
+
+            $sys=SystemSetup::all()->first();
+            if($sys->dailyquery_sent != null ||  $sys->dailyquery_sent !="" || $sys->dailyquery_sent !="N")
+            {
+                $departments=\App\Department::where('receive_query','=','1')->get();
+                foreach($departments as $dp)
+                {
+
+                    $queries=Query::where('to_department','=',$dp->id)->where('today_date','=',date("Y-m-d"))->orwhere('closed','=',0)->get(); //Get all queries under this department
+
+                    $queries_report="daily_logged_queries_".date('YmdHis');
+
+                    Excel::create($queries_report, function($excel) use($queries)  {
+
+                        $excel->sheet('sheet', function($sheet) use($queries){
+                            $sheet->loadView('excels.dailyqueries')->with('queries', $queries);
+
+                        });
+
+                    })->store('xls', storage_path('exports/excel'));
+
+                    $this->pathToFile=storage_path('exports/excel')."/".$queries_report.".xls";
+                    $this->depatment=$dp->department_name;
+
+                    if($queries != null && $queries !="" && count($queries)>0 ) {
+
+                        //Send email
+
+                        $emails=QueryEmail::where('department_id','=',$dp->id)->get();
+
+                        if($emails != null && $emails != "" && count($emails) > 0)
+                        {
+                            //Get emails from department
+                            $data = array(
+                                'queries' => $queries,
+                                'department' => $dp->department_name
+                            );
+
+                            foreach($emails as $em)
+                            {
+                                $email= $em->email;
+                                \Mail::send('emails.dailyquery', $data, function ($message) use ($email) {
+
+                                    //Fetch emails of users to wchich query was sent
+                                    $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                                    $message->to($email)->subject($this->depatment.' DAILY ISSUES LOGGED');
+                                    $message->attach($this->pathToFile);
+                                });
+                            }
+
+
+
+
+                        }
+
+
+                    }
+
+
+                }
+
+                $sys->dailyquery_sent = "Y";
+                $sys->save();
+            }
+            else
+            {
+                $sys->dailyquery_sent = "N";
+                $sys->save();
+            }
+
+        }
+    }
+}

@@ -1,7 +1,10 @@
-<?php $queries = unserialize($queries); ?>
-        <!-- Bootstrap -->
+<!-- Bootstrap -->
 <table>
     <thead>
+    <tr>
+        <th bgcolor="#CCCCCC" colspan="11" align="center">Daily Logged queries</th>
+
+    </tr>
     <tr>
         <th bgcolor="#CCCCCC">SNO</th>
         <th bgcolor="#CCCCCC">QUERY CODE</th>
@@ -21,7 +24,6 @@
     <?php $c=1;?>
     @foreach($queries as $qr)
 
-        @if($qr->next_check ==null || strtotime($qr->next_check) == strtotime(date("Y-m-d H:i")))
             <tr id="{{$qr->id}}">
                 <td>{{$c++}}</td>
                 <td>{{$qr->query_code}}</td>
@@ -51,7 +53,6 @@
                     <td style="background-color:#FF6C60; color: #FFF;">Not Assigned</td>
                 @endif
             </tr>
-        @endif
     @endforeach
     </tbody>
 </table>

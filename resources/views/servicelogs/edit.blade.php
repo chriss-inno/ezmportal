@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Branches
+  Service Monitoring
     @stop
     @section('page_style')
 

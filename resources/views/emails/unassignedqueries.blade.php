@@ -27,7 +27,6 @@
     <?php $c=1;?>
     @foreach($queries as $qr)
 
-        @if($qr->next_check ==null || strtotime($qr->next_check) == strtotime(date("Y-m-d H:i")))
         <tr id="{{$qr->id}}">
             <td>{{$c++}}</td>
             <td>{{$qr->query_code}}</td>
@@ -45,14 +44,6 @@
             <td>{{$module->module_name}}</td>
             <td>{{$qr->status}}</td>
         </tr>
-
-        <?php
-           $qr=\App\Query::find($qr->id);
-           $qr->send_count=$qr->send_count +1;
-           $qr->next_check=strtotime('+15 minutes',$qr->next_check);
-           $qr->save();
-        ?>
-        @endif
     @endforeach
     </tbody>
 </table>

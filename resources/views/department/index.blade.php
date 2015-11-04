@@ -122,7 +122,7 @@
                 </a>
                 <ul class="sub">
                     @foreach(\App\Department::where('download_check','=','Yes')->get() as $depart )
-                    <li><a  href="{{url('downloads/department')}}/{{$depart->id}}" title="Download for {{$depart->department_name}}">{{$depart->department_name}}</a></li>
+                        <li><a  href="{{url('downloads/department')}}/{{$depart->id}}" title="Download for {{$depart->department_name}}">{{$depart->department_name}}</a></li>
                     @endforeach
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,6)  || Auth::user()->user_type=="Administrator")
                         <li><a  href="{{url('downloads/manage')}}" title="Manage Downloads">Manage Downloads</a></li>
@@ -251,17 +251,17 @@
             </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,18)  || Auth::user()->user_type=="Administrator") <li class="sub-menu">
-                <a href="javascript:;" >
-                    <i class="fa fa-laptop"></i>
-                    <span>Services monitoring</span>
-                </a>
-                <ul class="sub">
-                    <li><a  href="{{url('serviceslogs/create')}}" title="Log Status">Log downtime</a></li>
-                    <li><a  href="{{url('services')}}" title="Services">List services </a></li>
-                    <li><a  href="{{url('serviceslogs/today')}}" title="View today status">Today Status</a></li>
-                    <li><a  href="{{url('serviceslogs')}}" title="Status History">Downtime History</a></li>
-                </ul>
-            </li>
+            <a href="javascript:;" >
+                <i class="fa fa-laptop"></i>
+                <span>Services monitoring</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('serviceslogs/create')}}" title="Log Status">Log downtime</a></li>
+                <li><a  href="{{url('services')}}" title="Services">List services </a></li>
+                <li><a  href="{{url('serviceslogs/today')}}" title="View today status">Today Status</a></li>
+                <li><a  href="{{url('serviceslogs')}}" title="Status History">Downtime History</a></li>
+            </ul>
+        </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,19) || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
@@ -312,7 +312,7 @@
             </li>
         @endif
     </ul>
-    @stop
+@stop
 @section('contents')
 
     <section class="site-min-height">
@@ -347,13 +347,13 @@
                                         <td id="{{$d->id}}" class="text-center"> <a  href="{{url('units)}}" title="Department Units" class=" btn btn-success btn-xs"><i class="fa fa-pencil"></i></a></td>
                                         <td>{{$d->status}}</td>
                                         @if($d->receive_query ==0)
-                                        <td id="{{$d->id}}" class="text-center"> <a  href="#" title="Allow department to receive Query" class="yesToQuery btn btn-danger btn-xs">No</a></td>
+                                            <td id="{{$d->id}}" class="text-center"> <a  href="#" title="Allow department to receive Query" class="yesToQuery btn btn-danger btn-xs">No</a></td>
                                         @else
                                             <td id="{{$d->id}}" class="text-center"> <a  href="#" title="Restrict department to receive Query" class="noToQuery btn btn-success btn-xs">Yes</a></td>
-                                            @endif
+                                        @endif
                                         <td id="{{$d->id}}" class="text-center" title="{{$d->department_name}}">
-                                          <a  href="{{url('departments/edit')}}/{{$d->id}}" title="Edit department" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                          <a href="#b" title="Delete Department" class="deleteDepartment btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                            <a  href="{{url('departments/edit')}}/{{$d->id}}" title="Edit department" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                            <a href="#b" title="Delete Department" class="deleteDepartment btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
                                         </td>
                                     </tr>
 
@@ -398,5 +398,5 @@
             </div>
         </div>
     </section>
-        <!-- page end-->
+    <!-- page end-->
 @stop
