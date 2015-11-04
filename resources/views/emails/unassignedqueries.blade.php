@@ -13,14 +13,14 @@
 <table width="100%"  border="1" align="center" cellpadding="1" cellspacing="0">
     <thead>
     <tr>
-        <th bgcolor="#CCCCCC">SNO</th>
-        <th bgcolor="#CCCCCC">Query code</th>
-        <th bgcolor="#CCCCCC">Reported</th>
-        <th bgcolor="#CCCCCC">From Department</th>
-        <th bgcolor="#CCCCCC">Person Assigned </th>
-        <th bgcolor="#CCCCCC">Critical</th>
-        <th bgcolor="#CCCCCC">Module</th>
-        <th bgcolor="#CCCCCC">Status</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">SNO</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Query code</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Reported</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">From Department</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Person Assigned </th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Critical</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Module</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Status</th>
     </tr>
     </thead>
     <tbody>

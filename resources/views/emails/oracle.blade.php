@@ -11,16 +11,16 @@
 
 <table width="100%"  border="1" align="center" cellpadding="1" cellspacing="0">
     <thead>
-    <tr bgcolor="#CCCCCC">
-        <td bgcolor="#CCCCCC" >SN</td>
-        <td bgcolor="#CCCCCC">Problem Summary</td>
-        <td bgcolor="#CCCCCC">SR Number</td>
-        <td bgcolor="#CCCCCC" >Product</td>
-        <td bgcolor="#CCCCCC">Contact</td>
-        <td bgcolor="#CCCCCC">Status</td>
-        <td bgcolor="#CCCCCC">Opened</td>
-        <td bgcolor="#CCCCCC">Last update</td>
-        <td bgcolor="#CCCCCC">Today's Update</td>
+    <tr bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">
+        <td bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;" >SN</td>
+        <td bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Problem Summary</td>
+        <td bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">SR Number</td>
+        <td bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;" >Product</td>
+        <td bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Contact</td>
+        <td bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Status</td>
+        <td bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Opened</td>
+        <td bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Last update</td>
+        <td bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Today's Update</td>
     </tr>
     </thead>
     <tbody>

@@ -6,17 +6,17 @@
 
     </tr>
     <tr>
-        <th bgcolor="#CCCCCC">SNO</th>
-        <th bgcolor="#CCCCCC">QUERY CODE</th>
-        <th bgcolor="#CCCCCC">OPEN DATE</th>
-        <th bgcolor="#CCCCCC">FROM DEPARTMENT</th>
-        <th bgcolor="#CCCCCC">MODULE</th>
-        <th bgcolor="#CCCCCC">DESCRIPTIONS</th>
-        <th bgcolor="#CCCCCC">STATUS</th>
-        <th bgcolor="#CCCCCC">CRITICALITY</th>
-        <th bgcolor="#CCCCCC">CLOSED DATE</th>
-        <th bgcolor="#CCCCCC">PENDING DAYS</th>
-        <th bgcolor="#CCCCCC">RESPONSIBLE PERSON</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">SNO</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">QUERY CODE</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">OPEN DATE</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">FROM DEPARTMENT</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">MODULE</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">DESCRIPTIONS</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">STATUS</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">CRITICALITY</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">CLOSED DATE</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">PENDING DAYS</th>
+        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">RESPONSIBLE PERSON</th>
 
     </tr>
     </thead>
@@ -48,7 +48,7 @@
                 @endif
                 <?php $assignment=\App\QueryAssignment::where('query_id','=',$qr->id)->first()?>
                 @if($assignment != null && $assignment !="")
-                    <td style="background-color:#78CD51; color: #FFF;">{{$qr->assignment->user->first_name.' '.$qr->assignment->user->last_name}}</td>
+                    <td style="background-color:#005DAD; color: #FFF;">{{$qr->assignment->user->first_name.' '.$qr->assignment->user->last_name}}</td>
                 @else
                     <td style="background-color:#FF6C60; color: #FFF;">Not Assigned</td>
                 @endif

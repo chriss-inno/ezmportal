@@ -46,6 +46,7 @@ class ServiceMonitoring extends Job implements SelfHandling, ShouldQueue
                 $sysSet->automation_end_tm != null
             )
             {
+
                 if(date("H:i") >= date("H:i",strtotime( $sysSet->automation_start_tm)) && date("H:i") <= date("H:i",strtotime( $sysSet->automation_end_tm))) {
 
                     $services=Service::where('email_sent','=','N')->get();   //Get all services

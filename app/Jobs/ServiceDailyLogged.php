@@ -47,11 +47,15 @@ class ServiceDailyLogged extends Job implements SelfHandling, ShouldQueue
                 $sysSet->automation_end_tm != null
             )
             {
-                if(date("H:i") >= date("H:i",strtotime( $sysSet->automation_start_tm)) && date("H:i") <= date("H:i",strtotime( $sysSet->automation_end_tm))) {
+                $sys=SystemSetup::all()->first();
+                if(date("H:i") >= date("H:i",strtotime( $sysSet->automation_start_tm)) && date("H:i") <= date("H:i",strtotime( $sysSet->automation_end_tm)))
+                {
+                    echo "Batani oi yaaaap";
 
-                    $sys=SystemSetup::all()->first();
-                    if($sys->dailyquery_sent != null ||  $sys->dailyquery_sent !="" || $sys->dailyquery_sent !="N")
+                    if($sys->dailyquery_sent =="N")
                     {
+                        echo "Batani oi nimoooooooooooo";
+
                         $departments=\App\Department::where('receive_query','=','1')->get();
                         foreach($departments as $dp)
                         {
@@ -108,16 +112,25 @@ class ServiceDailyLogged extends Job implements SelfHandling, ShouldQueue
 
 
                         }
-
-                        $sys->dailyquery_sent = "Y";
-                        $sys->save();
+                        $sys2=SystemSetup::all()->first();
+                        $sys2->dailyquery_sent = "Y";
+                        $sys2->save();
                     }
-                    else
+                    elseif($sys->dailyquery_sent == null ||  $sys->dailyquery_sent !="")
                     {
-                        $sys->dailyquery_sent = "N";
-                        $sys->save();
+                        $sys3=SystemSetup::all()->first();
+                        $sys3->dailyquery_sent = "N";
+                        $sys3->save();
                     }
 
+
+                }
+                else
+                {
+                    echo "Batani oi";
+                    $sys1=SystemSetup::all()->first();
+                    $sys1->dailyquery_sent = "N";
+                    $sys1->save();
                 }
             }
 

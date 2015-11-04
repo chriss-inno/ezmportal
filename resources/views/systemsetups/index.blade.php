@@ -366,7 +366,7 @@
                                                 <label for="status">Automation Status</label>
                                                 <select name="automation_status" class="form-control" id="automation_status">
                                                     @if($automation_status != null && $automation_status !="")
-                                                        <option selected value="">{{$automation_status}}</option>
+                                                        <option selected value="{{$automation_status}}">{{$automation_status}}</option>
                                                          @else
                                                         <option selected value="">----</option>
                                                         @endif

@@ -47,9 +47,16 @@ class unAssignedQueryReminder extends Job implements SelfHandling, ShouldQueue
 
             //Automation time  time
 
+
+
             if(date("H:i") >="09:00" && date("H:i") <="20:00") {
 
-                if($sysset->query_nextexe_check == null || $sysset->query_nextexe_check == "" || date("Y-m-d H:i",strtotime($sysset->query_nextexe_check)) == date("Y-m-d H:i"))
+
+
+                if($sysset->query_nextexe_check == null ||
+                    $sysset->query_nextexe_check == "" ||
+                    $sysset->query_nextexe_check == "0000-00-00 00:00:00" ||
+                    date("Y-m-d H:i",strtotime($sysset->query_nextexe_check)) == date("Y-m-d H:i"))
                 {
                     $departments=\App\Department::where('receive_query','=','1')->get();
                     foreach($departments as $dp)
@@ -61,10 +68,13 @@ class unAssignedQueryReminder extends Job implements SelfHandling, ShouldQueue
 
                         $queries=Query::where('assigned','=',0)->where('to_department','=',$dp->id)
                             ->where(\DB::raw('MINUTE(TIMEDIFF(sysdate(),reporting_Date))'), '>=', 15)->get();
+                          echo "query found <br/>";
+                          dump($queries);
 
                         if($queries != null && $queries !="" && count($queries)>0 ) {
 
                             //Send email
+
 
                             $emails=QueryEmail::where('department_id','=',$dp->id)->get();
 
@@ -97,8 +107,20 @@ class unAssignedQueryReminder extends Job implements SelfHandling, ShouldQueue
 
                     }
 
-                    $sysset->query_nextexe_check=date("Y-m-d H:i",strtotime("+15 minutes",strtotime( $sysset->query_nextexe_check)));
-                    $sysset->save();
+                    if($sysset->query_nextexe_check == null ||
+                        $sysset->query_nextexe_check == "" ||
+                        $sysset->query_nextexe_check == "0000-00-00 00:00:00"
+                    )
+                    {
+                        $sysset->query_nextexe_check=date("Y-m-d H:i",strtotime("+15 minutes",strtotime( date("Y-m-d H:i"))));
+                        $sysset->save();
+                    }
+                    else
+                    {
+                        $sysset->query_nextexe_check=date("Y-m-d H:i",strtotime("+15 minutes",strtotime( $sysset->query_nextexe_check)));
+                        $sysset->save();
+                    }
+
 
                 }
             }

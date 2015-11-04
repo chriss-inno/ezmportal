@@ -55,7 +55,7 @@ class ServiceOracle extends Job implements SelfHandling, ShouldQueue
                         \Mail::queue('emails.oracle', $data, function ($message) {
 
                             $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
-                            $message->to('support@bankm.com')->subject('DAILY ISSUES LOGGED');
+                            $message->to('innocent.christopher@bankm.com')->subject('DAILY ISSUES LOGGED');
                         });
                     }
 
