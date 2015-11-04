@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Portal Reports Management
+    Portal Reports Archived
 @stop
 @section('page_scripts')
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
@@ -473,9 +473,9 @@
                                                         <a href="#" class="showReportDetails btn btn-primary btn-xs" title="Report details"><i class="fa fa-eye"></i> View </a>
                                                     </td>
                                                     <td id="{{$report->id}}" align="center">
-                                                        <a  href="{{url('download/archived/reports')}}/{{date("Y-m-d",strtotime($dateas))}}/pdf/{{$report->id}}" title="Download in PDF format" class=" btn btn-danger btn-xs"><i class="fa fa-file-pdf-o"></i> PDF</a>
-                                                        <a  href="{{url('download/archived/reports')}}/{{date("Y-m-d",strtotime($dateas))}}/xls/{{$report->id}}" title="Download in MS Excel format" class=" btn btn-success btn-xs"><i class="fa fa-file-excel-o"></i> Excel</a>
-                                                        <a href="{{url('download/archived/reports')}}/{{date("Y-m-d",strtotime($dateas))}}/txt/{{$report->id}}" title="Download in Text format" class=" btn btn-primary btn-xs"><i class="fa fa-file-text "></i> Text</a>
+                                                        <a  href="{{url('download/archived/reports')}}/{{date("Y-m-d",strtotime($dateas))}}/pdf/{{$report->id}}" title="Download in PDF format" class=" btn btn-danger btn-xs" target="_blank"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                                                        <a  href="{{url('download/archived/reports')}}/{{date("Y-m-d",strtotime($dateas))}}/xls/{{$report->id}}" title="Download in MS Excel format" class=" btn btn-success btn-xs" target="_blank"><i class="fa fa-file-excel-o"></i> Excel</a>
+                                                        <a href="{{url('download/archived/reports')}}/{{date("Y-m-d",strtotime($dateas))}}/txt/{{$report->id}}" title="Download in Text format" class=" btn btn-primary btn-xs" target="_blank"><i class="fa fa-file-text "></i> Text</a>
                                                     </td>
 
                                                 </tr>

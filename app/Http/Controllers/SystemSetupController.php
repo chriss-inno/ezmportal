@@ -62,6 +62,8 @@ class SystemSetupController extends Controller
             $system->input_by=Auth::user()->username;
 
             $system->save();
+
+            return redirect('systemsetups');
         }
         else
         {
@@ -70,12 +72,13 @@ class SystemSetupController extends Controller
             $system->credit_link_2=$request->credit_link_2;
             $system->hr_link_1=$request->hr_link_1;
             $system->mm_link_1=$request->mm_link_1;
-            $system->portal_eod_report_date=$request->portal_eod_report_date;
             $system->automation_start_tm=$request->automation_start_tm;
             $system->automation_end_tm=$request->automation_end_tm;
             $system->automation_status=$request->automation_status;
+            $system->portal_eod_report_date=$request->portal_eod_report_date;
             $system->input_by=Auth::user()->username;
             $system->save();
+            return redirect('systemsetups');
         }
     }
 

@@ -19,8 +19,8 @@ class DepartmentController extends Controller
     public function index()
     {
         //
-        $dep=Department::all();
-        return view('department.index',compact('dep'));
+        $units=Department::all();
+        return view('department.index',compact('units'));
 
     }
 

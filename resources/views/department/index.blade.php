@@ -20,13 +20,13 @@
             $('#branches').dataTable( {
                 "fnDrawCallback": function (oSettings) {
 
-                    $(".deleteDepartment").click(function(){
+                    $(".delUnit").click(function(){
                         var id1 = $(this).parent().attr('id');
-                        $(".deleteDepartment").show("slow").parent().parent().find("span").remove();
+                        $(".delUnit").show("slow").parent().parent().find("span").remove();
                         var btn = $(this).parent().parent();
                         $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
                         $("#no").click(function(){
-                            $(this).parent().parent().find(".deleteDepartment").show("slow");
+                            $(this).parent().parent().find(".delUnit").show("slow");
                             $(this).parent().parent().find("span").remove();
                         });
                         $("#yes").click(function(){
@@ -37,16 +37,15 @@
                         });
                     });
 
-                    //Edit class streams
-                    $(".addUnit").click(function(){
-                        var id1 = $(this).parent().attr('id');
+                    //Add class streams
+                    $(".addDepartmenent").click(function(){
                         var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
                         modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
                         modaldis+= '<div class="modal-content">';
                         modaldis+= '<div class="modal-header">';
                         modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Department Units</span>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Create new department</span>';
                         modaldis+= '</div>';
                         modaldis+= '<div class="modal-body">';
                         modaldis+= ' </div>';
@@ -58,7 +57,34 @@
                         jQuery.noConflict();
                         $("#myModal").modal("show");
                         $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("units") ?>/"+id1);
+                        $(".modal-body").load("<?php echo url("departments/create") ?>");
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    });
+                    //Add class streams
+                    $(".editDepartmenent").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                        modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Update Unit</span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("departments/edit") ?>/"+id1);
                         $("#myModal").on('hidden.bs.modal',function(){
                             $("#myModal").remove();
                         })
@@ -321,7 +347,7 @@
             <div class="col-lg-10 col-md-10">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa fa-bars"></i> MANAGE DEPARTMENT</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-building"></i> <i class="fa fa-cogs text-danger"></i> MANAGE DEPARTMENT </strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="adv-table">
@@ -331,40 +357,40 @@
                                     <th>SNO</th>
                                     <th>Branch name</th>
                                     <th>Department name</th>
-                                    <th>Department Units</th>
                                     <th>Status</th>
                                     <th>Receive Queries</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <?php $i=1;?>
-                                @foreach($dep as $d)
-                                    <tr>
-                                        <td>{{$i++}}</td>
-                                        <td>{{$d->branch->branch_Name}}</td>
-                                        <td>{{$d->department_name}}</td>
-                                        <td id="{{$d->id}}" class="text-center"> <a  href="{{url('units)}}" title="Department Units" class=" btn btn-success btn-xs"><i class="fa fa-pencil"></i></a></td>
-                                        <td>{{$d->status}}</td>
-                                        @if($d->receive_query ==0)
-                                            <td id="{{$d->id}}" class="text-center"> <a  href="#" title="Allow department to receive Query" class="yesToQuery btn btn-danger btn-xs">No</a></td>
-                                        @else
-                                            <td id="{{$d->id}}" class="text-center"> <a  href="#" title="Restrict department to receive Query" class="noToQuery btn btn-success btn-xs">Yes</a></td>
-                                        @endif
-                                        <td id="{{$d->id}}" class="text-center" title="{{$d->department_name}}">
-                                            <a  href="{{url('departments/edit')}}/{{$d->id}}" title="Edit department" class="addBranch btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                            <a href="#b" title="Delete Department" class="deleteDepartment btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
-                                        </td>
-                                    </tr>
+                                <tbody id="dataDisplay">
+                                @if(count($units) >0)
 
-                                @endforeach
+                                    <?php $i=1;?>
+                                    @foreach($units as $unit)
+                                        <tr>
+                                            <td>{{$i++}}</td>
+                                            <td>{{$unit->branch->branch_Name}}</td>
+                                            <td>{{$unit->department_name}}</td>
+                                            <td>{{$unit->status}}</td>
+                                            @if($unit->receive_query ==0)
+                                                <td id="{{$unit->id}}" class="text-center"> <a  href="#" title="Allow department to receive Query" class="yesToQuery btn btn-danger btn-xs">No</a></td>
+                                            @else
+                                                <td id="{{$unit->id}}" class="text-center"> <a  href="#" title="Restrict department to receive Query" class="noToQuery btn btn-success btn-xs">Yes</a></td>
+                                            @endif
+                                            <td id="{{$unit->id}}" class="text-center">
+                                                <a  href="#" title="Edit " class="editDepartmenent btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                <a href="#b" title="Delete " class="delUnit btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                            </td>
+                                        </tr>
+
+                                    @endforeach
+                                @endif
                                 </tbody>
                                 <tfoot>
                                 <tr>
                                     <th>SNO</th>
                                     <th>Branch name</th>
                                     <th>Department name</th>
-                                    <th>Department Units</th>
                                     <th>Status</th>
                                     <th>Receive Queries</th>
                                     <th>Action</th>
@@ -380,19 +406,15 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <a href="{{url('departments/create')}}" class="btn btn-compose btn-block">Create New Department</a>
+                                <a href="#" class="addDepartmenent btn btn-compose btn-block">Add New Department</a>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
-                                <a href="{{url('departments')}}" class="btn btn-compose btn-block">List Department</a>
+                                <a href="{{url('departments')}}" class="btn btn-compose btn-block">List Departments</a>
                             </div>
                         </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('departments/reports')}}" class="btn btn-compose btn-block">Department Reports</a>
-                            </div>
-                        </div>
+
                     </div>
                 </section>
             </div>
@@ -400,3 +422,5 @@
     </section>
     <!-- page end-->
 @stop
+
+

@@ -358,11 +358,8 @@
                                     </div>
                                 </fieldset>
                                 <fieldset class="scheduler-border">
-                                    <legend class="scheduler-border" style="color:#005DAD"> Portal Automation </legend>
-                                    <div class="form-group">
-                                        <label for="portal_eod_report_date">Portal eod report date</label>
-                                        <input type="text" class="form-control" id="portal_eod_report_date" name="portal_eod_report_date" @if($portal_eod_report_date != null && $portal_eod_report_date !="") value="{{$portal_eod_report_date}}" @else value="" @endif placeholder="Enter Portal eod report date">
-                                    </div>
+                                    <legend class="scheduler-border" style="color:#005DAD"> Portal Automation <small>Auto emails for daily issues</small></legend>
+
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-4 col-xs-4 col-lg-4">
