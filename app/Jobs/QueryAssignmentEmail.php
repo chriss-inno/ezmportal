@@ -49,7 +49,7 @@ class QueryAssignmentEmail extends Job implements SelfHandling, ShouldQueue
                         'emails' => $emails
                     );
 
-                    \Mail::queue('emails.newquery', $data, function ($message) use ($emailData) {
+                    \Mail::queue('emails.queruassigned', $data, function ($message) use ($emailData) {
 
                         //Fetch emails of users to wchich query was sent
                         $query = unserialize($emailData['query']);

@@ -127,6 +127,7 @@ class QueryController extends Controller
                 $queryAssignment->assigned_date_time=date("Y-m-d H:i");
                 $queryAssignment->save();
                 $query->assigned=1; //Change status to assigned
+                $query->assigned_by ="System Auto Assign";
                 $query->save();
             }
 
@@ -148,6 +149,7 @@ class QueryController extends Controller
                 $queryAssignment->assigned_date_time=date("Y-m-d H:i");
                 $queryAssignment->save();
                 $query->assigned = 1; //Change status to assigned
+                $query->assigned_by ="System Auto Assign";
                 $query->save();
             }
 
@@ -363,7 +365,7 @@ class QueryController extends Controller
     {
         if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
         {
-            $queries=Query::all();
+            $queries = Query::where('closed', '=', '0')->get();
         }
         else {
             $queries = Query::where('reported_by', '=', Auth::user()->id)->where('closed', '=', '0')
@@ -388,7 +390,7 @@ class QueryController extends Controller
                 ->orwhere('to_department', '=', Auth::user()->department_id)->get();
         }
 
-        return view('queries.index',compact('queries'));
+        return view('queries.history',compact('queries'));
 
     }
     //load query reports
@@ -443,6 +445,7 @@ class QueryController extends Controller
             //Change status to assigned
             $query->assigned = 1;
             $query->status=$request->status;
+            $query->assigned_by =Auth::user()->username;
             $query->save();
 
             $qry=Query::find($query->id);
@@ -466,6 +469,7 @@ class QueryController extends Controller
             //Change status to assigned
             $query->assigned = 1;
             $query->status=$request->status;
+            $query->assigned_by =Auth::user()->username;
             $query->save();
 
             //Send emails

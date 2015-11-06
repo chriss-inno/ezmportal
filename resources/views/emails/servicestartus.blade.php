@@ -1,3 +1,5 @@
+<p>Team, </p>
+<p>Below  is the update on system service status for today</p>
 <table width="100%"  border="1" align="center" cellpadding="1" cellspacing="0">
     <tr>
         <td width="153" align="center" bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;"><h3><strong>Services</strong></h3></td>

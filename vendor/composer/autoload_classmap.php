@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddAssignedByToqueries' => $baseDir . '/database/migrations/2015_11_06_193007_add_assigned_by_toqueries.php',
     'AddAssignedTime' => $baseDir . '/database/migrations/2015_10_02_072848_add_assigned_time.php',
     'AddAuditOnsyssetup' => $baseDir . '/database/migrations/2015_11_04_160718_add_audit_onsyssetup.php',
     'AddCreateDateCustomerissues' => $baseDir . '/database/migrations/2015_11_01_210126_add_create_date_customerissues.php',

@@ -45,9 +45,13 @@ class ServiceOracle extends Job implements SelfHandling, ShouldQueue
             {
                 if(date("H:i") >= date("H:i",strtotime( $sysSet->automation_start_tm)) && date("H:i") <= date("H:i",strtotime( $sysSet->automation_end_tm))) {
 
+                    echo "Date check ok now sending emails<br/>";
+
                     $issues=OracleSupport::where('status','=','Opened')->where('email_sent','=','N')->get(); //retrieve all opened issues
 
                     if(count($issues) >0 ) {
+
+                        echo "Count is higher proceeding sending <br/>";
                         $data = array(
                             'supportissues' => $issues,
                         );
@@ -55,7 +59,7 @@ class ServiceOracle extends Job implements SelfHandling, ShouldQueue
                         \Mail::queue('emails.oracle', $data, function ($message) {
 
                             $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
-                            $message->to('innocent.christopher@bankm.com')->subject('DAILY ISSUES LOGGED');
+                            $message->to('support@bankm.com')->subject('DAILY ISSUES LOGGED');
                         });
                     }
 
@@ -63,6 +67,8 @@ class ServiceOracle extends Job implements SelfHandling, ShouldQueue
                 }
                 else
                 {
+                    echo "Count is zero no sending  Update status to yes<br/>";
+
                     $issues1=OracleSupport::where('status','=','Opened')->where('email_sent','=','Y')->get(); //retrieve all opened issues
                     //Prevent all unsent messages
                     foreach($issues1 as $issue)

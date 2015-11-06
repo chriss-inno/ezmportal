@@ -106,17 +106,17 @@ class EmailController extends Controller
         //
         try
         {
-           // $job = (new ServiceMonitoring())->delay(10);
-           // $this->dispatch($job);
+            $job = (new ServiceMonitoring())->delay(10);
+            $this->dispatch($job);
 
-          // $job1 = (new ServiceOracle())->delay(10);
-           // $this->dispatch($job1);
+             $job1 = (new ServiceOracle())->delay(10);
+             $this->dispatch($job1);
 
            // $job2 = (new ServiceDailyLogged())->delay(10);
            // $this->dispatch($job2);
 
            // $job3 = (new unAssignedQueryReminder())->delay(10);
-          //  $this->dispatch($job3);
+          //   $this->dispatch($job3);
 
 
         }catch (\Exception $ex)
