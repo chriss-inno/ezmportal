@@ -259,6 +259,12 @@ Route::get('smemails-remove/{id}','SMEmailsController@destroy');
 
 Route::get('systemsetups','SystemSetupController@index');
 Route::post('systemsetups','SystemSetupController@store');
+
+//EOD import files
+Route::get('eod/create','EODReportController@create');
+Route::post('eod/create','EODReportController@store');
+
 //Send emails
 Route::get('emails/oracleissues','EmailController@olacle');
 Route::get('portal/cronejob','EmailController@cronejob');
+
