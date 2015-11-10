@@ -442,11 +442,10 @@
                                         <tr>
                                             <th>SNO</th>
                                             <th>Report Name</th>
+                                            <th>Old Name</th>
                                             <th>Report Type</th>
                                             <th>Status</th>
-                                            <th>Assigned Department</th>
                                             <th>Report details</th>
-                                            <th>Actions</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -456,19 +455,12 @@
                                                 <tr>
                                                     <td>{{$c++}}</td>
                                                     <td>{{$report->report_name}}</td>
+                                                    <td>{{$report->other_name}}</td>
                                                     <td>{{$report->report_type}}</td>
                                                     <td>{{$report->status}}</td>
                                                     <td id="{{$report->id}}">
-                                                        <a href="#" class="showDepartments btn btn-info btn-xs" title="Assigned department"><i class="fa fa-eye"></i> View </a>
-                                                    </td>
-                                                    <td id="{{$report->id}}">
                                                         <a href="#" class="showReportDetails btn btn-primary btn-xs" title="Report details"><i class="fa fa-eye"></i> View </a>
                                                     </td>
-                                                    <td id="{{$report->id}}" align="center">
-                                                        <a  href="#" title="Edit" class="editReport btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                                        <a href="#b" title="Delete" class="deleteReport btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
-                                                    </td>
-
                                                 </tr>
                                             @endforeach
                                         @endif
@@ -477,11 +469,10 @@
                                         <tr>
                                             <th>SNO</th>
                                             <th>Report Name</th>
+                                            <th>Old Name</th>
                                             <th>Report Type</th>
                                             <th>Status</th>
-                                            <th>Assigned Department</th>
                                             <th>Report details</th>
-                                            <th>Actions</th>
                                         </tr>
                                         </tfoot>
                                     </table>

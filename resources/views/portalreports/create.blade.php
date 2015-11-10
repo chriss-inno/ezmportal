@@ -20,11 +20,11 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="report_name">Report Name</label>
+        <label for="report_name">Report Current Name</label>
         <input type="text" class="form-control" id="report_name" name="report_name" value="{{old('report_name')}}" placeholder="Enter report name">
     </div>
     <div class="form-group">
-        <label for="other_name">Other name</label>
+        <label for="other_name">Old name</label>
         <input type="text" class="form-control" id="other_name" name="other_name" value="{{old('other_name')}}" placeholder="Enter other name">
     </div>
 

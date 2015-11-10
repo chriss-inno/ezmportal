@@ -7,7 +7,7 @@
                     <thead>
                     <tr>
                         <th>Report Name</th>
-                        <th>Other name</th>
+                        <th>Old name</th>
                         <th>Report Type</th>
                         <th>Status</th>
                         <th>Input By</th>

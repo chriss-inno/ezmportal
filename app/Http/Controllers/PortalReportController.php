@@ -25,7 +25,7 @@ class PortalReportController extends Controller
         if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2) || Auth::user()->user_type=="Administrator")
         {
             $reports=PortalReport::all();
-            return view('portalreports.index',compact('reports'));
+            return view('portalreports.manage',compact('reports'));
         }
         else
         {
@@ -253,8 +253,8 @@ class PortalReportController extends Controller
                             if(!count(PortalReport::where('report_name','=',$fileDetails['filename'])->get()) > 0)
                             {
                                 $report=new PortalReport;
-                                $report->report_name=$fileDetails['filename'];
-                                $report->other_name=$fileDetails['filename'];
+                                $report->report_name=$fileDetails['filename'].$fileDetails['extension'];
+                                $report->other_name=$fileDetails['filename'].$fileDetails['extension'];
                                 $report->report_type=$report_type;
                                 $report->status="In Use";
                                 $report->input_by=Auth::user()->username;
@@ -290,7 +290,7 @@ class PortalReportController extends Controller
                         if(!count(PortalReport::where('report_name','=',$row->report_name)->get()) > 0) {
                             $report = new PortalReport;
                             $report->report_name = $row->report_name;
-                            $report->other_name = $row->other_name;
+                            $report->other_name = $row->old_name;
                             $report->status = $row->status;
                             $report->report_type = $request->report_type;
                             $report->description = $row->description;

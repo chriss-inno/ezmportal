@@ -454,6 +454,7 @@
                                         <tr>
                                             <th>SNO</th>
                                             <th>Report Name</th>
+                                            <th>Old Name</th>
                                             <th>Report Type</th>
                                             <th>Status</th>
                                             <th>Report Details</th>
@@ -467,6 +468,7 @@
                                                 <tr>
                                                     <td>{{$c++}}</td>
                                                     <td>{{$report->report_name}}</td>
+                                                    <td>{{$report->other_name}}</td>
                                                     <td>{{$report->report_type}}</td>
                                                     <td>{{$report->status}}</td>
                                                     <td id="{{$report->id}}">
@@ -486,6 +488,7 @@
                                         <tr>
                                             <th>SNO</th>
                                             <th>Report Name</th>
+                                            <th>Old Name</th>
                                             <th>Report Type</th>
                                             <th>Status</th>
                                             <th>Report Details</th>

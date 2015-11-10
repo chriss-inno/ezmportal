@@ -42,6 +42,7 @@ return array(
     'CreateQueryStatusesTable' => $baseDir . '/database/migrations/2015_10_02_091030_create_query_statuses_table.php',
     'CreateReportDepartmentsTable' => $baseDir . '/database/migrations/2015_10_15_121522_create_report_departments_table.php',
     'CreateReportSetupsTable' => $baseDir . '/database/migrations/2015_10_18_012820_create_report_setups_table.php',
+    'CreateReportUnitsTable' => $baseDir . '/database/migrations/2015_11_10_183832_create_report_units_table.php',
     'CreateRightsTable' => $baseDir . '/database/migrations/2015_09_19_160002_create_rights_table.php',
     'CreateSDProductDetailsTable' => $baseDir . '/database/migrations/2015_10_31_163429_create_s_d_product_details_table.php',
     'CreateSDProductsTable' => $baseDir . '/database/migrations/2015_10_22_190814_create_s_d_products_table.php',
