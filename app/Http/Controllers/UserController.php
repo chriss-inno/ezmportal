@@ -418,6 +418,23 @@ class UserController extends Controller
 
         return "Data saved successfully";
     }
+    public function userUnit($id)
+    {
+        $user=User::find($id);
+        return view('users.unit',compact('user'));
+    }
+
+    public function postUserUnit(Request $request)
+    {
+        $user=User::find($request->user_id);
+        $user->branch_id=$request->branch;
+        $user->department_id=$request->department;
+        $user->unit_id=$request->unit;
+        $user->save();
+
+        return "Data saved successfully";
+    }
+
     public function userDepartment($id)
     {
         $user=User::find($id);

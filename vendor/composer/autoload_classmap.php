@@ -14,6 +14,7 @@ return array(
     'AddDownloadCheckInDepartment' => $baseDir . '/database/migrations/2015_10_27_162024_add_download_check_in-department.php',
     'AddProductDetailsIdCollumn' => $baseDir . '/database/migrations/2015_11_01_122618_add_product_details_id_collumn.php',
     'AddTodayCollumToqueries' => $baseDir . '/database/migrations/2015_10_30_174100_add_today_collum_toqueries.php',
+    'AddUnitidToUser' => $baseDir . '/database/migrations/2015_11_10_102728_add_unitid_to_user.php',
     'ChangeCollumnInSDProducts' => $baseDir . '/database/migrations/2015_10_31_160537_change_collumn_in_SDProducts.php',
     'ChangeReNoCollumnCustomerissues' => $baseDir . '/database/migrations/2015_11_01_195633_change_re_no_collumn_customerissues.php',
     'CreateBranchesTable' => $baseDir . '/database/migrations/2015_08_28_115519_create_branches_table.php',

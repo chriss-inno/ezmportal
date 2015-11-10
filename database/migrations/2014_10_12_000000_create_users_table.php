@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->integer('right_id')->default('1');
             $table->integer('branch_id');
             $table->integer('department_id');
+            $table->integer('unit_id');
             $table->dateTime('last_login')->nullable();
             $table->dateTime('last_success_login')->nullable();
             $table->dateTime('last_logout')->nullable();

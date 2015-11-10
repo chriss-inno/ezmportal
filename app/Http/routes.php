@@ -49,6 +49,7 @@ Route::post('departments/edit',['middleware' => 'auth', 'uses' =>'DepartmentCont
 Route::get('departments/remove/{id}',['middleware' => 'auth', 'uses' =>'DepartmentController@destroy']);
 Route::get('departments/show/{id}',['middleware' => 'auth', 'uses' =>'DepartmentController@show']);
 Route::get('getModules/{id}','DepartmentController@getModules');
+Route::get('getDepartmentUnits/{id}','DepartmentController@getUnits');
 
 
 //Users
@@ -71,6 +72,9 @@ Route::post('users/personal',['middleware' => 'auth', 'uses' =>'UserController@p
 
 Route::get('users/department/{id}',['middleware' => 'auth', 'uses' =>'UserController@userDepartment']);
 Route::post('users/department',['middleware' => 'auth', 'uses' =>'UserController@postUserDepartment']);
+
+Route::get('users/unit/{id}',['middleware' => 'auth', 'uses' =>'UserController@userUnit']);
+Route::post('users/unit',['middleware' => 'auth', 'uses' =>'UserController@postUserUnit']);
 
 Route::get('users/password/{id}',['middleware' => 'auth', 'uses' =>'UserController@userPassword']);
 Route::post('users/password',['middleware' => 'auth', 'uses' =>'UserController@postUserPassword']);
@@ -97,6 +101,7 @@ Route::post('user/rights/edit',['middleware' => 'auth', 'uses' =>'RightsControll
 Route::get('user/rights/remove/{id}',['middleware' => 'auth', 'uses' =>'RightsController@destroy']);
 Route::get('user/rights/roles/{id}',['middleware' => 'auth', 'uses' =>'RightsController@rightRoles']);
 Route::post('roles/create',['middleware' => 'auth', 'uses' =>'RightsController@rightRolesPost']);
+
 
 
 //Oracle support

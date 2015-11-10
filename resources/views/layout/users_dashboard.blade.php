@@ -599,7 +599,7 @@
                             </div>
                             <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
                                 <div class="col-md-12">
-                                    <a href="#" class=" btn btn-danger btn-block"><i class="fa fa-key"></i> Logout</a>
+                                    <a href="{{url('logout')}}" class=" btn btn-danger btn-block"><i class="fa fa-key"></i> Logout</a>
                                 </div>
                             </div>
                         </div>

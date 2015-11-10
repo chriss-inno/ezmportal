@@ -131,4 +131,16 @@ class DepartmentController extends Controller
         }
         return $dep;
     }
+
+    public function getUnits($id)
+    {
+        //
+        $dp=Department::find($id);
+        $dep="<option value=''>----</option>";
+        foreach($dp->units as $unit)
+        {
+            $dep .="<option value='$unit->id'>$unit->unit_name</option>";
+        }
+        return $dep;
+    }
 }
