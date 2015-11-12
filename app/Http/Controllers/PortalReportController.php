@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\PortalReport;
 use App\ReportDepartment;
 use App\ReportSetup;
+use App\ReportUnit;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -215,6 +216,66 @@ class PortalReportController extends Controller
         return view('portalreports.setup',compact('repser'));
     }
 
+    //Report assignment
+     public function  reportAssignment()
+     {
+         return view('portalreports.assignment');
+     }
+
+    //Assign report
+    public  function postReportAssignment(Request $request)
+    {
+        if($request->reports != null && $request->reports != "")
+        {
+            foreach($request->reports as $report)
+            {
+                //Do for departments
+                if($request->departments != null && $request->departments != "")
+                {
+                    //Remove previous assignments
+                    if(count(ReportDepartment::where('report_id','=',$request->report_id)->get()) >0)
+                    {
+                        foreach(ReportDepartment::where('report_id','=',$request->report_id)->get() as $pre)
+                        {
+                            $pre->delete();
+                        }
+                    }
+
+                    foreach($request->departments as $dp)
+                    {
+                        $rd=new ReportDepartment();
+                        $rd->report_id=$report;
+                        $rd->department_id=$dp;
+                        $rd->save();
+                    }
+                }
+
+                //Do for Units
+                if($request->units != null && $request->units != "")
+                {
+                    //Remove previous assignments
+                    if(count(ReportUnit::where('report_id','=',$request->report_id)->get()) >0)
+                    {
+                        foreach(ReportUnit::where('report_id','=',$request->report_id)->get() as $pre)
+                        {
+                            $pre->delete();
+                        }
+                    }
+
+                    foreach($request->units as $unit)
+                    {
+                        $ru=new ReportUnit();
+                        $ru->report_id=$report;
+                        $ru->unit_id=$unit;
+                        $ru->save();
+                    }
+                }
+            }
+
+        }
+        return redirect('portal/reports');
+    }
+
     public function store(Request $request)
     {
         //
@@ -352,16 +413,18 @@ class PortalReportController extends Controller
    //Post departments
     public function postDepartments(Request $request)
     {
-       //Remove previous assignments
-        if(count(ReportDepartment::where('report_id','=',$request->report_id)->get()) >0)
-        {
-            foreach(ReportDepartment::where('report_id','=',$request->report_id)->get() as $pre)
-            {
-                $pre->delete();
-            }
-        }
+
       if($request->department != null && $request->department != "")
       {
+          //Remove previous assignments
+          if(count(ReportDepartment::where('report_id','=',$request->report_id)->get()) >0)
+          {
+              foreach(ReportDepartment::where('report_id','=',$request->report_id)->get() as $pre)
+              {
+                  $pre->delete();
+              }
+          }
+
           foreach($request->department as $dp)
           {
               $arr=explode("##",$dp);

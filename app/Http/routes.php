@@ -205,6 +205,8 @@ Route::get('dailyreports/{y}/{m}/{d}',['middleware' => 'auth', 'uses' =>'PortalR
 Route::get('archivedreports/{y}/{m}/{d}',['middleware' => 'auth', 'uses' =>'PortalReportController@getArchivedReports']);
 Route::get('portal/reports/setup',['middleware' => 'auth', 'uses' =>'PortalReportController@reportSetup']);
 Route::post('portal/reports/setup',['middleware' => 'auth', 'uses' =>'PortalReportController@postReportSetup']);
+Route::get('portal/reports/assignment',['middleware' => 'auth', 'uses' =>'PortalReportController@reportAssignment']);
+Route::post('portal/reports/assignment',['middleware' => 'auth', 'uses' =>'PortalReportController@postReportAssignment']);
 
 //Download reports
 Route::get('download/daily/reports/{dt}/{t}/{id}',['middleware' => 'auth', 'uses' =>'PortalReportController@downloadDailyReport']);
