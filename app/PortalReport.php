@@ -19,6 +19,10 @@ class PortalReport extends Model
     {
         return $this::hasMany('\App\ReportDepartment','report_id','id');
     }
+    public function assignedUnits()
+    {
+        return $this::hasMany('\App\ReportUnit','report_id','id');
+    }
     public function user()
     {
         return $this::hasOne('\App\User','input_by');

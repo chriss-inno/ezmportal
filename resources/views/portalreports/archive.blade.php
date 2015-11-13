@@ -175,7 +175,7 @@
                     <i class=" fa fa-bar-chart-o"></i>
                     <span>Reports</span>
                 </a> <ul class="sub">
-                    <li><a  href="{{url('portal/reports/daily')}}" title="Daily Reports">Daily Reports</a></li>
+                    <li class="active"><a  href="{{url('portal/reports/daily')}}" title="Daily Reports">Daily Reports</a></li>
                     <li><a  href="{{url('portal/reports/monthly')}}" title="Monthly Reports">Monthly Reports</a></li>
                     <li><a  href="{{url('portal/reports/custom')}}" title="Custom Reports">Custom Reports</a></li>
                     <li><a  href="{{url('portal/reports/search')}}" title="Search Report">Search Report</a></li>

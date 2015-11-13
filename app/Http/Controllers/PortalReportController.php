@@ -233,9 +233,9 @@ class PortalReportController extends Controller
                 if($request->departments != null && $request->departments != "")
                 {
                     //Remove previous assignments
-                    if(count(ReportDepartment::where('report_id','=',$request->report_id)->get()) >0)
+                    if(count(ReportDepartment::where('report_id','=',$report)->get()) >0)
                     {
-                        foreach(ReportDepartment::where('report_id','=',$request->report_id)->get() as $pre)
+                        foreach(ReportDepartment::where('report_id','=',$report)->get() as $pre)
                         {
                             $pre->delete();
                         }
@@ -254,9 +254,9 @@ class PortalReportController extends Controller
                 if($request->units != null && $request->units != "")
                 {
                     //Remove previous assignments
-                    if(count(ReportUnit::where('report_id','=',$request->report_id)->get()) >0)
+                    if(count(ReportUnit::where('report_id','=',$report)->get()) >0)
                     {
-                        foreach(ReportUnit::where('report_id','=',$request->report_id)->get() as $pre)
+                        foreach(ReportUnit::where('report_id','=',$report)->get() as $pre)
                         {
                             $pre->delete();
                         }
@@ -394,7 +394,16 @@ class PortalReportController extends Controller
     {
         //
         $report= PortalReport::find($id);
-        return view('portalreports.departments',compact('report'));
+        if($report != null && $report != "" && count($report) > 0)
+        {
+
+           return view('portalreports.repoassignment',compact('report'));
+        }
+        else
+        {
+            return redirect()->back();
+        }
+
     }
 
     /**
@@ -414,7 +423,8 @@ class PortalReportController extends Controller
     public function postDepartments(Request $request)
     {
 
-      if($request->department != null && $request->department != "")
+        //Process department
+        if($request->departments != null && $request->departments != "" && count($request->departments) >0)
       {
           //Remove previous assignments
           if(count(ReportDepartment::where('report_id','=',$request->report_id)->get()) >0)
@@ -425,26 +435,36 @@ class PortalReportController extends Controller
               }
           }
 
-          foreach($request->department as $dp)
+          foreach($request->departments as $dp)
           {
-              $arr=explode("##",$dp);
-              $department_id=$arr[0]; //Get department ID
-              $branch_id=$arr[1]; //Get branch ID
-
               $rd=new ReportDepartment();
               $rd->report_id=$request->report_id;
-              $rd->branch_id=$branch_id;
-              $rd->department_id=$department_id;
+              $rd->department_id=$dp;
               $rd->save();
           }
-          return "<h3 class='text-info'>Department successfully attached to report</h3>";
+
       }
-        else
+        //Do for Units
+        if($request->units != null && $request->units != ""&& count($request->units) >0 )
         {
-            return "<h3 class='text-info'>No changes done report</h3>";
+            //Remove previous assignments
+            if(count(ReportUnit::where('report_id','=',$request->report_id)->get()) >0)
+            {
+                foreach(ReportUnit::where('report_id','=',$request->report_id)->get() as $pre)
+                {
+                    $pre->delete();
+                }
+            }
+
+            foreach($request->units as $unit)
+            {
+                $ru=new ReportUnit();
+                $ru->report_id=$request->report_id;
+                $ru->unit_id=$unit;
+                $ru->save();
+            }
         }
-
-
+            return redirect('portal/reports');
     }
     /**
      * Update the specified resource in storage.

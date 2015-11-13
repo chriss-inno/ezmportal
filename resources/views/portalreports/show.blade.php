@@ -36,9 +36,10 @@
     </div>
 </fieldset>
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border text-info"> <i class="fa fa-info"></i> This report is shared to the below departments</legend>
+    <legend class="scheduler-border text-info"> <i class="fa fa-info"></i> This report is shared to the below departments and units </legend>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <p ><h3 class="text-info">Departments</h3></p>
             <div class="adv-table">
                 <table  class="display table table-bordered table-striped" id="branches">
                     <thead>
@@ -58,6 +59,37 @@
                             <td>{{$dpas->department->branch->branch_Name}}</td>
 
                         </tr>
+                        @endforeach
+                    @endif
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <p><h3  class="text-info">Units</h3></p>
+            <div class="adv-table">
+                <table  class="display table table-bordered table-striped" id="branches">
+                    <thead>
+                    <tr>
+                        <th>SNO</th>
+                        <th>Units name</th>
+                        <th>Department</th>
+                        <th>Branch</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php $c=1; ?>
+                    @if(count($report->assignedUnits) > 0 && $report->assignedUnits !="" && $report->assignedUnits !=null)
+                        @foreach($report->assignedUnits as $repunit)
+                            <tr>
+                                <td>{{$c++}}</td>
+                                <td>{{$repunit->unit->unit_name}}</td>
+                                <td>{{$repunit->unit->department->department_name}}</td>
+                                <td>{{$repunit->unit->department->branch->branch_Name}}</td>
+
+                            </tr>
                         @endforeach
                     @endif
                     </tbody>
