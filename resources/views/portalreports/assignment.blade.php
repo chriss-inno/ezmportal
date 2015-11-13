@@ -483,7 +483,7 @@
                                     <select class="multi-select form-control"  id="reports" name="reports[]">
                                         <?php $reports=\App\PortalReport::all();?>
                                         @foreach($reports as $report)
-                                            <option value="{{$report->id}}">{{$report->report_name}}</option>
+                                            <option value="{{$report->id}}">{{$report->other_name}}</option>
                                         @endforeach
 
                                     </select>
