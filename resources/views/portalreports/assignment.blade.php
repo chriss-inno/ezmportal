@@ -506,7 +506,7 @@
                                             <select multiple class="multi-select form-control" name="units[]" id="units" multiple="">
                                                 <?php $units=\App\Unit::all();?>
                                                         @foreach($units as $un)
-                                                            <option value="{{$un->id}}" >{{$un->unit_name}})</option>
+                                                            <option value="{{$un->id}}" >{{$un->unit_name}}</option>
                                                         @endforeach
 
                                             </select>

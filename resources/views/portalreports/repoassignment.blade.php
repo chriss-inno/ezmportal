@@ -509,7 +509,7 @@
                                                         @if(count(\App\ReportUnit::where('report_id','=',$report->id)->where('unit_id','=',$un->id)->get()) >0)
                                                             <option value="{{$un->id}}" selected>{{$un->unit_name}})</option>
                                                         @else
-                                                            <option value="{{$un->id}}" >{{$un->unit_name}})</option>
+                                                            <option value="{{$un->id}}" >{{$un->unit_name}}</option>
                                                         @endif
                                                 @endforeach
 
