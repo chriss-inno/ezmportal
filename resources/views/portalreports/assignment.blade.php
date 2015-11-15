@@ -480,12 +480,11 @@
 
                                 <div class="form-group">
                                     <label for="reports">Report</label>
-                                    <select class="multi-select form-control"  id="reports" name="reports[]">
-                                        <?php $reports=\App\PortalReport::all();?>
-                                        @foreach($reports as $report)
-                                            <option value="{{$report->id}}">{{$report->other_name}}</option>
+                                    <select multiple class="multi-select form-control" name="reports[]" id="reports" multiple="">
+                                        <?php $aspreports=\App\PortalReport::all();?>
+                                        @foreach($aspreports as $dp)
+                                            <option value="{{$dp->id}}" >{{$dp->other_name}}</option>
                                         @endforeach
-
                                     </select>
                                 </div>
                                 <div class="form-group">

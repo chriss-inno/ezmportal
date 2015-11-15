@@ -229,45 +229,38 @@ class PortalReportController extends Controller
         {
             foreach($request->reports as $report)
             {
+
                 //Do for departments
                 if($request->departments != null && $request->departments != "")
                 {
-                    //Remove previous assignments
-                    if(count(ReportDepartment::where('report_id','=',$report)->get()) >0)
-                    {
-                        foreach(ReportDepartment::where('report_id','=',$report)->get() as $pre)
-                        {
-                            $pre->delete();
-                        }
-                    }
 
-                    foreach($request->departments as $dp)
-                    {
-                        $rd=new ReportDepartment();
-                        $rd->report_id=$report;
-                        $rd->department_id=$dp;
-                        $rd->save();
-                    }
+
+                        foreach($request->departments as $dp)
+                        {
+                            //prevent duplicate assignments
+                            if(count(ReportDepartment::where('report_id','=',$report)->where('department_id','=',$dp)->get()) == 0) {
+                                $rd = new ReportDepartment();
+                                $rd->report_id = $report;
+                                $rd->department_id = $dp;
+                                $rd->save();
+                            }
+                        }
+
                 }
 
                 //Do for Units
                 if($request->units != null && $request->units != "")
                 {
-                    //Remove previous assignments
-                    if(count(ReportUnit::where('report_id','=',$report)->get()) >0)
-                    {
-                        foreach(ReportUnit::where('report_id','=',$report)->get() as $pre)
-                        {
-                            $pre->delete();
-                        }
-                    }
 
                     foreach($request->units as $unit)
                     {
-                        $ru=new ReportUnit();
-                        $ru->report_id=$report;
-                        $ru->unit_id=$unit;
-                        $ru->save();
+                        //Remove previous assignments
+                        if(count(ReportUnit::where('report_id','=',$report)->where('unit_id','=',$unit)->get()) == 0) {
+                            $ru = new ReportUnit();
+                            $ru->report_id = $report;
+                            $ru->unit_id = $unit;
+                            $ru->save();
+                        }
                     }
                 }
             }
