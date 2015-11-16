@@ -400,12 +400,25 @@
         $reports=\App\PortalReport::where('report_type','=','Daily')->get();
     }
     else {
-        //$reports = \App\PortalReport::where('report_type', '=', 'Daily')->where('department_id', '=', Auth::user()->department_id)->get();
-        $reports =\DB::table('portal_reports')
-                ->join('report_departments', 'portal_reports.id', '=', 'report_departments.report_id')
-                ->where('report_type', '=', 'Daily')->where('department_id', '=', Auth::user()->department_id)
-                ->select('portal_reports.*')
-                ->get();
+
+        if(Auth::user()->unit_id != null && Auth::user()->unit_id !="")
+        {
+            $reports =\DB::table('portal_reports')
+                    ->join('report_units', 'portal_reports.id', '=', 'report_units.report_id')
+                    ->where('report_type', '=', 'Daily')->where('report_units.id', '=', Auth::user()->unit_id)
+                    ->select('portal_reports.*')
+                    ->get();
+
+            //
+        }
+        else
+        {
+            $reports =\DB::table('portal_reports')
+                    ->join('report_departments', 'portal_reports.id', '=', 'report_departments.report_id')
+                    ->where('report_type', '=', 'Daily')->where('department_id', '=', Auth::user()->department_id)
+                    ->select('portal_reports.*')
+                    ->get();
+        }
     }
     ?>
     <section class="site-min-height">

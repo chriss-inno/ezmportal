@@ -37,8 +37,30 @@ class QueryLaunchedEmail extends Job implements SelfHandling, ShouldQueue
                 'query' => serialize($this->query)
             );
 
-            //Send email
+            //Send email to department
             foreach($this->query->toDepartment->users as $us) {
+                if($us->email !="")
+                {
+                    $emails = $us->email;
+
+                    $emailData = array(
+                        'query' => serialize($this->query),
+                        'emails' => $emails
+                    );
+
+                    \Mail::queue('emails.newquery', $data, function ($message) use ($emailData) {
+
+                        //Fetch emails of users to wchich query was sent
+                        $query = unserialize($emailData['query']);
+                        $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                        $message->to($emailData['emails'])->subject('Issue Event Details for :'.$query->query_code.' -- New Request (Status : '.$query->status.')');
+                    });
+                }
+
+            }
+
+            //Send email from department
+            foreach($this->query->fromDepartment->users as $us) {
                 if($us->email !="")
                 {
                     $emails = $us->email;

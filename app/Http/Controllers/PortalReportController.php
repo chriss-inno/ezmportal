@@ -104,6 +104,8 @@ class PortalReportController extends Controller
                     ->where('report_type', '=', 'Daily')->where('report_units.id', '=', Auth::user()->unit_id)
                     ->select('portal_reports.*')
                     ->get();
+
+                //
             }
             else
             {

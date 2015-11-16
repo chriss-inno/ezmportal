@@ -38,8 +38,30 @@ class QueryAssignmentEmail extends Job implements SelfHandling, ShouldQueue
                 'query' => serialize($this->query)
             );
 
-            //Send email
+            //Send to department email
             foreach($this->query->toDepartment->users as $us) {
+                if($us->email !="")
+                {
+                    $emails = $us->email;
+
+                    $emailData = array(
+                        'query' => serialize($this->query),
+                        'emails' => $emails
+                    );
+
+                    \Mail::queue('emails.queruassigned', $data, function ($message) use ($emailData) {
+
+                        //Fetch emails of users to wchich query was sent
+                        $query = unserialize($emailData['query']);
+                        $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                        $message->to($emailData['emails'])->subject('Issue Event Details for :'.$query->query_code.' -- Assignment (Status : '.$query->status.')');
+                    });
+                }
+
+            }
+
+            //Send from department email
+            foreach($this->query->fromDepartment->users as $us) {
                 if($us->email !="")
                 {
                     $emails = $us->email;

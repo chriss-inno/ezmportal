@@ -37,8 +37,30 @@ class QueryProgressEmail extends Job implements SelfHandling, ShouldQueue
                 'msg' => serialize( $this->msg)
             );
 
-            //Send email
+            //Send email to department
             foreach( $this->msg->mQuery->toDepartment->users as $us) {
+                if($us->email !="")
+                {
+                    $emails = $us->email;
+
+                    $emailData = array(
+                        'msg' => serialize( $this->msg),
+                        'emails' => $emails
+                    );
+
+                    \Mail::queue('emails.queryprogress', $data, function ($message) use ($emailData) {
+
+                        //Fetch emails of users to wchich query was sent
+                        $msg = unserialize($emailData['msg']);
+                        $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                        $message->to($emailData['emails'])->subject('Issue Event Details for :'.$msg->mQuery->query_code.' -- Attendance Notification  (Status : '.$msg->mQuery->status.')');
+                    });
+                }
+
+            }
+
+            //Send email from department
+            foreach( $this->msg->mQuery->fromDepartment->users as $us) {
                 if($us->email !="")
                 {
                     $emails = $us->email;

@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Portal Reports Management
+    Portal Reports
 @stop
 @section('page_scripts')
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
