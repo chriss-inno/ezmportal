@@ -275,6 +275,10 @@ class UserController extends Controller
             $us->branch_id = $request->branch;
             $us->department_id = $request->department;
 
+            if($request->unit != "")
+            {
+                $us->unit_id = $request->unit;
+            }
             $us->password = bcrypt($request->Password);
 
             $us->username = $uname;

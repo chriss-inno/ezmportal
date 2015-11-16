@@ -46,7 +46,7 @@
 
                      {!! Form::open(array('url'=>'register','role'=>'form','id'=>'signupForm')) !!}
                     <fieldset class="scheduler-border">
-                        <legend class="scheduler-border">Personal details</legend>
+                        <legend class="scheduler-border text-info">Personal details</legend>
                         <div class="form-group">
                              <div class="row">
                                  <div class="col-md-6">
@@ -82,6 +82,9 @@
                                 <label for="phone" class="error">{{$errors->first('phone')}}</label>
                             @endif
                         </div>
+                    </fieldset>
+              <fieldset class="scheduler-border">
+                <legend class="scheduler-border text-info">Branch,Department and Unit details </legend>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6">
@@ -119,9 +122,24 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="unit">Unit</label>
+                            <select class="form-control"  id="unit" name="unit">
+                                @if(old('unit') !="")
+                                    <?php $unit=\App\Unit::find(old('unit'));?>
+                                    <option value="{{$unit->id}}" selected>{{$unit->unit_name}}</option>
+                                @else
+                                    <option value="" selected>----</option>
+                                @endif
+                            </select>
+                            @if($errors->first('unit'))
+                                <label for="unit" class="error">{{$errors->first('unit')}}</label>
+                            @endif
+                        </div>
+              </fieldset>
                     </fieldset>
                     <fieldset class="scheduler-border">
-                        <legend class="scheduler-border">Login Details</legend>
+                        <legend class="scheduler-border text-info">Login Details</legend>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6">
@@ -178,6 +196,16 @@
             });
 
         }else{$("#department").html("<option value=''>----</option>");}
+    });
+    $("#department").change(function () {
+        var id1 = this.value;
+        if(id1 != "")
+        {
+            $.get("<?php echo url('getDepartmentUnits') ?>/"+id1,function(data){
+                $("#unit").html(data);
+            });
+
+        }else{$("#unit").html("<option value=''>----</option>");}
     });
 </script>
 </body>
