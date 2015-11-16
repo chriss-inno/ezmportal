@@ -405,7 +405,7 @@
         {
             $reports =\DB::table('portal_reports')
                     ->join('report_units', 'portal_reports.id', '=', 'report_units.report_id')
-                    ->where('report_type', '=', 'Daily')->where('report_units.id', '=', Auth::user()->unit_id)
+                    ->where('report_type', '=', 'Daily')->where('report_units.unit_id', '=', Auth::user()->unit_id)
                     ->select('portal_reports.*')
                     ->get();
 
