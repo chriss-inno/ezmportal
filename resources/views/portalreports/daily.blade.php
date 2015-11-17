@@ -470,8 +470,7 @@
                                             <th>Old Name</th>
                                             <th>Report Type</th>
                                             <th>Status</th>
-                                            <th>Report Details</th>
-                                            <th align="center">View Report</th>
+                                            <th align="center">View Report details</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -484,9 +483,6 @@
                                                     <td>{{$report->other_name}}</td>
                                                     <td>{{$report->report_type}}</td>
                                                     <td>{{$report->status}}</td>
-                                                    <td id="{{$report->id}}">
-                                                        <a href="#" class="showReportDetails btn btn-primary btn-xs" title="Report details"><i class="fa fa-eye"></i> View </a>
-                                                    </td>
                                                     <td id="{{$report->id}}" align="center">
                                                         <div class="row">
                                                             <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4" id="{{$report->id}}">
@@ -515,8 +511,7 @@
                                             <th>Old Name</th>
                                             <th>Report Type</th>
                                             <th>Status</th>
-                                            <th>Report Details</th>
-                                            <th align="center">View Report</th>
+                                            <th align="center">View Report details</th>
                                         </tr>
                                         </tr>
                                         </tfoot>

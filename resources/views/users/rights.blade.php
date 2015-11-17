@@ -10,7 +10,7 @@
                     @if(old('right') !="")
                         <?php $right=\App\Right::find(old('department'));?>
                         <option value="{{$right->id}}" selected>{{$right->right_name}}</option>
-                    @else
+                    @elseif($user->right_id != null && $user->right_id != "")
                         <?php $right=\App\Right::find($user->right_id);?>
                         <option value="{{$right->id}}" selected>{{$right->right_name}}</option>
                     @endif
