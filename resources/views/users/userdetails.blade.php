@@ -44,7 +44,7 @@
             </div>
             <div class="col-md-8">
                 <label for="email">E-Mail</label>
-                <input type="email" class="form-control" readonly id="email" name="email" placeholder="Enter email address" autocomplete=off @if(old('email') !="") value="{{old('email')}}" @else value="{{$user->email}}" @endif >
+                <input type="email" class="form-control"  id="email" name="email" placeholder="Enter email address" autocomplete=off @if(old('email') !="") value="{{old('email')}}" @else value="{{$user->email}}" @endif >
                 @if($errors->first('email'))
                     <label for="first_name" class="error">{{$errors->first('email')}}</label>
                 @endif
@@ -63,7 +63,7 @@
 
         </div>
     </div>
-    </fieldset>
+</fieldset>
 {!! Form::close() !!}
 {!!HTML::script("js/jquery.validate.min.js" ) !!}
 {!!HTML::script("js/respond.min.js"  ) !!}

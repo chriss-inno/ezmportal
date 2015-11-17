@@ -417,7 +417,7 @@
             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa  fa-user"></i> USER PROFILE FOR <span class="text-danger">{{strtoupper($user->first_name.' '.$user->last_name)}} </span></strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa  fa-user"></i> WELCOME <span class="text-danger">{{strtoupper($user->first_name.' '.$user->last_name)}} </span></strong></h3>
                     </header>
                     <div class="panel-body">
 

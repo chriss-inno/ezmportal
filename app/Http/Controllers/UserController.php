@@ -409,6 +409,14 @@ class UserController extends Controller
         return view('users.personal',compact('user'));
     }
 
+    //Show user personal details
+    public function userPersonalDetails($id)
+    {
+        $user=User::find($id);
+        return view('users.userdetails',compact('user'));
+    }
+
+
     public function postUserPersonal(Request $request)
     {
         $us=User::find($request->user_id);

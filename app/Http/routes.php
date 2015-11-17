@@ -67,6 +67,7 @@ Route::post('users/query',['middleware' => 'auth', 'uses' =>'UserController@post
 Route::get('users/query/{id}',['middleware' => 'auth', 'uses' =>'UserController@userQuery']);
 Route::post('users/query',['middleware' => 'auth', 'uses' =>'UserController@postUserQuery']);
 
+Route::get('users/details/{id}',['middleware' => 'auth', 'uses' =>'UserController@userPersonalDetails']);
 Route::get('users/personal/{id}',['middleware' => 'auth', 'uses' =>'UserController@userPersonal']);
 Route::post('users/personal',['middleware' => 'auth', 'uses' =>'UserController@postUserPersonal']);
 
