@@ -14,6 +14,7 @@
 
 
             $('#branches').dataTable( {
+                'iDisplayLength': 100,
                 "fnDrawCallback": function( oSettings ) {
 
                     //adding company user
@@ -469,7 +470,7 @@
                                             <th>Old Name</th>
                                             <th>Report Type</th>
                                             <th>Status</th>
-                                            <th align="center">View Report details</th>
+                                            <th align="center"> Report details</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -507,7 +508,7 @@
                                             <th>Old Name</th>
                                             <th>Report Type</th>
                                             <th>Status</th>
-                                            <th align="center">View Report details</th>
+                                            <th align="center"> Report details</th>
                                         </tr>
                                         </tfoot>
                                     </table>

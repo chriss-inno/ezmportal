@@ -14,6 +14,7 @@
 
 
             $('#branches').dataTable( {
+                'iDisplayLength': 100,
                 "fnDrawCallback": function( oSettings ) {
 
                     //adding company user

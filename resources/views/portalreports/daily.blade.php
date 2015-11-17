@@ -14,6 +14,7 @@
 
 
             $('#branches').dataTable( {
+                'iDisplayLength': 100,
                 "fnDrawCallback": function( oSettings ) {
 
                     //adding company user
@@ -470,7 +471,7 @@
                                             <th>Old Name</th>
                                             <th>Report Type</th>
                                             <th>Status</th>
-                                            <th align="center">View Report details</th>
+                                            <th align="center"> Report details</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -484,6 +485,7 @@
                                                     <td>{{$report->report_type}}</td>
                                                     <td>{{$report->status}}</td>
                                                     <td id="{{$report->id}}" align="center">
+                                                        <div class="container-fluid">
                                                         <div class="row">
                                                             <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4" id="{{$report->id}}">
                                                                 <a  href="{{url('download/daily/reports')}}/{{date("Y-m-d",strtotime($dateas))}}/pdf/{{$report->id}}" title="Download in PDF format" class=" btn btn-danger btn-xs" target="_blank"><i class="fa fa-file-pdf-o"></i> PDF</a>
@@ -498,6 +500,7 @@
 
                                                             </div>
                                                         </div>
+                                                        </div>
                                                            </td>
 
                                                 </tr>
@@ -511,7 +514,7 @@
                                             <th>Old Name</th>
                                             <th>Report Type</th>
                                             <th>Status</th>
-                                            <th align="center">View Report details</th>
+                                            <th align="center"> Report details</th>
                                         </tr>
                                         </tr>
                                         </tfoot>
