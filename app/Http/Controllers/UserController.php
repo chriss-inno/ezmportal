@@ -343,6 +343,9 @@ class UserController extends Controller
             $user= User::find(Auth::user()->id);
             $user->last_logout=date("Y-m-d h:i:s");
             $user->save();
+
+            //Audit log
+            \App\Http\Controllers\AuditController::auditLog("Successifuly logged out","User");
         }
 
         Auth::logout();
@@ -368,6 +371,8 @@ class UserController extends Controller
                 $user->last_login=date("Y-m-d h:i:s");
                 $user->save();
 
+                //Audit log
+                \App\Http\Controllers\AuditController::auditLog("Successifuly logged in","User");
                 return redirect()->intended('home');
             }
 
@@ -443,6 +448,9 @@ class UserController extends Controller
         $user->department_id=$request->department;
         $user->unit_id=$request->unit;
         $user->save();
+        //Audit log
+        $auditMsg="Changed user department for ".$user->username. " current department ".$user->department->department_name;
+        \App\Http\Controllers\AuditController::auditLog($auditMsg,"User");
 
         return "Data saved successfully";
     }
@@ -460,6 +468,10 @@ class UserController extends Controller
         $user->department_id=$request->department;
         $user->save();
 
+        //Audit log
+        $auditMsg="Changed user department for ".$user->username. " current department ".$user->department->department_name;
+        \App\Http\Controllers\AuditController::auditLog($auditMsg,"User");
+
         return "Data saved successfully";
     }
 
@@ -474,6 +486,10 @@ class UserController extends Controller
         $user=User::find($request->user_id);
         $user->password=bcrypt($request->userpass);
         $user->save();
+
+        //Audit log
+        $auditMsg="Changed password for ".$user->username. " with status ".$user->status;
+        \App\Http\Controllers\AuditController::auditLog($auditMsg,"User");
 
         return "Password changed successfully";
     }
@@ -490,6 +506,10 @@ class UserController extends Controller
         $user->right_id=$request->right;
         $user->status=$request->status;
         $user->save();
+
+        //Audit log
+        $auditMsg="Changed user right for ".$user->username. " with status ".$request->status;
+        \App\Http\Controllers\AuditController::auditLog($auditMsg,"User");
 
         return "Data saved successfully";
     }
@@ -521,6 +541,9 @@ class UserController extends Controller
         }
         $user->save();
 
+        //Audit log
+        $auditMsg="Changed user query exemption for ".$user->username. " with exception status ".$user->exemption_type;
+        \App\Http\Controllers\AuditController::auditLog($auditMsg,"User");
 
         return "Data saved successfully";
     }

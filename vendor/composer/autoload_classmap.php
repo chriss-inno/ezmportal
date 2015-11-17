@@ -17,6 +17,7 @@ return array(
     'AddUnitidToUser' => $baseDir . '/database/migrations/2015_11_10_102728_add_unitid_to_user.php',
     'ChangeCollumnInSDProducts' => $baseDir . '/database/migrations/2015_10_31_160537_change_collumn_in_SDProducts.php',
     'ChangeReNoCollumnCustomerissues' => $baseDir . '/database/migrations/2015_11_01_195633_change_re_no_collumn_customerissues.php',
+    'CreateAuditsTable' => $baseDir . '/database/migrations/2015_11_17_172918_create_audits_table.php',
     'CreateBranchesTable' => $baseDir . '/database/migrations/2015_08_28_115519_create_branches_table.php',
     'CreateCopsIssuesRMsTable' => $baseDir . '/database/migrations/2015_10_17_193101_create_cops_issues_r_ms_table.php',
     'CreateCopsIssuesTable' => $baseDir . '/database/migrations/2015_10_17_192803_create_cops_issues_table.php',

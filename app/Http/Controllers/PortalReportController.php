@@ -116,6 +116,9 @@ class PortalReportController extends Controller
                     ->get();
             }
 
+            //Audit log
+            \App\Http\Controllers\AuditController::auditLog("View daily reports","Portal reports");
+
             return view('portalreports.calendar',compact('reports'));
         }
 
@@ -146,6 +149,9 @@ class PortalReportController extends Controller
                     ->select('portal_reports.*')
                     ->get();
             }
+            //Audit log
+            \App\Http\Controllers\AuditController::auditLog("View monthly reports","Portal reports");
+
             return view('portalreports.month', compact('reports'));
         }
     }
@@ -175,6 +181,10 @@ class PortalReportController extends Controller
                     ->select('portal_reports.*')
                     ->get();
             }
+
+            //Audit log
+            \App\Http\Controllers\AuditController::auditLog("View custom reports","Portal reports");
+
             return view('portalreports.custom', compact('reports'));
         }
     }
@@ -210,7 +220,7 @@ class PortalReportController extends Controller
             strtotime($request->archive_start_date) > strtotime($request->archive_end_date)
         )
         {
-            return "<h2 class='text-danger'><strong>Invalid dates, start date can not be lorger than end date </strong></h2>";
+            return "<h2 class='text-danger'><strong>Invalid dates, start date can not be longer than end date </strong></h2>";
         }
         if($repser !="" && $repser !=null)
         {
@@ -224,6 +234,10 @@ class PortalReportController extends Controller
                 $repser->archive_end_date=date("Y-m-d",strtotime($request->archive_end_date));
             $repser->input_by=Auth::user()->username;
             $repser->save();
+
+            //Audit log
+            $auditMsg="Accessed Report setup  " ;
+            \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
 
             return "<h3 class='text-info'>Data saved successfully</h3>";
         }else
@@ -239,6 +253,10 @@ class PortalReportController extends Controller
                 $repser->archive_end_date=date("Y-m-d",strtotime($request->archive_end_date));
             $repser->input_by=Auth::user()->username;
             $repser->save();
+
+            //Audit log
+            $auditMsg="Accessed Report setup  " ;
+            \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
 
             return "<h3 class='text-info'>Data saved successfully</h3>";
 
@@ -301,6 +319,9 @@ class PortalReportController extends Controller
             }
 
         }
+        //Audit log
+        $auditMsg="Accessed Report assignment  " ;
+        \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
         return redirect('portal/reports');
     }
 
@@ -316,6 +337,10 @@ class PortalReportController extends Controller
             $report->status = $request->status;
             $report->input_by = Auth::user()->username;
             $report->save();
+
+            //Audit log
+            $auditMsg="Add new report with name ".$request->report_name;
+            \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
         }
 
     }
@@ -353,6 +378,9 @@ class PortalReportController extends Controller
                         }
 
                     }
+                    //Audit log
+                    $auditMsg="Imported reports from directory  " . $importFrom;
+                    \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
 
                     return redirect('portal/reports')->with('messages',"Reports uploaded successfully.");
                 }
@@ -391,6 +419,10 @@ class PortalReportController extends Controller
                 });
 
                 File::delete($destinationPath . $filename); //Delete after upload
+
+                //Audit log
+                $auditMsg="Imported reports from directory  " . $importFrom;
+                \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
 
                 return redirect()->back()->with('messages', 'Reports uploaded successfully.');
             }
@@ -492,6 +524,11 @@ class PortalReportController extends Controller
                 $ru->save();
             }
         }
+
+        //Audit log
+        $auditMsg="Assigned reports to department and units ";
+        \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
+
             return redirect('portal/reports');
     }
     /**
@@ -512,6 +549,10 @@ class PortalReportController extends Controller
         $report->status=$request->status;
         $report->input_by=Auth::user()->username;
         $report->save();
+
+        //Audit log
+        $auditMsg="Update new report with name ".$request->report_name;
+        \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
     }
 
     /**
@@ -532,7 +573,9 @@ class PortalReportController extends Controller
             }
         }
         $report->delete();
-
+        //Audit log
+        $auditMsg="Deleted Report  ".$report->report_name;
+        \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
         return "Delete success";
     }
 
@@ -540,6 +583,11 @@ class PortalReportController extends Controller
     public  function getDailyReports($y,$m,$d)
     {
         $dateas=$y."-".$m."-".$d;
+
+        //Audit log
+        $auditMsg="Accessed   Daily Reports as of ".$dateas;
+        \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
+
         return view('portalreports.daily',compact('dateas'));
     }
 
@@ -547,6 +595,11 @@ class PortalReportController extends Controller
     public  function getArchivedReports($y,$m,$d)
     {
         $dateas=$y."-".$m."-".$d;
+
+        //Audit log
+        $auditMsg="Accessed ArchivedReports as of ".$dateas;
+        \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
+
         return view('portalreports.archive',compact('dateas'));
     }
 
@@ -557,6 +610,8 @@ class PortalReportController extends Controller
         //Get root report folder
         $path=$set->current_path; //Get where currently files are stored
 
+
+
         $report_name="";
         switch($t)
         {
@@ -566,6 +621,10 @@ class PortalReportController extends Controller
 
                 if (File::exists($report_name))
                 {
+                    //Audit log
+                    $auditMsg="Downloaded report  ".$report_name;
+                    \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
+
                     $headers = array(
                         'Content-Type: application/pdf',
                     );
@@ -577,6 +636,10 @@ class PortalReportController extends Controller
                 }
                 elseif(File::exists($report_other_name))
                 {
+                    //Audit log
+                    $auditMsg="Downloaded report  ".$report_other_name;
+                    \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
+
                     $headers = array(
                         'Content-Type: application/pdf',
                     );
@@ -597,6 +660,10 @@ class PortalReportController extends Controller
                 $report_other_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->other_name.".XLS";
                 if (File::exists($report_name))
                 {
+                    //Audit log
+                    $auditMsg="Downloaded report  ".$report_name;
+                    \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
+
                     $headers = array(
                         'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet ',
                     );
@@ -604,6 +671,10 @@ class PortalReportController extends Controller
                 }
                 elseif(File::exists($report_other_name))
                 {
+                    //Audit log
+                    $auditMsg="Downloaded report  ".$report_other_name;
+                    \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
+
                     $headers = array(
                         'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet ',
                     );
@@ -619,6 +690,11 @@ class PortalReportController extends Controller
                 $report_other_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->other_name.".TXT";
                 if (File::exists($report_name))
                 {
+                    //Audit log
+                    $auditMsg="Downloaded report  ".$report_name;
+                    \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
+
+
                     $headers = array(
                         'Content-Type: text/plain',
                     );
@@ -632,6 +708,10 @@ class PortalReportController extends Controller
                 }
                 elseif(File::exists($report_other_name))
                 {
+                    //Audit log
+                    $auditMsg="Downloaded report  ".$report_other_name;
+                    \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
+
                     $headers = array(
                         'Content-Type: text/plain',
                     );
@@ -670,6 +750,10 @@ class PortalReportController extends Controller
                 $report_other_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->other_name.".PDF";
                 if (File::exists($report_name))
                 {
+                    //Audit log
+                    $auditMsg="Downloaded report  ".$report_name;
+                    \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
+
                     $headers = array(
                         'Content-Type: application/pdf',
                     );
@@ -682,6 +766,10 @@ class PortalReportController extends Controller
                 }
                 elseif(File::exists($report_other_name))
                 {
+                    //Audit log
+                    $auditMsg="Downloaded report  ".$report_other_name;
+                    \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
+
                     $headers = array(
                         'Content-Type: application/pdf',
                     );
@@ -703,6 +791,11 @@ class PortalReportController extends Controller
                 $report_other_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->other_name.".XLS";
                 if (File::exists($report_name))
                 {
+                    //Audit log
+                    $auditMsg="Downloaded report  ".$report_name;
+                    \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
+
+
                     $headers = array(
                         'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet ',
                     );
@@ -711,6 +804,11 @@ class PortalReportController extends Controller
                 }
                 elseif(File::exists($report_other_name))
                 {
+
+                    //Audit log
+                    $auditMsg="Downloaded report  ".$report_other_name;
+                    \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
+
                     $headers = array(
                         'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet ',
                     );
@@ -726,6 +824,10 @@ class PortalReportController extends Controller
                 $report_other_name =$path."/".date("Y",strtotime($dt))."/".ucfirst(date("M",strtotime($dt)))."/".date("d",strtotime($dt))."/".$report->other_name.".TXT";
                 if (File::exists($report_name))
                 {
+                    //Audit log
+                    $auditMsg="Downloaded report  ".$report_name;
+                    \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
+
                     $headers = array(
                         'Content-Type: text/plain',
                     );
@@ -737,6 +839,10 @@ class PortalReportController extends Controller
                 }
                 elseif(File::exists($report_other_name))
                 {
+                    //Audit log
+                    $auditMsg="Downloaded report  ".$report_other_name;
+                    \App\Http\Controllers\AuditController::auditLog($auditMsg,"Portal reports");
+
                     $headers = array(
                         'Content-Type: text/plain',
                     );
