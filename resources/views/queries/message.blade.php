@@ -71,8 +71,8 @@
     {!! Form::open(array('url'=>'queries/message','role'=>'form','id'=>'queryMessageForm','files'=>true)) !!}
 
     <div class="form-group">
-        <label for="current_update">Updates description</label>
-        <textarea class="ckeditor form-control" name="message" rows="10" id="message"></textarea>
+        <label for="current_update"> <strong>Updates description </strong> </label>
+        <textarea class="ckeditor form-control" name="message"  id="message"></textarea>
     </div>
     <div class="form-group">
       <span class="btn green fileinput-button">

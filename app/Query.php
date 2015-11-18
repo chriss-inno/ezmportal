@@ -11,7 +11,14 @@ class Query extends Model
     {
         return $this::belongsTo('\App\Department','from_department');
     }
-
+    public function fromUnit()
+    {
+        return $this::belongsTo('\App\Unit','from_unit');
+    }
+    public function toUnit()
+    {
+        return $this::belongsTo('\App\Unit','to_unit');
+    }
     public function toDepartment()
     {
         return $this::belongsTo('\App\Department','to_department');

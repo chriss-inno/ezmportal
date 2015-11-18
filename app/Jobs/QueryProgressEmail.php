@@ -60,26 +60,53 @@ class QueryProgressEmail extends Job implements SelfHandling, ShouldQueue
             }
 
             //Send email from department
-            foreach( $this->msg->mQuery->fromDepartment->users as $us) {
-                if($us->email !="")
-                {
-                    $emails = $us->email;
+            if($this->msg->mQuery->from_unit != null && $this->msg->mQuery->from_unit != "")
+            {
+                foreach( $this->msg->mQuery->fromUnit->users as $us) {
+                    if($us->email !="")
+                    {
+                        $emails = $us->email;
 
-                    $emailData = array(
-                        'msg' => serialize( $this->msg),
-                        'emails' => $emails
-                    );
+                        $emailData = array(
+                            'msg' => serialize( $this->msg),
+                            'emails' => $emails
+                        );
 
-                    \Mail::queue('emails.queryprogress', $data, function ($message) use ($emailData) {
+                        \Mail::queue('emails.queryprogress', $data, function ($message) use ($emailData) {
 
-                        //Fetch emails of users to wchich query was sent
-                        $msg = unserialize($emailData['msg']);
-                        $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
-                        $message->to($emailData['emails'])->subject('Issue Event Details for :'.$msg->mQuery->query_code.' -- Attendance Notification  (Status : '.$msg->mQuery->status.')');
-                    });
+                            //Fetch emails of users to wchich query was sent
+                            $msg = unserialize($emailData['msg']);
+                            $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                            $message->to($emailData['emails'])->subject('Issue Event Details for :'.$msg->mQuery->query_code.' -- Attendance Notification  (Status : '.$msg->mQuery->status.')');
+                        });
+                    }
+
                 }
-
             }
+            else
+            {
+                foreach( $this->msg->mQuery->fromDepartment->users as $us) {
+                    if($us->email !="")
+                    {
+                        $emails = $us->email;
+
+                        $emailData = array(
+                            'msg' => serialize( $this->msg),
+                            'emails' => $emails
+                        );
+
+                        \Mail::queue('emails.queryprogress', $data, function ($message) use ($emailData) {
+
+                            //Fetch emails of users to wchich query was sent
+                            $msg = unserialize($emailData['msg']);
+                            $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
+                            $message->to($emailData['emails'])->subject('Issue Event Details for :'.$msg->mQuery->query_code.' -- Attendance Notification  (Status : '.$msg->mQuery->status.')');
+                        });
+                    }
+
+                }
+            }
+
         }
     }
 }

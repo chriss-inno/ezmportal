@@ -101,8 +101,8 @@
                                 <td><strong>From Branch </strong></td>
                                 <td align="left">{{$query->fromDepartment->branch->branch_Name}}</td>
                                 <td>&nbsp;</td>
-                                <td><strong>From Department</strong></td>
-                                <td align="left">{{$query->fromDepartment->department_name}}</td>
+                                <td><strong>From Department/Unit</strong></td>
+                                <td align="left">@if($query->from_unit != null && $query->from_unit != "") {{$query->fromUnit->unit_name}} @elseif($query->from_department != "" && $query->from_department != null) {{$query->fromDepartment->department_name}} @endif</td>
                             </tr>
                         </table></td>
                 </tr>

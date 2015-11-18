@@ -401,7 +401,12 @@
                                                     <td>{{$c++}}</td>
                                                     <td>{{$qr->queries->query_code}}</td>
                                                     <td>{{date("d M ,Y H:i",strtotime($qr->queries->reporting_Date))}}</td>
-                                                    <td>{{$qr->queries->fromDepartment->department_name}}</td>
+                                                    <td>@if($qr->queries->from_unit != null && $qr->queries->from_unit != "")
+                                                            {{$qr->queries->fromUnit->unit_name}}
+                                                        @else
+                                                            {{$qr->queries->fromDepartment->department_name}}
+                                                        @endif
+                                                    </td>
                                                     <td>{{$qr->queries->user->first_name.' '.$qr->queries->user->last_name}}</td>
                                                     @if($qr->assigned_date_time !=null && $qr->assigned_date_time !="" )
                                                         <td>{{date("d M ,Y H:i",strtotime($qr->assigned_date_time))}}</td>

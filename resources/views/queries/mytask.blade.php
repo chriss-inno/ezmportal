@@ -243,7 +243,7 @@
             </a>
             <ul class="sub">
                 <li><a  href="{{url('queries/create')}}" title="Log Query">Log Query</a></li>
-                <li><a  href="{{url('queries/mytask')}}" title="My Tasks">My Tasks</a></li>
+                <li class="active"><a  href="{{url('queries/mytask')}}" title="My Tasks">My Tasks</a></li>
                 <li><a  href="{{url('queries/progress')}}" title="Query Progress">Query Progress</a></li>
                 <li><a  href="{{url('queries/history')}}" title="Query History">Query History</a></li>
                  @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
@@ -403,7 +403,12 @@
                                         <td>{{$c++}}</td>
                                         <td>{{$qr->query_code}}</td>
                                         <td>{{date("d M ,Y H:i",strtotime($qr->reporting_Date))}}</td>
-                                        <td>{{$qr->fromDepartment->department_name}}</td>
+                                        <td>@if($qr->from_unit != null && $qr->from_unit != "")
+                                                {{$qr->fromUnit->unit_name}}
+                                                @else
+                                                {{$qr->fromDepartment->department_name}}
+                                            @endif
+                                        </td>
                                         <td>{{$qr->user->first_name.' '.$qr->user->last_name}}</td>
                                         @if($qr->assigned_date_time !=null && $qr->assigned_date_time !="" )
                                         <td>{{date("d M ,Y H:i",strtotime($qr->assigned_date_time))}}</td>

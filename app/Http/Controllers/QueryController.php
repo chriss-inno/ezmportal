@@ -15,6 +15,8 @@ use App\User;
 use App\UserModules;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\File;
 use App\Message;
 
 class QueryController extends Controller
@@ -67,6 +69,7 @@ class QueryController extends Controller
         $query=new Query;
         $query->reporting_Date=date("Y-m-d H:i");
         $query->from_department=Auth::user()->department_id;
+        $query->from_unit=Auth::user()->unit_id;
         $query->from_branch=Auth::user()->branch_id;
         $query->reported_by=Auth::user()->id;
         $query->to_department=$request->to_department;
@@ -360,17 +363,25 @@ class QueryController extends Controller
         //
     }
 
-    //Query progress
+    //Get all queries logged to or logged from a department
     public function progress()
     {
-        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
+        if( Auth::user()->user_type=="Administrator")
         {
             $queries = Query::where('closed', '=', '0')->get();
         }
         else {
-            $queries = Query::where('reported_by', '=', Auth::user()->id)->where('closed', '=', '0')
-                ->orwhere('from_department', '=', Auth::user()->department_id)
-                ->orwhere('to_department', '=', Auth::user()->department_id)->get();
+            if(Auth::user()->unit_id != "" && Auth::user()->unit_id != null )
+            {
+                $queries = Query::where('closed', '=', '0')
+                    ->where('from_unit', '=', Auth::user()->unit_id)->orwhere('to_department', '=', Auth::user()->department_id)->get();
+            }
+            else
+            {
+                $queries = Query::where('closed', '=', '0')
+                    ->where('from_department', '=', Auth::user()->department_id)->orwhere('to_department', '=', Auth::user()->department_id)->get();
+            }
+
         }
         return view('queries.index',compact('queries'));
 
@@ -379,15 +390,21 @@ class QueryController extends Controller
     public function history()
     {
 
-        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
+        if( Auth::user()->user_type=="Administrator")
         {
             $queries=Query::all();
         }
         else
         {
-            $queries=Query::where('reported_by','=',Auth::user()->id)
-                ->orwhere('from_department', '=', Auth::user()->department_id)
-                ->orwhere('to_department', '=', Auth::user()->department_id)->get();
+            if(Auth::user()->unit_id != "" && Auth::user()->unit_id != null )
+            {
+                $queries=Query::where('from_unit', '=', Auth::user()->unit_id)->orwhere('to_department', '=', Auth::user()->department_id)->get();
+            }
+            else
+            {
+                $queries=Query::where('from_department', '=', Auth::user()->department_id)->orwhere('to_department', '=', Auth::user()->department_id)->get();
+            }
+
         }
 
         return view('queries.history',compact('queries'));
@@ -396,12 +413,18 @@ class QueryController extends Controller
     //load query reports
     public function report()
     {
-        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
+        if( Auth::user()->user_type=="Administrator")
         {
             $queries=Query::all();
         }
         else {
-            $queries = Query::where('from_department', '=', Auth::user()->department_id)->where('to_department', '=', Auth::user()->department_id)->get();
+            if(Auth::user()->unit_id != "" && Auth::user()->unit_id != null )
+            {
+                $queries=Query::where('from_unit', '=', Auth::user()->unit_id)->orwhere('to_department', '=', Auth::user()->department_id)->get();
+            }
+            else {
+                $queries = Query::where('from_department', '=', Auth::user()->department_id)->orwhere('to_department', '=', Auth::user()->department_id)->get();
+            }
         }
         return view('queries.reports',compact('queries'));
 
@@ -410,7 +433,7 @@ class QueryController extends Controller
     public function queryAssign()
     {
         //load query from user department only
-        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
+        if( Auth::user()->user_type=="Administrator")
         {
             $queries=Query::all();
             return view('queries.assign',compact('queries'));
@@ -485,12 +508,12 @@ class QueryController extends Controller
 
     }
 
-    //Task
+    //View Queries assigned to specific users
     public function task()
     {
         if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
         {
-            $queries=Query::where('status','<>','CLOSED')->get();
+            $queries=Query::where('status','<>','CLOSED')->where('closed', '=', '0')->get();
             return view('queries.mytask',compact('queries'));
         }
         else {
@@ -499,6 +522,19 @@ class QueryController extends Controller
             return view('queries.usertask',compact('queries'));
         }
 
+
+    }
+
+    //Download attachment
+    public function downloadAttachment($id)
+    {
+        $msg=Message::find($id);
+        $destinationPath = str_replace("\\","/",public_path()) .'/uploads/messages/';
+        $ref_file =$destinationPath.$msg->reference_file;
+        if(File::exists($ref_file))
+       {
+            return Response::download($ref_file);
+        }
 
     }
 

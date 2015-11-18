@@ -376,7 +376,7 @@
             <div class="col-lg-12 col-md-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa  fa-tasks"></i> QUERIES PROGRESS</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa  fa-tasks"></i> LOGGED QUERIES HISTORY </strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">

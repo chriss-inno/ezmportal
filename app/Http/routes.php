@@ -254,6 +254,9 @@ Route::post('queries/download',['middleware' => 'auth', 'uses' =>'QueriesReports
 Route::get('queries/message/composer/{id}',['middleware' => 'auth', 'uses' =>'QueryController@messageComposer']);
 Route::post('queries/message/composer/{id}',['middleware' => 'auth', 'uses' =>'QueryController@postMessageComposer']);
 
+//Query attachment download
+Route::get('queries/download/{id}',['middleware' => 'auth', 'uses' =>'QueryController@downloadAttachment']);
+
 //Query emails
 Route::resource('queryemails','QueryEmailController');
 Route::get('queryemails-remove/{id}','QueryEmailController@destroy');

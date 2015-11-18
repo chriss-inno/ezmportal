@@ -77,7 +77,7 @@
 
                                                         <p>{{$message->message}}
                                                         @if($message->reference_file != null && $message->reference_file !="")
-                                                            [ <a href="{{url('uploads/messages')}}/{{$message->reference_file}}"><i class="fa fa-download text-danger"></i> Get attachment</a> ]
+                                                            [ <a href="{{url('queries/download')}}/{{$message->id}}" target="_blank"><i class="fa fa-download text-danger"></i> View attachment</a> ]
                                                         @endif
                                                     </p>
                                                 </div>
