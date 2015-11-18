@@ -304,15 +304,17 @@
 
 @stop
 @section('menus')
+    <?php  $system=\App\SystemSetup::all()->first();?>
     <ul class="sidebar-menu" id="nav-accordion">
         <li>
             <a class="active" href="{{url('home')}}">
                 <i class="fa fa-dashboard"></i>
                 <span>Dashboard</span>
             </a>
-        </li> @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,1) || Auth::user()->user_type=="Administrator")
+        </li>
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,1) || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" class="active" >
+                <a href="javascript:;" >
                     <i class=" fa fa-bar-chart-o"></i>
                     <span>Reports</span>
                 </a> <ul class="sub">
@@ -340,7 +342,8 @@
                     <li><a  href="#" title="List Albums">List Albums</a></li>
                 </ul>
             </li>
-        @endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5)  || Auth::user()->user_type=="Administrator")
+        @endif
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
                 <a href="javascript:;" >
                     <i class="fa fa-download"></i>
@@ -348,7 +351,7 @@
                 </a>
                 <ul class="sub">
                     @foreach(\App\Department::where('download_check','=','Yes')->get() as $depart )
-                    <li><a  href="{{url('downloads/department')}}/{{$depart->id}}" title="Download for {{$depart->department_name}}">{{$depart->department_name}}</a></li>
+                        <li><a  href="{{url('downloads/department')}}/{{$depart->id}}" title="Download for {{$depart->department_name}}">{{$depart->department_name}}</a></li>
                     @endforeach
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,6)  || Auth::user()->user_type=="Administrator")
                         <li><a  href="{{url('downloads/manage')}}" title="Manage Downloads">Manage Downloads</a></li>
@@ -373,7 +376,8 @@
                     <span>Money Msafiri</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="#" title="Money Msafiri System">Money Msafiri System</a></li>
+
+                    <li><a  @if($system != null && count($system) > 0 && $system->mm_link_1 != null && $system->mm_link_1 !="") href="{{$system->mm_link_1}}" @else href="#" @endif  title="Money Msafiri System" target="_blank">Money Msafiri System</a></li>
                 </ul>
             </li>
         @endif
@@ -394,8 +398,9 @@
                     <span>Credit</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="#" title="Credit Request">Credit Request</a></li>
-                    <li><a  href="#" title="CA Portal">CA Portal</a></li>
+
+                    <li><a  @if($system != null && count($system) > 0 && $system->credit_link_1 != null && $system->credit_link_1 !="") href="{{$system->credit_link_1}}" @else href="#" @endif title="Credit Request" TARGET="_blank">Credit Request</a></li>
+                    <li><a  @if($system != null && count($system) > 0 && $system->credit_link_2 != null && $system->credit_link_2 !="") href="{{$system->credit_link_2}}" @else href="#" @endif title="CA Portal" target="_blank">CA Portal</a></li>
                 </ul>
             </li>
         @endif
@@ -406,7 +411,7 @@
                     <span>Human Resource</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="#" title="HR Portal">HR Portal</a></li>
+                    <li><a   @if($system != null && count($system) > 0 && $system->hr_link_1 != null && $system->hr_link_1 !="") href="{{$system->hr_link_1}}" @else href="#" @endif title="HR Portal" TARGET="_blank">HR Portal</a></li>
 
                 </ul>
             </li>
@@ -440,6 +445,9 @@
                     @endif
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,15) || Auth::user()->user_type=="Administrator")
                         <li><a  href="{{url('queries/assign')}}" title="Queries Assign">Queries Assign</a></li>
+                    @endif
+                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,21))
+                        <li><a  href="{{url('queryemails')}}" title="Queries Emails">Queries Emails Setup</a></li>
                     @endif
                 </ul>
             </li>

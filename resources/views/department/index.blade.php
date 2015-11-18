@@ -102,6 +102,7 @@
 
 @stop
 @section('menus')
+    <?php  $system=\App\SystemSetup::all()->first();?>
     <ul class="sidebar-menu" id="nav-accordion">
         <li>
             <a class="active" href="{{url('home')}}">
@@ -173,7 +174,7 @@
                     <span>Money Msafiri</span>
                 </a>
                 <ul class="sub">
-                    <?php  $system=\App\SystemSetup::all()->first();?>
+
                     <li><a  @if($system != null && count($system) > 0 && $system->mm_link_1 != null && $system->mm_link_1 !="") href="{{$system->mm_link_1}}" @else href="#" @endif  title="Money Msafiri System" target="_blank">Money Msafiri System</a></li>
                 </ul>
             </li>

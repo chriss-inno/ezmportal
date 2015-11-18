@@ -72,6 +72,7 @@ Branches
 
 @stop
 @section('menus')
+    <?php  $system=\App\SystemSetup::all()->first();?>
     <ul class="sidebar-menu" id="nav-accordion">
         <li>
             <a class="active" href="{{url('home')}}">
@@ -118,7 +119,7 @@ Branches
                 </a>
                 <ul class="sub">
                     @foreach(\App\Department::where('download_check','=','Yes')->get() as $depart )
-                    <li><a  href="{{url('downloads/department')}}/{{$depart->id}}" title="Download for {{$depart->department_name}}">{{$depart->department_name}}</a></li>
+                        <li><a  href="{{url('downloads/department')}}/{{$depart->id}}" title="Download for {{$depart->department_name}}">{{$depart->department_name}}</a></li>
                     @endforeach
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,6)  || Auth::user()->user_type=="Administrator")
                         <li><a  href="{{url('downloads/manage')}}" title="Manage Downloads">Manage Downloads</a></li>
@@ -143,7 +144,7 @@ Branches
                     <span>Money Msafiri</span>
                 </a>
                 <ul class="sub">
-                    <?php  $system=\App\SystemSetup::all()->first();?>
+
                     <li><a  @if($system != null && count($system) > 0 && $system->mm_link_1 != null && $system->mm_link_1 !="") href="{{$system->mm_link_1}}" @else href="#" @endif  title="Money Msafiri System" target="_blank">Money Msafiri System</a></li>
                 </ul>
             </li>
@@ -247,17 +248,17 @@ Branches
             </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,18)  || Auth::user()->user_type=="Administrator") <li class="sub-menu">
-                <a href="javascript:;" >
-                    <i class="fa fa-laptop"></i>
-                    <span>Services monitoring</span>
-                </a>
-                <ul class="sub">
-                    <li><a  href="{{url('serviceslogs/create')}}" title="Log Status">Log downtime</a></li>
-                    <li><a  href="{{url('services')}}" title="Services">List services </a></li>
-                    <li><a  href="{{url('serviceslogs/today')}}" title="View today status">Today Status</a></li>
-                    <li><a  href="{{url('serviceslogs')}}" title="Status History">Downtime History</a></li>
-                </ul>
-            </li>
+            <a href="javascript:;" >
+                <i class="fa fa-laptop"></i>
+                <span>Services monitoring</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('serviceslogs/create')}}" title="Log Status">Log downtime</a></li>
+                <li><a  href="{{url('services')}}" title="Services">List services </a></li>
+                <li><a  href="{{url('serviceslogs/today')}}" title="View today status">Today Status</a></li>
+                <li><a  href="{{url('serviceslogs')}}" title="Status History">Downtime History</a></li>
+            </ul>
+        </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,19) || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
@@ -308,7 +309,7 @@ Branches
             </li>
         @endif
     </ul>
-    @stop
+@stop
 @section('contents')
 
         <section class="site-min-height">
