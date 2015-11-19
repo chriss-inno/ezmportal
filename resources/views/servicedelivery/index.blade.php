@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    ICT Items Inventories
+    Service Delivery Customer Issues
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
@@ -186,7 +186,8 @@
                     <span>Service Delivery</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
+                    <li class="active"><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
+                    <li><a  href="{{url('servicedelivery/settings')}}" title="Customer Issues Tracking" class="active">Settings</a></li>
                 </ul>
             </li>
         @endif
@@ -373,17 +374,11 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                                 <div class="btn-group btn-group-justified">
-                                    <a href="#" class="createIsssue btn btn-file btn-primary">RECORD NEW ISSUE</a>
+                                    <a href="#" class="createIsssue btn btn-file btn-primary"><i class="fa fa-file-o"></i> RECORD NEW ISSUE</a>
 
-                                    <a href="{{url('servicedelivery')}}" class="btn btn-file btn-primary">UPDATE ISSUE</a>
-                                    <a href="{{url('sdproducts')}}" class="btn btn-file btn-primary">PRODUCTS TYPES</a>
-                                    <a href="{{url('sdproductdetails')}}" class="btn btn-file btn-primary">PRODUCTS DETAILS</a>
-                                    <a href="{{url('sdreceiptmodes')}}" class="btn btn-file btn-primary">RECEIPT MODES</a>
-                                    <a href="{{url('sdstatus')}}" class="btn btn-file btn-primary">MANAGE STATUS</a>
-
-                                    <a href="{{url('servicedelivery/reports')}}" class="btn btn-file btn-primary">GENERATE REPORT</a>
-
-
+                                    <a href="{{url('servicedelivery')}}" class="btn btn-file btn-primary"> <i class="fa fa-pencil"></i> UPDATE ISSUE</a>
+                                    <a href="{{url('servicedelivery/customers')}}" class="btn btn-file btn-primary"> <i class="fa fa-users"></i> CUSTOMERS</a>
+                                    <a href="{{url('servicedelivery/settings')}}" class="btn btn-file btn-primary"> <i class="fa fa-cog"></i> SETTINGS</a>
                                 </div>
                             </div>
                         </div>

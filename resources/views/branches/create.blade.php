@@ -109,7 +109,8 @@
                     <span>Service Delivery</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking">Customer Issues Tracking</a></li>
+                    <li><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
+                    <li><a  href="{{url('servicedelivery/settings')}}" title="Customer Issues Tracking" class="active">Settings</a></li>
                 </ul>
             </li>
         @endif

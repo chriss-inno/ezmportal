@@ -153,4 +153,12 @@ class ServiceDeliveryController extends Controller
         $issue=CustomerIssues::find($id);
         $issue->delete();
     }
+
+    //View setting page
+
+    public function settings()
+    {
+        $issues=CustomerIssues::all();
+        return view('servicedelivery.setting.index',compact('issues'));
+    }
 }

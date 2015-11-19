@@ -132,6 +132,17 @@ Route::get('servicedelivery/show/{id}',['middleware' => 'auth', 'uses' =>'Servic
 Route::post('servicedelivery/edit',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@update']);
 Route::get('servicedelivery/remove/{id}',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@destroy']);
 Route::get('servicedelivery/reports',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@reports']);
+Route::get('servicedelivery/settings',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@settings']);
+
+//SD Customers
+
+Route::get('servicedelivery/customers',['middleware' => 'auth', 'uses' =>'SDCustomerController@index']);
+Route::get('servicedelivery/customers/create',['middleware' => 'auth', 'uses' =>'SDCustomerController@create']);
+Route::post('servicedelivery/customers/create',['middleware' => 'auth', 'uses' =>'SDCustomerController@store']);
+Route::get('servicedelivery/customers/edit/{id}',['middleware' => 'auth', 'uses' =>'SDCustomerController@edit']);
+Route::post('servicedelivery/customers/edit',['middleware' => 'auth', 'uses' =>'SDCustomerController@update']);
+Route::get('servicedelivery/customers/remove/{id}',['middleware' => 'auth', 'uses' =>'SDCustomerController@destroy']);
+
 
 Route::resource('sdproducts','SDProductController');
 Route::get('sdproducts-remove/{id}',['middleware' => 'auth', 'uses' =>'SDProductController@destroy']);

@@ -1,73 +1,140 @@
 @extends('layout.master')
 @section('page-title')
-    Queries
-    @stop
-    @section('page_style')
+    Service Delivery Customer 
+@stop
+@section('page_scripts')
+    {!!HTML::script("js/sparkline-chart.js") !!}
+    {!!HTML::script("js/easy-pie-chart.js") !!}
+    {!!HTML::script("js/count.js") !!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
+    {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
+    {!!HTML::script("js/jquery.scrollTo.min.js") !!}
+    {!!HTML::script("js/jquery.nicescroll.js") !!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
+    {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
 
-    {!!HTML::style("assets/bootstrap-datepicker/css/datepicker.css" )!!}
-    {!!HTML::style("assets/bootstrap-colorpicker/css/colorpicker.css" )!!}
-    {!!HTML::style("assets/bootstrap-daterangepicker/daterangepicker.css" )!!}
-    <link href="{{asset("assets/jquery-file-upload/css/jquery.fileupload-ui.css")}}" rel="stylesheet" type="text/css" >
-
-    @stop
-    @section('page_scripts')
-            <!-- js placed at the end of the document so the pages load faster -->
-
-
-    <!--custom tagsinput-->
-    {!!HTML::script("js/jquery.tagsinput.js") !!}
-            <!--custom checkbox & radio-->
-    {!!HTML::script("js/ga.js") !!}
-    {!!HTML::script("assets/bootstrap-datepicker/js/bootstrap-datepicker.js") !!}
-    {!!HTML::script("assets/bootstrap-daterangepicker/date.js") !!}
-    {!!HTML::script("assets/bootstrap-daterangepicker/daterangepicker.js") !!}
-    {!!HTML::script("assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js") !!}
-    {!!HTML::script("assets/ckeditor/ckeditor.js") !!}
-    {!!HTML::script("js/jquery.validate.min.js" ) !!}
-    {!!HTML::script("js/respond.min.js"  ) !!}
-    {!!HTML::script("js/form-validation-script.js") !!}
     <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
 
-        $("#to_department").change(function () {
-            var id1 = this.value;
-            if(id1 != "")
-            {
-                $.get("<?php echo url('getModules') ?>/"+id1,function(data){
-                    $("#module").html(data);
-                });
 
-            }else{$("#module").html("<option value=''>----</option>");}
-        });
+            $('#branches').dataTable( {
+                "fnDrawCallback": function( oSettings ) {
 
-        $("#serviceForm").validate({
-            rules: {
-                to_department: "required",
-                description: "required",
-                module: "required",
-                critical_level: "required"
-            },
-            messages: {
-                to_department: "Please select department",
-                description: "Please enter description",
-                module: "Please select module",
-                critical_level: "Please select critical level"
-            }
-        });
+
+                    $(".deleteCustomer").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        $(".deleteCustomer").show("slow").parent().parent().find("span").remove();
+                        var btn = $(this).parent().parent();
+                        $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
+                        $("#no").click(function(){
+                            $(this).parent().parent().find(".deleteCustomer").show("slow");
+                            $(this).parent().parent().find("span").remove();
+                        });
+                        $("#yes").click(function(){
+                            $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
+                            $.get("<?php echo url('servicedelivery/customers/remove') ?>/"+id1,function(data){
+                                btn.hide("slow").next("hr").hide("slow");
+                            });
+                        });
+                    });
+                    //Edit Module
+                    $(".editCustomer").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center" style="color: #FFF">Update Customer</span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("servicedelivery/customers/edit") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    })
+                    //Create module
+                    $(".createCustomer").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Create New Customer </span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("servicedelivery/customers/create") ?>");
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    });
+
+                    //Display Item details
+                    $(".showDetails").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Customer Issue details</span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("servicedelivery/show") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    });
+                }
+            } );
+
+        } );
+
 
     </script>
 
-
 @stop
 @section('menus')
-    <?php  $system=\App\SystemSetup::all()->first();?>
     <ul class="sidebar-menu" id="nav-accordion">
         <li>
             <a class="active" href="{{url('home')}}">
                 <i class="fa fa-dashboard"></i>
                 <span>Dashboard</span>
             </a>
-        </li>
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,1) || Auth::user()->user_type=="Administrator")
+        </li> @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,1) || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
                 <a href="javascript:;" >
                     <i class=" fa fa-bar-chart-o"></i>
@@ -97,8 +164,7 @@
                     <li><a  href="#" title="List Albums">List Albums</a></li>
                 </ul>
             </li>
-        @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5)  || Auth::user()->user_type=="Administrator")
+        @endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
                 <a href="javascript:;" >
                     <i class="fa fa-download"></i>
@@ -115,12 +181,12 @@
             </li>
         @endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" >
+                <a href="javascript:;" class="active" >
                     <i class="fa fa-info"></i>
                     <span>Service Delivery</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
+                    <li class="active"><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
                     <li><a  href="{{url('servicedelivery/settings')}}" title="Customer Issues Tracking" class="active">Settings</a></li>
                 </ul>
             </li>
@@ -132,8 +198,7 @@
                     <span>Money Msafiri</span>
                 </a>
                 <ul class="sub">
-
-                    <li><a  @if($system != null && count($system) > 0 && $system->mm_link_1 != null && $system->mm_link_1 !="") href="{{$system->mm_link_1}}" @else href="#" @endif  title="Money Msafiri System" target="_blank">Money Msafiri System</a></li>
+                    <li><a  href="#" title="Money Msafiri System">Money Msafiri System</a></li>
                 </ul>
             </li>
         @endif
@@ -154,9 +219,8 @@
                     <span>Credit</span>
                 </a>
                 <ul class="sub">
-
-                    <li><a  @if($system != null && count($system) > 0 && $system->credit_link_1 != null && $system->credit_link_1 !="") href="{{$system->credit_link_1}}" @else href="#" @endif title="Credit Request" TARGET="_blank">Credit Request</a></li>
-                    <li><a  @if($system != null && count($system) > 0 && $system->credit_link_2 != null && $system->credit_link_2 !="") href="{{$system->credit_link_2}}" @else href="#" @endif title="CA Portal" target="_blank">CA Portal</a></li>
+                    <li><a  href="#" title="Credit Request">Credit Request</a></li>
+                    <li><a  href="#" title="CA Portal">CA Portal</a></li>
                 </ul>
             </li>
         @endif
@@ -167,7 +231,7 @@
                     <span>Human Resource</span>
                 </a>
                 <ul class="sub">
-                    <li><a   @if($system != null && count($system) > 0 && $system->hr_link_1 != null && $system->hr_link_1 !="") href="{{$system->hr_link_1}}" @else href="#" @endif title="HR Portal" TARGET="_blank">HR Portal</a></li>
+                    <li><a  href="#" title="HR Portal">HR Portal</a></li>
 
                 </ul>
             </li>
@@ -201,9 +265,6 @@
                     @endif
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,15) || Auth::user()->user_type=="Administrator")
                         <li><a  href="{{url('queries/assign')}}" title="Queries Assign">Queries Assign</a></li>
-                    @endif
-                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,21))
-                        <li><a  href="{{url('queryemails')}}" title="Queries Emails">Queries Emails Setup</a></li>
                     @endif
                 </ul>
             </li>
@@ -299,120 +360,70 @@
     </ul>
 @stop
 @section('contents')
+
     <section class="site-min-height">
         <!-- page start-->
-
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong> <i class="fa fa-smile"></i> SERVICE PORTAL QUERIES</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-users"></i>  CUSTOMER LIST </strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                                 <div class="btn-group btn-group-justified">
-                                    <a href="{{url('queries/create')}}" class=" btn  btn-primary"><i class="fa fa-folder-open-o"></i> Log New Query</a>
-
-                                    <a href="{{url('queries/mytask')}}" class="btn btn-file btn-primary"><i class="fa fa-tasks"></i> My Tasks</a> <a href="{{url('queries/progress')}}" class="btn btn-file btn-primary"><i class="fa fa-archive"></i> Queries Progress</a>
-
-                                    <a href="{{url('queries/history')}}" class="btn btn-file btn-primary"> <i class="fa fa-bars"></i> History</a>
-
-                                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,21) || Auth::user()->user_type=="Administrator")
-                                        <a href="{{url('queryemails')}}" class="btn btn-file btn-primary"><i class=" fa fa-envelope"></i> Emails Setting</a>
-                                    @endif
-                                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
-                                        <a href="{{url('queries/report')}}" class="btn btn-file btn-primary"><i class=" fa fa-bar-chart-o"></i> Reports</a>
-                                    @endif
+                                    <a href="#" class="createCustomer btn btn-file btn-primary"><i class="fa fa-user-plus"></i>  NEW CUSTOMER</a>
+                                    <a href="{{url('servicedelivery/customers')}}" class="btn btn-file btn-primary"> <i class="fa fa-users"></i> LIST CUSTOMERS</a>
+                                    <a href="{{url('servicedelivery')}}" class="btn btn-file btn-primary"> <i class="fa fa-user-secret"></i> VIEW CUSTOMER ISSUES</a>
+                                    <a href="{{url('servicedelivery/settings')}}" class="btn btn-file btn-primary"> <i class="fa fa-cog text-danger"></i> SETTINGS</a>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <p> <h3>Query details </h3>
-                        @if(Session::has('message'))
-                            <div class="alert fade in alert-danger">
-                                <i class="icon-remove close" data-dismiss="alert"></i>
-                                {{Session::get('message')}}
-                            </div>
-                        @endif
+                                <div class="adv-table">
+                                    <table  class="display table table-bordered table-striped" id="branches">
+                                        <thead>
+                                        <tr>
+                                            <th>SNO</th>
+                                            <th>Company Name</th>
+                                            <th>Contact Person</th>
+                                            <th>Address</th>
+                                            <th>Phone</th>
+                                            <th>Email</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php $i=1;?>
+                                        @foreach($customers as $customer)
+                                            <tr>
+                                                <td>{{$i++}}</td>
+                                                <td>{{$customer->company_name}}</td>
+                                                <td>{{$customer->contact_person}}</td>
+                                                <td>{{$customer->address}}</td>
+                                                <td>{{$customer->phone}}</td>
+                                                <td>{{$customer->email}}</td>
+                                                <td>{{$customer->status}}</td>
+                                                <td id="{{$customer->id}}" align="center">
+                                                    <a  href="#" title="Edit" class="editCustomer btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                    <a href="#b" title="Delete" class="deleteCustomer btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                                </td>
+                                            </tr>
 
-                        @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        <hr/>
-                        {!! Form::open(array('url'=>'queries/create','role'=>'form','id'=>'serviceForm','files' => true)) !!}
-                        <div class="form-group">
-                            <label for="to_department">To Department</label>
-                            <select class="form-control"  id="to_department" name="to_department">
-                                @if(old('to_department'))
-                                    <?php $depa=\App\Department::find(old('to_department'));?>
-                                    <option value="{{$depa->id}}">{{$depa->department_name}}</option>
-                                @else
-                                    <option value="">----</option>
-                                @endif
-                                <?php $departments=\App\Department::where('receive_query','=','1')->get();?>
-                                @foreach($departments as $de)
-                                    <option value="{{$de->id}}">{{$de->department_name}}</option>
-                                @endforeach
-
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="module">Module</label>
-                                    <select class="form-control"  id="module" name="module">
-                                        @if(old('module'))
-                                            <?php $module=\App\Module::find(old('module'))?>
-                                            <option value="{{$module->id}}">{{$module->module_name}}</option>
-                                        @endif
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="critical_level">Critical Level</label>
-                                    <select class="form-control"  id="critical_level" name="critical_level">
-                                        @if(old('critical_level'))
-                                            <option value="{{old('critical_level')}}">{{old('critical_level')}}</option>
-                                            @else
-                                            <option value="">----</option>
-                                            @endif
-
-                                        <option value="Low">Low</option>
-                                        <option value="Medium">Medium</option>
-                                        <option value="High">High</option>
-                                        <option value="Emergency">Emergency</option>
-                                    </select>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="form-group">
-                            <label for="unit_name">Description</label>
-                            <textarea class="ckeditor form-control" id="description" name="description">{{old('description')}}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <span class="btn green fileinput-button">
-                               <i class="fa fa-plus fa fa-white"></i>
-                                 <span>Attachment</span>
-                                  <input type="file" id="reference_file" name="reference_file">
-                            </span>
-                            <p class="help-block"><input type="checkbox" value="1" id="referencecheck" name="referencecheck"  @if(old('referencecheck')) checked @endif> <label for="file_upload">Tick here to attach file for reference</label></p>
-                        </div>
-
-                            <button type="submit" class="btn btn-primary pull-right col-md-2">Submit Query</button>
-                            {!! Form::close() !!}
-
-                    </div>
                         </div>
                     </div>
                 </section>
             </div>
+
         </div>
     </section>
     <!-- page end-->

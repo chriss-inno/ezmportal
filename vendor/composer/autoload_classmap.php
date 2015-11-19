@@ -46,6 +46,7 @@ return array(
     'CreateReportSetupsTable' => $baseDir . '/database/migrations/2015_10_18_012820_create_report_setups_table.php',
     'CreateReportUnitsTable' => $baseDir . '/database/migrations/2015_11_10_183832_create_report_units_table.php',
     'CreateRightsTable' => $baseDir . '/database/migrations/2015_09_19_160002_create_rights_table.php',
+    'CreateSDCustomersTable' => $baseDir . '/database/migrations/2015_11_19_190739_create_s_d_customers_table.php',
     'CreateSDProductDetailsTable' => $baseDir . '/database/migrations/2015_10_31_163429_create_s_d_product_details_table.php',
     'CreateSDProductsTable' => $baseDir . '/database/migrations/2015_10_22_190814_create_s_d_products_table.php',
     'CreateSDReceiptModesTable' => $baseDir . '/database/migrations/2015_10_22_190946_create_s_d_receipt_modes_table.php',

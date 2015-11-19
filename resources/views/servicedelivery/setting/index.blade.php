@@ -1,162 +1,126 @@
 @extends('layout.master')
 @section('page-title')
-    Portal Reports
+   Service Delivery Customer Issues
 @stop
 @section('page_scripts')
+    {!!HTML::script("js/sparkline-chart.js") !!}
+    {!!HTML::script("js/easy-pie-chart.js") !!}
+    {!!HTML::script("js/count.js") !!}
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
     {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
     {!!HTML::script("js/jquery.scrollTo.min.js") !!}
     {!!HTML::script("js/jquery.nicescroll.js") !!}
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
     {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
+
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
 
 
             $('#branches').dataTable( {
-                'iDisplayLength': 100,
                 "fnDrawCallback": function( oSettings ) {
 
-                    //adding company user
-                    $(".showReportDetails").click(function(){
+
+                    $(".deleteIssues").click(function(){
                         var id1 = $(this).parent().attr('id');
-                        var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                        modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
-                        modal+= '<div class="modal-content">';
-                        modal+= '<div class="modal-header">';
-                        modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modal+= '<h2 class="modal-title" id="myModalLabel"><i class="fa fa-pie-chart"></i> Report details</h2>';
-                        modal+= '</div>';
-                        modal+= '<div class="modal-body">';
-                        modal+= ' </div>';
-                        modal+= '</div>';
-                        modal+= '</div>';
-
-                        $("body").append(modal);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("portal/reports/show") ?>/"+id1);
-                        $("#myModal").on('hidden.bs.modal',function(){
-                            $("#myModal").remove();
-                        })
-
-                    })
-                    $(".showDepartments").click(function(){
-                        var id1 = $(this).parent().attr('id');
-                        var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                        modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
-                        modal+= '<div class="modal-content">';
-                        modal+= '<div class="modal-header">';
-                        modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modal+= '<h2 class="modal-title" id="myModalLabel"><i class="fa fa-pie-chart"></i><i class="fa fa-building-o"></i> Assigned departments</h2>';
-                        modal+= '</div>';
-                        modal+= '<div class="modal-body">';
-                        modal+= ' </div>';
-                        modal+= '</div>';
-                        modal+= '</div>';
-
-                        $("body").append(modal);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("portal/reports/departments") ?>/"+id1);
-                        $("#myModal").on('hidden.bs.modal',function(){
-                            $("#myModal").remove();
-                        })
-
-                    })
-                    $(".setupReport").click(function(){
-                        var id1 = $(this).parent().attr('id');
-                        var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                        modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
-                        modal+= '<div class="modal-content">';
-                        modal+= '<div class="modal-header">';
-                        modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modal+= '<h2 class="modal-title" id="myModalLabel">Report settings</h2>';
-                        modal+= '</div>';
-                        modal+= '<div class="modal-body">';
-                        modal+= ' </div>';
-                        modal+= '</div>';
-                        modal+= '</div>';
-
-                        $("body").append(modal);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("portal/reports/setup") ?>");
-                        $("#myModal").on('hidden.bs.modal',function(){
-                            $("#myModal").remove();
-                        })
-
-                    })
-                    $(".addNewReport").click(function(){
-                        var id1 = $(this).parent().attr('id');
-                        var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                        modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
-                        modal+= '<div class="modal-content">';
-                        modal+= '<div class="modal-header">';
-                        modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modal+= '<h2 class="modal-title" id="myModalLabel">Add new report details</h2>';
-                        modal+= '</div>';
-                        modal+= '<div class="modal-body">';
-                        modal+= ' </div>';
-                        modal+= '</div>';
-                        modal+= '</div>';
-
-                        $("body").append(modal);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("portal/reports/create") ?>");
-                        $("#myModal").on('hidden.bs.modal',function(){
-                            $("#myModal").remove();
-                        })
-
-                    })
-                    $(".editReport").click(function(){
-                        var id1 = $(this).parent().attr('id');
-                        var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                        modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
-                        modal+= '<div class="modal-content">';
-                        modal+= '<div class="modal-header">';
-                        modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modal+= '<h2 class="modal-title" id="myModalLabel"><i class="fa fa-pie-chart"></i><i class="fa fa-pencil"></i> Update Report Details</h2>';
-                        modal+= '</div>';
-                        modal+= '<div class="modal-body">';
-                        modal+= ' </div>';
-                        modal+= '</div>';
-                        modal+= '</div>';
-
-                        $("body").append(modal);
-                        jQuery.noConflict();
-                        $("#myModal").modal("show");
-                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("portal/reports/edit") ?>/"+id1);
-                        $("#myModal").on('hidden.bs.modal',function(){
-                            $("#myModal").remove();
-                        })
-
-                    })
-
-                    $(".deleteReport").click(function(){
-                        var id1 = $(this).parent().attr('id');
-                        $(".deleteReport").show("slow").parent().parent().find("span").remove();
+                        $(".deleteIssues").show("slow").parent().parent().find("span").remove();
                         var btn = $(this).parent().parent();
                         $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
                         $("#no").click(function(){
-                            $(this).parent().parent().find(".deleteReport").show("slow");
+                            $(this).parent().parent().find(".deleteIssues").show("slow");
                             $(this).parent().parent().find("span").remove();
                         });
                         $("#yes").click(function(){
                             $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                            $.get("<?php echo url('portal/reports/remove') ?>/"+id1,function(data){
+                            $.get("<?php echo url('servicedelivery/remove') ?>/"+id1,function(data){
                                 btn.hide("slow").next("hr").hide("slow");
                             });
                         });
-                    });//endof deleting report
+                    });
+                    //Edit Module
+                    $(".editIssue").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center" style="color: #FFF">Update Issues</span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("servicedelivery/edit") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    })
+                    //Create module
+                    $(".createIsssue").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                        modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Create New Issues </span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("servicedelivery/create") ?>");
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    });
+
+                    //Display Item details
+                    $(".showDetails").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Customer Issue details</span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("servicedelivery/show") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    });
                 }
             } );
+
         } );
 
 
@@ -172,13 +136,13 @@
             </a>
         </li> @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,1) || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" class="active" >
+                <a href="javascript:;" >
                     <i class=" fa fa-bar-chart-o"></i>
                     <span>Reports</span>
                 </a> <ul class="sub">
                     <li><a  href="{{url('portal/reports/daily')}}" title="Daily Reports">Daily Reports</a></li>
                     <li><a  href="{{url('portal/reports/monthly')}}" title="Monthly Reports">Monthly Reports</a></li>
-                    <li class="active"><a  href="{{url('portal/reports/custom')}}" title="Custom Reports">Custom Reports</a></li>
+                    <li><a  href="{{url('portal/reports/custom')}}" title="Custom Reports">Custom Reports</a></li>
                     <li><a  href="{{url('portal/reports/search')}}" title="Search Report">Search Report</a></li>
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2)  || Auth::user()->user_type=="Administrator")
                         <li><a  href="{{url('portal/reports')}}" title="Manage Reports">Manage Reports</a></li>
@@ -208,7 +172,7 @@
                 </a>
                 <ul class="sub">
                     @foreach(\App\Department::where('download_check','=','Yes')->get() as $depart )
-                    <li><a  href="{{url('downloads/department')}}/{{$depart->id}}" title="Download for {{$depart->department_name}}">{{$depart->department_name}}</a></li>
+                        <li><a  href="{{url('downloads/department')}}/{{$depart->id}}" title="Download for {{$depart->department_name}}">{{$depart->department_name}}</a></li>
                     @endforeach
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,6)  || Auth::user()->user_type=="Administrator")
                         <li><a  href="{{url('downloads/manage')}}" title="Manage Downloads">Manage Downloads</a></li>
@@ -217,13 +181,13 @@
             </li>
         @endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" >
+                <a href="javascript:;" class="active" >
                     <i class="fa fa-info"></i>
                     <span>Service Delivery</span>
                 </a>
                 <ul class="sub">
                     <li><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
-                    <li><a  href="{{url('servicedelivery/settings')}}" title="Customer Issues Tracking" class="active">Settings</a></li>
+                    <li class="active"><a  href="{{url('servicedelivery/settings')}}" title="Customer Issues Tracking" class="active">Settings</a></li>
                 </ul>
             </li>
         @endif
@@ -402,93 +366,88 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
-                    <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa  fa-pie-chart"></i> <i class="fa  fa-calendar text-danger"></i> Customized Portal Reports </strong></h3>
-                    </header>
                     <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="btn-group btn-group-justified">
-                                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,2)  || Auth::user()->user_type=="Administrator")
-                                        <a href="#" class="addNewReport btn  btn-primary"><i class="fa fa-folder-open-o"></i> Add Reports</a>
-                                        <a href="{{url('portal/reports/import')}}" class=" btn  btn-primary"><i class="fa fa-file-excel-o"></i> Import reports</a>
-                                        <a href="{{url('portal/reports')}}" class=" btn  btn-primary"><i class="fa fa-bar-chart"></i> Manage reports</a>
-                                        <a href="#" class="setupReport  btn btn-primary"><i class="fa fa-cog"></i> Reports Setup</a>
-                                    @endif
-                                    <a href="{{url('portal/reports/daily')}}" class="btn btn-file btn-primary"><i class="fa fa-clock-o"></i> Daily Reports</a>
-                                    <a href="{{url('portal/reports/monthly')}}" class="btn btn-file btn-primary"><i class="fa fa-calendar-plus-o"></i> Monthly Reports</a>
-                                    <a href="{{url('portal/reports/custom')}}" class="btn btn-file btn-primary"> <i class="fa fa-bars"></i> Custom Reports</a>
-                                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
-                                        <a href="{{url('portal/reports/generate')}}" class="btn btn-file btn-danger"><i class=" fa fa-bar-chart-o"></i> Reports</a>
-                                    @endif
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2" style="margin-top: 100px">
+                            <div class="row" >
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <a href="{{url('servicedelivery')}}" class=" btn btn-file btn-primary btn-block" style="height: 200px;">
+                                        <div class="row" style="height: 150px">
+                                            <i class="fa fa-users " style="font-size: 140px"></i>
+                                        </div>
+                                        <div class="row" style="height: 50px">
+                                            VIEW CUSTOMER ISSUES
+                                        </div>
+                                       </a>
                                 </div>
-                            </div>
-                        </div>
-                        @if(Session::has('message'))
-                            <div class="row" style="margin-top: 10px; margin-bottom: 10px">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <a href="{{url('sdproducts')}}" class="btn btn-file btn-primary btn-block" style="height: 200px;">
+                                        <div class="row" style="height: 150px">
+                                            <i class="fa fa-building-o" style="font-size: 140px"></i>
+                                        </div>
+                                        <div class="row" style="height: 50px">
+                                            PRODUCTS TYPES
+                                        </div>
+                                        </a>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <a href="{{url('sdproductdetails')}}" class="btn btn-file btn-primary btn-block" style="height: 200px; ">
+                                        <div class="row" style="height: 150px">
+                                            <i class="fa fa-building-o text-danger" style="font-size: 140px"></i>
+                                        </div>
+                                        <div class="row" style="height: 50px">
+                                            PRODUCTS DETAILS
+                                        </div>
+                                       </a>
+                                </div>
 
-                                        <div class="alert fade in alert-danger">
-                                            <i class="icon-remove close" data-dismiss="alert"></i>
-                                            {{Session::get('message')}}
+                            </div>
+                            <div class="row" style=" margin-top: 10px">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <a href="{{url('sdreceiptmodes')}}" class="btn btn-file btn-primary btn-block" style="height: 200px; ">
+                                        <div class="row" style="height: 150px">
+                                            <i class="fa fa-bookmark-o " style="font-size: 140px"></i>
+                                        </div>
+                                        <div class="row" style="height: 50px">
+                                            RECEIPT MODES
+                                        </div>
+                                       </a>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <a href="{{url('sdstatus')}}" class="btn btn-file btn-primary btn-block" style="height: 200px;">
+                                        <div class="row" style="height: 150px">
+                                            <i class="fa fa-cubes" style="font-size: 140px"></i>
+                                        </div>
+                                        <div class="row" style="height: 50px">
+                                            MANAGE STATUS
+                                        </div>
+                                       </a>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <a href="{{url('servicedelivery/reports')}}" class="btn btn-file btn-primary btn-block" style="height: 200px;">
+                                           <div class="row" style="height: 150px">
+                                               <i class="fa fa-bar-chart" style="font-size: 150px"></i>
+                                           </div>
+                                        <div class="row" style="height: 50px">
+                                            GENERATE REPORT
                                         </div>
 
-                                </div>
-                            </div>
-                        @endif
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="adv-table">
-                                    <table  class="display table table-bordered table-striped" id="branches">
-                                        <thead>
-                                        <tr>
-                                            <th>SNO</th>
-                                            <th>Report Name</th>
-                                            <th>Report Type</th>
-                                            <th>Status</th>
-                                            <th>Report details</th>
-                                            <th align="center">Download</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php $c=1;?>
-                                        @if(count($reports) >0 && $reports !=null)
-                                            @foreach($reports as $report)
-                                                <tr>
-                                                    <td>{{$c++}}</td>
-                                                    <td>{{$report->report_name}}</td>
-                                                    <td>{{$report->report_type}}</td>
-                                                    <td>{{$report->status}}</td>
-                                                    <td id="{{$report->id}}">
-                                                        <a href="#" class="showReportDetails btn btn-primary btn-xs" title="Report details"><i class="fa fa-eye"></i> View </a>
-                                                    </td>
-                                                    <td id="{{$report->id}}" align="center">
-                                                        <a  href="#" title="Download in PDF format" class=" btn btn-danger btn-xs"><i class="fa fa-file-pdf-o"></i> PDF</a>
-                                                        <a  href="#" title="Download in MS Excel format" class=" btn btn-success btn-xs"><i class="fa fa-file-excel-o"></i> Excel</a>
-                                                        <a href="#b" title="Download in Text format" class=" btn btn-primary btn-xs"><i class="fa fa-file-text "></i> Text</a>
-                                                    </td>
 
-                                                </tr>
-                                            @endforeach
-                                        @endif
-                                        </tbody>
-                                        <tfoot>
-                                        <tr>
-                                            <th>SNO</th>
-                                            <th>Report Name</th>
-                                            <th>Report Type</th>
-                                            <th>Status</th>
-                                            <th>Report details</th>
-                                            <th>Download</th>
-                                        </tr>
-                                        </tfoot>
-                                    </table>
+
+                                    </a>
                                 </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                </div>
+
+
                             </div>
                         </div>
                     </div>
+
+
                 </section>
             </div>
+
         </div>
     </section>
     <!-- page end-->
