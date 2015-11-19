@@ -2,7 +2,7 @@
 {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
 {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
 
-{!! Form::open(array('url'=>'servicedelivery/create','role'=>'form','id'=>'InventoryForm')) !!}
+{!! Form::open(array('url'=>'servicedelivery/customers/create','role'=>'form','id'=>'InventoryForm')) !!}
 <fieldset class="scheduler-border">
     <legend class="scheduler-border" style="color:#005DAD">Customer Details</legend>
     <div class="form-group">
