@@ -187,7 +187,7 @@
         </li>
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,1) || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" >
+                <a href="javascript:;"class="active" >
                     <i class=" fa fa-bar-chart-o"></i>
                     <span>Reports</span>
                 </a> <ul class="sub">

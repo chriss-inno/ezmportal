@@ -306,16 +306,16 @@
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" >
+                <a href="javascript:;" class="active">
                     <i class="fa fa-cogs"></i>
                     <span>Portal Administration</span>
                 </a>
                 <ul class="sub">
-                    <li class="sub-menu">
+                    <li class="sub-menu" class="active">
                         <a  href="#">Branches</a>
                         <ul class="sub">
                             <li><a  href="{{url('branches')}}">Branches</a></li>
-                            <li><a  href="{{url('departments')}}">Departments</a></li>
+                            <li class="active"><a  href="{{url('departments')}}">Departments</a></li>
                             <li><a  href="{{url('units')}}">Units</a></li>
                         </ul>
                     </li>

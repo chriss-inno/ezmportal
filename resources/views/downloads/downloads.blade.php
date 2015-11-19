@@ -170,7 +170,7 @@
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" >
+                <a href="javascript:;"  class="active">
                     <i class="fa fa-download"></i>
                     <span>Downloads</span>
                 </a>
@@ -403,9 +403,7 @@
                                         <tr>
                                             <th>SNO</th>
                                             <th>Title</th>
-                                            <th>Department</th>
-                                            <th>Status</th>
-                                            <th>Download</th>
+                                            <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -416,30 +414,18 @@
                                                     @if($download->department_id ==Auth::user()->department_id)
                                                         <tr>
                                                             <td>{{$i++}}</td>
-                                                            <td>{{$download->title}}</td>
-                                                            <td>{{$download->department->department_name}}</td>
-                                                            @if($download->status =="Enabled" || $download->status =="Enabled")
-                                                                <td><a  href="#" title="This File is Enabled" class=" btn btn-success btn-xs"> {{ucwords(strtolower($download->status)) }} </a></td>
-                                                            @else
-                                                                <td><a  href="#" title="This file is not Enabled" class=" btn btn-danger btn-xs"> {{ucwords(strtolower($download->status)) }} </a></td>
-                                                            @endif
-                                                            <td id="{{$download->id}}" align="center">
-                                                             <a  href="{{url('downloads/download')}}/{{$download->id}}" title="show item details" class=" btn btn-primary btn-xs"><i class="fa fa-download"> Download</i></a>
+                                                            <td> <a  href="{{url('downloads/download')}}/{{$download->id}}" title="Download"  class="text-primary text-capitalize" target="_blank"><strong>{{$download->title}}</strong></a></td>
+                                                            <td id="{{$download->id}}">
+                                                             <a  href="{{url('downloads/download')}}/{{$download->id}}" title="Download" class=" btn btn-primary btn-xs" target="_blank"><i class="fa fa-download"> Download</i></a>
                                                             </td>
                                                         </tr>
                                                     @endif
                                                 @else
                                                     <tr>
                                                         <td>{{$i++}}</td>
-                                                        <td>{{$download->title}}</td>
-                                                        <td>{{$download->department->department_name}}</td>
-                                                        @if($download->status =="Enabled" || $download->status =="Enabled")
-                                                            <td><a  href="#" title="This File is Enabled" class=" btn btn-success btn-xs"> {{ucwords(strtolower($download->status)) }} </a></td>
-                                                        @else
-                                                            <td><a  href="#" title="This file is not Enabled" class=" btn btn-danger btn-xs"> {{ucwords(strtolower($download->status)) }} </a></td>
-                                                        @endif
-                                                        <td id="{{$download->id}}" align="center">
-                                                            <a  href="{{url('downloads/download')}}/{{$download->id}}" title="show item details" class=" btn btn-primary btn-xs"><i class="fa fa-download"> Download</i></a>
+                                                        <td> <a  href="{{url('downloads/download')}}/{{$download->id}}" title="Download" class="text-primary text-capitalize" target="_blank"><strong>{{$download->title}}</strong></a></td>
+                                                        <td id="{{$download->id}}">
+                                                            <a  href="{{url('downloads/download')}}/{{$download->id}}" title="Download" class=" btn btn-primary btn-xs" target="_blank"><i class="fa fa-download"> Download</i></a>
                                                         </td>
                                                     </tr>
                                                     @endif
@@ -452,9 +438,7 @@
 
                                             <th>SNO</th>
                                             <th>Title</th>
-                                            <th>Department</th>
-                                            <th>Status</th>
-                                            <th>Download</th>
+                                            <th></th>
                                         </tr>
                                         </tfoot>
                                     </table>

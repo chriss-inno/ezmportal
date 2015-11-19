@@ -261,7 +261,7 @@
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" >
+                <a href="javascript:;" class="active">
                     <i class="fa fa-cogs"></i>
                     <span>Portal Administration</span>
                 </a>
@@ -278,7 +278,7 @@
                         <a  href="#">Users Management</a>
                         <ul class="sub">
                             <li><a  href="{{url('users')}}">Users</a></li>
-                            <li><a  href="{{url('user/rights')}}">Users Rights</a></li>
+                            <li class="active"><a  href="{{url('user/rights')}}">Users Rights</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu">
