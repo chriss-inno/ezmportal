@@ -52,8 +52,7 @@ class ServiceDeliveryController extends Controller
         try
         {
             $issues= new CustomerIssues;
-            $issues->company_name=$request->company_name;
-            $issues->contact_person=$request->contact_person;
+            $issues->company_id=$request->company_id;
             $issues->product_id=$request->product_id;
             $issues->product_details_id=$request->product_details_id;
             $issues->mode_id=$request->mode_id;
@@ -118,7 +117,7 @@ class ServiceDeliveryController extends Controller
         try
         {
             $issues= CustomerIssues::find($request->issue_id);
-            $issues->company_name=$request->company_name;
+            $issues->company_id=$request->company_id;
             $issues->contact_person=$request->contact_person;
             $issues->product_id=$request->product_id;
             $issues->product_details_id=$request->product_details_id;

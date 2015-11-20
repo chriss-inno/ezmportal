@@ -143,6 +143,18 @@ Route::get('servicedelivery/customers/edit/{id}',['middleware' => 'auth', 'uses'
 Route::post('servicedelivery/customers/edit',['middleware' => 'auth', 'uses' =>'SDCustomerController@update']);
 Route::get('servicedelivery/customers/remove/{id}',['middleware' => 'auth', 'uses' =>'SDCustomerController@destroy']);
 
+//Get customer contact person
+Route::get('getsdcontact/{id}',['middleware' => 'auth', 'uses' =>'SDCustomerController@getContactPersonal']);
+
+//SD Emails
+Route::get('servicedelivery/email/edit/{id}',['middleware' => 'auth', 'uses' =>'SDEmailController@edit']);
+Route::post('servicedelivery/email/edit',['middleware' => 'auth', 'uses' =>'SDEmailController@update']);
+Route::get('servicedelivery/email/show/{id}',['middleware' => 'auth', 'uses' =>'SDEmailController@show']);
+Route::get('servicedelivery/email/create',['middleware' => 'auth', 'uses' =>'SDEmailController@create']);
+Route::post('servicedelivery/email/create',['middleware' => 'auth', 'uses' =>'SDEmailController@store']);
+Route::get('servicedelivery/email/remove/{id}',['middleware' => 'auth', 'uses' =>'SDEmailController@destroy']);
+Route::get('servicedelivery/email',['middleware' => 'auth', 'uses' =>'SDEmailController@index']);
+
 
 Route::resource('sdproducts','SDProductController');
 Route::get('sdproducts-remove/{id}',['middleware' => 'auth', 'uses' =>'SDProductController@destroy']);

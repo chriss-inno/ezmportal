@@ -1,12 +1,31 @@
 <fieldset class="scheduler-border">
     <legend class="scheduler-border" style="color:#005DAD">Customer Details</legend>
     <div class="form-group">
-        <label for="company_name">Company Name</label>
-        <input type="text" class="form-control" id="company_name" name="company_name" value="{{$issue->company_name}}" placeholder="Enter company name ">
+        <label for="company_id">Company Name</label>
+        <select class="form-control"  id="company_id" name="company_id">
+            @if($issue->company_id != null && $issue->company_id != "")
+                <?php $customer=\App\SDCustomer::find($issue->company_id);?>
+                <option value="{{$customer->id}}" selected>{{$customer->company_name}}</option>
+            @else
+                <option value="" selected>Select Company</option>
+            @endif
+            <?php $customers=\App\SDCustomer::all();?>
+            @foreach($customers as $customer)
+                <option value="{{$customer->id}}">{{$customer->company_name}}</option>
+            @endforeach
+
+        </select>
     </div>
     <div class="form-group">
         <label for="contact_person">Contact Person</label>
-        <input type="text" class="form-control" id="contact_person" name="contact_person" value="{{$issue->contact_person}}" placeholder="Enter contact person">
+        <input type="text" class="form-control" id="contact_person" name="contact_person"
+               @if($issue->company_id != null && $issue->company_id != "")
+               <?php $customer=\App\SDCustomer::find($issue->company_id);?>
+               value="{{$customer->contact_person}}"
+               @else
+               value=""
+               @endif
+               placeholder="Enter contact person" readonly>
     </div>
 </fieldset>
 <fieldset class="scheduler-border">

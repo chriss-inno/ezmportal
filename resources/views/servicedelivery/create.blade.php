@@ -6,12 +6,19 @@
 <fieldset class="scheduler-border">
     <legend class="scheduler-border" style="color:#005DAD">Customer Details</legend>
     <div class="form-group">
-        <label for="company_name">Company Name</label>
-        <input type="text" class="form-control" id="company_name" name="company_name" value="{{old('company_name')}}" placeholder="Enter company name ">
+        <label for="company_id">Company Name</label>
+        <select class="form-control"  id="company_id" name="company_id">
+            <option value="">Select Company</option>
+            <?php $customers=\App\SDCustomer::all();?>
+            @foreach($customers as $customer)
+                <option value="{{$customer->id}}">{{$customer->company_name}}</option>
+            @endforeach
+
+        </select>
     </div>
     <div class="form-group">
         <label for="contact_person">Contact Person</label>
-        <input type="text" class="form-control" id="contact_person" name="contact_person" value="{{old('contact_person')}}" placeholder="Enter contact person">
+        <input type="text" class="form-control" id="contact_person" name="contact_person" value="{{old('contact_person')}}" placeholder="Enter contact person" readonly>
     </div>
 </fieldset>
 <fieldset class="scheduler-border">
@@ -106,22 +113,25 @@
 {!!HTML::script("js/respond.min.js"  ) !!}
 {!!HTML::script("js/form-validation-script.js") !!}
 <script>
+    $("#company_id").change(function () {
 
-    $("#branch_id").change(function () {
+
         var id1 = this.value;
+
+
+
         if(id1 != "")
         {
-            $.get("<?php echo url('getDepartment') ?>/"+id1,function(data){
-                $("#department_id").html(data);
+            $.get("<?php echo url('getsdcontact') ?>/"+id1,function(data){
+                document.getElementById('contact_person').value=data;
             });
 
-        }else{$("#department_id").html("<option value=''>----</option>");}
+        }else{$("#contact_person").html("");}
     });
 
     $("#InventoryForm").validate({
         rules: {
-            company_name: "required",
-            contact_person: "required",
+            company_id: "required",
             product_id: "required",
             product_details_id: "required",
             mode_id: "required",
@@ -132,8 +142,7 @@
 
         },
         messages: {
-            company_name: "Please enter company name",
-            contact_person: "Please enter contact person",
+            company_id: "Please enter company name",
             product_id: "Please select product type",
             product_details_id: "Please select product details",
             mode_id: "Please select receipt mode",
@@ -174,5 +183,7 @@
                     });
         }
     });
+
+
 
 </script>

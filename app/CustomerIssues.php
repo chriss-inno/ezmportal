@@ -27,4 +27,8 @@ class CustomerIssues extends Model
     {
         return $this::belongsTo('\App\Department','department_id');
     }
+    public function customer()
+    {
+        return $this::belongsTo('\App\SDCustomer','company_id');
+    }
 }

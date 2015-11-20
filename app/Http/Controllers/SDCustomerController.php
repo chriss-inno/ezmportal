@@ -133,4 +133,14 @@ class SDCustomerController extends Controller
         $customer->delete();
 
     }
+
+    //getContactPersonal
+    public function getContactPersonal($id)
+    {
+        $customer=  SDCustomer::find($id);
+        if($customer != null && $customer->contact_person != null &&  $customer->contact_person != ""  )
+        {
+           return  $customer->contact_person;
+        }
+    }
 }
