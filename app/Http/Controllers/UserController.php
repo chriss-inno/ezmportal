@@ -235,7 +235,7 @@ class UserController extends Controller
     //Register user
     public function registration()
     {
-        $branches =Branch::all();
+        $branches =Branch::where('status','=','enabled')->get();
         return view('users.registration',compact('branches'));
     }
 

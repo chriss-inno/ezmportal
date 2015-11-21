@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Service;
+use App\ServiceLogBranch;
+use App\ServiceLogDepartment;
+use App\ServiceLogUnit;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -68,7 +71,7 @@ class ServiceLogController extends Controller
         $sl->end_time=$request->end_time;
         $sl->remarks=$request->remarks;
         $sl->status=$request->status;
-        $sl->input_by=Auth::user()->username;;
+        $sl->input_by=Auth::user()->username;
         $sl->logdate=date('Y-m-d');
         $sl->save();
 
@@ -78,10 +81,9 @@ class ServiceLogController extends Controller
         {
             foreach($request->branches as $br)
             {
-                $sa=new ServiceLogArea;
+                $sa=new ServiceLogBranch;
                 $sa->serviceLog_id=$sl->id;
-                $sa->area_affected=$br;
-                $sa->area_type='branch';
+                $sa->branch_id=$br;
                 $sa->save();
             }
         }
@@ -92,10 +94,9 @@ class ServiceLogController extends Controller
         {
             foreach($request->departments as $dp)
             {
-                $sa=new ServiceLogArea;
+                $sa=new ServiceLogDepartment();
                 $sa->serviceLog_id=$sl->id;
-                $sa->area_affected=$dp;
-                $sa->area_type='department';
+                $sa->department_id=$dp;
                 $sa->save();
             }
         }
@@ -104,12 +105,11 @@ class ServiceLogController extends Controller
         //Units
         if($request->units != null && $request->units !="")
         {
-            foreach($request->units as $dp)
+            foreach($request->units as $un)
             {
-                $sa=new ServiceLogArea;
+                $sa=new ServiceLogUnit();
                 $sa->serviceLog_id=$sl->id;
-                $sa->area_affected=$dp;
-                $sa->area_type='unit';
+                $sa->unit_id=$un;
                 $sa->save();
             }
         }
@@ -155,35 +155,37 @@ class ServiceLogController extends Controller
     {
         //
         $sl= ServiceLog::find($request->id);
-
         $sl->service_id=$request->service_id;
-       // $sl->log_title=$request->log_title;
+        //$sl->log_title=$request->log_title;
         $sl->description=$request->description;
         $sl->reason=$request->reason;
         $sl->start_time=$request->start_time;
         $sl->end_time=$request->end_time;
-        $sl->Remarks=$request->Remarks;
+        $sl->remarks=$request->remarks;
         $sl->status=$request->status;
-        $sl->input_by=Auth::user()->username;;
-        $sl->logdate=date('Y-m-d');
+        $sl->input_by=Auth::user()->username;
+       // $sl->logdate=date('Y-m-d'); leave logdate as previous one
         $sl->save();
 
 
-        foreach($sl->areas as $a)
-        {
-            $a->delete();
-        }
+
 
         //Save area affected
         //Branches
         if($request->branches != null && $request->branches !="")
         {
+            if($sl->branchAreas != null && $sl->branchAreas != "")
+            {
+                foreach($sl->branchAreas as $br)
+                {
+                    $br->delete();
+                }
+            }
             foreach($request->branches as $br)
             {
-                $sa=new ServiceLogArea;
+                $sa=new ServiceLogBranch;
                 $sa->serviceLog_id=$sl->id;
-                $sa->area_affected=$br;
-                $sa->area_type='branch';
+                $sa->branch_id=$br;
                 $sa->save();
             }
         }
@@ -192,12 +194,19 @@ class ServiceLogController extends Controller
         //Departments
         if($request->departments != null && $request->departments !="")
         {
+            if($sl->departmentAreas != null && $sl->departmentAreas != "")
+            {
+                foreach($sl->departmentAreas as $dp)
+                {
+                    $dp->delete();
+                }
+            }
+
             foreach($request->departments as $dp)
             {
-                $sa=new ServiceLogArea;
+                $sa=new ServiceLogDepartment();
                 $sa->serviceLog_id=$sl->id;
-                $sa->area_affected=$dp;
-                $sa->area_type='department';
+                $sa->department_id=$dp;
                 $sa->save();
             }
         }
@@ -206,12 +215,19 @@ class ServiceLogController extends Controller
         //Units
         if($request->units != null && $request->units !="")
         {
-            foreach($request->units as $dp)
+            if($sl->unitAreas != null && $sl->unitAreas != "")
             {
-                $sa=new ServiceLogArea;
+                foreach($sl->unitAreas as $dp)
+                {
+                    $dp->delete();
+                }
+            }
+
+            foreach($request->units as $un)
+            {
+                $sa=new ServiceLogUnit();
                 $sa->serviceLog_id=$sl->id;
-                $sa->area_affected=$dp;
-                $sa->area_type='unit';
+                $sa->unit_id=$un;
                 $sa->save();
             }
         }
@@ -228,10 +244,32 @@ class ServiceLogController extends Controller
     {
         //
         $sl= ServiceLog::find($id);
-        foreach($sl->areas as $a)
+        if($sl->unitAreas != null && $sl->unitAreas != "")
         {
-            $a->delete();
+            foreach($sl->unitAreas as $dp)
+            {
+                $dp->delete();
+            }
         }
+
+        //Delete departments
+        if($sl->departmentAreas != null && $sl->departmentAreas != "")
+        {
+            foreach($sl->departmentAreas as $dp)
+            {
+                $dp->delete();
+            }
+        }
+
+        //Delete branches
+        if($sl->branchAreas != null && $sl->branchAreas != "")
+        {
+            foreach($sl->branchAreas as $br)
+            {
+                $br->delete();
+            }
+        }
+
         $sl->delete();
 
         return "Delete of service log successful";

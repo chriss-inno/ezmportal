@@ -357,7 +357,7 @@
 						 -->
                                 <div class="form-group">
                                     <label for="unit_name">Description</label>
-                                    <textarea class="ckeditor form-control" id="description" name="description"></textarea>
+                                    <textarea class=" form-control" id="description" rows="4" name="description"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="unit_name">Specify Reason</label>
@@ -382,34 +382,28 @@
                                             <label for="status">Branches</label>
                                             <select name="branches[]" class="multi-select form-control" multiple="" id="branches" >
                                                 @foreach(\App\Branch::all() as $br)
-                                                    <option >{{$br->branch_Name}}</option>
+                                                    <option value="{{$br->id}}">{{$br->branch_Name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="status">Departments</label>
                                             <select multiple class="multi-select form-control" name="departments[]" id="departments" multiple="">
-                                                @foreach(\App\Branch::all() as $br)
-                                                    @foreach($br->department as $dp)
-                                                            <option >{{$dp->department_name}}</option>
-                                                    @endforeach
+                                                @foreach(\App\Department::all() as $dp)
+                                                    <option value="{{$dp->id}}">{{$dp->department_name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="units">Units</label>
                                             <select multiple class="multi-select form-control" name="units[]" id="units" multiple="">
-                                                @foreach(\App\Branch::all() as $br)
-                                                    @foreach($br->department as $dp)
-                                                        @foreach($dp->units as $un)
-                                                            <option >{{$un->unit_name}}</option>
-                                                        @endforeach
-                                                    @endforeach
+                                                @foreach(\App\Unit::all() as $un)
+                                                    <option value="{{$un->id}}">{{$un->unit_name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
-
+                                </div>
                                     <div class="form-group">
                                         <label for="unit_name">Remarks</label>
                                         <input type="text" class="form-control" id="remarks" name="remarks" value="{{old('remarks')}}" placeholder="Enter Remarks">
@@ -430,7 +424,7 @@
 
                                     {!! Form::close() !!}
                                 </div>
-                            </div>
+
                         </div>
                     </div>
                 </section>

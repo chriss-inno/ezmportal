@@ -55,7 +55,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
     public function unit()
     {
-        return $this::hasMany('\App\Unit','unit_id','id');
+        return $this::belongsTo('\App\Unit','unit_id','id');
     }
 
     //User right

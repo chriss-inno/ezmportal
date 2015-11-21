@@ -17,7 +17,7 @@
         <td width="104" align="center"   ><strong>Restoration</strong></td>
     </tr>
     @if(count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->get()) > 0)
-        @foreach(\App\Service::where('email_sent','=','N')->get() as $ser)
+        @foreach(\App\Service::where('email_sent','=','Y')->get() as $ser)
             <tr bgcolor="#f0f2f7">
             <?php $serLogs=\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->get()?>
             @if(count($serLogs) > 0)
@@ -27,13 +27,25 @@
                         <td align="center" >{{$sl->start_time}}</td>
                         <td align="center" >@if($sl->end_time != "" && $sl->end_time != null){{$sl->end_time}} @else Not Sorted @endif</td>
                         <td>
-                            @if($sl->areas !="" && $sl->areas !=null && count($sl->areas) > 0)
+
                                   <ol>
-                                      @foreach($sl->areas as $area)
-                                          <li>{{$area->area_affected}}</li>
+                                      @if($sl->branchAreas != null && count($sl->branchAreas) >0 )
+                                      @foreach($sl->branchAreas as $brch)
+                                          <li>{{$brch->branch->branch_Name}}</li>
                                           @endforeach
+                                      @endif
+                                      @if($sl->departmentAreas != null && count($sl->departmentAreas) >0 )
+                                          @foreach($sl->departmentAreas as $dpra)
+                                              <li>{{$dpra->department->department_name}}</li>
+                                          @endforeach
+                                      @endif
+                                      @if($sl->unitAreas != null && count($sl->unitAreas) >0 )
+                                          @foreach($sl->unitAreas as $unar)
+                                              <li>{{$unar->unit->unit_name}}</li>
+                                          @endforeach
+                                    @endif
                                   </ol>
-                                @endif
+
                         </td>
                         <td >{{$sl->remarks}}</td>
             </tr>

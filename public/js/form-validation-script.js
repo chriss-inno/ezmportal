@@ -24,14 +24,15 @@ var Script = function () {
                     start_time: "required",
                     service_id: "required",
                     log_title: "required",
-
+                    remarks:"required",
                     status: "required"
                 },
                 messages: {
                     service_id: "Please select service name",
                     log_title: "Please enter title",
                     start_time: "Please enter start time",
-                    status: "Please select status"
+                    status: "Please select status",
+                    remarks: "Please Remarks"
                 }
             });
         // validate signup form on keyup and submit

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Department;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -119,8 +120,9 @@ class BranchController extends Controller
     {
         //
         $br=Branch::find($id);
+        $departments=Department::where('branch_id','=',$br->id)->where('status','=','enabled')->get();
         $dep="<option value=''>----</option>";
-        foreach($br->department as $d)
+        foreach($departments as $d)
         {
             $dep .="<option value='$d->id'>$d->department_name</option>";
         }

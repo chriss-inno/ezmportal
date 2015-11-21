@@ -106,10 +106,11 @@ class EmailController extends Controller
         //
         try
         {
+
             $job = (new ServiceMonitoring())->delay(10);
             $this->dispatch($job);
 
-             $job1 = (new ServiceOracle())->delay(10);
+            $job1 = (new ServiceOracle())->delay(10);
              $this->dispatch($job1);
 
            // $job2 = (new ServiceDailyLogged())->delay(10);
@@ -128,7 +129,7 @@ class EmailController extends Controller
             $job = (new ServiceMonitoring())->delay(10);
             $this->dispatch($job);
 
-            $job1 = (new ServiceOracle())->delay(10);
+           $job1 = (new ServiceOracle())->delay(10);
             $this->dispatch($job1);
 
           //  $job2 = (new ServiceDailyLogged())->delay(10);
