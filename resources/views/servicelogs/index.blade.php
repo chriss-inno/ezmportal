@@ -444,8 +444,9 @@
                                             <td><div class=" btn btn-danger btn-xs"> {{$ser->status}}</div></td>
                                             @endif
                                         <td id="{{$ser->id}}" class="text-center">
-                                            <a  href="#" title="Edit Service" class="viewService btn btn-success btn-xs"><i class="fa fa-folder-open-o"></i>View </a>
-                                        </td>
+                                                <a  href="{{url('serviceslogs/show')}}/{{$ser->id}}" title="Edit Service" class=" btn btn-success btn-xs"><i class="fa fa-folder-open-o"></i>View </a>
+
+                                            </td>
                                         <td id="{{$ser->id}}" class="text-center">
                                             <a  href="{{url('serviceslogs/edit')}}/{{$ser->id}}" title="Edit" class=" btn btn-primary btn-xs"><i class="fa fa-pencil"></i> Edit</a>
                                             <a href="#b" title="Delete" class=" delService btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> Delete </a>
