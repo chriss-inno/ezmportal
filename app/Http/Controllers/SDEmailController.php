@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class SDEmailController extends Controller
 {
@@ -42,12 +43,48 @@ class SDEmailController extends Controller
     public function store(Request $request)
     {
         //
-        $email= new SDEmail;
-        $email->email=$request->email;
-        $email->display_name=$request->display_name;
-        $email->status=$request->status;
-        $email->input_by=Auth::user()->username;
-        $email->save();
+        try
+        {
+            //Check for reference file
+            // Build the input for our validation
+            $input = array('email' => $request->email);
+
+            // Within the ruleset, make sure we let the validator know that this
+            // file should be an image
+            $rules = array(
+                'email' => 'required|unique:s_d_emails'
+            );
+
+            // Now pass the input and rules into the validator
+            $validator = Validator::make($input, $rules);
+            if ($validator->fails())
+            {
+                return '<div class="alert fade in alert-danger">
+                    <i class="icon-remove close" data-dismiss="alert"></i>
+                    The email is already existing
+                </div>';
+            }
+            else {
+
+                $email = new SDEmail;
+                $email->email = $request->email;
+                $email->display_name = $request->display_name;
+                $email->status = $request->status;
+                $email->input_by = Auth::user()->username;
+                $email->save();
+
+                return "Email saved successfully";
+            }
+        }
+        catch(\Exception $ex)
+        {
+
+            return '<div class="alert fade in alert-danger">
+                    <i class="icon-remove close" data-dismiss="alert"></i> ' . $ex->getMessage() .'
+
+                </div>';
+        }
+
     }
 
     /**
@@ -85,13 +122,26 @@ class SDEmailController extends Controller
      */
     public function update(Request $request)
     {
-        //
-        $email= SDEmail::find($request->id);
-        $email->email=$request->email;
-        $email->display_name=$request->display_name;
-        $email->status=$request->status;
-        $email->input_by=Auth::user()->username;
-        $email->save();
+       try
+       {
+           //
+           $email= SDEmail::find($request->id);
+           $email->email=$request->email;
+           $email->display_name=$request->display_name;
+           $email->status=$request->status;
+           $email->input_by=Auth::user()->username;
+           $email->save();
+
+           return "Email saved successfully";
+       }
+       catch(\Exception $ex)
+       {
+           return '<div class="alert fade in alert-danger">
+                    <i class="icon-remove close" data-dismiss="alert"></i> Error found ,' . $ex->getMessage() .'
+
+                </div>';
+       }
+
     }
 
     /**

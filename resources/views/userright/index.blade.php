@@ -154,8 +154,7 @@
                         <li><a  href="{{url('downloads/manage')}}" title="Manage Downloads">Manage Downloads</a></li>
                     @endif
                 </ul>
-            </li>
-        @endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
+            </li>@endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
                 <a href="javascript:;" >
                     <i class="fa fa-info"></i>
@@ -163,7 +162,9 @@
                 </a>
                 <ul class="sub">
                     <li><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
-                    <li><a  href="{{url('servicedelivery/settings')}}" title="Customer Issues Tracking" class="active">Settings</a></li>
+                    <li ><a  href="{{url('servicedelivery/settings')}}" title="Customer Issues Tracking" > Settings</a></li>
+                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,22) || Auth::user()->user_type=="Administrator") <li ><a  href="{{url('servicedelivery/email')}}" >Email Settings</a></li>
+                    @endif
                 </ul>
             </li>
         @endif
@@ -345,13 +346,26 @@
     <section class="site-min-height">
         <!-- page start-->
         <div class="row">
-            <div class="col-lg-10 col-md-10">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
                         <h3 class="text-info"> <strong><i class="fa  fa-users"></i> USER RIGHTS</strong></h3>
                     </header>
                     <div class="panel-body">
-                        <div class="adv-table">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                <div class="btn-group btn-group-justified">
+
+                                    <a href="{{url('user/rights/create')}}" class="btn btn-file btn-primary"> <i class="fa fa-pencil"></i> Create</a>
+                                    <a href="{{url('user/rights')}}" class="btn btn-file btn-primary"> <i class="fa fa-users"></i> View user rights</a>
+                                    <a href="{{url('user/right/reports')}}" class="btn btn-file btn-primary"> <i class="fa fa-cog"></i> Reports</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <div class="adv-table">
                             <table  class="display table table-bordered table-striped" id="branches">
                                 <thead>
                                 <tr>
@@ -395,26 +409,6 @@
                                 </tfoot>
                             </table>
                         </div>
-                    </div>
-                </section>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <section class="panel">
-                    <div class="panel-body">
-
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('user/rights/create')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-folder-open-o"></i> Create </a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('user/rights')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> List</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('user/right/reports')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Reports</a>
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Oracle Support Logged issues
+   Service Delivery Email Settings
 @stop
 @section('page_scripts')
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
@@ -9,51 +9,22 @@
     {!!HTML::script("js/jquery.nicescroll.js") !!}
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
     {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
-    <script type="text/javascript">
-        /* Formating function for row details */
-        function fnFormatDetails ( oTable, nTr ,id1)
-        {
-            var aData = oTable.fnGetData( nTr );
-            var sOut ="";
-            $.get("<?php echo url('queries/show') ?>/"+id1,function(data){
-                 sOut =data;
-            });
-            return sOut;
-        }
-
+    <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
-            /*
-             * Insert a 'details' column to the table
-             */
-            var nCloneTh = document.createElement( 'th' );
-            var nCloneTd = document.createElement( 'td' );
-            nCloneTd.innerHTML = '{!!HTML::image("assets/advanced-datatable/examples/examples_support/details_open.png") !!}';
-            nCloneTd.className = "center";
 
-            $('#hidden-table-info thead tr').each( function () {
-                this.insertBefore( nCloneTh, this.childNodes[0] );
-            } );
 
-            $('#hidden-table-info tbody tr').each( function () {
-                this.insertBefore(  nCloneTd.cloneNode( true ), this.childNodes[0] );
-            } );
-
-            /*
-             * Initialse DataTables, with no sorting on the 'details' column
-             */
-            var oTable = $('#hidden-table-info').dataTable( {
-
-                 "fnDrawCallback": function( oSettings ) {
+            $('#branches').dataTable( {
+                "fnDrawCallback": function( oSettings ) {
 
                     //adding company user
-                    $(".assignUser").click(function(){
+                    $(".editEmail").click(function(){
                         var id1 = $(this).parent().attr('id');
                         var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                        modal+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modal+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
                         modal+= '<div class="modal-content">';
                         modal+= '<div class="modal-header">';
                         modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modal+= '<h2 class="modal-title" id="myModalLabel">Assign query to user</h2>';
+                        modal+= '<h2 class="modal-title" id="myModalLabel">Update email Address</h2>';
                         modal+= '</div>';
                         modal+= '<div class="modal-body">';
                         modal+= ' </div>';
@@ -64,76 +35,107 @@
                         jQuery.noConflict();
                         $("#myModal").modal("show");
                         $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("queries/assign/users") ?>/"+id1);
+                        $(".modal-body").load("<?php echo url("servicedelivery/email/edit") ?>/"+id1);
                         $("#myModal").on('hidden.bs.modal',function(){
                             $("#myModal").remove();
                         })
 
                     })
-                     $(".queryDetails").click(function(){
-                         var id1 = $(this).parent().attr('id');
-                         var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                         modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
-                         modal+= '<div class="modal-content">';
-                         modal+= '<div class="modal-header">';
-                         modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                         modal+= '<h2 class="modal-title" id="myModalLabel">Support logged query details</h2>';
-                         modal+= '</div>';
-                         modal+= '<div class="modal-body">';
-                         modal+= ' </div>';
-                         modal+= '</div>';
-                         modal+= '</div>';
 
-                         $("body").append(modal);
-                         jQuery.noConflict();
-                         $("#myModal").modal("show");
-                         $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                         $(".modal-body").load("<?php echo url("queries/show") ?>/"+id1);
-                         $("#myModal").on('hidden.bs.modal',function(){
-                             $("#myModal").remove();
-                         })
+                    $(".createEmail").click(function(){
+                        var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                        modal+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                        modal+= '<div class="modal-content">';
+                        modal+= '<div class="modal-header">';
+                        modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modal+= '<h2 class="modal-title" id="myModalLabel"><i class="fa fa-envelope-o text-danger"></i> Add new E-mail </h2>';
+                        modal+= '</div>';
+                        modal+= '<div class="modal-body">';
+                        modal+= ' </div>';
+                        modal+= '</div>';
+                        modal+= '</div>';
 
-                     })
-                    $(".deleteuser").click(function(){
+                        $("body").append(modal);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("servicedelivery/email/create")?>");
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    })
+                    $(".queryAttend").click(function(){
                         var id1 = $(this).parent().attr('id');
-                        $(".deleteuser").show("slow").parent().parent().find("span").remove();
+                        var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                        modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                        modal+= '<div class="modal-content">';
+                        modal+= '<div class="modal-header">';
+                        modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modal+= '<h2 class="modal-title" id="myModalLabel">Query details</h2>';
+                        modal+= '</div>';
+                        modal+= '<div class="modal-body">';
+                        modal+= ' </div>';
+                        modal+= '</div>';
+                        modal+= '</div>';
+
+                        $("body").append(modal);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("queries/attend") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    })
+
+                    $(".queryDetails").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modal = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                        modal+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                        modal+= '<div class="modal-content">';
+                        modal+= '<div class="modal-header">';
+                        modal+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modal+= '<h2 class="modal-title" id="myModalLabel">Support logged query details</h2>';
+                        modal+= '</div>';
+                        modal+= '<div class="modal-body">';
+                        modal+= ' </div>';
+                        modal+= '</div>';
+                        modal+= '</div>';
+
+                        $("body").append(modal);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("queries/show") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    })
+
+                    $(".deleteEmail").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        $(".deleteEmail").show("slow").parent().parent().find("span").remove();
                         var btn = $(this).parent().parent();
                         $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
                         $("#no").click(function(){
-                            $(this).parent().parent().find(".deleteuser").show("slow");
+                            $(this).parent().parent().find(".deleteEmail").show("slow");
                             $(this).parent().parent().find("span").remove();
                         });
                         $("#yes").click(function(){
                             $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                            $.post("<?php echo url('company/delete') ?>/"+id1,function(data){
+                            $.get("<?php echo url('servicedelivery/email/remove') ?>/"+id1,function(data){
                                 btn.hide("slow").next("hr").hide("slow");
                             });
                         });
-                    });//endof deleting category
-                }
-            });
-
-            /* Add event listener for opening and closing details
-             * Note that the indicator for showing which row is open is not controlled by DataTables,
-             * rather it is done here
-             */
-            $('#hidden-table-info tbody td img').live('click', function () {
-                var nTr = $(this).parents('tr')[0];
-                var id1 = $(this).parent().parent().attr('id');
-                if ( oTable.fnIsOpen(nTr) )
-                {
-                    /* This row is already open - close it */
-                    this.src = "{{asset("assets/advanced-datatable/examples/examples_support/details_open.png")}}";
-                    oTable.fnClose( nTr );
-                }
-                else
-                {
-                    /* Open this row */
-                    this.src = "{{asset("assets/advanced-datatable/examples/examples_support/details_close.png")}}";
-                    oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr,id1), 'details' );
+                    });
                 }
             } );
         } );
+
+
     </script>
 
 @stop
@@ -191,16 +193,18 @@
                         <li><a  href="{{url('downloads/manage')}}" title="Manage Downloads">Manage Downloads</a></li>
                     @endif
                 </ul>
-            </li>@endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
+            </li>
+        @endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" >
+                <a href="javascript:;" class="active">
                     <i class="fa fa-info"></i>
                     <span>Service Delivery</span>
                 </a>
                 <ul class="sub">
                     <li><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
-                    <li ><a  href="{{url('servicedelivery/settings')}}" title="Customer Issues Tracking" > Settings</a></li>
-                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,22) || Auth::user()->user_type=="Administrator") <li ><a  href="{{url('servicedelivery/email')}}" >Email Settings</a></li>
+                    <li ><a  href="{{url('servicedelivery/settings')}}" title="Customer Issues Tracking" class="active"> Settings</a></li>
+                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,22) || Auth::user()->user_type=="Administrator")
+                    <li class="active" ><a  href="{{url('servicedelivery/email')}}" >Email Settings</a></li>
                     @endif
                 </ul>
             </li>
@@ -383,82 +387,94 @@
     <section class="site-min-height">
         <!-- page start-->
         <div class="row">
-            <div class="col-lg-12 col-md-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa  fa-tasks"></i>QUERY ASSIGN </strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa  fa-envelope-o text-danger"></i><i class="fa fa-cogs"></i> Email Settings </strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="btn-group btn-group-justified">
-                                <a href="{{url('queries/create')}}" class=" btn  btn-primary"><i class="fa fa-folder-open-o"></i> Log New Query</a>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                                <a href="{{url('queries/mytask')}}" class="btn btn-file btn-primary"><i class="fa fa-tasks"></i> My Tasks</a> <a href="{{url('queries/progress')}}" class="btn btn-file btn-primary"><i class="fa fa-archive"></i> Queries Progress</a>
+                                <div class="btn-group btn-group-justified">
+                                    <a href="#" class="createIsssue btn btn-file btn-primary"><i class="fa fa-file-o"></i> RECORD NEW ISSUE</a>
 
-                                <a href="{{url('queries/history')}}" class="btn btn-file btn-primary"> <i class="fa fa-bars"></i> History</a>
-
-                                @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,21) || Auth::user()->user_type=="Administrator")
-                                    <a href="{{url('queryemails')}}" class="btn btn-file btn-primary"><i class=" fa fa-envelope"></i> Emails Setting</a>
-                                @endif
-                                @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
-                                    <a href="{{url('queries/report')}}" class="btn btn-file btn-primary"><i class=" fa fa-bar-chart-o"></i> Reports</a>
-                                @endif
+                                    <a href="{{url('servicedelivery')}}" class="btn btn-file btn-primary"> <i class="fa fa-pencil"></i> UPDATE ISSUE</a>
+                                    <a href="{{url('servicedelivery/customers')}}" class="btn btn-file btn-primary"> <i class="fa fa-users"></i> CUSTOMERS</a>
+                                    <a href="{{url('servicedelivery/email')}}" class="btn btn-file btn-primary"> <i class="fa fa-cog"></i> EMAIL SETTINGS</a>
+                                    <a href="{{url('servicedelivery/settings')}}" class="btn btn-file btn-primary"> <i class="fa fa-cog"></i> SETTINGS</a>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div class="adv-table">
-                            <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
-                                <thead>
-                                <tr>
-                                    <th>SNO</th>
-                                    <th>Query code</th>
-                                    <th>Reported</th>
-                                    <th>Reported By</th>
-                                    <th>From Department</th>
-                                    <th>Person Assigned </th>
-                                    <th>Criticality</th>
-                                    <th>Module</th>
-                                    <th>Assign</th>
-                                    <th>Details</th>
-                                    <th>Status</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php $c=1;?>
-                                @foreach($queries as $qr)
-                                    <tr id="{{$qr->id}}">
-                                        <td>{{$c++}}</td>
-                                        <td>{{$qr->query_code}}</td>
-                                        <td>{{date("d M, Y H:i",strtotime($qr->reporting_Date))}}</td>
-                                        <td>{{$qr->user->first_name.' '.$qr->user->last_name}}</td>
-                                        <td>{{$qr->fromDepartment->department_name}} ({{$qr->fromDepartment->branch->branch_Name}})</td>
-                                       @if($qr->assignment != null && $qr->assignment !="")
-                                            <td style="background-color:#78CD51; color: #FFF;">{{$qr->assignment->user->first_name.' '.$qr->assignment->user->last_name}}</td>
-                                           @else
-                                            <td style="background-color:#FF6C60; color: #FFF;">Not Assigned</td>
-                                           @endif
-                                        <td>{{$qr->critical_level}}</td>
-                                        <td>{{$qr->module->module_name}}</td>
-                                        <td id="{{$qr->id}}">
-                                            <a href="#"   @if($qr->assignment != null && $qr->assignment !="")class="assignUser btn btn-success btn-xs" title="Click here to reassign user" @else class="assignUser btn btn-danger btn-xs" title="Click here to assign user" @endif><i class="fa fa-user-md"></i> </a>
-                                        </td>
-                                        <td id="{{$qr->id}}">
-                                            <a href="#" class="queryDetails btn btn-info btn-xs" title=" Query Details"><i class="fa fa-eye-slash"></i>View </a>
-                                        </td>
-                                        <td>{{$qr->status}}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                <div class="adv-table">
+                                    <table  class="display table table-bordered table-striped" id="branches">
+                                        <thead>
+                                        <tr>
+                                            <th>SNO</th>
+                                            <th>Email Address</th>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php $i=1;?>
+                                        @if(count($emails) >0)
+                                            @foreach($emails as $em)
+                                                <tr>
+                                                    <td>{{$i++}}</td>
+                                                    <td>{{$em->email}}</td>
+                                                    <td>{{$em->display_name}}</td>
+                                                    @if($em->status =="Active" || $em->status =="active")
+                                                        <td><a  href="#" title="This Item is working property" class=" btn btn-success btn-xs"> {{ucwords(strtolower($em->status)) }} </a></td>
+                                                    @else
+                                                        <td><a  href="#" title="This Item is not working property" class=" btn btn-danger btn-xs"> {{ucwords(strtolower($em->status)) }} </a></td>
+                                                    @endif
+                                                    <td id="{{$em->id}}" align="center">
+                                                        <a  href="#" title="Edit Inventory Item" class="editEmail btn btn-primary btn-xs"><i class="fa fa-pencil"></i> </a>
+                                                        <a href="#b" title="Delete Inventory Item" class="deleteEmail btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                                    </td>
+                                                </tr>
 
-                        </div>
+                                            @endforeach
+                                        @endif
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th>SNO</th>
+                                            <th>Email Address</th>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <div class="row">
+                                    <section class="panel">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <a href="#" class="createEmail btn btn-primary  btn-block"><i class="fa fa-file-o text-danger"></i> New email</a>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top: 10px">
+                                                <div class="col-md-12">
+                                                    <a href="{{url('queryemails')}}" class="btn btn-primary btn-block"><i class="fa fa-tasks text-danger"></i> List emails</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </section>
             </div>
-
         </div>
     </section>
     <!-- page end-->

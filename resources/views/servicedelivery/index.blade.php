@@ -187,7 +187,10 @@
                 </a>
                 <ul class="sub">
                     <li class="active"><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
-                    <li><a  href="{{url('servicedelivery/settings')}}" title="Customer Issues Tracking" class="active">Settings</a></li>
+                    <li><a  href="{{url('servicedelivery/settings')}}" title="Customer Issues Tracking">Settings</a></li>
+                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,22) || Auth::user()->user_type=="Administrator")
+                    <li class="active" ><a  href="{{url('servicedelivery/email')}}" title="Customer Issues Tracking">Email Settings</a></li>
+                    @endif
                 </ul>
             </li>
         @endif
