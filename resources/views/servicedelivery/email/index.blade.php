@@ -464,7 +464,7 @@
                                             </div>
                                             <div class="row" style="margin-top: 10px">
                                                 <div class="col-md-12">
-                                                    <a href="{{url('queryemails')}}" class="btn btn-primary btn-block"><i class="fa fa-tasks text-danger"></i> List emails</a>
+                                                    <a href="{{url('servicedelivery/email')}}" class="btn btn-primary btn-block"><i class="fa fa-tasks text-danger"></i> List emails</a>
                                                 </div>
                                             </div>
                                         </div>
