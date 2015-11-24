@@ -32,7 +32,7 @@ class QueryProgressEmail extends Job implements SelfHandling, ShouldQueue
     public function handle()
     {
         //
-        if( $this->msg != null &&  $this->msg !="" >0 ) {
+        if( $this->msg != null &&  $this->msg !="" ) {
             $data = array(
                 'msg' => serialize( $this->msg)
             );

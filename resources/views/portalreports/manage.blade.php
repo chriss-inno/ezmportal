@@ -213,7 +213,22 @@
                         <li><a  href="{{url('downloads/manage')}}" title="Manage Downloads">Manage Downloads</a></li>
                     @endif
                 </ul>
-            </li>@endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
+            </li>@endif
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,23)  || Auth::user()->user_type=="Administrator")<li class="sub-menu">
+                <a href="javascript:;">
+                    <i class="fa fa-laptop"></i>
+                    <span>SMS To Customers</span>
+                </a>
+                <ul class="sub">
+                    <li><a  href="{{url('sms/messages')}}" title="Reminder List">Messages</a></li>
+                    <li   ><a  href="{{url('sms/customers')}}" title="Create Reminder">Customers</a></li>
+                    <li><a  href="{{url('sms/dispatch')}}" title="Reminder List">Distribution List</a></li>
+                    <li><a  href="{{url('sms/reports')}}" title="Reminder List">Report</a></li>
+
+                </ul>
+            </li>
+        @endif
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
                 <a href="javascript:;" >
                     <i class="fa fa-info"></i>

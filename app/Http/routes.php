@@ -187,6 +187,35 @@ Route::post('inventory-download',['middleware' => 'auth', 'uses' =>'InventoryCon
 Route::resource('types','InventoryTypeController');
 Route::get('types-remove/{id}',['middleware' => 'auth', 'uses' =>'InventoryTypeController@destroy']);
 
+//SMS Customers
+Route::get('sms/customers',['middleware' => 'auth', 'uses' =>'SMSCustomerController@index']);
+Route::get('sms/customers/import',['middleware' => 'auth', 'uses' =>'SMSCustomerController@importCustomers']);
+Route::post('sms/customers/import',['middleware' => 'auth', 'uses' =>'SMSCustomerController@postImportCustomers']);
+Route::get('sms/customers/create',['middleware' => 'auth', 'uses' =>'SMSCustomerController@create']);
+Route::post('sms/customers/create',['middleware' => 'auth', 'uses' =>'SMSCustomerController@store']);
+Route::get('sms/customers/edit/{id}',['middleware' => 'auth', 'uses' =>'SMSCustomerController@edit']);
+Route::post('sms/customers/edit',['middleware' => 'auth', 'uses' =>'SMSCustomerController@update']);
+Route::get('sms/customers/remove/{id}',['middleware' => 'auth', 'uses' =>'SMSCustomerController@destroy']);
+
+Route::get('sms/dispatch',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@index']);
+Route::get('sms/dispatch/create',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@create']);
+Route::post('sms/dispatch/create',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@store']);
+Route::get('sms/dispatch/edit/{id}',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@edit']);
+Route::post('sms/dispatch/edit',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@update']);
+Route::post('sms/dispatch/remove/{id}',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@destroy']);
+Route::get('sms/dispatch/customers/{id}',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@assignCustomers']);
+Route::post('sms/dispatch/customers',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@postAssignCustomers']);
+
+Route::get('sms/messages',['middleware' => 'auth', 'uses' =>'SMSMessagesController@index']);
+Route::get('sms/messages/create',['middleware' => 'auth', 'uses' =>'SMSMessagesController@create']);
+Route::post('sms/messages/create',['middleware' => 'auth', 'uses' =>'SMSMessagesController@store']);
+Route::get('sms/messages/edit/{id}',['middleware' => 'auth', 'uses' =>'SMSMessagesController@edit']);
+Route::get('sms/messages/dispatch/{id}',['middleware' => 'auth', 'uses' =>'SMSMessagesController@dispatchLog']);
+Route::post('sms/messages/edit',['middleware' => 'auth', 'uses' =>'SMSMessagesController@update']);
+Route::post('sms/messages/remove/{id}',['middleware' => 'auth', 'uses' =>'SMSMessagesController@destroy']);
+
+Route::get('sms/report',['middleware' => 'auth', 'uses' =>'SMSCustomerController@report']);
+
 //Downloads
 Route::get('downloads/manage',['middleware' => 'auth', 'uses' =>'DownloadController@index']);
 Route::get('downloads/reports',['middleware' => 'auth', 'uses' =>'DownloadController@reports']);
