@@ -17,6 +17,7 @@ class CreateSMSLogsTable extends Migration
             $table->string('phone');
             $table->string('message');
             $table->string('status');
+            $table->integer('message_id');
             $table->date('dispatch_date');
             $table->dateTime('dispatch_date_tm');
             $table->string('input_by');

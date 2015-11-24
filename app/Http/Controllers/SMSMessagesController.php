@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SendSMS;
+use App\SMSLog;
 use App\SMSMessages;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -52,8 +53,8 @@ class SMSMessagesController extends Controller
         $sms->save();
 
         //Dispatch job
-        $msg= SMSMessages::find($sms->id);;
-
+        $msg= SMSMessages::find($sms->id);
+       // dump($msg);
         //Send email
         $job = (new SendSMS($msg))->delay(10);
         $this->dispatch($job);
@@ -109,6 +110,7 @@ class SMSMessagesController extends Controller
     //Dispatch log
     public function dispatchLog($id)
     {
-
+        $smsmessages=SMSLog::where('message_id','=',$id)->get();
+        return view('sms.messages.history',compact('smsmessages'));
     }
 }

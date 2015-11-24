@@ -185,12 +185,12 @@
             </li>@endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,23)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;">
+                <a href="javascript:;" class="active">
                     <i class="fa fa-laptop"></i>
                     <span>SMS To Customers</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="{{url('sms/messages')}}" title="Reminder List">Messages</a></li>
+                    <li class="active"><a  href="{{url('sms/messages')}}" title="Reminder List">Messages</a></li>
                     <li   ><a  href="{{url('sms/customers')}}" title="Create Reminder">Customers</a></li>
                     <li><a  href="{{url('sms/dispatch')}}" title="Reminder List">Distribution List</a></li>
                     <li><a  href="{{url('sms/reports')}}" title="Reminder List">Report</a></li>

@@ -5,7 +5,7 @@
 
     {!! Form::open(array('url'=>'sms/dispatch/create','role'=>'form','id'=>'InventoryForm')) !!}
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border" style="color:#005DAD">Basic Customer details</legend>
+    <legend class="scheduler-border" style="color:#005DAD">Basic group details</legend>
 
     <div class="form-group">
             <label for="list_name">Group Name</label>

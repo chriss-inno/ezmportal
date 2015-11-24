@@ -1,51 +1,130 @@
 @extends('layout.master')
 @section('page-title')
-    Customers phone book import
+    Messages
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
     {!!HTML::script("js/easy-pie-chart.js") !!}
     {!!HTML::script("js/count.js") !!}
-    {!!HTML::script("js/jquery.tagsinput.js")!!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
     {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
     {!!HTML::script("js/jquery.scrollTo.min.js") !!}
     {!!HTML::script("js/jquery.nicescroll.js") !!}
-    {!!HTML::script("js/jquery.validate.min.js" ) !!}
-    {!!HTML::script("js/respond.min.js"  ) !!}
-    {!!HTML::script("js/form-validation-script.js") !!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
+    {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
 
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
 
-            $(".createItem").click(function(){
-                var id1 = $(this).parent().attr('id');
-                var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
-                modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
-                modaldis+= '<div class="modal-content">';
-                modaldis+= '<div class="modal-header">';
-                modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">New Customer </span>';
-                modaldis+= '</div>';
-                modaldis+= '<div class="modal-body">';
-                modaldis+= ' </div>';
-                modaldis+= '</div>';
-                modaldis+= '</div>';
-                $('body').css('overflow','hidden');
+            $('#branches').dataTable( {
+                "fnDrawCallback": function( oSettings ) {
 
-                $("body").append(modaldis);
-                jQuery.noConflict();
-                $("#myModal").modal("show");
-                $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                $(".modal-body").load("<?php echo url("sms/customers/create") ?>");
-                $("#myModal").on('hidden.bs.modal',function(){
-                    $("#myModal").remove();
-                })
 
-            });
+                    $(".deleteItem").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        $(".deleteItem").show("slow").parent().parent().find("span").remove();
+                        var btn = $(this).parent().parent();
+                        $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
+                        $("#no").click(function(){
+                            $(this).parent().parent().find(".deleteItem").show("slow");
+                            $(this).parent().parent().find("span").remove();
+                        });
+                        $("#yes").click(function(){
+                            $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
+                            $.get("<?php echo url('sms/messages/remove') ?>/"+id1,function(data){
+                                btn.hide("slow").next("hr").hide("slow");
+                                // $(this).parent().parent().parent().parent().remove();
+                            });
+                        });
+                    });
+                    //Edit Module
+                    $(".editItem").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center" style="color: #FFF">Update Customer</span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("sms/customers/edit") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    })
+                    //Create module
+                    $(".createItem").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">New Customer </span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("sms/customers/create") ?>");
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    });
+
+                    //Display Item details
+                    $(".showDetails").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Item details </span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("inventory") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    });
+                }
+            } );
 
         } );
-        //Edit class streams
+
+
     </script>
 
 @stop
@@ -104,14 +183,15 @@
                     @endif
                 </ul>
             </li>@endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,23)  || Auth::user()->user_type=="Administrator")<li class="sub-menu">
-                <a href="javascript:;" class="active">
+        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,23)  || Auth::user()->user_type=="Administrator")
+            <li class="sub-menu">
+                <a href="javascript:;" class="active" >
                     <i class="fa fa-laptop"></i>
                     <span>SMS To Customers</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="{{url('sms/messages')}}" title="Reminder List">Messages</a></li>
-                    <li class="active" ><a  href="{{url('sms/customers')}}" title="Create Reminder">Customers</a></li>
+                    <li class="active"><a  href="{{url('sms/messages')}}" title="Reminder List">Messages</a></li>
+                    <li  ><a  href="{{url('sms/customers')}}" title="Create Reminder">Customers</a></li>
                     <li><a  href="{{url('sms/dispatch')}}" title="Reminder List">Distribution List</a></li>
                     <li><a  href="{{url('sms/reports')}}" title="Reminder List">Report</a></li>
 
@@ -313,14 +393,18 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa fa-bars"></i> Manage customers phone book</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-envelope text-danger"></i> Messages History</strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                                 <div class="btn-group btn-group-justified">
-                                     <a href="{{url('sms/customers')}}" class="btn btn-file btn-primary">View Customers</a>
+                                    <a href="{{url('sms/messages/create')}}" class=" btn btn-file btn-primary">New Message</a>
+
+                                    <a href="{{url('sms/messages')}}" class="btn btn-file btn-primary"> Messages History</a>
+
+                                    <a href="{{url('sms/customers')}}" class="btn btn-file btn-primary">View Customers</a>
 
                                     <a href="{{url('sms/dispatch')}}" class="btn btn-file btn-primary">Distribution List</a>
 
@@ -331,49 +415,49 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" style="margin-top: 30px">
+                        <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <p> <h3 class="text-center">Import From MS Excel </h3>
-                        @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        @if(Session::has('error'))
-                            <div class="alert fade in alert-danger">
-                                <i class="icon-remove close" data-dismiss="alert"></i>
-                                {{Session::get('message')}}
-                            </div>
-                        @endif
-                        <hr/>
-                        {!! Form::open(array('url'=>'sms/customers/import','role'=>'form','id'=>'importInventory','files' => true)) !!}
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-4 col-sm-4 col-xs-4 col-sm-offset-4 col-md-offset-4 col-xs-offset-4">
-                                     <input type="file" id="customer_file" name="customer_file">
+                                <div class="adv-table">
+                                    <table  class="display table table-bordered table-striped" id="branches">
+                                        <thead>
+                                        <tr>
+                                            <th>SNO</th>
+                                            <th>Date</th>
+                                            <th>Phone</th>
+                                            <th>Message</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php $i=1;?>
+                                        @foreach($smsmessages as $sms)
+                                            <tr>
+                                                <td>{{$i++}}</td>
+                                                <td>{{$sms->dispatch_date_tm}}</td>
+                                                <td>{{$sms->phone}}</td>
+                                                <td>{{$sms->message}}</td>
+                                                <td>{{$sms->status}}</td>
+                                            </tr>
+
+                                        @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th>SNO</th>
+                                            <th>Date</th>
+                                            <th>Phone</th>
+                                            <th>Message</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-4 col-sm-4 col-xs-4 col-sm-offset-4 col-md-offset-4 col-xs-offset-4">
-                                    <button type="submit" class="btn btn-primary btn-block">Import File</button>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        {!! Form::close() !!}
-
-                    </div>
                         </div>
                     </div>
                 </section>
             </div>
+
         </div>
     </section>
     <!-- page end-->

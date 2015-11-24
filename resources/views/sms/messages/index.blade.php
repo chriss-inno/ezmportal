@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-  Customers
+  Messages
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
@@ -393,7 +393,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa fa-users text-danger"></i> Customers</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-envelope text-danger"></i> Messages History</strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
@@ -447,7 +447,7 @@
                                             <td><a  href="#" title="Logs not available, message was not sent" class=" btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</a></td>
                                         @else
                                             <td><a  href="#"  class=" btn btn-success btn-xs"> {{ucwords(strtolower($sms->status)) }} </a></td>
-                                            <td>><a  href="#"  class=" btn btn-danger btn-xs">{{$sms->sent_time}}</a></td>
+                                            <td><a  href="#"  class=" btn btn-success btn-xs">{{$sms->sent_time}}</a></td>
                                             <td><a  href="{{url('sms/messages/dispatch')}}/{{$sms->id}}" title="Logs " class=" btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</a></td>
                                             @endif
 

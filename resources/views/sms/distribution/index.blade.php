@@ -393,7 +393,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa fa-users text-danger"></i> SMS Distribution list </strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-users text-danger"></i> Messages Distribution groups </strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
@@ -401,7 +401,7 @@
 
                                 <div class="btn-group btn-group-justified">
                                     <a href="#" class="createItem btn btn-file btn-primary">New Group</a>
-                                    <a href="{{url('sms/customers')}}" class="btn btn-file btn-primary">View Groups</a>
+                                    <a href="{{url('sms/dispatch')}}" class="btn btn-file btn-primary">View Groups</a>
                                     <a href="{{url('sms/customers')}}" class="btn btn-file btn-primary">View Customers</a>
                                     <a href="{{url('sms/dispatch')}}" class="btn btn-file btn-primary">Distribution List</a>
                                     <a href="{{url('sms/messages')}}" class="btn btn-file btn-primary">Messages</a>
