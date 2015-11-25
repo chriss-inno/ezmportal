@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-   Service delivery
+    Service Delivery Customer Issues
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
@@ -21,32 +21,31 @@
                 "fnDrawCallback": function( oSettings ) {
 
 
-                    $(".deleteProduct").click(function(){
+                    $(".deleteIssues").click(function(){
                         var id1 = $(this).parent().attr('id');
-                        $(".deleteProduct").show("slow").parent().parent().find("span").remove();
+                        $(".deleteIssues").show("slow").parent().parent().find("span").remove();
                         var btn = $(this).parent().parent();
                         $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
                         $("#no").click(function(){
-                            $(this).parent().parent().find(".deleteProduct").show("slow");
+                            $(this).parent().parent().find(".deleteIssues").show("slow");
                             $(this).parent().parent().find("span").remove();
                         });
                         $("#yes").click(function(){
                             $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                            $.get("<?php echo url('sdproductdetails-remove') ?>/"+id1,function(data){
+                            $.get("<?php echo url('servicedelivery/remove') ?>/"+id1,function(data){
                                 btn.hide("slow").next("hr").hide("slow");
-                                // $(this).parent().parent().parent().parent().remove();
                             });
                         });
                     });
                     //Edit Module
-                    $(".editProduct").click(function(){
+                    $(".editIssue").click(function(){
                         var id1 = $(this).parent().attr('id');
                         var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
                         modaldis+= '<div class="modal-content">';
                         modaldis+= '<div class="modal-header">';
                         modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center" style="color: #FFF">Update Product</span>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center" style="color: #FFF">Update Issues</span>';
                         modaldis+= '</div>';
                         modaldis+= '<div class="modal-body">';
                         modaldis+= ' </div>';
@@ -58,14 +57,14 @@
                         jQuery.noConflict();
                         $("#myModal").modal("show");
                         $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("sdproductdetails") ?>/"+id1+"/edit");
+                        $(".modal-body").load("<?php echo url("servicedelivery/edit") ?>/"+id1);
                         $("#myModal").on('hidden.bs.modal',function(){
                             $("#myModal").remove();
                         })
 
                     })
                     //Create module
-                    $(".createProduct").click(function(){
+                    $(".createIsssue").click(function(){
                         var id1 = $(this).parent().attr('id');
                         var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
@@ -73,7 +72,7 @@
                         modaldis+= '<div class="modal-content">';
                         modaldis+= '<div class="modal-header">';
                         modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Create New Products Type </span>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Create New Issues </span>';
                         modaldis+= '</div>';
                         modaldis+= '<div class="modal-body">';
                         modaldis+= ' </div>';
@@ -85,7 +84,7 @@
                         jQuery.noConflict();
                         $("#myModal").modal("show");
                         $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("sdproductdetails/create") ?>");
+                        $(".modal-body").load("<?php echo url("servicedelivery/create") ?>");
                         $("#myModal").on('hidden.bs.modal',function(){
                             $("#myModal").remove();
                         })
@@ -101,7 +100,7 @@
                         modaldis+= '<div class="modal-content">';
                         modaldis+= '<div class="modal-header">';
                         modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">View Product type</span>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Customer Issue details</span>';
                         modaldis+= '</div>';
                         modaldis+= '<div class="modal-body">';
                         modaldis+= ' </div>';
@@ -113,7 +112,7 @@
                         jQuery.noConflict();
                         $("#myModal").modal("show");
                         $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("sdproductdetails") ?>/"+id1);
+                        $(".modal-body").load("<?php echo url("servicedelivery/show") ?>/"+id1);
                         $("#myModal").on('hidden.bs.modal',function(){
                             $("#myModal").remove();
                         })
@@ -129,15 +128,13 @@
 
 @stop
 @section('menus')
-    <?php  $system=\App\SystemSetup::all()->first();?>
     <ul class="sidebar-menu" id="nav-accordion">
         <li>
             <a class="active" href="{{url('home')}}">
                 <i class="fa fa-dashboard"></i>
                 <span>Dashboard</span>
             </a>
-        </li>
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,1) || Auth::user()->user_type=="Administrator")
+        </li> @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,1) || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
                 <a href="javascript:;" >
                     <i class=" fa fa-bar-chart-o"></i>
@@ -167,8 +164,7 @@
                     <li><a  href="#" title="List Albums">List Albums</a></li>
                 </ul>
             </li>
-        @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5)  || Auth::user()->user_type=="Administrator")
+        @endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
                 <a href="javascript:;" >
                     <i class="fa fa-download"></i>
@@ -182,31 +178,19 @@
                         <li><a  href="{{url('downloads/manage')}}" title="Manage Downloads">Manage Downloads</a></li>
                     @endif
                 </ul>
-            </li>@endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,23)  || Auth::user()->user_type=="Administrator")<li class="sub-menu">
-                <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
-                    <span>SMS To Customers</span>
-                </a>
-                <ul class="sub">
-                    <li><a  href="{{url('sms/messages')}}" title="Reminder List">Messages</a></li>
-                    <li   ><a  href="{{url('sms/customers')}}" title="Create Reminder">Customers</a></li>
-                    <li><a  href="{{url('sms/dispatch')}}" title="Reminder List">Distribution List</a></li>
-                    <li><a  href="{{url('sms/reports')}}" title="Reminder List">Report</a></li>
-
-                </ul>
             </li>
-        @endif
-        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
+        @endif @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
                 <a href="javascript:;" class="active" >
                     <i class="fa fa-info"></i>
                     <span>Service Delivery</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
-                    <li class="active"><a  href="{{url('servicedelivery/settings')}}" title="Customer Issues Tracking" > Settings</a></li>
-                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,22) || Auth::user()->user_type=="Administrator") <li ><a  href="{{url('servicedelivery/email')}}" >Email Settings</a></li>
+                    <li class="active"><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
+                    <li><a  href="{{url('servicedelivery/customers')}}">Customers</a></li>
+                    <li><a  href="{{url('servicedelivery/settings')}}">Settings</a></li>
+                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,22) || Auth::user()->user_type=="Administrator")
+                        <li class="active" ><a  href="{{url('servicedelivery/email')}}" title="Customer Issues Tracking">Email Settings</a></li>
                     @endif
                 </ul>
             </li>
@@ -218,8 +202,7 @@
                     <span>Money Msafiri</span>
                 </a>
                 <ul class="sub">
-
-                    <li><a  @if($system != null && count($system) > 0 && $system->mm_link_1 != null && $system->mm_link_1 !="") href="{{$system->mm_link_1}}" @else href="#" @endif  title="Money Msafiri System" target="_blank">Money Msafiri System</a></li>
+                    <li><a  href="#" title="Money Msafiri System">Money Msafiri System</a></li>
                 </ul>
             </li>
         @endif
@@ -240,9 +223,8 @@
                     <span>Credit</span>
                 </a>
                 <ul class="sub">
-
-                    <li><a  @if($system != null && count($system) > 0 && $system->credit_link_1 != null && $system->credit_link_1 !="") href="{{$system->credit_link_1}}" @else href="#" @endif title="Credit Request" TARGET="_blank">Credit Request</a></li>
-                    <li><a  @if($system != null && count($system) > 0 && $system->credit_link_2 != null && $system->credit_link_2 !="") href="{{$system->credit_link_2}}" @else href="#" @endif title="CA Portal" target="_blank">CA Portal</a></li>
+                    <li><a  href="#" title="Credit Request">Credit Request</a></li>
+                    <li><a  href="#" title="CA Portal">CA Portal</a></li>
                 </ul>
             </li>
         @endif
@@ -253,7 +235,7 @@
                     <span>Human Resource</span>
                 </a>
                 <ul class="sub">
-                    <li><a   @if($system != null && count($system) > 0 && $system->hr_link_1 != null && $system->hr_link_1 !="") href="{{$system->hr_link_1}}" @else href="#" @endif title="HR Portal" TARGET="_blank">HR Portal</a></li>
+                    <li><a  href="#" title="HR Portal">HR Portal</a></li>
 
                 </ul>
             </li>
@@ -287,9 +269,6 @@
                     @endif
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,15) || Auth::user()->user_type=="Administrator")
                         <li><a  href="{{url('queries/assign')}}" title="Queries Assign">Queries Assign</a></li>
-                    @endif
-                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,21))
-                        <li><a  href="{{url('queryemails')}}" title="Queries Emails">Queries Emails Setup</a></li>
                     @endif
                 </ul>
             </li>
@@ -392,20 +371,17 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa fa-cogs text-danger"></i> SERVICE DELIVERY PRODUCTS DETAILS</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-users"></i>  CUSTOMER ISSUES TRACKING</strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                                 <div class="btn-group btn-group-justified">
-                                    <a href="#" class="createProduct btn btn-file btn-primary">New Product details</a>
-
-                                    <a href="{{url('sdproductdetails')}}" class="btn btn-file btn-primary">View Products details</a>
-
-                                    <a href="{{url('sdproductdetails')}}" class="btn btn-file btn-primary">Manage Products details</a>
-                                    <a href="{{url('servicedelivery')}}" class="btn btn-file btn-primary">VIEW ISSUES</a>
-
+                                    <a href="#" class="createIsssue btn btn-file btn-primary"><i class="fa fa-file-o text-danger"></i> RECORD NEW ISSUE</a>
+                                    <a href="{{url('servicedelivery')}}" class="btn btn-file btn-primary"> <i class="fa fa-pencil-square text-danger"></i> VIEW ISSUES PROGRESS</a>
+                                    <a href="{{url('servicedelivery/history')}}" class="btn btn-file btn-primary"> <i class="fa fa-archive text-danger"></i> VIEW ISSUES HISTORY</a>
+                                    <a href="{{url('servicedelivery/history')}}" class="btn btn-file btn-primary"> <i class="fa fa-bar-chart text-danger"></i>  ISSUES REPORT</a>
                                 </div>
                             </div>
                         </div>
@@ -416,23 +392,59 @@
                                         <thead>
                                         <tr>
                                             <th>SNO</th>
-                                            <th>Details name</th>
-                                            <th>Descriptions</th>
-                                            <th>Input By</th>
-                                            <th>Action</th>
+                                            <th>ISSUE #</th>
+                                            <th>Date Issued</th>
+                                            <th>Company Name</th>
+                                            <th>Contact Person</th>
+                                            <th>Product Type</th>
+                                            <th>Received By</th>
+                                            <th>Department Responsible</th>
+                                            <th>Status</th>
+                                            <th>Date Resolved</th>
+                                            <th>Details</th>
+
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <?php $i=1;?>
-                                        @foreach($pdetails as $prod)
+                                        @foreach($issues as $issue)
                                             <tr>
                                                 <td>{{$i++}}</td>
-                                                <td>{{$prod->details_name}}</td>
-                                                <td>{{$prod->description}}</td>
-                                                <td>{{$prod->input_by}}</td>
-                                                <td id="{{$prod->id}}" align="center">
-                                                    <a  href="#" title="Edit Product" class="editProduct btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                                    <a href="#b" title="Delete Product" class="deleteProduct btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                                <td>{{$issue->issues_number}}</td>
+                                                @if($issue->date_created != null && $issue->date_created !="" )
+                                                    <td>{{$issue->date_created}}</td>
+                                                @else
+                                                    <td></td>
+                                                @endif
+                                                <td>{{$issue->customer->company_name}}</td>
+                                                <td>{{$issue->customer->contact_person}}</td>
+                                                @if($issue->product_id != null && $issue->product_id !="" )
+                                                    <td>{{$issue->producttype->product_type}}</td>
+                                                @else
+                                                    <td></td>
+                                                @endif
+                                                @if($issue->received_by != null && $issue->received_by !="" )
+                                                    <td>{{$issue->received_by}}</td>
+                                                @else
+                                                    <td></td>
+                                                @endif
+                                                @if($issue->department_id != null && $issue->department_id !="" )
+                                                    <td>{{$issue->department->department_name}}</td>
+                                                @else
+                                                    <td></td>
+                                                @endif
+                                                @if($issue->status_id != null && $issue->status_id !="" )
+                                                    <td>{{$issue->status->status_name}}</td>
+                                                @else
+                                                    <td></td>
+                                                @endif
+                                                @if($issue->date_resolved != null && $issue->date_resolved !="" )
+                                                    <td>{{$issue->date_resolved}}</td>
+                                                @else
+                                                    <td></td>
+                                                @endif
+                                                <td id="{{$issue->id}}" align="center">
+                                                    <a  href="#" title="Details" class="showDetails btn btn-primary btn-xs"><i class="fa fa-eye"> View</i></a>
                                                 </td>
                                             </tr>
 
@@ -441,10 +453,17 @@
                                         <tfoot>
                                         <tr>
                                             <th>SNO</th>
-                                            <th>Details name</th>
-                                            <th>Descriptions</th>
-                                            <th>Input By</th>
-                                            <th>Action</th>
+                                            <th>ISSUE #</th>
+                                            <th>Date Issued</th>
+                                            <th>Company Name</th>
+                                            <th>Contact Person</th>
+                                            <th>Product Type</th>
+                                            <th>Received By</th>
+                                            <th>Department Responsible</th>
+                                            <th>Status</th>
+                                            <th>Date Resolved</th>
+                                            <th>Details</th>
+
                                         </tr>
                                         </tfoot>
                                     </table>

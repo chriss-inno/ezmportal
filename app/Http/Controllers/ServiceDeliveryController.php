@@ -18,10 +18,17 @@ class ServiceDeliveryController extends Controller
     public function index()
     {
         //
-        $issues=CustomerIssues::all();
+        $issues=CustomerIssues::where('closed','=','No')->get();
         return view('servicedelivery.index',compact('issues'));
     }
 
+    //showHistory
+    public function showHistory()
+    {
+        //
+        $issues=CustomerIssues::all();
+        return view('servicedelivery.history',compact('issues'));
+    }
     //Reports
     public function reports()
     {

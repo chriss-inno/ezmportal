@@ -118,6 +118,34 @@
                         })
 
                     });
+
+                    //Show updates
+                    $(".showUpdates").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Customer Issue details Update</span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("servicedelivery/updates") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    });
                 }
             } );
 
@@ -187,9 +215,10 @@
                 </a>
                 <ul class="sub">
                     <li class="active"><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
-                    <li><a  href="{{url('servicedelivery/settings')}}" title="Customer Issues Tracking">Settings</a></li>
+                    <li><a  href="{{url('servicedelivery/customers')}}">Customers</a></li>
+                    <li><a  href="{{url('servicedelivery/settings')}}">Settings</a></li>
                      @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,22) || Auth::user()->user_type=="Administrator")
-                    <li class="active" ><a  href="{{url('servicedelivery/email')}}" title="Customer Issues Tracking">Email Settings</a></li>
+                    <li><a  href="{{url('servicedelivery/email')}}" title="Customer Issues Tracking">Email Settings</a></li>
                     @endif
                 </ul>
             </li>
@@ -377,11 +406,10 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                                 <div class="btn-group btn-group-justified">
-                                    <a href="#" class="createIsssue btn btn-file btn-primary"><i class="fa fa-file-o"></i> RECORD NEW ISSUE</a>
-
-                                    <a href="{{url('servicedelivery')}}" class="btn btn-file btn-primary"> <i class="fa fa-pencil"></i> UPDATE ISSUE</a>
-                                    <a href="{{url('servicedelivery/customers')}}" class="btn btn-file btn-primary"> <i class="fa fa-users"></i> CUSTOMERS</a>
-                                    <a href="{{url('servicedelivery/settings')}}" class="btn btn-file btn-primary"> <i class="fa fa-cog"></i> SETTINGS</a>
+                                    <a href="#" class="createIsssue btn btn-file btn-primary"><i class="fa fa-file-o text-danger"></i> RECORD NEW ISSUE</a>
+                                    <a href="{{url('servicedelivery')}}" class="btn btn-file btn-primary"> <i class="fa fa-pencil-square text-danger"></i> VIEW ISSUES PROGRESS</a>
+                                    <a href="{{url('servicedelivery/history')}}" class="btn btn-file btn-primary"> <i class="fa fa-archive text-danger"></i> VIEW ISSUES HISTORY</a>
+                                    <a href="{{url('servicedelivery/reports')}}" class="btn btn-file btn-primary"> <i class="fa fa-bar-chart text-danger"></i>  ISSUES REPORT</a>
                                 </div>
                             </div>
                         </div>
@@ -400,6 +428,7 @@
                                             <th>Date Issued</th>
                                             <th>Department Responsible</th>
                                             <th>Status</th>
+                                            <th>Updates</th>
                                             <th>Details</th>
                                             <th>Actions</th>
                                         </tr>
@@ -437,6 +466,9 @@
                                                 @else
                                                     <td></td>
                                                 @endif
+                                                <td id="{{$issue->id}}" align="center">
+                                                    <a  href="#" title="Details" class="showUpdates btn btn-primary btn-xs"><i class="fa fa-pencil-square"> View</i></a>
+                                                </td>
                                                 <td id="{{$issue->id}}" align="center">
                                                     <a  href="#" title="Details" class="showDetails btn btn-primary btn-xs"><i class="fa fa-eye"> View</i></a>
                                                 </td>
