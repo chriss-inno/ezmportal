@@ -210,13 +210,16 @@ Route::post('sms/dispatch/remove/{id}',['middleware' => 'auth', 'uses' =>'SMSDis
 Route::get('sms/dispatch/customers/{id}',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@assignCustomers']);
 Route::post('sms/dispatch/customers',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@postAssignCustomers']);
 
+
+Route::get('sms/messages/report',['middleware' => 'auth', 'uses' =>'SMSMessagesController@reports']);
+Route::get('sms/messages/history',['middleware' => 'auth', 'uses' =>'SMSMessagesController@history']);
 Route::get('sms/messages',['middleware' => 'auth', 'uses' =>'SMSMessagesController@index']);
 Route::get('sms/messages/create',['middleware' => 'auth', 'uses' =>'SMSMessagesController@create']);
 Route::post('sms/messages/create',['middleware' => 'auth', 'uses' =>'SMSMessagesController@store']);
 Route::get('sms/messages/edit/{id}',['middleware' => 'auth', 'uses' =>'SMSMessagesController@edit']);
 Route::get('sms/messages/dispatch/{id}',['middleware' => 'auth', 'uses' =>'SMSMessagesController@dispatchLog']);
 Route::post('sms/messages/edit',['middleware' => 'auth', 'uses' =>'SMSMessagesController@update']);
-Route::post('sms/messages/remove/{id}',['middleware' => 'auth', 'uses' =>'SMSMessagesController@destroy']);
+Route::get('sms/messages/remove/{id}',['middleware' => 'auth', 'uses' =>'SMSMessagesController@destroy']);
 
 Route::get('sms/report',['middleware' => 'auth', 'uses' =>'SMSCustomerController@report']);
 

@@ -401,17 +401,9 @@
 
                                 <div class="btn-group btn-group-justified">
                                     <a href="{{url('sms/messages/create')}}" class=" btn btn-file btn-primary">New Message</a>
-
-                                    <a href="{{url('sms/messages')}}" class="btn btn-file btn-primary"> Messages History</a>
-
-                                    <a href="{{url('sms/customers')}}" class="btn btn-file btn-primary">View Customers</a>
-
-                                    <a href="{{url('sms/dispatch')}}" class="btn btn-file btn-primary">Distribution List</a>
-
-                                    <a href="{{url('sms/messages')}}" class="btn btn-file btn-primary">Messages</a>
-
-                                    <a href="{{url('sms/customers/import')}}" class="btn btn-file btn-primary">Import Customers</a>
-
+                                    <a href="{{url('sms/messages')}}" class="btn btn-file btn-primary">View Messages</a>
+                                    <a href="{{url('sms/messages/history')}}" class="btn btn-file btn-primary"> Messages History</a>
+                                    <a href="{{url('sms/messages/report')}}" class="btn btn-file btn-primary"> Messages Report</a>
                                 </div>
                             </div>
                         </div>
@@ -422,10 +414,13 @@
                                         <thead>
                                         <tr>
                                             <th>SNO</th>
-                                            <th>Date</th>
-                                            <th>Phone</th>
+                                            <th>Message title</th>
                                             <th>Message</th>
+                                            <th>Created at </th>
+                                            <th>Created by </th>
                                             <th>Status</th>
+                                            <th>Sent time </th>
+                                            <th>Dispatch Log</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -433,21 +428,35 @@
                                         @foreach($smsmessages as $sms)
                                             <tr>
                                                 <td>{{$i++}}</td>
-                                                <td>{{$sms->dispatch_date_tm}}</td>
-                                                <td>{{$sms->phone}}</td>
+                                                <td>{{$sms->message_title}}</td>
                                                 <td>{{$sms->message}}</td>
-                                                <td>{{$sms->status}}</td>
+                                                <td>{{$sms->created_at}}</td>
+                                                <td>{{$sms->input_by}}</td>
+                                                @if($sms->status =="Pending" || $sms->status =="pending")
+                                                    <td><a  href="#"  class=" btn btn-danger btn-xs"> {{ucwords(strtolower($sms->status)) }} </a></td>
+                                                    <td><a  href="#"  class=" btn btn-danger btn-xs">Not Sent </a></td>
+                                                    <td><a  href="#" title="Logs not available, message was not sent" class=" btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</a></td>
+                                                @else
+                                                    <td><a  href="#"  class=" btn btn-success btn-xs"> {{ucwords(strtolower($sms->status)) }} </a></td>
+                                                    <td><a  href="#"  class=" btn btn-success btn-xs">{{$sms->sent_time}}</a></td>
+                                                    <td><a  href="{{url('sms/messages/dispatch')}}/{{$sms->id}}" title="Logs " class=" btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</a></td>
+                                                @endif
+
                                             </tr>
 
                                         @endforeach
                                         </tbody>
                                         <tfoot>
                                         <tr>
+
                                             <th>SNO</th>
-                                            <th>Date</th>
-                                            <th>Phone</th>
+                                            <th>Message title</th>
                                             <th>Message</th>
+                                            <th>Created at </th>
+                                            <th>Created by </th>
                                             <th>Status</th>
+                                            <th>Sent time </th>
+                                            <th>Dispatch Log</th>
                                         </tr>
                                         </tfoot>
                                     </table>

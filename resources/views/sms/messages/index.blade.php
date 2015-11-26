@@ -393,7 +393,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa fa-envelope text-danger"></i> Messages History</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-envelope text-danger"></i> Messages</strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
@@ -401,17 +401,9 @@
 
                                 <div class="btn-group btn-group-justified">
                                     <a href="{{url('sms/messages/create')}}" class=" btn btn-file btn-primary">New Message</a>
-
-                                    <a href="{{url('sms/messages')}}" class="btn btn-file btn-primary"> Messages History</a>
-
-                                    <a href="{{url('sms/customers')}}" class="btn btn-file btn-primary">View Customers</a>
-
-                                    <a href="{{url('sms/dispatch')}}" class="btn btn-file btn-primary">Distribution List</a>
-
-                                    <a href="{{url('sms/messages')}}" class="btn btn-file btn-primary">Messages</a>
-
-                                    <a href="{{url('sms/customers/import')}}" class="btn btn-file btn-primary">Import Customers</a>
-
+                                    <a href="{{url('sms/messages')}}" class="btn btn-file btn-primary">View Messages</a>
+                                    <a href="{{url('sms/messages/history')}}" class="btn btn-file btn-primary"> Messages History</a>
+                                    <a href="{{url('sms/messages/report')}}" class="btn btn-file btn-primary"> Messages Report</a>
                                 </div>
                             </div>
                         </div>
@@ -445,16 +437,21 @@
                                             <td><a  href="#"  class=" btn btn-danger btn-xs"> {{ucwords(strtolower($sms->status)) }} </a></td>
                                             <td><a  href="#"  class=" btn btn-danger btn-xs">Not Sent </a></td>
                                             <td><a  href="#" title="Logs not available, message was not sent" class=" btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</a></td>
+                                            <td id="{{$sms->id}}" align="center">
+                                                <a  href="#" title="Edit " class="editItem btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                <a href="#b" title="Delete " class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                            </td>
                                         @else
                                             <td><a  href="#"  class=" btn btn-success btn-xs"> {{ucwords(strtolower($sms->status)) }} </a></td>
                                             <td><a  href="#"  class=" btn btn-success btn-xs">{{$sms->sent_time}}</a></td>
                                             <td><a  href="{{url('sms/messages/dispatch')}}/{{$sms->id}}" title="Logs " class=" btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</a></td>
+                                            <td id="{{$sms->id}}" align="center">
+                                                <a  href="#" title="Edit is not allowed" class=" btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                <a href="#b" title="Delete is not allowed" class=" btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                            </td>
                                             @endif
 
-                                        <td id="{{$sms->id}}" align="center">
-                                                <a  href="#" title="Edit " class="editItem btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                                <a href="#b" title="Delete " class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
-                                        </td>
+
                                     </tr>
 
                                 @endforeach

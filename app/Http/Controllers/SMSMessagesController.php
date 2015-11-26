@@ -23,6 +23,23 @@ class SMSMessagesController extends Controller
         $smsmessages=SMSMessages::all();
         return view('sms.messages.index',compact('smsmessages'));
     }
+    //
+
+    public function history()
+    {
+        //
+        $smsmessages=SMSMessages::all();
+        return view('sms.messages.history',compact('smsmessages'));
+    }
+
+    public function reports()
+    {
+        //
+        $smsmessages=SMSMessages::all();
+        return view('sms.messages.report',compact('smsmessages'));
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -105,6 +122,7 @@ class SMSMessagesController extends Controller
     public function destroy($id)
     {
         //
+
     }
 
     //Dispatch log
