@@ -3,26 +3,26 @@
 {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
 
 
-{!! Form::open(array('url'=>'sms/customers/edit','role'=>'form','id'=>'InventoryForm')) !!}
+{!! Form::open(array('url'=>'sms/dispatch/edit','role'=>'form','id'=>'InventoryForm')) !!}
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border" style="color:#005DAD">Basic Customer details</legend>
+    <legend class="scheduler-border" style="color:#005DAD">Basic group details</legend>
 
     <div class="form-group">
-        <label for="customer_name">Customer Name</label>
-        <input type="text" class="form-control" id="customer_name" name="customer_name" value="{{$customer->customer_name}}"  placeholder="Enter customer_name">
+        <label for="list_name">Group Name</label>
+        <input type="text" class="form-control" id="list_name" name="list_name" value="{{$distribution->list_name}}" placeholder="Enter group name">
     </div>
     <div class="form-group">
-        <label for="phone">Phone Number</label>
-        <input type="text" class="form-control" id="phone" name="phone" value="{{$customer->phone}}" placeholder="Enter phone">
+        <label for="descriptions">Descriptions</label>
+        <textarea class="form-control" id="descriptions" name="descriptions">{{$distribution->descriptions}}</textarea>
     </div>
     <div class="form-group">
         <div class="row">
             <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4">
                 <label for="status">Status</label>
                 <select name="status" class="form-control" id="status">
-                    @if($customer->status != "" && $customer->status != "")
-                        <option selected value="{{$customer->status}}">{{ $customer->status }}</option>
-                        @else
+                    @if($distribution->status != null && $distribution->status != "")
+                    <option selected value="{{$distribution->status}}">{{$distribution->status}}</option>
+                    @else
                         <option selected value="">----</option>
                         @endif
                     <option value="Enabled">Enabled</option>
@@ -39,7 +39,7 @@
         </div>
         <div class="col-md-3 col-sm-3 col-xs-3 pull-right">
             <button type="submit" class="btn btn-primary btn-block">Submit</button>
-            <input type="hidden" name="id" id="id" value="{{$customer->id}}">
+            <input type="hidden" name="id" id="id" value="{{$distribution->id}}">
         </div>
         <div class="col-md-7 col-sm-7 col-xs-7 pull-left" id="output">
 
@@ -68,14 +68,12 @@
 
     $("#InventoryForm").validate({
         rules: {
-            customer_name: "required",
-            phone: "required",
+            list_name: "required",
             status: "required"
 
         },
         messages: {
-            customer_name: "Please enter customer_name",
-            phone: "Please enter phone",
+            list_name: "Please enter group name",
             status: "Please select status"
         },
         submitHandler: function(form) {
@@ -90,6 +88,7 @@
                         success:function(data)
                         {
                             console.log(data);
+                            $("#output").html(data);
                             if(data =="Saved successfully")
                             {
                                 setTimeout(function() {

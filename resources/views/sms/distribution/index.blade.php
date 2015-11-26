@@ -46,7 +46,7 @@
                 modaldis+= '<div class="modal-content">';
                 modaldis+= '<div class="modal-header">';
                 modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center" style="color: #FFF">Update Customer</span>';
+                modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center" style="color: #FFF">Update Group</span>';
                 modaldis+= '</div>';
                 modaldis+= '<div class="modal-body">';
                 modaldis+= ' </div>';
@@ -190,10 +190,10 @@
                     <span>SMS To Customers</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="{{url('sms/messages')}}" title="Reminder List">Messages</a></li>
-                    <li ><a  href="{{url('sms/customers')}}" title="Create Reminder">Customers</a></li>
-                    <li  class="active" ><a  href="{{url('sms/dispatch')}}" title="Reminder List">Distribution List</a></li>
-                    <li><a  href="{{url('sms/reports')}}" title="Reminder List">Report</a></li>
+                    <li><a  href="{{url('sms/messages')}}" title="Messages">Messages</a></li>
+                    <li ><a  href="{{url('sms/customers')}}" title="Customers">Customers</a></li>
+                    <li  class="active" ><a  href="{{url('sms/dispatch')}}" title="Dispatch Group">Dispatch Group</a></li>
+                    <li><a  href="{{url('sms/reports')}}" title="SMS Reports">Report</a></li>
 
                 </ul>
             </li>

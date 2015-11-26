@@ -112,10 +112,10 @@
                 <span>SMS To Customers</span>
             </a>
             <ul class="sub">
-                <li><a  href="{{url('sms/messages')}}" title="Reminder List">Messages</a></li>
-                <li   ><a  href="{{url('sms/customers')}}" title="Create Reminder">Customers</a></li>
-                <li><a  href="{{url('sms/dispatch')}}" title="Reminder List">Distribution List</a></li>
-                <li><a  href="{{url('sms/reports')}}" title="Reminder List">Report</a></li>
+                <li><a  href="{{url('sms/messages')}}" title="Messages">Messages</a></li>
+                <li   ><a  href="{{url('sms/customers')}}" title="Customers">Customers</a></li>
+                <li><a  href="{{url('sms/dispatch')}}" title="Dispatch Group">Dispatch Group</a></li>
+                <li><a  href="{{url('sms/reports')}}" title="SMS Reports">Report</a></li>
 
             </ul>
         </li>
