@@ -131,9 +131,10 @@ class SMSDistributionListController extends Controller
     {
         //
         $distribution= SMSDistributionList::find($id);
-        if($distribution->distribution != null && count($distribution->distribution) >0)
+        $dspg=DispatchCustomer::where('dispatch_id','=',$distribution->id)->get();
+        if($dspg != null && count($dspg) >0)
         {
-            foreach($distribution->distribution as  $dist)
+            foreach($dspg as  $dist)
             {
                 $dist->delete();
             }

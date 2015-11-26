@@ -206,7 +206,7 @@ Route::get('sms/dispatch/create',['middleware' => 'auth', 'uses' =>'SMSDistribut
 Route::post('sms/dispatch/create',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@store']);
 Route::get('sms/dispatch/edit/{id}',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@edit']);
 Route::post('sms/dispatch/edit',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@update']);
-Route::post('sms/dispatch/remove/{id}',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@destroy']);
+Route::get('sms/dispatch/remove/{id}',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@destroy']);
 Route::get('sms/dispatch/customers/{id}',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@assignCustomers']);
 Route::post('sms/dispatch/customers',['middleware' => 'auth', 'uses' =>'SMSDistributionListController@postAssignCustomers']);
 

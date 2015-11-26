@@ -32,7 +32,7 @@
                 });
                 $("#yes").click(function(){
                     $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                    $.get("<?php echo url('sms/customers/remove') ?>/"+id1,function(data){
+                    $.get("<?php echo url('sms/dispatch/remove') ?>/"+id1,function(data){
                         btn.hide("slow").next("hr").hide("slow");
                        // $(this).parent().parent().parent().parent().remove();
                     });
