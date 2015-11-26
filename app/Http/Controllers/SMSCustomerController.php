@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DispatchCustomer;
 use App\SMSCustomer;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -53,14 +54,24 @@ class SMSCustomerController extends Controller
         //
         try
         {
-        $customer=new SMSCustomer;
-        $customer->customer_name =$request->customer_name;
-        $customer->phone =$request->phone;
-        $customer->status =$request->status;
-        $customer->input_by =Auth::user()->username;
-        $customer->save();
+            if(! count(SMSCustomer::where('phone','=',$request->phone)->get()) >0)
+            {
+                $customer=new SMSCustomer;
+                $customer->customer_name =$request->customer_name;
+                $customer->phone =$request->phone;
+                $customer->status =$request->status;
+                $customer->input_by =Auth::user()->username;
+                $customer->save();
 
-            return "Saved successfully";
+                return "Saved successfully";
+            }
+            else
+            {
+                return '<div class="alert fade in alert-danger">
+                    <i class="icon-remove close" data-dismiss="alert"></i>  Phone number [ '.$request->phone. ' ] is already in use
+                </div>';
+            }
+
         }
         catch(\Exception $ex)
         {
@@ -137,7 +148,11 @@ class SMSCustomerController extends Controller
     {
         //
         $customer=SMSCustomer::find($id);
-       // $customer->distribution->delete();
+
+        foreach(DispatchCustomer::where('customer_id','=',$customer->id)->get() as $cust)
+        {
+            $cust->delete();
+        }
         $customer->delete();
 
     }
@@ -165,7 +180,7 @@ class SMSCustomerController extends Controller
 
                 $results->each(function($row) {
 
-                    $cust=SMSCustomer::where('customer_name','=',$row->customer_name) ->where('phone','=',$row->phone_number)->get();
+                    $cust=SMSCustomer::where('phone','=',$row->phone_number)->get();
                     if( ! count($cust) > 0)
                     {
                         $customer=new SMSCustomer;

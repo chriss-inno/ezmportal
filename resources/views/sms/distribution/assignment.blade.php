@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Portal Reports Management
+    Customer assignment to dispatch group
     @stop
     @section('page_style')
 
@@ -57,6 +57,22 @@
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
 
+            $("#importFrom").change(function () {
+                var optsel = this.value;
+                if(optsel != "")
+                {
+                    if(optsel == "Yes")
+                    {
+                        $("#importSelection").html("<label for='customer_file'>Select MS Excel file for import</label> <input type='file' id='customer_file' name='customer_file' class='form-control' required>'");
+
+                    }else
+                    {
+                        $("#importSelection").html("");
+                    }
+
+
+                }else{$("#importSelection").html("");}
+            });
 
             //adding company user
             $(".showReportDetails").click(function(){
@@ -496,7 +512,7 @@
                                     </div>
                                 @endif
                                 <hr/>
-                                {!! Form::open(array('url'=>'sms/dispatch/customers','role'=>'form','id'=>'serviceStatusForm')) !!}
+                                {!! Form::open(array('url'=>'sms/dispatch/customers','role'=>'form','id'=>'serviceStatusForm','files' => true)) !!}
 
                                 <div class="form-group">
                                     <label for="dispatch_name">Group Name </label>
@@ -522,12 +538,35 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
+                                                <label for="report_type">Import customers From file?</label>
+                                                <select class="form-control"  id="importFrom" name="importFrom">
+                                                    @if(old('importFrom') !="")
+                                                        <option value="{{old('importFrom')}}" selected>{{old('importFrom')}}</option>
+                                                    @endif
+                                                    <option value="No">No</option>
+                                                    <option value="Yes">Yes</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-7 col-lg-7 col-sm-7 col-xs-7" id="importSelection">
+                                                @if(old('report_type') !="")
+                                                    @if(old('importFrom')=="Yes")
+                                                        <label for='reportFolder'>Select MS Excel file for upload</label>
+                                                        <input type='file' id='customer_file' name='customer_file' class='form-control' required>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="form-group" style="margin-top: 20px">
                                         <button type="submit" class="btn btn-primary pull-right col-md-2">Submit</button>
                                     </div>
 
 
                                 </div>
+
                                 {!! Form::close() !!}
                             </div>
                         </div>

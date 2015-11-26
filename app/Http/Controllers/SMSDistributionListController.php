@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\DispatchCustomer;
+use App\SMSCustomer;
 use App\SMSDistributionList;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\File;
 
 class SMSDistributionListController extends Controller
 {
@@ -147,34 +151,114 @@ class SMSDistributionListController extends Controller
     }
     public function postAssignCustomers(Request $request)
     {
+        try {
 
-        if($request->departments != null && count($request->departments) >0)
-        {
-            //Remove previous assignment
-            $remodisp=DispatchCustomer::where('dispatch_id','=',$request->dispatch_id)->get();
-            if(count($remodisp) > 0)
+            if($request->importFrom != null && $request->importFrom == "Yes")
             {
-               foreach($remodisp as $dt)
-               {
-                   $dt->delete();
-               }
+                // Build the input for our validation
+                $input = array('customer_file' => $request->file('customer_file'));
+
+                // Within the ruleset, make sure we let the validator know that this
+                // file should be an image
+                $rules = array(
+                    'customer_file' => 'required'
+                );
+
+                // Now pass the input and rules into the validator
+                $validator = Validator::make($input, $rules);
+                if ($validator->fails())
+                {
+                   return redirect()->back()->with('message',"Please enter valid file");
+                }else
+                {
+                    $file= $request->file('customer_file');
+                    $destinationPath = public_path() .'/uploads/temp/';
+                    $filename   = str_replace(' ', '_', $file->getClientOriginalName());
+
+                    $file->move($destinationPath, $filename);
+
+                    Excel::load($destinationPath . $filename, function ($reader) use($request) {
+
+                        $results = $reader->get();
+
+                        $results->each(function($row) use($request){
+
+                            $cust=SMSCustomer::where('phone','=',$row->phone_number)->get();
+
+                            if( ! count($cust) > 0)
+                            {
+                                $customer=new SMSCustomer;
+                                $customer->customer_name=$row->customer_name;
+                                $customer->phone=$row->phone_number;
+                                $customer->status='Enabled';
+                                $customer->input_by=Auth::user()->username;
+                                $customer->save();
+
+                                if(! count(DispatchCustomer::where('dispatch_id','=',$request->dispatch_id)->where('customer_id','=',$customer->id)->get()) >0)
+                                {
+                                    $disp=new DispatchCustomer;
+                                    $disp->dispatch_id=$request->dispatch_id;
+                                    $disp->customer_id=$customer->id;
+                                    $disp->input_by=Auth::user()->username;
+                                    $disp->save();
+                                }
+
+                            }
+                            else
+                            {
+                                $customer= SMSCustomer::where('phone','=',$row->phone_number)->first();
+                                if(! count(DispatchCustomer::where('dispatch_id','=',$request->dispatch_id)->where('customer_id','=',$customer->id)->get()) >0)
+                                {
+                                    $disp=new DispatchCustomer;
+                                    $disp->dispatch_id=$request->dispatch_id;
+                                    $disp->customer_id=$customer->id;
+                                    $disp->input_by=Auth::user()->username;
+                                    $disp->save();
+                                }
+                            }
+
+
+                        });
+                    });
+
+                    File::delete($destinationPath . $filename); //Delete after upload
+                }
             }
-           foreach($request->departments as $cust)
-           {
-               if(! count(DispatchCustomer::where('dispatch_id','=',$request->dispatch_id)->where('customer_id','=',$cust)->get()) >0)
-               {
-                   $disp=new DispatchCustomer;
-                   $disp->dispatch_id=$request->dispatch_id;
-                   $disp->customer_id=$cust;
-                   $disp->input_by=Auth::user()->username;
-                   $disp->save();
-               }
+            elseif($request->departments != null && count($request->departments) >0)
+            {
+                //Remove previous assignment
+                $remodisp=DispatchCustomer::where('dispatch_id','=',$request->dispatch_id)->get();
+                if(count($remodisp) > 0)
+                {
+                    foreach($remodisp as $dt)
+                    {
+                        $dt->delete();
+                    }
+                }
+                foreach($request->departments as $cust)
+                {
+                    if(! count(DispatchCustomer::where('dispatch_id','=',$request->dispatch_id)->where('customer_id','=',$cust)->get()) >0)
+                    {
+                        $disp=new DispatchCustomer;
+                        $disp->dispatch_id=$request->dispatch_id;
+                        $disp->customer_id=$cust;
+                        $disp->input_by=Auth::user()->username;
+                        $disp->save();
+                    }
 
-           }
+                }
 
+            }
+
+            return redirect('sms/dispatch');
+
+        } catch (\Exception $e) {
+
+            //echo $e->getMessage();
+            return redirect()->back()->with('error',$e->getMessage());
         }
 
-        return redirect('sms/dispatch');
+
 
     }
 }
