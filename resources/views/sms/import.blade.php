@@ -346,7 +346,7 @@
                         @if(Session::has('error'))
                             <div class="alert fade in alert-danger">
                                 <i class="icon-remove close" data-dismiss="alert"></i>
-                                {{Session::get('message')}}
+                                {{Session::get('error')}}
                             </div>
                         @endif
                         <hr/>

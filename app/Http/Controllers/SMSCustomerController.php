@@ -54,21 +54,29 @@ class SMSCustomerController extends Controller
         //
         try
         {
-            if(! count(SMSCustomer::where('phone','=',$request->phone)->get()) >0)
-            {
-                $customer=new SMSCustomer;
-                $customer->customer_name =$request->customer_name;
-                $customer->phone =$request->phone;
-                $customer->status =$request->status;
-                $customer->input_by =Auth::user()->username;
-                $customer->save();
+            $phone="";
+            $phone=preg_replace('/\s+/', '',$request->phone);
+            if($phone != "" && $phone != null ) {
 
-                return "Saved successfully";
+                if (!count(SMSCustomer::where('phone', '=', $phone)->get()) > 0) {
+                    $customer = new SMSCustomer;
+                    $customer->customer_name = $request->customer_name;
+                    $customer->phone = $request->phone;
+                    $customer->status = $request->status;
+                    $customer->input_by = Auth::user()->username;
+                    $customer->save();
+
+                    return "Saved successfully";
+                } else {
+                    return '<div class="alert fade in alert-danger">
+                    <i class="icon-remove close" data-dismiss="alert"></i>  Phone number [ ' . $request->phone . ' ] is already in use
+                </div>';
+                }
             }
             else
             {
                 return '<div class="alert fade in alert-danger">
-                    <i class="icon-remove close" data-dismiss="alert"></i>  Phone number [ '.$request->phone. ' ] is already in use
+                    <i class="icon-remove close" data-dismiss="alert"></i>  Phone number is missing
                 </div>';
             }
 
@@ -120,14 +128,23 @@ class SMSCustomerController extends Controller
         //
         try
         {
-            $customer= SMSCustomer::find($request->id);
-            $customer->customer_name =$request->customer_name;
-            $customer->phone =$request->phone;
-            $customer->status =$request->status;
-            $customer->input_by =Auth::user()->username;
-            $customer->save();
+            $phone="";
+            $phone=preg_replace('/\s+/', '',$request->phone);
+            if($phone != "" && $phone != null ) {
+                $customer = SMSCustomer::find($request->id);
+                $customer->customer_name = $request->customer_name;
+                $customer->phone = $phone;
+                $customer->status = $request->status;
+                $customer->input_by = Auth::user()->username;
+                $customer->save();
 
-            return "Saved successfully";
+                return "Saved successfully";
+            }else
+            {
+                return '<div class="alert fade in alert-danger">
+                    <i class="icon-remove close" data-dismiss="alert"></i>  Phone number is missing
+                </div>';
+            }
         }
         catch(\Exception $ex)
         {
@@ -180,16 +197,23 @@ class SMSCustomerController extends Controller
 
                 $results->each(function($row) {
 
-                    $cust=SMSCustomer::where('phone','=',$row->phone_number)->get();
-                    if( ! count($cust) > 0)
+                    //Get phone number
+                    $phone="";
+                    $phone=preg_replace('/\s+/', '',$row->phone_number);
+                    if($phone != null && $phone != "")
                     {
-                        $customer=new SMSCustomer;
-                        $customer->customer_name=$row->customer_name;
-                        $customer->phone=$row->phone_number;
-                        $customer->status='Enabled';
-                        $customer->input_by=Auth::user()->username;
-                        $customer->save();
+                        $cust=SMSCustomer::where('phone','=',$phone)->get();
+                        if( ! count($cust) > 0)
+                        {
+                            $customer=new SMSCustomer;
+                            $customer->customer_name=$row->customer_name;
+                            $customer->phone=$phone;
+                            $customer->status='Enabled';
+                            $customer->input_by=Auth::user()->username;
+                            $customer->save();
+                        }
                     }
+
 
                 });
             });

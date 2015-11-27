@@ -23,7 +23,7 @@ class SMSDistributionListController extends Controller
     public function index()
     {
         //
-       $distribution= SMSDistributionList::all();
+        $distribution= SMSDistributionList::all();
         return view('sms.distribution.index',compact('distribution'));
     }
 
@@ -104,12 +104,12 @@ class SMSDistributionListController extends Controller
         //
         try
         {
-        $distribution= SMSDistributionList::find($request->id);
-        $distribution->list_name=$request->list_name;
-        $distribution->descriptions=$request->descriptions;
-        $distribution->status=$request->status;
-        $distribution->input_by=Auth::user()->username;
-        $distribution->save();
+            $distribution= SMSDistributionList::find($request->id);
+            $distribution->list_name=$request->list_name;
+            $distribution->descriptions=$request->descriptions;
+            $distribution->status=$request->status;
+            $distribution->input_by=Auth::user()->username;
+            $distribution->save();
             return "Saved successfully";
         }
         catch(\Exception $ex)
@@ -169,7 +169,7 @@ class SMSDistributionListController extends Controller
                 $validator = Validator::make($input, $rules);
                 if ($validator->fails())
                 {
-                   return redirect()->back()->with('message',"Please enter valid file");
+                    return redirect()->back()->with('message',"Please enter valid file");
                 }else
                 {
                     $file= $request->file('customer_file');
@@ -184,37 +184,38 @@ class SMSDistributionListController extends Controller
 
                         $results->each(function($row) use($request){
 
-                            $cust=SMSCustomer::where('phone','=',$row->phone_number)->get();
+                            //Get phone number
+                            $phone="";
+                            $phone=preg_replace('/\s+/', '',$row->phone_number);
+                            if($phone != null && $phone != "") {
 
-                            if( ! count($cust) > 0)
-                            {
-                                $customer=new SMSCustomer;
-                                $customer->customer_name=$row->customer_name;
-                                $customer->phone=$row->phone_number;
-                                $customer->status='Enabled';
-                                $customer->input_by=Auth::user()->username;
-                                $customer->save();
+                                $cust = SMSCustomer::where('phone', '=', $phone)->get();
 
-                                if(! count(DispatchCustomer::where('dispatch_id','=',$request->dispatch_id)->where('customer_id','=',$customer->id)->get()) >0)
-                                {
-                                    $disp=new DispatchCustomer;
-                                    $disp->dispatch_id=$request->dispatch_id;
-                                    $disp->customer_id=$customer->id;
-                                    $disp->input_by=Auth::user()->username;
-                                    $disp->save();
-                                }
+                                if (!count($cust) > 0) {
+                                    $customer = new SMSCustomer;
+                                    $customer->customer_name = $row->customer_name;
+                                    $customer->phone = $phone;
+                                    $customer->status = 'Enabled';
+                                    $customer->input_by = Auth::user()->username;
+                                    $customer->save();
 
-                            }
-                            else
-                            {
-                                $customer= SMSCustomer::where('phone','=',$row->phone_number)->first();
-                                if(! count(DispatchCustomer::where('dispatch_id','=',$request->dispatch_id)->where('customer_id','=',$customer->id)->get()) >0)
-                                {
-                                    $disp=new DispatchCustomer;
-                                    $disp->dispatch_id=$request->dispatch_id;
-                                    $disp->customer_id=$customer->id;
-                                    $disp->input_by=Auth::user()->username;
-                                    $disp->save();
+                                    if (!count(DispatchCustomer::where('dispatch_id', '=', $request->dispatch_id)->where('customer_id', '=', $customer->id)->get()) > 0) {
+                                        $disp = new DispatchCustomer;
+                                        $disp->dispatch_id = $request->dispatch_id;
+                                        $disp->customer_id = $customer->id;
+                                        $disp->input_by = Auth::user()->username;
+                                        $disp->save();
+                                    }
+
+                                } else {
+                                    $customer = SMSCustomer::where('phone', '=', $phone)->first();
+                                    if (!count(DispatchCustomer::where('dispatch_id', '=', $request->dispatch_id)->where('customer_id', '=', $customer->id)->get()) > 0) {
+                                        $disp = new DispatchCustomer;
+                                        $disp->dispatch_id = $request->dispatch_id;
+                                        $disp->customer_id = $customer->id;
+                                        $disp->input_by = Auth::user()->username;
+                                        $disp->save();
+                                    }
                                 }
                             }
 
