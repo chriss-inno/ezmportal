@@ -203,7 +203,18 @@
 
         } );
 
+        $("#messageDispatch").validate({
+            rules: {
+                message: "required",
+                dispatch_id: "required"
 
+            },
+            messages: {
+                message: "Please enter message",
+                dispatch_id: "Please Select Distribution list"
+
+            }
+        });
     </script>
 
 @stop
@@ -513,8 +524,8 @@
 
                                 </div>
                                 <div class="form-group">
-                                    <label for="dispatch_name">Message </label>
-                                    <textarea id="message" name="message" class="form-control"  rows="6" onkeyup="messageCharCount(this);"> </textarea>
+                                    <label for="message">Message </label>
+                                    <textarea id="message" name="message" class="form-control"  rows="6" onkeyup="messageCharCount(this);" required></textarea>
 
                                 </div>
                                 <div class="form-group">
@@ -527,7 +538,7 @@
                                     <h3 class="text-info"> Customers Distribution list </h3> <hr/>
                                     <div class="row" style="margin-bottom: 10px">
                                         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                                            <select  class=" form-control" name="dispatch_id" id="dispatch_id">
+                                            <select  class=" form-control" name="dispatch_id" id="dispatch_id" required>
                                                 <option value="" >Select Distribution list</option>
                                                 <?php $distblists=\App\SMSDistributionList::where('status','=','Enabled')->get();?>
                                                 @foreach($distblists as $dst)
