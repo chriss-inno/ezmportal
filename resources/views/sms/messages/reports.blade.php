@@ -492,42 +492,36 @@
             <div class="col-lg-2 col-md-2">
                 <div class="row">
                     <section class="panel">
+                        <header class="panel-heading">
+                            <span class="text-info"> <strong> <i class="fa fa-tasks"></i> Quick links</strong></span>
+                        </header>
                         <div class="panel-body">
 
                             <div class="row" style="margin-top: 10px">
                                 <div class="col-md-12">
-                                    <a href="{{url('queries/create')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-folder-open-o"></i> Log Query</a>
+                                    <a href="{{url('sms/messages/create')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-envelope-o"></i> Compose Messages</a>
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 10px">
                                 <div class="col-md-12">
-                                    <a href="{{url('queries/mytask')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-tasks"></i> My Tasks</a>
+                                    <a href="{{url('sms/messages')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-envelope"></i> Messages</a>
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 10px">
                                 <div class="col-md-12">
-                                    <a href="{{url('queries/progress')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-archive"></i>  Progress</a>
+                                    <a href="{{url('sms/messages/history')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-envelope"></i> Dispatch History</a>
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 10px">
                                 <div class="col-md-12">
-                                    <a href="{{url('queries/history')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> History</a>
+                                    <a href="{{url('sms/customers')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-archive"></i>  Customers</a>
                                 </div>
                             </div>
-                            @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,21) || Auth::user()->user_type=="Administrator")
-                                <div class="row" style="margin-top: 10px">
-                                    <div class="col-md-12">
-                                        <a href="{{url('queryemails')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-envelope"></i> Emails Setting</a>
-                                    </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('sms/dispatch')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-users"></i> Dispatch Groups</a>
                                 </div>
-                            @endif
-                            @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
-                                <div class="row" style="margin-top: 10px">
-                                    <div class="col-md-12">
-                                        <a href="{{url('queries/report')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Reports</a>
-                                    </div>
-                                </div>
-                            @endif
+                            </div>
                         </div>
                     </section>
                 </div>
