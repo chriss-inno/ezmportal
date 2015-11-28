@@ -221,7 +221,7 @@ Route::get('sms/messages/dispatch/{id}',['middleware' => 'auth', 'uses' =>'SMSMe
 Route::post('sms/messages/edit',['middleware' => 'auth', 'uses' =>'SMSMessagesController@update']);
 Route::get('sms/messages/remove/{id}',['middleware' => 'auth', 'uses' =>'SMSMessagesController@destroy']);
 
-Route::get('sms/report',['middleware' => 'auth', 'uses' =>'SMSCustomerController@report']);
+Route::get('sms/reports',['middleware' => 'auth', 'uses' =>'SMSMessagesController@smsReports']);
 
 //Downloads
 Route::get('downloads/manage',['middleware' => 'auth', 'uses' =>'DownloadController@index']);

@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Today service status
+    SMS Messages Reports
 @stop
 @section('page_scripts')
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
@@ -13,8 +13,11 @@
         $(document).ready(function() {
             $(function () {
                 $('#departmentRepo').highcharts({
+                    chart: {
+                        type: 'column'
+                    },
                     title: {
-                        text: 'Daily Logged queries per department for the Month of <?php echo date("F,Y");?>',
+                        text: 'Daily messages sent  for the Month of <?php echo date("F,Y");?>',
                         x: -20 //center
                     },
                     subtitle: {
@@ -43,7 +46,7 @@
                     },
                     yAxis: {
                         title: {
-                            text: 'Logged Queries'
+                            text: 'Number of messages per day'
                         },
                         plotLines: [{
                             value: 0,
@@ -62,17 +65,16 @@
                     },
                     <?php
                      $dayData="";
-                     foreach(\App\Department::all() as $dep)
-                     {
-                        $dayData.="{name: '".$dep->department_name."',";
+
+                        $dayData.="{name: 'Messages sent',";
                             $da=cal_days_in_month(CAL_GREGORIAN,date('n'),date("Y"));
                              $dateCount="";
                              for($i=1; $i<= $da; $i++)
                              {
-                                $dateCount.=count(\App\Query::where(\DB::raw('DAY(reporting_Date)'),'=',$i)->where(\DB::raw('MONTH(reporting_Date)'),'=',date('n'))->where('from_department','=',$dep->id)->get()).",";
+                                $dateCount.=count(\App\SMSLog::where(\DB::raw('DAY(dispatch_date)'),'=',$i)->where(\DB::raw('MONTH(dispatch_date)'),'=',date('n'))->get()).",";
                              }
                              $dayData.="data: [".substr($dateCount,0,strlen($dateCount)-1)."]},";
-                     }
+
                      $dataContent=substr($dayData,0,strlen($dayData)-1);
                     ?>
 
@@ -86,23 +88,23 @@
                         type: 'column'
                     },
                     title: {
-                        text: 'Last three months average queries per departments'
+                        text: 'Number of customers per dispatch group'
                     },
                     subtitle: {
                         text: 'Source: Bank M Service Portal'
                     },
                     xAxis: {
                         categories: [
-                           @foreach(\App\Department::all() as $department)
-                            '{{$department->department_name}}',
-                           @endforeach
-                        ],
+                            @foreach(\App\SMSDistributionList::all() as $department)
+                             '{{$department->list_name}}',
+                            @endforeach
+                         ],
                         crosshair: true
                     },
                     yAxis: {
                         min: 0,
                         title: {
-                            text: 'Number of Queries Logged'
+                            text: 'Number of Customer'
                         }
                     },
                     credits: {
@@ -111,7 +113,7 @@
                     tooltip: {
                         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y:.0f} Queries</b></td></tr>',
+                        '<td style="padding:0"><b>{point.y:.0f} Customers</b></td></tr>',
                         footerFormat: '</table>',
                         shared: true,
                         useHTML: true
@@ -123,153 +125,26 @@
                         }
                     },
                     <?php
-                    $m1=date("Y-m-d",strtotime(date("Y-m-d").'-1 months'));
-                    $m2=date("Y-m-d",strtotime(date("Y-m-d").'-2 months'));
-                    $m3=date("Y-m-d",strtotime(date("Y-m-d").'-3 months'));
+
                     $data1="";
-                    $data2="";
-                    $data3="";
+
                     //Get all departments queries count for each month
-                    foreach(\App\Department::all() as $department)
+                    foreach(\App\SMSDistributionList::all() as $disp)
                     {
-                       $data1.=count( \App\Query::where('from_department','=',$department->id)->where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y',strtotime($m1)))->where(\DB::raw('MONTH(reporting_Date)'), '=',date('n',strtotime($m1)))->get()).",";
-                       $data2.=count( \App\Query::where('from_department','=',$department->id)->where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y',strtotime($m2)))->where(\DB::raw('MONTH(reporting_Date)'), '=',date('n',strtotime($m2)))->get()).",";
-                       $data3.=count( \App\Query::where('from_department','=',$department->id)->where(\DB::raw('YEAR(reporting_Date)'), '=', date('Y',strtotime($m3)))->where(\DB::raw('MONTH(reporting_Date)'), '=',date('n',strtotime($m3)))->get()).",";
+                       $data1.="{
+                           name: '".$disp->list_name."',
+                            data: [".count( \App\DispatchCustomer::where('dispatch_id','=',$disp->id)->get())."]
+                            },
+                           ";
                     }
                     $data1=substr($data1,0,strlen($data1)-1);
-                    $data2=substr($data2,0,strlen($data2)-1);
-                    $data3=substr($data3,0,strlen($data3)-1);
 
 
                      ?>
-                    series: [{
-                        name: '{{date("F",strtotime($m3))}}',
-                        data: [<?php echo $data3?>]
-
-                    }, {
-                        name: '{{date("F",strtotime($m2))}}',
-                        data: [<?php echo $data2?>]
-
-                    }, {
-                        name: '{{date("F",strtotime($m1))}}',
-                        data: [<?php echo $data1?>]
-
-                    }]
+                    series: [<?php echo $data1?>]
                 });
             });
-            $(function () {
-                $('#pieChart').highcharts({
-                    chart: {
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false,
-                        type: 'pie'
-                    },
-                    title: {
-                        text: 'Query logged by branches percentage wise'
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    tooltip: {
-                        pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                format: '<b>{point.name}</b>: {point.percentage:.0f} %',
-                                style: {
-                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                                }
-                            }
-                        }
-                    },
-                    <?php
-                      //Get all branches
-                      $dataPieDis=$dataPie="";
-                      $checkselect=1;
-                       foreach(\App\Branch::all() as $br)
-                       {
-                          if($checkselect ==1){
-                           $dataPie.='{';
-                            $dataPie.='name: "'.$br->branch_Name.'",';
-                          //Get number of logs for all time
-                            $dataPie.=' y: '. count(\App\Query::where('from_branch','=',$br->id)->get()).',
-                                sliced: true,
-                                selected: true';
-                           $dataPie.='},';
 
-                          }else
-                          {
-                           $dataPie.='{';
-                            $dataPie.='name: "'.$br->branch_Name.'",';
-                          //Get number of logs for all time
-                            $dataPie.=' y: '. count(\App\Query::where('from_branch','=',$br->id)->get());
-                           $dataPie.='},';
-                          }
-                         $checkselect++;
-                       }
-                        $dataPieDis= substr($dataPie,0,strlen($dataPie)-1);
-                     ?>
-                    series: [{
-                        name: "Branches",
-                        colorByPoint: true,
-                        data: [<?php echo $dataPieDis;?>]
-                    }]
-                });
-            });
-            $(function () {
-                $('#currentYear').highcharts({
-                    chart: {
-                        type: 'spline'
-                    },
-                    title: {
-                        text: 'Monthly Average Support Queries'
-                    },
-                    xAxis: {
-                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Average Queries'
-                        }
-                    },
-                    tooltip: {
-                        crosshairs: true,
-                        shared: true
-                    },
-                    plotOptions: {
-                        spline: {
-                            marker: {
-                                radius: 4,
-                                lineColor: '#666666',
-                                lineWidth: 1
-                            }
-                        }
-                    },
-                    <?php
-                          $MonthCount="";
-                          $monthData="";
-                             for($i=1; $i<= 12; $i++)
-                             {
-                                $MonthCount.=count(\App\Query::where(\DB::raw('Month(reporting_Date)'),'=',$i)->get()).",";
-                             }
-                             $monthData.=substr($MonthCount,0,strlen($MonthCount)-1);
-                    ?>
-                    series: [{
-                        name: 'Monthly Average Queries',
-                        data: [<?php echo $monthData;?>]
-
-                    }]
-                });
-            });
             //Edit class streams
             $(".customReports").click(function () {
                 var id1 = $(this).parent().attr('id');
@@ -377,18 +252,18 @@
                 </ul>
             </li>@endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,23)  || Auth::user()->user_type=="Administrator")<li class="sub-menu">
-                <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
-                    <span>SMS To Customers</span>
-                </a>
-                <ul class="sub">
-                    <li><a  href="{{url('sms/messages')}}" title="Messages">Messages</a></li>
-                    <li   ><a  href="{{url('sms/customers')}}" title="Customers">Customers</a></li>
-                    <li><a  href="{{url('sms/dispatch')}}" title="Dispatch Group">Dispatch Group</a></li>
-                    <li><a  href="{{url('sms/reports')}}" title="SMS Reports">Report</a></li>
+            <a href="javascript:;" class="active">
+                <i class="fa fa-laptop"></i>
+                <span>SMS To Customers</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('sms/messages')}}" title="Messages">Messages</a></li>
+                <li   ><a  href="{{url('sms/customers')}}" title="Customers">Customers</a></li>
+                <li><a  href="{{url('sms/dispatch')}}" title="Dispatch Group">Dispatch Group</a></li>
+                <li class="active"><a  href="{{url('sms/reports')}}" title="SMS Reports">Report</a></li>
 
-                </ul>
-            </li>
+            </ul>
+        </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
@@ -466,7 +341,7 @@
 
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,13) || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" class="active" >
+                <a href="javascript:;" >
                     <i class="fa fa-folder-open-o"></i>
                     <span>Support Queries</span>
                 </a>
@@ -589,7 +464,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <section class="panel">
                             <header class="panel-heading">
-                                <h3 class="text-info"> <strong> <i class="fa fa-bar-chart-o"></i> SERVICE PORTAL QUERIES REPORTS VISUALIZATION</strong></h3>
+                                <h3 class="text-info"> <strong> <i class="fa fa-envelope-square"></i>  <i class="fa fa-line-chart text-danger"></i> SMS REPORTS</strong></h3>
                             </header>
                             <div class="panel-body">
                                 <div class="row">
@@ -607,106 +482,71 @@
                             <header class="panel-heading">
                             </header>
                             <div class="panel-body">
-                               <div id="highchart" style="height:400px;"></div>
-                            </div>
-                        </section>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                        <section class="panel">
-                            <header class="panel-heading">
-                            </header>
-                            <div class="panel-body">
-                                <div id="currentYear" style="height:400px;"></div>
-                            </div>
-                        </section>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                        <section class="panel">
-                            <header class="panel-heading">
-                            </header>
-                            <div class="panel-body">
-                              <div id="pieChart" style="height:400px;"></div>
+                                <div id="highchart" style="height:400px;"></div>
                             </div>
                         </section>
                     </div>
                 </div>
 
             </div>
-             <div class="col-lg-2 col-md-2">
-                 <div class="row">
-                   <section class="panel">
-                    <div class="panel-body">
+            <div class="col-lg-2 col-md-2">
+                <div class="row">
+                    <section class="panel">
+                        <div class="panel-body">
 
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/create')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-folder-open-o"></i> Log Query</a>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('queries/create')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-folder-open-o"></i> Log Query</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/mytask')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-tasks"></i> My Tasks</a>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('queries/mytask')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-tasks"></i> My Tasks</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/progress')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-archive"></i>  Progress</a>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('queries/progress')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-archive"></i>  Progress</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/history')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> History</a>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('queries/history')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> History</a>
+                                </div>
                             </div>
+                            @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,21) || Auth::user()->user_type=="Administrator")
+                                <div class="row" style="margin-top: 10px">
+                                    <div class="col-md-12">
+                                        <a href="{{url('queryemails')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-envelope"></i> Emails Setting</a>
+                                    </div>
+                                </div>
+                            @endif
+                            @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
+                                <div class="row" style="margin-top: 10px">
+                                    <div class="col-md-12">
+                                        <a href="{{url('queries/report')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Reports</a>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
-                        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,21) || Auth::user()->user_type=="Administrator")
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queryemails')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-envelope"></i> Emails Setting</a>
-                            </div>
-                        </div>
-                        @endif
-                        @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('queries/report')}}" class="btn btn-file btn-danger btn-block"><i class=" fa fa-bar-chart-o"></i> Reports</a>
-                            </div>
-                        </div>
-                        @endif
-                    </div>
-                </section>
-                 </div>
-                 <div class="row">
-                     <section class="panel">
-                         <header class="panel-heading">
-                             <span class="text-info"> <strong> <i class="fa fa-download"></i> Download reports</strong></span>
-                         </header>
-                         <div class="panel-body">
+                    </section>
+                </div>
+                <div class="row">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            <span class="text-info"> <strong> <i class="fa fa-download"></i> Download reports</strong></span>
+                        </header>
+                        <div class="panel-body">
 
-                             <div class="row" style="margin-top: 10px">
-                                 <div class="col-md-12">
-                                     <a href="#" class=" btn btn-file btn-primary btn-block"><i class="fa fa-clock-o"></i> Daily Report</a>
-                                 </div>
-                             </div>
-                             <div class="row" style="margin-top: 10px">
-                                 <div class="col-md-12">
-                                     <a href="#" class="btn btn-file btn-success btn-block"><i class="fa fa-calendar"></i> Month Report</a>
-                                 </div>
-                             </div>
-                             <div class="row" style="margin-top: 10px">
-                                 <div class="col-md-12">
-                                     <a href="#" class="btn btn-file btn-info btn-block"><i class="fa fa-calendar"></i> Year Report</a>
-                                 </div>
-                             </div>
-                             <div class="row" style="margin-top: 10px">
-                                 <div class="col-md-12">
-                                     <a href="#" class="customReports btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> Custom Report </a>
-                                 </div>
-                             </div>
-                         </div>
-                     </section>
-                 </div>
-             </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="#" class=" btn btn-file btn-primary btn-block"><i class="fa fa-clock-o"></i> Custom Report</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </div>
     </section>
     <!-- page end-->

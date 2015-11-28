@@ -131,4 +131,13 @@ class SMSMessagesController extends Controller
         $smsmessages=SMSLog::where('message_id','=',$id)->get();
         return view('sms.messages.dispatchlog',compact('smsmessages'));
     }
+
+    //
+
+    public function smsReports()
+    {
+        $smsmessages=SMSLog::all();
+        return view('sms.messages.reports',compact('smsmessages'));
+    }
+
 }
