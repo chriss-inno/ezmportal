@@ -135,6 +135,7 @@ Route::get('servicedelivery/reports',['middleware' => 'auth', 'uses' =>'ServiceD
 Route::get('servicedelivery/settings',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@settings']);
 
 Route::get('servicedelivery/updates/{id}',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@showUpdates']);
+Route::post('servicedelivery/updates',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@postUpdates']);
 
 Route::get('servicedelivery/history',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@showHistory']);
 

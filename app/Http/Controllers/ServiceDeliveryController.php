@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CustomerIssues;
+use App\SDProgress;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -35,6 +36,44 @@ class ServiceDeliveryController extends Controller
         //
         $issues=CustomerIssues::all();
         return view('servicedelivery.reports',compact('issues'));
+    }
+
+    //Show updates /attend
+    public function showUpdates($id)
+    {
+        $issue=CustomerIssues::find($id);
+        return view('servicedelivery.attend',compact('issue'));
+    }
+
+    //postUpdates
+    public function postUpdates(Request $request)
+    {
+        $issue=CustomerIssues::find($request->issue_id);
+        $issue->remarks=$request->remarks;
+        $issue->status_id=$request->status_id;
+        if(strtolower($issue->status->status_name) =="resolved")
+        {
+            $issue->closed="Yes";
+            $issue->date_resolved=date("Y-m-d H:i");
+        }
+        $issue->save();
+
+        $sdprogress=new SDProgress;
+        $sdprogress->issue_id=$request->issue_id;
+        $sdprogress->issue_progress=$request->description;
+        $sdprogress->remarks=$request->remarks;
+        $sdprogress->progress_date=date("Y-m-d");
+        $sdprogress->progress_date_tm=date("Y-m-d H:i");
+        $sdprogress->user_id=Auth::user()->id;
+        $sdprogress->save();
+
+
+        //Audit
+
+        //Send email
+
+        return "Updates saved successful";
+
     }
     /**
      * Show the form for creating a new resource.
@@ -73,7 +112,16 @@ class ServiceDeliveryController extends Controller
 
             //Create Issue number
             $issues->issues_number= "CIN".$issues->id;
+
             $issues->save();
+            $issue= CustomerIssues::find($issues->id);
+            if(strtolower($issue->status->status_name) =="resolved")
+            {
+                $issue->closed="Yes";
+                $issue->date_resolved=date("Y-m-d H:i");
+                $issue->save();
+            }
+
             return "Data saved successfully";
 
         }catch (\Exception $ex)
@@ -135,6 +183,15 @@ class ServiceDeliveryController extends Controller
             $issues->status_id=$request->status_id;
             $issues->input_by=Auth::user()->username;
             $issues->save();
+
+            $issue= CustomerIssues::find($issues->id);
+            if(strtolower($issue->status->status_name) =="resolved")
+            {
+                $issue->closed="Yes";
+                $issue->date_resolved=date("Y-m-d H:i");
+                $issue->save();
+            }
+
 
             return "Data saved successfully";
 

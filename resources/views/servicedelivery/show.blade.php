@@ -1,113 +1,88 @@
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border" style="color:#005DAD">Customer Details</legend>
+    <legend class="scheduler-border" style="color:#005DAD">Customer Issue Summary</legend>
     <div class="form-group">
-        <label for="company_id">Company Name</label>
-        <select class="form-control"  id="company_id" name="company_id">
-            @if($issue->company_id != null && $issue->company_id != "")
-                <?php $customer=\App\SDCustomer::find($issue->company_id);?>
-                <option value="{{$customer->id}}" selected>{{$customer->company_name}}</option>
-            @else
-                <option value="" selected>Select Company</option>
-            @endif
-            <?php $customers=\App\SDCustomer::all();?>
-            @foreach($customers as $customer)
-                <option value="{{$customer->id}}">{{$customer->company_name}}</option>
-            @endforeach
-
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="contact_person">Contact Person</label>
-        <input type="text" class="form-control" id="contact_person" name="contact_person"
-               @if($issue->company_id != null && $issue->company_id != "")
-               <?php $customer=\App\SDCustomer::find($issue->company_id);?>
-               value="{{$customer->contact_person}}"
-               @else
-               value=""
-               @endif
-               placeholder="Enter contact person" readonly>
+        <table  class="display table table-bordered table-striped" id="branches">
+            <thead>
+            <tr>
+                <th>ISSUE #</th>
+                <th>Company Name</th>
+                <th>Contact Person</th>
+                <th>Product Type</th>
+                <th>Received By</th>
+                <th>Date Issued</th>
+                <th>Department Responsible</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{$issue->issues_number}}</td>
+                <td>{{$issue->customer->company_name}}</td>
+                <td>{{$issue->customer->contact_person}}</td>
+                @if($issue->product_id != null && $issue->product_id !="" )
+                    <td>{{$issue->producttype->product_type}}</td>
+                @else
+                    <td></td>
+                @endif
+                @if($issue->received_by != null && $issue->received_by !="" )
+                    <td>{{$issue->received_by}}</td>
+                @else
+                    <td></td>
+                @endif
+                @if($issue->date_created != null && $issue->date_created !="" )
+                    <td>{{date("d,M Y",strtotime($issue->date_created))}}</td>
+                @else
+                    <td></td>
+                @endif
+                @if($issue->department_id != null && $issue->department_id !="" )
+                    <td>{{$issue->department->department_name}}</td>
+                @else
+                    <td></td>
+                @endif
+                @if($issue->status_id != null && $issue->status_id !="" )
+                    <td>{{$issue->status->status_name}}</td>
+                @else
+                    <td></td>
+                @endif
+            </tr>
+            <tr>
+                <th colspan="8">Issue description</th>
+            </tr>
+            <tr>
+                <td colspan="8">{{$issue->description}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </fieldset>
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border" style="color:#005DAD">Issues Details</legend>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-md-6">
-                <label for="product_id">Product Type</label>
-                <select class="form-control"  id="product_id" name="product_id">
-                    @if($issue->product_id != null && $issue->product_id !="")
-                        <option value="{{$issue->producttype->id}}" selected>{{$issue->producttype->product_type}}</option>
-                    @else
-                        <option value="">Select Product Type</option>
-                    @endif
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <p><h4 class="text-info"><strong>Issue updates</strong></h4></p>
+            <div class="timeline-messages">
+                @foreach($issue->progress as $message)
+                        <!-- Comment -->
+                <div class="msg-time-chat">
 
-
-                </select>
-            </div>
-            <div class="col-md-6">
-                <label for="product_details_id">Product Details</label>
-                <select class="form-control"  id="product_details_id" name="product_details_id">
-                    @if($issue->product_details_id != null && $issue->product_details_id !="")
-                        <option value="{{$issue->productdetails->id}}" selected>{{$issue->productdetails->details_name}}</option>
-                    @else
-                        <option value="">Select Product details</option>
-                    @endif
-                </select>
+                    <div class="message-body msg-in">
+                        <span class="arrow"></span>
+                        <div class="text">
+                            <p class="attribution"><a href="#">{{$message->user->first_name . " " .$message->user->last_name}}</a> at {{date('h:i A',strtotime($message->created_at))}}, {{date("l, jS M Y",strtotime($message->created_at))}}</p>
+                            <p>{{$message->issue_progress}}</p>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+                        <!-- /comment -->
             </div>
         </div>
     </div>
-    <div class="form-group">
-        <label for="received_by">Received By</label>
-        <input type="text" class="form-control" id="received_by" name="received_by" value="{{$issue->received_by}}" placeholder="Enter received_by">
-    </div>
 
-    <div class="form-group">
-        <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-6 col-lg-6">
-                <label for="mode_id">Mode of receipt</label>
-                <select class="form-control"  id="mode_id" name="mode_id">
-                    @if($issue->mode_id != null && $issue->mode_id !="")
-                        <option value="{{$issue->receiptmode->id}}" selected>{{$issue->receiptmode->mode_name}}</option>
-                    @else
-                        <option value="">Select Mode of Receipt </option>
-                    @endif
-                </select>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-6 col-lg-6">
-                <label for="status_id">Status</label>
-                <select name="status_id" class="form-control" id="status_id">
-                    @if($issue->status_id != null && $issue->status_id !="")
-                        <option value="{{$issue->status->id}}" selected>{{$issue->status->status_name}}</option>
-                    @else
-                        <option selected value="">Select Status</option>
-                    @endif
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="description">Issue Descriptions</label>
-        <textarea class="form-control" id="description" name="description" >{{$issue->description}}</textarea>
-    </div>
-    <div class="form-group">
-
-        <label for="department_id">Department Responsible</label>
-        <select name="department_id" class="form-control" id="department_id">
-            @if($issue->department_id != null && $issue->department_id !="")
-                <option value="{{$issue->department->id}}" selected>{{$issue->department->department_name}}</option>
-            @else
-                <option selected value="">Select Department</option>
-            @endif
-        </select>
-    </div>
 </fieldset>
 <div class="form-group">
     <div class="row">
         <div class="col-md-2 col-sm-2 col-xs-2 pull-right">
-            <a href="#" data-dismiss="modal" class="btn btn-danger btn-block"> <i class="icon-remove"></i>  Cancel</a>
-        </div>
+            <a href="#" data-dismiss="modal" class="btn btn-danger btn-block"> <i class="icon-remove"></i> Close</a>
         </div>
     </div>
 </div>
-
-
