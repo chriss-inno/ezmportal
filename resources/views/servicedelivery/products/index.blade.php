@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    ICT Items Inventories
+    Service Delivery Products
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
@@ -205,6 +205,7 @@
                 </a>
                 <ul class="sub">
                     <li><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
+                    <li><a  href="{{url('servicedelivery/customers')}}" title="Customer Issues Tracking" >Customers</a></li>
                     <li class="active"><a  href="{{url('servicedelivery/settings')}}"  > Settings</a></li>
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,22) || Auth::user()->user_type=="Administrator") <li ><a  href="{{url('servicedelivery/email')}}" >Email Settings</a></li>
                     @endif

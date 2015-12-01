@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\SystemSetup;
+use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SDDaily extends Job implements SelfHandling, ShouldQueue
@@ -34,6 +35,8 @@ class SDDaily extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
+
+
         //
         $sysSet=SystemSetup::all()->first();
         if($sysSet !=null && $sysSet != "")
@@ -86,19 +89,20 @@ class SDDaily extends Job implements SelfHandling, ShouldQueue
                         if($dataemail !="")
                         {
 
-                            \Mail::queue('emails.sd', $data, function ($message) use($dataemail) {
+                            \Mail::send('emails.sd', $data, function ($message) use($dataemail) {
 
                                 $message->from('bankmportal@bankm.com', 'Bank M  Support portal');
                                 $message->to($dataemail)->subject('DAILY LOG OF CUSTOMER ISSUES');
+                                $message->attach($this->pathToFile);
 
                             });
-
-
-
+                            //Remove generated file
+                            File::delete( $this->pathToFile);
                         }
                     }
                 }
             }
         }
+
     }
 }

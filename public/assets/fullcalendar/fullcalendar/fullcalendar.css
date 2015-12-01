@@ -58,7 +58,12 @@ html .fc,
 	display: inline-block;
 	vertical-align: top;
 	}
-	
+.fc-header-title h2
+{
+	color:#d43f3a;
+	font-weight: bold;
+	text-transform: uppercase;
+}
 .fc-header-title h2 {
 	margin-top: 0;
 	white-space: nowrap;

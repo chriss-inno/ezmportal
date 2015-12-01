@@ -12,10 +12,6 @@
 <table width="100%"  border="1" align="center" cellpadding="1" cellspacing="0">
     <thead>
     <tr>
-        <th bgcolor="#CCCCCC" colspan="11" align="center">Daily Logged queries</th>
-
-    </tr>
-    <tr>
         <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;"><strong>SNO</strong></th>
         <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;"><strong>REFERENCE NUMBER</strong> </th>
         <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;"><strong>CUSTOMER NAME</strong></th>

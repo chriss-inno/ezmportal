@@ -202,6 +202,7 @@
                 </a>
                 <ul class="sub">
                     <li><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
+                    <li><a  href="{{url('servicedelivery/customers')}}" title="Customer Issues Tracking" >Customers</a></li>
                     <li ><a  href="{{url('servicedelivery/settings')}}" title="Customer Issues Tracking" class="active"> Settings</a></li>
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,22) || Auth::user()->user_type=="Administrator")
                     <li class="active" ><a  href="{{url('servicedelivery/email')}}" >Email Settings</a></li>
@@ -397,17 +398,14 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                                 <div class="btn-group btn-group-justified">
-                                    <a href="#" class="createIsssue btn btn-file btn-primary"><i class="fa fa-file-o"></i> RECORD NEW ISSUE</a>
-
-                                    <a href="{{url('servicedelivery')}}" class="btn btn-file btn-primary"> <i class="fa fa-pencil"></i> UPDATE ISSUE</a>
-                                    <a href="{{url('servicedelivery/customers')}}" class="btn btn-file btn-primary"> <i class="fa fa-users"></i> CUSTOMERS</a>
-                                    <a href="{{url('servicedelivery/email')}}" class="btn btn-file btn-primary"> <i class="fa fa-cog"></i> EMAIL SETTINGS</a>
-                                    <a href="{{url('servicedelivery/settings')}}" class="btn btn-file btn-primary"> <i class="fa fa-cog"></i> SETTINGS</a>
+                                    <a href="#" class="createEmail btn btn-primary  btn-block"><i class="fa fa-file-o text-danger"></i> ADD EMAIL </a>
+                                    <a href="{{url('servicedelivery/email')}}" class="btn btn-file btn-primary"> <i class="fa fa-cog"></i> UPDATE EMAILS</a>
+                                    <a href="{{url('servicedelivery/settings')}}" class="btn btn-file btn-primary"> <i class="fa fa-cog"></i> GENERAL SETTINGS</a>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="adv-table">
                                     <table  class="display table table-bordered table-striped" id="branches">
                                         <thead>
@@ -451,24 +449,6 @@
                                         </tr>
                                         </tfoot>
                                     </table>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <div class="row">
-                                    <section class="panel">
-                                        <div class="panel-body">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <a href="#" class="createEmail btn btn-primary  btn-block"><i class="fa fa-file-o text-danger"></i> New email</a>
-                                                </div>
-                                            </div>
-                                            <div class="row" style="margin-top: 10px">
-                                                <div class="col-md-12">
-                                                    <a href="{{url('servicedelivery/email')}}" class="btn btn-primary btn-block"><i class="fa fa-tasks text-danger"></i> List emails</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </section>
                                 </div>
                             </div>
                         </div>

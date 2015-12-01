@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SDDaily;
 use App\Jobs\ServiceDailyLogged;
 use App\Jobs\ServiceMonitoring;
 use App\Jobs\ServiceOracle;
@@ -118,7 +119,8 @@ class EmailController extends Controller
 
            // $job3 = (new unAssignedQueryReminder())->delay(10);
           //   $this->dispatch($job3);
-
+           // $job4 = (new SDDaily())->delay(10);
+           // $this->dispatch($job4);
 
         }catch (\Exception $ex)
         {
@@ -129,7 +131,7 @@ class EmailController extends Controller
             $job = (new ServiceMonitoring())->delay(10);
             $this->dispatch($job);
 
-           $job1 = (new ServiceOracle())->delay(10);
+            $job1 = (new ServiceOracle())->delay(10);
             $this->dispatch($job1);
 
           //  $job2 = (new ServiceDailyLogged())->delay(10);

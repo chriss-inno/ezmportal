@@ -6,16 +6,16 @@
 
     </tr>
     <tr>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;"><strong>SNO</strong></th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;"><strong>REFERENCE NUMBER</strong> </th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;"><strong>REPORTED DATE</strong></th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;"><strong>CUSTOMER NAME</strong></th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;"><strong>PRODUCT TYPE</strong></th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;"><strong>STATUS</strong></th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;"><strong>DESCRIPTION</strong></th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;"><strong>RESPONSIBLE DEPARTMENT</strong></th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;"><strong>REMARKS</strong></th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;"><strong>CLOSED DATE</strong></th>
+        <th ><strong>SNO</strong></th>
+        <th ><strong>REFERENCE NUMBER</strong> </th>
+        <th ><strong>REPORTED DATE</strong></th>
+        <th ><strong>CUSTOMER NAME</strong></th>
+        <th ><strong>PRODUCT TYPE</strong></th>
+        <th ><strong>STATUS</strong></th>
+        <th ><strong>DESCRIPTION</strong></th>
+        <th ><strong>RESPONSIBLE DEPARTMENT</strong></th>
+        <th ><strong>REMARKS</strong></th>
+        <th ><strong>CLOSED DATE</strong></th>
     </tr>
     </thead>
     <tbody>

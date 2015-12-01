@@ -10,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ServiceDailyLogged extends Job implements SelfHandling, ShouldQueue
@@ -101,6 +102,10 @@ class ServiceDailyLogged extends Job implements SelfHandling, ShouldQueue
                                             $message->attach($this->pathToFile);
                                         });
                                     }
+
+                                    //Remove generated file
+                                    File::delete( $this->pathToFile);
+
 
 
 
