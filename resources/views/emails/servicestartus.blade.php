@@ -17,7 +17,7 @@
         <td width="104" align="center"   ><strong>Restoration</strong></td>
     </tr>
     @if(count(\App\ServiceLog::where('logdate','=',date("Y-m-d"))->get()) > 0)
-        @foreach(\App\Service::where('email_sent','=','Y')->get() as $ser)
+        @foreach(\App\Service::where('email_sent','=','N')->get() as $ser)
             <tr bgcolor="#f0f2f7">
             <?php $serLogs=\App\ServiceLog::where('logdate','=',date("Y-m-d"))->where('service_id','=',$ser->id)->get()?>
             @if(count($serLogs) > 0)

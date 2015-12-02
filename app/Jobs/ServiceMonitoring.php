@@ -70,10 +70,7 @@ class ServiceMonitoring extends Job implements SelfHandling, ShouldQueue
 
 
                         }
-                        else
-                        {
 
-                        }
                         if($dataemail !="")
                         {
 

@@ -9,7 +9,11 @@
  *
  */
 
-
+ .fc-today
+  {
+   background-color: #F3F3F3 !important;
+    font-weight: bold !important;
+  }
 .fc {
   direction: ltr;
   text-align: left;
