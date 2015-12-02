@@ -33,7 +33,7 @@ class ServiceMonitoring extends Job implements SelfHandling, ShouldQueue
     public function handle()
     {
         //
-
+        echo "Email job started checking for permitted time<br/>";
         $sysSet=SystemSetup::all()->first();
         if($sysSet !=null && $sysSet != "")
         {
@@ -51,6 +51,8 @@ class ServiceMonitoring extends Job implements SelfHandling, ShouldQueue
 
                     $services=Service::where('email_sent','=','N')->get();   //Get all services
 
+                    echo "Date check ok now proceeding service count<br/>";
+
                     if(count($services) >0 ) {
                         //Send email
                         $data = array(
@@ -59,7 +61,7 @@ class ServiceMonitoring extends Job implements SelfHandling, ShouldQueue
                         $dataemail=array();
                         $dtemail="";
 
-
+                        echo "Service count  check ok now proceeding  emails count<br/>";
 
                         $emails=SMEmails::where('status','=','Active')->select('email')->get()->toArray();
 
@@ -68,11 +70,13 @@ class ServiceMonitoring extends Job implements SelfHandling, ShouldQueue
 
                             $dataemail = array_pluck($emails, 'email');
 
+                            echo "Email count is ok, there are ". count($emails)."Emails for sending <br/>";
 
                         }
 
                         if($dataemail !="")
                         {
+                            echo "Now sending emails <br/>";
 
                             \Mail::queue('emails.servicestartus', $data, function ($message) use($dataemail) {
 
@@ -85,12 +89,19 @@ class ServiceMonitoring extends Job implements SelfHandling, ShouldQueue
 
                         }
 
+                        echo "Email sending completed update all services to send state of Y <br/>";
 
+                        $services=Service::all();
+                        foreach($services as $issue)
+                        {
+                            $issue->email_sent='Y';
+                            $issue->save();
+                        }
                     }
                 }
                 else
                 {
-
+                    echo "Emails not send  update all services to send state of N <br/>";
                     $services=Service::all();
                     foreach($services as $issue)
                     {
