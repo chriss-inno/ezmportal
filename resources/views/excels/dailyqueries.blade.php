@@ -6,17 +6,18 @@
 
     </tr>
     <tr>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">SNO</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">QUERY CODE</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">OPEN DATE</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">FROM DEPARTMENT</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">MODULE</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">DESCRIPTIONS</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">STATUS</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">CRITICALITY</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">CLOSED DATE</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">PENDING DAYS</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">RESPONSIBLE PERSON</th>
+        <th >SNO</th>
+        <th >QUERY CODE</th>
+        <th >OPEN DATE</th>
+        <th >FROM DEPARTMENT</th>
+        <th >FROM BRANCH</th>
+        <th >MODULE</th>
+        <th >DESCRIPTIONS</th>
+        <th >STATUS</th>
+        <th >CRITICALITY</th>
+        <th >CLOSED DATE</th>
+        <th >PENDING DAYS</th>
+        <th >RESPONSIBLE PERSON</th>
 
     </tr>
     </thead>
@@ -29,7 +30,8 @@
                 <td>{{$qr->query_code}}</td>
                 <td>{{date("d M, Y H:i",strtotime($qr->reporting_Date))}}</td>
                 <?php $department=\App\Department::find($qr->from_department);?>
-                <td>{{$department->department_name}} ({{$department->branch->branch_Name}})</td>
+                <td>{{$department->department_name}}</td>
+                <td>{{$department->branch->branch_Name}}</td>
                 <?php $module=\App\Module::find($qr->module_id); ?>
                 <td>{{$module->module_name}}</td>
                 <td><?php echo $qr->description; ?></td>

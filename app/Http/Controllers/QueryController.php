@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Message;
 
 class QueryController extends Controller
@@ -326,6 +327,51 @@ class QueryController extends Controller
 
     }
 
+    public function showCustomReport()
+    {
+        return view('queries.customreport');
+    }
+
+    public function postCustomReport(Request $request)
+    {
+
+
+        if( Auth::user()->user_type=="Administrator") {
+
+            $start_time=date("Y-m-d",strtotime($request->start_time));
+            $end_time=date("Y-m-d",strtotime($request->end_time));
+
+            $range = [$start_time, $end_time];
+            $queries=Query::whereBetween('reporting_Date',$range)->get();
+
+            Excel::create("query_custom_report", function ($excel) use ($queries) {
+
+                $excel->sheet('sheet', function ($sheet) use ($queries) {
+                    $sheet->loadView('excels.qcreport')->with('queries', $queries);
+
+                });
+
+            })->download('xlsx');
+        }
+        else
+        {
+            $start_time=date("Y-m-d",strtotime($request->start_time));
+            $end_time=date("Y-m-d",strtotime($request->end_time));
+
+            $range = [$start_time, $end_time];
+            $queries=Query::whereBetween('reporting_Date',$range)->where('to_department','=',Auth::user()->department_id)->get();
+
+            Excel::create("query_custom_report", function ($excel) use ($queries) {
+
+                $excel->sheet('sheet', function ($sheet) use ($queries) {
+                    $sheet->loadView('excels.qcreport')->with('queries', $queries);
+
+                });
+
+            })->download('xlsx');
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -537,5 +583,69 @@ class QueryController extends Controller
         }
 
     }
+
+    //Query reports
+
+    public function getMonthReports()
+    {
+        if( Auth::user()->user_type=="Administrator")
+        {
+            $queries=Query::where(\DB::raw('MONTH(reporting_Date)'),'=',date('n'))->get();
+            Excel::create("query_month_report", function($excel) use($queries)  {
+
+                $excel->sheet('sheet', function($sheet) use($queries){
+                    $sheet->loadView('excels.qreport')->with('queries', $queries);
+
+                });
+
+            })->download('xlsx');
+        }
+        else
+        {
+            $queries=Query::where(\DB::raw('MONTH(reporting_Date)'),'=',date('n'))->where('to_department','=',Auth::user()->department_id)->get();
+            Excel::create("query_month_report", function($excel) use($queries)  {
+
+                $excel->sheet('sheet', function($sheet) use($queries){
+                    $sheet->loadView('excels.mqreport')->with('queries', $queries);
+
+                });
+
+            })->download('xlsx');
+        }
+
+    }
+
+    //Daily query logged
+
+    public function getDailyReports()
+    {
+        if( Auth::user()->user_type=="Administrator")
+        {
+            $queries=Query::where(\DB::raw('DAY(reporting_Date)'),'=',date('j'))->get();
+            Excel::create("query_daily_report_".date("d_M_Y"), function($excel) use($queries)  {
+
+                $excel->sheet('sheet', function($sheet) use($queries){
+                    $sheet->loadView('excels.adqreport')->with('queries', $queries);
+
+                });
+
+            })->download('xlsx');
+        }
+        else
+        {
+            $queries=Query::where(\DB::raw('DAY(reporting_Date)'),'=',date('j'))->where('to_department','=',Auth::user()->department_id)->get();
+            Excel::create("query_daily_report_".date("d_M_Y"), function($excel) use($queries)  {
+
+                $excel->sheet('sheet', function($sheet) use($queries){
+                    $sheet->loadView('excels.dqreport')->with('queries', $queries);
+
+                });
+
+            })->download('xlsx');
+        }
+    }
+
+
+
 
 }

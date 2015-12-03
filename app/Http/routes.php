@@ -314,6 +314,14 @@ Route::post('queries/download',['middleware' => 'auth', 'uses' =>'QueriesReports
 Route::get('queries/message/composer/{id}',['middleware' => 'auth', 'uses' =>'QueryController@messageComposer']);
 Route::post('queries/message/composer/{id}',['middleware' => 'auth', 'uses' =>'QueryController@postMessageComposer']);
 
+//Query reports
+Route::get('queries/report/month',['middleware' => 'auth', 'uses' =>'QueryController@getMonthReports']);
+Route::get('queries/report/daily',['middleware' => 'auth', 'uses' =>'QueryController@getDailyReports']);
+
+Route::get('queries/report/custom',['middleware' => 'auth', 'uses' =>'QueryController@showCustomReport']);
+Route::post('queries/report/custom',['middleware' => 'auth', 'uses' =>'QueryController@postCustomReport']);
+
+
 //Query attachment download
 Route::get('queries/download/{id}',['middleware' => 'auth', 'uses' =>'QueryController@downloadAttachment']);
 

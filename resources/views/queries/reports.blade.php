@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Today service status
+  Query reports
 @stop
 @section('page_scripts')
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
@@ -477,7 +477,7 @@
                     <li><a  href="{{url('queries/progress')}}" title="Query Progress">Query Progress</a></li>
                     <li><a  href="{{url('queries/history')}}" title="Query History">Query History</a></li>
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
-                        <li><a  href="{{url('queries/report')}}" title="Queries Reports">Queries Reports</a></li>
+                        <li  class="active"><a  href="{{url('queries/report')}}" title="Queries Reports">Queries Reports</a></li>
                     @endif
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,15) || Auth::user()->user_type=="Administrator")
                         <li><a  href="{{url('queries/assign')}}" title="Queries Assign">Queries Assign</a></li>
@@ -686,22 +686,17 @@
 
                              <div class="row" style="margin-top: 10px">
                                  <div class="col-md-12">
-                                     <a href="#" class=" btn btn-file btn-primary btn-block"><i class="fa fa-clock-o"></i> Daily Report</a>
+                                     <a href="{{url('queries/report/daily')}}" class=" btn btn-file btn-primary btn-block"><i class="fa fa-clock-o"></i> Daily Report</a>
                                  </div>
                              </div>
                              <div class="row" style="margin-top: 10px">
                                  <div class="col-md-12">
-                                     <a href="#" class="btn btn-file btn-success btn-block"><i class="fa fa-calendar"></i> Month Report</a>
+                                     <a href="{{url('queries/report/month')}}" class="btn btn-file btn-success btn-block"><i class="fa fa-calendar"></i> Month Report</a>
                                  </div>
                              </div>
                              <div class="row" style="margin-top: 10px">
                                  <div class="col-md-12">
-                                     <a href="#" class="btn btn-file btn-info btn-block"><i class="fa fa-calendar"></i> Year Report</a>
-                                 </div>
-                             </div>
-                             <div class="row" style="margin-top: 10px">
-                                 <div class="col-md-12">
-                                     <a href="#" class="customReports btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> Custom Report </a>
+                                     <a href="{{url('queries/report/custom')}}" class=" btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> Custom Report </a>
                                  </div>
                              </div>
                          </div>
