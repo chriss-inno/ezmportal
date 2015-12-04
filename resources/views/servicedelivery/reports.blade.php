@@ -13,139 +13,113 @@
         $(document).ready(function() {
 
             $(function () {
-                $('#highchart').highcharts({
+                $('#monthissues').highcharts({
                     chart: {
-                        type: 'column'
+                        type: 'spline'
                     },
                     title: {
-                        text: 'Number of Items per departments'
+                        text: 'Monthly Average Customer logged issues for the year <?php echo date("Y")?>'
                     },
                     xAxis: {
-                        categories: [
-                            @foreach(\App\Department::all() as $department)
-                             '{{$department->department_name}}',
-                            @endforeach
-                         ],
-                        crosshair: true
-                    },
-                    yAxis: {
-                        min: 0,
-                        title: {
-                            text: 'Number of Queries Logged'
-                        }
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
                     },
                     credits: {
                         enabled: false
                     },
+                    yAxis: {
+                        title: {
+                            text: 'Number of logged issues'
+                        }
+                    },
                     tooltip: {
-                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y:.0f}</b></td></tr>',
-                        footerFormat: '</table>',
-                        shared: true,
-                        useHTML: true
+                        crosshairs: true,
+                        shared: true
                     },
                     plotOptions: {
-                        column: {
-                            pointPadding: 0.2,
-                            borderWidth: 0
+                        spline: {
+                            marker: {
+                                radius: 4,
+                                lineColor: '#666666',
+                                lineWidth: 1
+                            }
                         }
                     },
                     <?php
-                    $m3=date("Y-m-d",strtotime(date("Y-m-d").'-3 months'));
-                    $data3="";
-                    //Get all departments queries count for each month
-                    foreach(\App\Department::all() as $department)
-                    {
-                        $data3.=count( \App\Inventory::where('department_id','=',$department->id)->get()).",";
-                    }
-                    $data3=substr($data3,0,strlen($data3)-1);
-                     ?>
+                          $MonthCount="";
+                          $monthData="";
+                             for($i=1; $i<= 12; $i++)
+                             {
+                                $MonthCount.=count(\App\CustomerIssues::where(\DB::raw('Month(date_created)'),'=',$i)->get()).",";
+                             }
+                             $monthData.=substr($MonthCount,0,strlen($MonthCount)-1);
+                    ?>
                     series: [{
-                        name: 'Total Items',
-                        data: [<?php echo $data3?>]
+                        name: 'Monthly Average Issues',
+                        data: [<?php echo $monthData;?>]
 
                     }]
                 });
-                //Create module
-                $(".createInventory").click(function(){
-                    var id1 = $(this).parent().attr('id');
-                    var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+            });
+            $(function () {
+                $('#dailyIssues').highcharts({
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: {
+                        text: 'Daily Customer logged issues for the month of  <?php echo date("F,Y"); ?>'
+                    },
+                    xAxis: {
+                        <?php
+                            $d=cal_days_in_month(CAL_GREGORIAN,date('n'),date("Y"));
+                            $categories="";
 
-                    modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
-                    modaldis+= '<div class="modal-content">';
-                    modaldis+= '<div class="modal-header">';
-                    modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                    modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Inventory Items Reports</span>';
-                    modaldis+= '</div>';
-                    modaldis+= '<div class="modal-body">';
-                    modaldis+= ' </div>';
-                    modaldis+= '</div>';
-                    modaldis+= '</div>';
-                    $('body').css('overflow','hidden');
+                            for($i=1; $i<= $d; $i++)
+                            {
+                              $categories.="'".$i."',";
 
-                    $("body").append(modaldis);
-                    jQuery.noConflict();
-                    $("#myModal").modal("show");
-                    $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                    $(".modal-body").load("<?php echo url("inventory/create") ?>");
-                    $("#myModal").on('hidden.bs.modal',function(){
-                        $("#myModal").remove();
-                    })
+                            }
+                            $days=substr($categories,0,strlen($categories)-1);
+                            ?>
 
-                });
-                $(".downloadReport").click(function(){
-                    var id1 = $(this).parent().attr('id');
-                    var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                        categories: [<?php echo $days;?>]
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Number of issues logged'
+                        }
+                    },
+                    tooltip: {
+                        crosshairs: true,
+                        shared: true
+                    },
+                    plotOptions: {
+                        spline: {
+                            marker: {
+                                radius: 4,
+                                lineColor: '#666666',
+                                lineWidth: 1
+                            }
+                        }
+                    },
+                    <?php
+                          $dayCount="";
+                          $dailyData="";
+                          $dy=cal_days_in_month(CAL_GREGORIAN,date('n'),date("Y"));
+                             for($i=1; $i<= $dy; $i++)
+                             {
+                                $dayCount.=count(\App\CustomerIssues::where(\DB::raw('DAY(created_at)'),'=',$i)->where(\DB::raw('Month(created_at)'),'=',date('n'))->get()).",";
+                             }
+                             $dailyData.=substr($dayCount,0,strlen($dayCount)-1);
+                    ?>
+                    series: [{
+                        name: 'Daily Average Issues logged',
+                        data: [<?php echo $dailyData;?>]
 
-                    modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
-                    modaldis+= '<div class="modal-content">';
-                    modaldis+= '<div class="modal-header">';
-                    modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                    modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;"><i class="fa fa-download"></i> Download Inventory Items Reports</span>';
-                    modaldis+= '</div>';
-                    modaldis+= '<div class="modal-body">';
-                    modaldis+= ' </div>';
-                    modaldis+= '</div>';
-                    modaldis+= '</div>';
-                    $('body').css('overflow','hidden');
-
-                    $("body").append(modaldis);
-                    jQuery.noConflict();
-                    $("#myModal").modal("show");
-                    $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                    $(".modal-body").load("<?php echo url("inventory-download") ?>");
-                    $("#myModal").on('hidden.bs.modal',function(){
-                        $("#myModal").remove();
-                    })
-
-                });
-                //Display Item details
-                $(".showDetails").click(function(){
-                    var id1 = $(this).parent().attr('id');
-                    var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-
-                    modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
-                    modaldis+= '<div class="modal-content">';
-                    modaldis+= '<div class="modal-header">';
-                    modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                    modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Item details </span>';
-                    modaldis+= '</div>';
-                    modaldis+= '<div class="modal-body">';
-                    modaldis+= ' </div>';
-                    modaldis+= '</div>';
-                    modaldis+= '</div>';
-                    $('body').css('overflow','hidden');
-
-                    $("body").append(modaldis);
-                    jQuery.noConflict();
-                    $("#myModal").modal("show");
-                    $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                    $(".modal-body").load("<?php echo url("inventory") ?>/"+id1);
-                    $("#myModal").on('hidden.bs.modal',function(){
-                        $("#myModal").remove();
-                    })
-
+                    }]
                 });
             });
 
@@ -417,17 +391,35 @@
 
         <div class="row">
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <section class="panel">
-                            <header class="panel-heading">
-                            </header>
-                            <div class="panel-body">
-                                <div id="highchart" style="height:600px;"></div>
+                <section class="panel">
+                    <header class="panel-heading">
+                        <h3 class="text-info"> <strong> <i class="fa fa-line-chart"></i> <i class="fa fa-users text-danger"></i> SERVICE DELIVERY CUSTOMER ISSUES REPORTS</strong></h3>
+                    </header>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <section class="panel">
+                                    <header class="panel-heading">
+                                    </header>
+                                    <div class="panel-body">
+                                        <div id="dailyIssues" style="height:400px;"></div>
+                                    </div>
+                                </section>
                             </div>
-                        </section>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <section class="panel">
+                                    <header class="panel-heading">
+                                    </header>
+                                    <div class="panel-body">
+                                        <div id="monthissues" style="height:400px;"></div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </section>
 
             </div>
             <div class="col-lg-2 col-md-2">
