@@ -285,7 +285,7 @@
 
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,13) || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" >
+                <a href="javascript:;"class="active" >
                     <i class="fa fa-folder-open-o"></i>
                     <span>Support Queries</span>
                 </a>
@@ -301,7 +301,7 @@
                         <li><a  href="{{url('queries/assign')}}" title="Queries Assign">Queries Assign</a></li>
                     @endif
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,21))
-                        <li><a  href="{{url('queryemails')}}" title="Queries Emails">Queries Emails Setup</a></li>
+                        <li class="active"><a  href="{{url('queryemails')}}" title="Queries Emails">Queries Emails Setup</a></li>
                     @endif
                 </ul>
             </li>

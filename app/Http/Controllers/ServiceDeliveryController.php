@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ServiceDeliveryController extends Controller
 {
@@ -37,6 +39,76 @@ class ServiceDeliveryController extends Controller
         $issues=CustomerIssues::all();
         return view('servicedelivery.reports',compact('issues'));
     }
+
+    //Month report
+    public function getMonthReport()
+    {
+        //
+        $issues=CustomerIssues::where(\DB::raw('DAY(created_at)'),'=',date('j'))->get();
+
+        Excel::create("Issues_custom_report", function ($excel) use ($issues) {
+
+            $excel->sheet('sheet', function ($sheet) use ($issues) {
+                $sheet->loadView('excels.msdreport')->with('issues', $issues);
+
+            });
+
+        })->download('xlsx');
+    }
+
+
+    //Day report
+    public function getDayReport()
+    {
+        //
+        $issues=CustomerIssues::where(\DB::raw('DAY(created_at)'),'=',date('j'))->get();
+
+        Excel::create("Issues_custom_report", function ($excel) use ($issues) {
+
+            $excel->sheet('sheet', function ($sheet) use ($issues) {
+                $sheet->loadView('excels.dsdreport')->with('issues', $issues);
+
+            });
+
+        })->download('xlsx');
+    }
+
+    //Custom report
+    public function showCustomReports()
+    {
+        //
+        return view('servicedelivery.sdreports.customreport');
+    }
+
+    //Post custom report
+    public function postCustomReports(Request $request)
+    {
+        $start_time=date("Y-m-d",strtotime($request->start_time));
+        $end_time=date("Y-m-d",strtotime($request->end_time));
+        $department_id=$request->department_id;
+        $status_id=$request->status_id;
+
+        $range = [$start_time, $end_time];
+        $issues=CustomerIssues::whereBetween('created_at',$range)
+                                  ->orwhere('department_id','=',$department_id)
+                                  ->orwhere('status_id','=',$status_id)->get();
+
+        Excel::create("Issues_custom_report", function ($excel) use ($issues) {
+
+            $excel->sheet('sheet', function ($sheet) use ($issues) {
+                $sheet->loadView('excels.csdreport')->with('issues', $issues);
+
+            });
+
+        })->download('xlsx');
+    }
+
+
+    //
+
+
+
+
 
     //Show updates /attend
     public function showUpdates($id)

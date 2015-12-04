@@ -148,6 +148,16 @@ Route::get('servicedelivery/customers/edit/{id}',['middleware' => 'auth', 'uses'
 Route::post('servicedelivery/customers/edit',['middleware' => 'auth', 'uses' =>'SDCustomerController@update']);
 Route::get('servicedelivery/customers/remove/{id}',['middleware' => 'auth', 'uses' =>'SDCustomerController@destroy']);
 
+
+//SD REPORTS
+
+Route::get('servicedelivery/report/month',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@getMonthReport']);
+Route::get('servicedelivery/report/daily',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@getDayReport']);
+
+Route::get('servicedelivery/report/custom',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@showCustomReports']);
+Route::post('servicedelivery/report/custom',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@postCustomReports']);
+
+
 //Get customer contact person
 Route::get('getsdcontact/{id}',['middleware' => 'auth', 'uses' =>'SDCustomerController@getContactPersonal']);
 

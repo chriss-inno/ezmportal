@@ -333,7 +333,7 @@
                                             <legend class="scheduler-border" style="color:#005DAD">Search criteria</legend>
                                             <div class="form-group">
                                                 <div class="row">
-                                                    <div class="col-md-12">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                         <label for="type_id">To department</label>
                                                         <select class="form-control"  id="to_department" name="to_department">
                                                             <option value="">---</option>
@@ -344,11 +344,7 @@
 
                                                         </select>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                         <label for="module">Module</label>
                                                         <select class="form-control"  id="module" name="module">
                                                             <option value="">---</option>
@@ -358,16 +354,7 @@
                                                                     @endforeach
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <label for="department_id">From Department</label>
-                                                        <select class="form-control"  id="from_department" name="from_department">
-                                                            <option value="">---</option>
-                                                            <?php $departmentsf=\App\Department::where('status','=','enabled')->get();?>
-                                                            @foreach($departmentsf as $de)
-                                                                <option value="{{$de->id}}">{{$de->department_name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </fieldset>

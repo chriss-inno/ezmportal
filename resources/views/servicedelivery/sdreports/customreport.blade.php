@@ -1,60 +1,59 @@
 @extends('layout.master')
 @section('page-title')
-    Queries
+    Service delivery custom report
     @stop
     @section('page_style')
 
+            <!-- Bootstrap core CSS -->
+    {!!HTML::style("css/bootstrap.min.css" )!!}
+    {!!HTML::style("css/bootstrap-reset.css")!!}
+            <!--external css-->
+    {!!HTML::style("assets/font-awesome/css/font-awesome.css" )!!}
+
+    {!!HTML::style("assets/bootstrap-fileupload/bootstrap-fileupload.css" )!!}
+    {!!HTML::style("assets/bootstrap-wysihtml5/bootstrap-wysihtml5.css" )!!}
     {!!HTML::style("assets/bootstrap-datepicker/css/datepicker.css" )!!}
+    {!!HTML::style("assets/bootstrap-timepicker/compiled/timepicker.css" )!!}
     {!!HTML::style("assets/bootstrap-colorpicker/css/colorpicker.css" )!!}
-    {!!HTML::style("assets/bootstrap-daterangepicker/daterangepicker.css" )!!}
-    <link href="{{asset("assets/jquery-file-upload/css/jquery.fileupload-ui.css")}}" rel="stylesheet" type="text/css" >
-
-    @stop
-    @section('page_scripts')
-            <!-- js placed at the end of the document so the pages load faster -->
+    {!!HTML::style("assets/bootstrap-daterangepicker/daterangepicker-bs3.css" )!!}
+    {!!HTML::style("assets/bootstrap-datetimepicker/css/datetimepicker.css" )!!}
+    {!!HTML::style("assets/jquery-multi-select/css/multi-select.css")!!}
 
 
-    <!--custom tagsinput-->
-    {!!HTML::script("js/jquery.tagsinput.js") !!}
-            <!--custom checkbox & radio-->
-    {!!HTML::script("js/ga.js") !!}
+            <!-- Custom styles for this template -->
+    {!!HTML::style("css/style.css" )!!}
+    {!!HTML::style("css/style-responsive.css" )!!}
+
+@stop
+@section('page_scripts')
+    <script class="include" type="text/javascript" src={{ asset("js/jquery.dcjqaccordion.2.7.js")}} ></script>
+
+    {!!HTML::script("js/jquery.scrollTo.min.js") !!}
+    {!!HTML::script("js/jquery.nicescroll.js") !!}
+    {!!HTML::script("js/respond.min.js" ) !!}
+
+            <!--this page plugins-->
+
+    {!!HTML::script("assets/fuelux/js/spinner.min.js") !!}
+    {!!HTML::script("assets/bootstrap-fileupload/bootstrap-fileupload.js") !!}
+    {!!HTML::script("assets/bootstrap-wysihtml5/wysihtml5-0.3.0.js") !!}
+    {!!HTML::script("assets/bootstrap-wysihtml5/bootstrap-wysihtml5.js") !!}
     {!!HTML::script("assets/bootstrap-datepicker/js/bootstrap-datepicker.js") !!}
-    {!!HTML::script("assets/bootstrap-daterangepicker/date.js") !!}
+    {!!HTML::script("assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js") !!}
+    {!!HTML::script("assets/bootstrap-daterangepicker/moment.min.js") !!}
     {!!HTML::script("assets/bootstrap-daterangepicker/daterangepicker.js") !!}
     {!!HTML::script("assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js") !!}
+    {!!HTML::script("assets/bootstrap-timepicker/js/bootstrap-timepicker.js") !!}
     {!!HTML::script("assets/ckeditor/ckeditor.js") !!}
     {!!HTML::script("js/jquery.validate.min.js" ) !!}
-    {!!HTML::script("js/respond.min.js"  ) !!}
     {!!HTML::script("js/form-validation-script.js") !!}
-    <script type="text/javascript" charset="utf-8">
+    {!!HTML::script("assets/jquery-multi-select/js/jquery.multi-select.js") !!}
+    {!!HTML::script("assets/jquery-multi-select/js/jquery.quicksearch.js") !!}
 
-        $("#to_department").change(function () {
-            var id1 = this.value;
-            if(id1 != "")
-            {
-                $.get("<?php echo url('getModules') ?>/"+id1,function(data){
-                    $("#module").html(data);
-                });
-
-            }else{$("#module").html("<option value=''>----</option>");}
-        });
-
-        $("#serviceForm").validate({
-            rules: {
-                to_department: "required",
-                description: "required",
-                module: "required",
-                critical_level: "required"
-            },
-            messages: {
-                to_department: "Please select department",
-                description: "Please enter description",
-                module: "Please select module",
-                critical_level: "Please select critical level"
-            }
-        });
-
-    </script>
+            <!--common script for all pages-->
+    {!!HTML::script("js/common-scripts.js") !!}
+            <!--this page  script only-->
+    {!!HTML::script("js/advanced-form-components.js") !!}
 
 
 @stop
@@ -114,27 +113,27 @@
                 </ul>
             </li>@endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,23)  || Auth::user()->user_type=="Administrator")<li class="sub-menu">
-                <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
-                    <span>SMS To Customers</span>
-                </a>
-                <ul class="sub">
-                    <li><a  href="{{url('sms/messages')}}" title="Messages">Messages</a></li>
-                    <li   ><a  href="{{url('sms/customers')}}" title="Customers">Customers</a></li>
-                    <li><a  href="{{url('sms/dispatch')}}" title="Dispatch Group">Dispatch Group</a></li>
-                    <li><a  href="{{url('sms/reports')}}" title="SMS Reports">Report</a></li>
+            <a href="javascript:;">
+                <i class="fa fa-laptop"></i>
+                <span>SMS To Customers</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('sms/messages')}}" title="Messages">Messages</a></li>
+                <li   ><a  href="{{url('sms/customers')}}" title="Customers">Customers</a></li>
+                <li><a  href="{{url('sms/dispatch')}}" title="Dispatch Group">Dispatch Group</a></li>
+                <li><a  href="{{url('sms/reports')}}" title="SMS Reports">Report</a></li>
 
-                </ul>
-            </li>
+            </ul>
+        </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" >
+                <a href="javascript:;"class="active" >
                     <i class="fa fa-info"></i>
                     <span>Service Delivery</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="{{url('servicedelivery')}}" >Customer Issues Tracking</a></li>
+                    <li class="active"><a  href="{{url('servicedelivery')}}" >Customer Issues Tracking</a></li>
                     <li><a  href="{{url('servicedelivery/customers')}}" >Customers</a></li>
                     <li ><a  href="{{url('servicedelivery/settings')}}" > Settings</a></li>
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,22) || Auth::user()->user_type=="Administrator") <li ><a  href="{{url('servicedelivery/email')}}" >Email Settings</a></li>
@@ -204,12 +203,12 @@
 
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,13) || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" class="active" >
+                <a href="javascript:;"  >
                     <i class="fa fa-folder-open-o"></i>
                     <span>Support Queries</span>
                 </a>
                 <ul class="sub">
-                    <li class="active"><a  href="{{url('queries/create')}}" title="Log Query">Log Query</a></li>
+                    <li><a  href="{{url('queries/create')}}" title="Log Query">Log Query</a></li>
                     <li><a  href="{{url('queries/mytask')}}" title="My Tasks">My Tasks</a></li>
                     <li><a  href="{{url('queries/progress')}}" title="Query Progress">Query Progress</a></li>
                     <li><a  href="{{url('queries/history')}}" title="Query History">Query History</a></li>
@@ -318,117 +317,143 @@
 @section('contents')
     <section class="site-min-height">
         <!-- page start-->
+        <div class="row">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <section class="panel">
+                            <header class="panel-heading">
+                                <h3 class="text-info"> <strong> <i class="fa fa-pie-chart"></i> CUSTOMER ISSUES  CUSTOM REPORTS</strong></h3>
+                            </header>
+                            <div class="panel-body">
+                                {!! Form::open(array('url'=>'servicedelivery/report/custom','role'=>'form','id'=>'querySearchForm')) !!}
+                                    <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <fieldset class="scheduler-border">
+                                            <legend class="scheduler-border" style="color:#005DAD">Search criteria</legend>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <label for="department_id">Department Responsible</label>
+                                                        <select name="department_id" class="form-control" id="department_id">
+                                                            <option selected value="">---</option>
+                                                            <?php $depatments=\App\Department::all();?>
+                                                            @foreach($depatments as $rc)
+                                                                <option value="{{$rc->id}}">{{$rc->department_name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <label for="status_id">Status</label>
+                                                        <select name="status_id" class="form-control" id="status_id">
+                                                            <option selected value="">---</option>
+                                                            <?php $sdstatus=\App\SDStatus::all();?>
+                                                            @foreach($sdstatus as $rc)
+                                                                <option value="{{$rc->id}}">{{$rc->status_name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
 
-                <section class="panel">
-                    <header class="panel-heading">
-                        <h3 class="text-info"> <strong> <i class="fa fa-smile"></i> SERVICE PORTAL QUERIES</strong></h3>
-                    </header>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="scheduler-border">
+                                            <legend class="scheduler-border" style="color:#005DAD">Date range</legend>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                               <label for="start_time">Date From</label>
+                                                                <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="{{date("d-m-Y")}}" class="input-append date dpYears">
+                                                                    <input type="text" readonly="" value="" size="16" class="form-control" id="start_time" name="start_time">
+                                                                      <span class="input-group-btn add-on">
+                                                                        <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
+                                                                      </span>
+                                                                </div>
+                                                    </div>
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+                                                               <label for="end_time">Date To</label>
+                                                                <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="{{date("d-m-Y")}}" class="input-append date dpYears">
+                                                                    <input type="text" readonly="" value="" size="16" class="form-control" id="end_time" name="end_time">
+                                                                      <span class="input-group-btn add-on">
+                                                                        <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
+                                                                      </span>
+                                                                </div>
+                                                    </div>
 
-                                <div class="btn-group btn-group-justified">
-                                    <a href="{{url('queries/create')}}" class=" btn  btn-primary"><i class="fa fa-folder-open-o"></i> Log New Query</a>
-
-                                    <a href="{{url('queries/mytask')}}" class="btn btn-file btn-primary"><i class="fa fa-tasks"></i> My Tasks</a> <a href="{{url('queries/progress')}}" class="btn btn-file btn-primary"><i class="fa fa-archive"></i> Queries Progress</a>
-
-                                    <a href="{{url('queries/history')}}" class="btn btn-file btn-primary"> <i class="fa fa-bars"></i> History</a>
-
-                                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,21) || Auth::user()->user_type=="Administrator")
-                                        <a href="{{url('queryemails')}}" class="btn btn-file btn-primary"><i class=" fa fa-envelope"></i> Emails Setting</a>
-                                    @endif
-                                    @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
-                                        <a href="{{url('queries/report')}}" class="btn btn-file btn-primary"><i class=" fa fa-bar-chart-o"></i> Reports</a>
-                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row" style="margin-top: 20px">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-lg-offset-4 col-md-offset-4 col-sm-offset-4 col-xs-offset-4">
+                                                        <button class="btn btn-primary btn-block" > <i class="fa fa-download"></i> Generate Report</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
                                 </div>
+                                {!! Form::close() !!}
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <p> <h3>Query details </h3>
-                        @if(Session::has('message'))
-                            <div class="alert fade in alert-danger">
-                                <i class="icon-remove close" data-dismiss="alert"></i>
-                                {{Session::get('message')}}
-                            </div>
-                        @endif
-
-                        @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        <hr/>
-                        {!! Form::open(array('url'=>'queries/create','role'=>'form','id'=>'serviceForm','files' => true)) !!}
-                        <div class="form-group">
-                            <label for="to_department">To Department</label>
-                            <select class="form-control"  id="to_department" name="to_department">
-                                @if(old('to_department'))
-                                    <?php $depa=\App\Department::find(old('to_department'));?>
-                                    <option value="{{$depa->id}}">{{$depa->department_name}}</option>
-                                @else
-                                    <option value="">----</option>
-                                @endif
-                                <?php $departments=\App\Department::where('receive_query','=','1')->get();?>
-                                @foreach($departments as $de)
-                                    <option value="{{$de->id}}">{{$de->department_name}}</option>
-                                @endforeach
-
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="module">Module</label>
-                                    <select class="form-control"  id="module" name="module">
-                                        @if(old('module'))
-                                            <?php $module=\App\Module::find(old('module'))?>
-                                            <option value="{{$module->id}}">{{$module->module_name}}</option>
-                                        @endif
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="critical_level">Critical Level</label>
-                                    <select class="form-control"  id="critical_level" name="critical_level">
-                                        @if(old('critical_level'))
-                                            <option value="{{old('critical_level')}}">{{old('critical_level')}}</option>
-                                            @else
-                                            <option value="">----</option>
-                                            @endif
-
-                                        <option value="Low">Low</option>
-                                        <option value="Medium">Medium</option>
-                                        <option value="High">High</option>
-                                        <option value="Emergency">Emergency</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="form-group">
-                            <label for="unit_name">Description</label>
-                            <textarea class="ckeditor form-control" id="description" name="description">{{old('description')}}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <span class="btn green fileinput-button">
-                               <i class="fa fa-plus fa fa-white"></i>
-                                 <span>Attachment</span>
-                                  <input type="file" id="reference_file" name="reference_file">
-                            </span>
-                            <p class="help-block"><input type="checkbox" value="1" id="referencecheck" name="referencecheck"  @if(old('referencecheck')) checked @endif> <label for="file_upload">Tick here to attach file for reference</label></p>
-                        </div>
-
-                            <button type="submit" class="btn btn-primary pull-right col-md-2">Submit Query</button>
-                            {!! Form::close() !!}
-
+                        </section>
                     </div>
+                 </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <div class="row">
+                    <section class="panel">
+                        <div class="panel-body">
+
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('servicedelivery')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-tasks"></i> Customer Issues Tracking</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('servicedelivery/customers')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-user"></i> Customers</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('servicedelivery/settings')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-cog"></i>  Settings</a>
+                                </div>
+                            </div>
+                            @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,22) || Auth::user()->user_type=="Administrator")
+                                <div class="row" style="margin-top: 10px">
+                                    <div class="col-md-12">
+                                        <a href="{{url('servicedelivery/email')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-envelope"></i> Email Settings</a>
+                                    </div>
+                                </div>
+                            @endif
+
                         </div>
-                    </div>
-                </section>
+                    </section>
+                </div>
+                <div class="row">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            <span class="text-info"> <strong> <i class="fa fa-download"></i> Download reports</strong></span>
+                        </header>
+                        <div class="panel-body">
+
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('servicedelivery/report/daily')}}" class=" btn btn-file btn-primary btn-block"><i class="fa fa-clock-o"></i> Daily Report</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('servicedelivery/report/month')}}" class="btn btn-file btn-success btn-block"><i class="fa fa-calendar"></i> Month Report</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('servicedelivery/report/custom')}}" class=" btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> Custom Report </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </div>
         </div>
     </section>

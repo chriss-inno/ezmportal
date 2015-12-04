@@ -422,15 +422,57 @@
                 </section>
 
             </div>
-            <div class="col-lg-2 col-md-2">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                 <div class="row">
                     <section class="panel">
-
                         <div class="panel-body">
 
                             <div class="row" style="margin-top: 10px">
                                 <div class="col-md-12">
-                                    <a href="#" class="downloadReportSD btn btn-file btn-success btn-block"><i class="fa fa-download"></i> Download reports</a>
+                                    <a href="{{url('servicedelivery')}}" class=" btn btn-file btn-danger btn-block"><i class="fa fa-tasks"></i> Customer Issues Tracking</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('servicedelivery/customers')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-user"></i> Customers</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('servicedelivery/settings')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-cog"></i>  Settings</a>
+                                </div>
+                            </div>
+                            @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,22) || Auth::user()->user_type=="Administrator")
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('servicedelivery/email')}}" class="btn btn-file btn-danger btn-block"> <i class="fa fa-envelope"></i> Email Settings</a>
+                                </div>
+                            </div>
+                                @endif
+
+                        </div>
+                    </section>
+                </div>
+                <div class="row">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            <span class="text-info"> <strong> <i class="fa fa-download"></i> Download reports</strong></span>
+                        </header>
+                        <div class="panel-body">
+
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('servicedelivery/report/daily')}}" class=" btn btn-file btn-primary btn-block"><i class="fa fa-clock-o"></i> Daily Report</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('servicedelivery/report/month')}}" class="btn btn-file btn-success btn-block"><i class="fa fa-calendar"></i> Month Report</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                    <a href="{{url('servicedelivery/report/custom')}}" class=" btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> Custom Report </a>
                                 </div>
                             </div>
                         </div>

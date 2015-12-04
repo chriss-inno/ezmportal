@@ -169,7 +169,7 @@
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,5)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" >
+                <a href="javascript:;" class="active" >
                     <i class="fa fa-download"></i>
                     <span>Downloads</span>
                 </a>
@@ -178,7 +178,7 @@
                         <li><a  href="{{url('downloads/department')}}/{{$depart->id}}" title="Download for {{$depart->department_name}}">{{$depart->department_name}}</a></li>
                     @endforeach
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,6)  || Auth::user()->user_type=="Administrator")
-                        <li><a  href="{{url('downloads/manage')}}" title="Manage Downloads">Manage Downloads</a></li>
+                        <li class="active"><a  href="{{url('downloads/manage')}}" title="Manage Downloads">Manage Downloads</a></li>
                     @endif
                 </ul>
             </li>@endif

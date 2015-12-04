@@ -417,7 +417,7 @@
                                                     @if($download->department_id ==Auth::user()->department_id)
                                                         <tr>
                                                             <td>{{$i++}}</td>
-                                                            <td> <a  href="{{url('downloads/download')}}/{{$download->id}}" title="Download"  class="text-primary text-capitalize" target="_blank"><strong>{{$download->title}}</strong></a></td>
+                                                            <td> <a  href="{{url('downloads/download')}}/{{$download->id}}" title="Download"  class="text-info text-capitalize" target="_blank"><strong>{{$download->title}}</strong></a></td>
                                                             <td id="{{$download->id}}">
                                                              <a  href="{{url('downloads/download')}}/{{$download->id}}" title="Download" class=" btn btn-primary btn-xs" target="_blank"><i class="fa fa-download"> Download</i></a>
                                                             </td>
@@ -426,7 +426,7 @@
                                                 @else
                                                     <tr>
                                                         <td>{{$i++}}</td>
-                                                        <td> <a  href="{{url('downloads/download')}}/{{$download->id}}" title="Download" class="text-primary text-capitalize" target="_blank"><strong>{{$download->title}}</strong></a></td>
+                                                        <td> <a  href="{{url('downloads/download')}}/{{$download->id}}" title="Download" class="text-info text-capitalize" target="_blank"><strong>{{$download->title}}</strong></a></td>
                                                         <td id="{{$download->id}}">
                                                             <a  href="{{url('downloads/download')}}/{{$download->id}}" title="Download" class=" btn btn-primary btn-xs" target="_blank"><i class="fa fa-download"> Download</i></a>
                                                         </td>
