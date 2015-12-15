@@ -18,19 +18,6 @@ var Script = function () {
                     department_name: "Please enter department name"
                 }
             });
-
-            //Validate search form
-             $("#querySearchForm").validate({
-            rules: {
-                start_time: "required",
-                end_time: "required"
-
-            },
-            messages: {
-                start_time: "Please enter start time",
-                end_time: "Please enter end time"
-            }
-        });
             //Validate service log form
             $("#serviceStatusForm").validate({
                 rules: {

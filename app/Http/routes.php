@@ -137,8 +137,10 @@ Route::get('servicedelivery/settings',['middleware' => 'auth', 'uses' =>'Service
 Route::get('servicedelivery/updates/{id}',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@showUpdates']);
 Route::post('servicedelivery/updates',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@postUpdates']);
 
-Route::get('servicedelivery/history',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@showHistory']);
-
+Route::get('servicedelivery/migrate',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@showImportMigrate']);
+Route::post('servicedelivery/migrate',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@importMigrate']);
+//
+//SD I
 //SD Customers
 
 Route::get('servicedelivery/customers',['middleware' => 'auth', 'uses' =>'SDCustomerController@index']);

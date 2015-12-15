@@ -10,6 +10,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
+use App\SDCustomer;
+use App\SDProduct;
+use App\SDProductDetails;
+use App\SDReceiptMode;
+use App\SDStatus;
 
 class ServiceDeliveryController extends Controller
 {
@@ -295,5 +300,153 @@ class ServiceDeliveryController extends Controller
     {
         $issues=CustomerIssues::all();
         return view('servicedelivery.setting.index',compact('issues'));
+    }
+
+
+    //Import migrate data
+
+    public function showImportMigrate()
+    {
+        //
+        $issues=CustomerIssues::all();
+        return view('servicedelivery.importissues',compact('issues'));
+    }
+
+    public function importMigrate(Request $request)
+    {
+      //  try {
+
+            $file= $request->file('inventory_file');
+            $destinationPath = public_path() .'/uploads/temp/';
+            $filename   = str_replace(' ', '_', $file->getClientOriginalName());
+
+            $file->move($destinationPath, $filename);
+
+            Excel::load($destinationPath . $filename, function ($reader) {
+
+                $results = $reader->get();
+
+                $results->each(function($row) {
+
+                   //Process customer
+                    if(count(SDCustomer::where('company_name','=',$row->customer)->get()) > 0)
+                    {
+                        $customer= new SDCustomer;
+                        $customer->company_name=$row->customer;
+                        $customer->contact_person=$row->contact_person;
+                        $customer->input_by= Auth::user()->username;
+                        $customer->save();
+
+                        echo "Customer found1 <br/>";
+                    }
+                    else
+                    {
+                        $customer= SDCustomer::where('company_name','=',$row->customer)->get()->first();
+                        echo "Customer found2 <br/>";
+                    }
+
+                    //Product details
+                    if(count(SDProduct::where('product_type','=',$row->product_type)->get()) > 0)
+                    {
+                        $product= new SDProduct;
+                        $product->product_type=$row->product_type;
+                        $product->input_by=Auth::user()->username;
+                        $product->save();
+
+                        echo "SDProduct found1 <br/>";
+                    }
+                    else
+                    {
+                        $product=SDProduct::where('product_type','=',$row->product_type)->get()->first();
+                        echo "SDProduct found2 <br/>";
+                    }
+
+                   /*
+                    //Product details
+                    if(count(SDProductDetails::where('details_name','=',$row->details_name)->get()) > 0)
+                    {
+                        $pdetails=new SDProductDetails;
+                        $pdetails->details_name=$row->details_name;
+                        $pdetails->input_by=Auth::user()->username;
+                        $pdetails->save();
+
+                        echo "SDProductDetails found1 <br/>";
+                    }
+                    else
+                    {
+                        $pdetails=SDProductDetails::where('details_name','=',$row->details_name)->get()->first();
+
+                        echo "SDProductDetails found2 <br/>";
+                    }
+                   */
+                    //Receipt mode
+
+                    if(count(SDReceiptMode::where('mode_name','=',$row->received_mode)->get()) >0)
+                    {
+                        $modes=new SDReceiptMode;
+                        $modes->mode_name=$row->received_mode;
+                        $modes->input_by=Auth::user()->username;
+                        $modes->save();
+
+                        echo "SDReceiptMode found1 <br/>";
+                    }
+                    else
+                    {
+                        $modes=SDReceiptMode::where('mode_name','=',$row->received_mode)->get()->first();
+                        echo "SDReceiptMode found2 <br/>";
+                    }
+
+                    //Status
+
+                    if(count(SDStatus::where('status_name','=',$row->status)->get()) > 0)
+                    {
+                        $status=new SDStatus;
+                        $status->status_name=$row->status;
+                        $status->input_by=Auth::user()->username;
+                        $status->save();
+
+                        echo "SDStatus found1 <br/>";
+                    }
+                    else
+                    {
+                        $status=SDStatus::where('status_name','=',$row->status)->get()->first();
+                        echo "SDStatus found2 <br/>";
+                    }
+
+
+                    $issues= new CustomerIssues;
+                    $issues->company_id=$customer->id;
+                    $issues->product_id=$product->id;
+                   // $issues->product_details_id=$pdetails->id;
+                    $issues->mode_id=$modes->id;
+                    $issues->description=$row->description;
+                    $issues->department_id=$row->department_id;
+                    $issues->received_by=$row->received_by;
+                    $issues->status_id=$status->id;
+                    $issues->date_created=$row->reported_date;
+                    $issues->created_at=date("Y-m-d H:i:s",strtotime($row->reported_date." ".$row->reported_time));
+                    $issues->input_by=$row->inpute_by;
+                    $issues->issues_number= $row->reference_number;
+                    $issues->save();
+
+                    $issue= CustomerIssues::find($issues->id);
+                    if(strtolower($issue->status->status_name) =="Resolved")
+                    {
+                        $issue->closed="Yes";
+                        $issue->date_resolved=date("Y-m-d H:i",strtotime($row->resolved_date." ".$row->resolved_time));
+                        $issue->save();
+                    }
+                });
+
+            });
+
+            File::delete($destinationPath . $filename); //Delete after upload
+
+            return redirect('servicedelivery')->with('success', 'Users uploaded successfully.');
+       // } catch (\Exception $e) {
+
+            //echo $e->getMessage();
+          //  return redirect()->back()->with('error',$e->getMessage());
+       // }
     }
 }

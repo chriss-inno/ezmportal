@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-   Import inventories
+    Import inventories
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
@@ -98,18 +98,18 @@
                 </ul>
             </li>@endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,23)  || Auth::user()->user_type=="Administrator")<li class="sub-menu">
-                <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
-                    <span>SMS To Customers</span>
-                </a>
-                <ul class="sub">
-                    <li><a  href="{{url('sms/messages')}}" title="Messages">Messages</a></li>
-                    <li   ><a  href="{{url('sms/customers')}}" title="Customers">Customers</a></li>
-                    <li><a  href="{{url('sms/dispatch')}}" title="Dispatch Group">Dispatch Group</a></li>
-                    <li><a  href="{{url('sms/reports')}}" title="SMS Reports">Report</a></li>
+            <a href="javascript:;">
+                <i class="fa fa-laptop"></i>
+                <span>SMS To Customers</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('sms/messages')}}" title="Messages">Messages</a></li>
+                <li   ><a  href="{{url('sms/customers')}}" title="Customers">Customers</a></li>
+                <li><a  href="{{url('sms/dispatch')}}" title="Dispatch Group">Dispatch Group</a></li>
+                <li><a  href="{{url('sms/reports')}}" title="SMS Reports">Report</a></li>
 
-                </ul>
-            </li>
+            </ul>
+        </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
@@ -245,12 +245,12 @@
         </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,19) || Auth::user()->user_type=="Administrator")
-             <li class="sub-menu">
-             <a href="javascript:;" class="active" >
-                <i class="fa fa-laptop"></i>
-                <span>ICT Inventory</span>
-            </a>
-            <ul class="sub">
+            <li class="sub-menu">
+                <a href="javascript:;" class="active" >
+                    <i class="fa fa-laptop"></i>
+                    <span>ICT Inventory</span>
+                </a>
+                <ul class="sub">
                     <li><a  href="{{url('types')}}" title="Item types">Item types</a></li>
                     <li><a  href="{{url('inventory')}}" title="Inventory Items">Inventory Items</a></li>
                     <li><a  href="{{url('inventory-reports')}}" title="Inventory Reports">Inventory Reports</a></li>
@@ -299,11 +299,8 @@
     <section class="site-min-height">
         <!-- page start-->
         <div class="row">
-            <div class="col-lg-10 col-md-10">
+            <div class="col-lg-12 col-md-12">
                 <section class="panel">
-                    <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa fa-bars"></i> MANAGE ITEM INVENTORY</strong></h3>
-                    </header>
                     <div class="panel-body">
                         <p> <h3 class="text-center">Import From MS Excel </h3>
                         @if (count($errors) > 0)
@@ -318,15 +315,15 @@
                         @if(Session::has('error'))
                             <div class="alert fade in alert-danger">
                                 <i class="icon-remove close" data-dismiss="alert"></i>
-                                {{Session::get('message')}}
+                                {{Session::get('error')}}
                             </div>
                         @endif
                         <hr/>
-                        {!! Form::open(array('url'=>'inventory-import','role'=>'form','id'=>'importInventory','files' => true)) !!}
+                        {!! Form::open(array('url'=>'servicedelivery/migrate','role'=>'form','id'=>'importInventory','files' => true)) !!}
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-4 col-sm-4 col-xs-4 col-sm-offset-4 col-md-offset-4 col-xs-offset-4">
-                                     <input type="file" id="inventory_file" name="inventory_file">
+                                    <input type="file" id="inventory_file" name="inventory_file">
                                 </div>
                             </div>
                         </div>
@@ -341,37 +338,6 @@
 
                         {!! Form::close() !!}
 
-                    </div>
-                </section>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <section class="panel">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <a href="#" class="createItem btn btn-compose btn-block">New Item</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('inventory')}}" class="btn btn-compose btn-block">View Items</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('inventory-reports')}}" class="btn btn-compose btn-block">Inventory Reports</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('types')}}" class="btn btn-primary btn-block">View Item types</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('inventory-import')}}" class="btn btn-primary btn-block">Import From Excel</a>
-                            </div>
-                        </div>
                     </div>
                 </section>
             </div>
