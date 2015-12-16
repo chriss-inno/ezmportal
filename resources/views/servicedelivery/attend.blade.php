@@ -40,7 +40,7 @@
                     <td></td>
                 @endif
                 @if($issue->department_id != null && $issue->department_id !="" )
-                    <td>{{$issue->department->department_name}}</td>
+                    <td>{{$issue->department_id}}</td>
                 @else
                     <td></td>
                 @endif

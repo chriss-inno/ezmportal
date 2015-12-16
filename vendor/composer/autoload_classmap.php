@@ -12,6 +12,7 @@ return array(
     'AddCompanyIdIncustomerissues' => $baseDir . '/database/migrations/2015_11_20_065155_Add_company_id_incustomerissues.php',
     'AddCreateDateCustomerissues' => $baseDir . '/database/migrations/2015_11_01_210126_add_create_date_customerissues.php',
     'AddDailyqueryCheckSystemsetup' => $baseDir . '/database/migrations/2015_11_04_110949_add_dailyquery_check_systemsetup.php',
+    'AddDatecreatedTmtSdcustomerissues' => $baseDir . '/database/migrations/2015_12_16_064127_add_datecreated_tmt_sdcustomerissues.php',
     'AddDatersolvedRemarksSdTable' => $baseDir . '/database/migrations/2015_11_25_192350_add_datersolved_remarks_sd_table.php',
     'AddDownloadCheckInDepartment' => $baseDir . '/database/migrations/2015_10_27_162024_add_download_check_in-department.php',
     'AddProductDetailsIdCollumn' => $baseDir . '/database/migrations/2015_11_01_122618_add_product_details_id_collumn.php',

@@ -87,7 +87,7 @@
             <option selected value="">Select Department</option>
             <?php $depatments=\App\Department::all();?>
             @foreach($depatments as $rc)
-                <option value="{{$rc->id}}">{{$rc->department_name}}</option>
+                <option value="{{$rc->department_name}}">{{$rc->department_name}}</option>
             @endforeach
         </select>
 </div>

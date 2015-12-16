@@ -34,7 +34,7 @@ class ServiceDeliveryController extends Controller
     public function showHistory()
     {
         //
-        $issues=CustomerIssues::all();
+        $issues=CustomerIssues::all()->take(2000);
         return view('servicedelivery.history',compact('issues'));
     }
     //Reports
@@ -328,13 +328,17 @@ class ServiceDeliveryController extends Controller
 
                 $results->each(function($row) {
 
+
+                    // dump($row);
+                    // exit;
                    //Process customer
-                    if(count(SDCustomer::where('company_name','=',$row->customer)->get()) > 0)
+                    if(!count(SDCustomer::where('company_name','=',$row->customer)->get()) > 0)
                     {
                         $customer= new SDCustomer;
                         $customer->company_name=$row->customer;
                         $customer->contact_person=$row->contact_person;
                         $customer->input_by= Auth::user()->username;
+                        $customer->status="Enabled";
                         $customer->save();
 
                         echo "Customer found1 <br/>";
@@ -346,7 +350,7 @@ class ServiceDeliveryController extends Controller
                     }
 
                     //Product details
-                    if(count(SDProduct::where('product_type','=',$row->product_type)->get()) > 0)
+                    if(!count(SDProduct::where('product_type','=',$row->product_type)->get()) > 0)
                     {
                         $product= new SDProduct;
                         $product->product_type=$row->product_type;
@@ -381,7 +385,7 @@ class ServiceDeliveryController extends Controller
                    */
                     //Receipt mode
 
-                    if(count(SDReceiptMode::where('mode_name','=',$row->received_mode)->get()) >0)
+                    if(!count(SDReceiptMode::where('mode_name','=',$row->received_mode)->get()) >0)
                     {
                         $modes=new SDReceiptMode;
                         $modes->mode_name=$row->received_mode;
@@ -398,7 +402,7 @@ class ServiceDeliveryController extends Controller
 
                     //Status
 
-                    if(count(SDStatus::where('status_name','=',$row->status)->get()) > 0)
+                    if(!count(SDStatus::where('status_name','=',$row->status)->get()) > 0)
                     {
                         $status=new SDStatus;
                         $status->status_name=$row->status;
@@ -424,17 +428,27 @@ class ServiceDeliveryController extends Controller
                     $issues->received_by=$row->received_by;
                     $issues->status_id=$status->id;
                     $issues->date_created=$row->reported_date;
-                    $issues->created_at=date("Y-m-d H:i:s",strtotime($row->reported_date." ".$row->reported_time));
+                    $issues->date_created_tmt= date("Y-m-d H:i",strtotime(date("Y-m-d",strtotime($row->reported_date))." ". date("H:i",strtotime($row->reported_time))));
                     $issues->input_by=$row->inpute_by;
                     $issues->issues_number= $row->reference_number;
+                    $issues->remarks= $row->issue_note;
+                    $issues-> department_id=$row->department;
                     $issues->save();
 
                     $issue= CustomerIssues::find($issues->id);
-                    if(strtolower($issue->status->status_name) =="Resolved")
+                    if(strtolower($issue->status->status_name) =="resolved")
                     {
                         $issue->closed="Yes";
-                        $issue->date_resolved=date("Y-m-d H:i",strtotime($row->resolved_date." ".$row->resolved_time));
+                        if($row->resolved_date=="0000-00-00")
+                        {
+                            $issue->date_resolved= date("Y-m-d H:i",strtotime(date("Y-m-d",strtotime($row->reported_date))." ". date("H:i",strtotime($row->resolved_time))));
+                        }
+                        else
+                        {
+                            $issue->date_resolved= date("Y-m-d H:i",strtotime(date("Y-m-d",strtotime($row->resolved_date))." ". date("H:i",strtotime($row->resolved_time))));
+                        }
                         $issue->save();
+
                     }
                 });
 

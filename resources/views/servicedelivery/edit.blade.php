@@ -116,13 +116,13 @@
             <label for="department_id">Department Responsible</label>
             <select name="department_id" class="form-control" id="department_id">
                 @if($issue->department_id != null && $issue->department_id !="")
-                    <option value="{{$issue->department->id}}" selected>{{$issue->department->department_name}}</option>
+                    <option value="{{$issue->department_id}}" selected>{{$issue->department_id}}</option>
                 @else
                     <option selected value="">Select Department</option>
                 @endif
                 <?php $depatments=\App\Department::all();?>
                 @foreach($depatments as $rc)
-                    <option value="{{$rc->id}}">{{$rc->department_name}}</option>
+                    <option value="{{$rc->department_name}}">{{$rc->department_name}}</option>
                 @endforeach
             </select>
     </div>
