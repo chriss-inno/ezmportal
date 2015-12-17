@@ -2,7 +2,7 @@
 <table>
     <thead>
     <tr>
-        <th bgcolor="#CCCCCC" colspan="11" align="center">CUSTOMER ISSUES TRACKING AS OF {{date("F-Y")}} </th>
+        <th  colspan="11" >CUSTOMER ISSUES TRACKING AS OF {{date("F-Y")}} </th>
 
     </tr>
     <tr>

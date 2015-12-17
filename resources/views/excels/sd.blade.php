@@ -2,7 +2,7 @@
 <table>
     <thead>
     <tr>
-        <th bgcolor="#CCCCCC" colspan="11" align="center">Daily Logged queries</th>
+        <th colspan="11" >Daily Logged queries</th>
 
     </tr>
     <tr>

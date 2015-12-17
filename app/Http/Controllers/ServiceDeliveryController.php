@@ -49,7 +49,7 @@ class ServiceDeliveryController extends Controller
     public function getMonthReport()
     {
         //
-        $issues=CustomerIssues::where(\DB::raw('Month(date_created)'),'=',date('n'))->get();
+        $issues=CustomerIssues::where(\DB::raw('Month(date_created)'),'=',date('n'))->where(\DB::raw('Year(date_created)'),'=',date('Y'))->get();
 
         Excel::create("Issues_custom_report", function ($excel) use ($issues) {
 
@@ -66,7 +66,7 @@ class ServiceDeliveryController extends Controller
     public function getDayReport()
     {
         //
-        $issues=CustomerIssues::where(\DB::raw('DAY(date_created)'),'=',date('j'))->get();
+        $issues=CustomerIssues::where(\DB::raw('DAY(date_created)'),'=',date('j'))->where(\DB::raw('Year(date_created)'),'=',date('Y'))->where(\DB::raw('Month(date_created)'),'=',date('n'))->get();
 
         Excel::create("Issues_custom_report", function ($excel) use ($issues) {
 
@@ -88,24 +88,74 @@ class ServiceDeliveryController extends Controller
     //Post custom report
     public function postCustomReports(Request $request)
     {
-        $start_time=date("Y-m-d",strtotime($request->start_time));
-        $end_time=date("Y-m-d",strtotime($request->end_time));
-        $department_id=$request->department_id;
-        $status_id=$request->status_id;
+        try {
+            $start_time = date("Y-m-d", strtotime($request->start_time));
+            $end_time = date("Y-m-d", strtotime($request->end_time));
+            $department_id = $request->department_id;
+            $status_id = $request->status_id;
 
-        $range = [$start_time, $end_time];
-        $issues=CustomerIssues::whereBetween('date_created',$range)
-                                  ->orwhere('department_id','=',$department_id)
-                                  ->orwhere('status_id','=',$status_id)->get();
+            $issues="";
 
-        Excel::create("Issues_custom_report", function ($excel) use ($issues) {
+            $range = [$start_time, $end_time];
+           if($request->start_time =="" && $request->end_time =="" && $request->department_id =="" && $request->status_id =="" )
+           {
+               return redirect()->back()->with('error',"Please select search criteria");
+           }
+            elseif(($request->department_id =="" && $request->status_id =="") && ($request->start_time !="" && $request->end_time !=""))
+            {
+                $issues = CustomerIssues::whereBetween('date_created', $range)->get();
+            }
+           elseif($request->department_id =="" && $request->status_id !="" && $request->start_time !="" && $request->end_time !="")
+            {
+                $issues = CustomerIssues::whereBetween('date_created', $range)
+                    ->where('status_id', '=', $status_id)->get();
+            }
+           elseif($request->department_id !="" && $request->status_id =="" && $request->start_time !="" && $request->end_time !="")
+           {
+               $issues = CustomerIssues::whereBetween('date_created', $range)
+                   ->where('department_id', '=', $department_id)->get();
+           }
+           elseif($request->department_id !="" && $request->status_id =="" && $request->start_time =="" && $request->end_time =="")
+           {
+               $issues = CustomerIssues::where('department_id', '=', $department_id)->get();
 
-            $excel->sheet('sheet', function ($sheet) use ($issues) {
-                $sheet->loadView('excels.csdreport')->with('issues', $issues);
+           }
+           elseif($request->department_id =="" && $request->status_id !="" && $request->start_time =="" && $request->end_time =="")
+           {
+               $issues = CustomerIssues::where('status_id', '=', $status_id)->get();
 
-            });
+           }
+           elseif($request->department_id !="" && $request->status_id !="" && $request->start_time !="" && $request->end_time !="")
+           {
+               $issues = CustomerIssues::whereBetween('date_created', $range)
+                   ->where('department_id', '=', $department_id)
+                   ->where('status_id', '=', $status_id)->get();
 
-        })->download('xlsx');
+           }
+
+           if($issues !="")
+           {
+
+               Excel::create("Issues_custom_report", function ($excel) use ($issues) {
+
+                   $excel->sheet('sheet', function ($sheet) use ($issues) {
+                       $sheet->loadView('excels.csdreport')->with('issues', $issues);
+
+                   });
+
+               })->download('xlsx');
+           }
+            else
+            {
+                return redirect()->back()->with('error',"Please select search criteria");
+            }
+
+        }
+        catch (\Exception $ex)
+        {
+            return redirect()->back()->with('error',$ex->getMessage());
+        }
+
     }
 
 
@@ -572,9 +622,9 @@ class ServiceDeliveryController extends Controller
 
             });
 
-          //  File::delete($destinationPath . $filename); //Delete after upload
+            File::delete($destinationPath . $filename); //Delete after upload
 
-          //  return redirect('servicedelivery')->with('success', 'Users uploaded successfully.');
+            return redirect('servicedelivery')->with('success', 'Users uploaded successfully.');
        // } catch (\Exception $e) {
 
             //echo $e->getMessage();

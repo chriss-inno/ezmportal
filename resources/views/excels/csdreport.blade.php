@@ -2,7 +2,7 @@
 <table>
     <thead>
     <tr>
-        <th bgcolor="#CCCCCC" colspan="11" align="center">CUSTOMER ISSUES TRACKING  REPORT </th>
+        <th colspan="11">CUSTOMER ISSUES TRACKING  REPORT </th>
 
     </tr>
     <tr>

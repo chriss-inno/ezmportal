@@ -332,6 +332,17 @@
                                         <fieldset class="scheduler-border">
                                             <legend class="scheduler-border" style="color:#005DAD">Search criteria</legend>
                                             <div class="form-group">
+
+                                                @if(Session::has('error'))
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <div class="alert fade in alert-danger">
+                                                                <i class="icon-remove close" data-dismiss="alert"></i>
+                                                                {{Session::get('error')}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
                                                 <div class="row">
                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                         <label for="department_id">Department Responsible</label>
@@ -339,7 +350,7 @@
                                                             <option selected value="">---</option>
                                                             <?php $depatments=\App\Department::all();?>
                                                             @foreach($depatments as $rc)
-                                                                <option value="{{$rc->id}}">{{$rc->department_name}}</option>
+                                                                <option value="{{$rc->department_name}}">{{$rc->department_name}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>

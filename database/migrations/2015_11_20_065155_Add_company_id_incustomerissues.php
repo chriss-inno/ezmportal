@@ -15,7 +15,7 @@ class AddCompanyIdIncustomerissues extends Migration
         //
         Schema::table('customer_issues', function(Blueprint $table)
         {
-            $table->string('company_id',2)->nullable()->add();
+            $table->integer('company_id')->nullable()->add();
 
 
         });

@@ -2,7 +2,7 @@
 <table>
     <thead>
     <tr>
-        <th bgcolor="#CCCCCC" colspan="11" align="center">CUSTOMER ISSUES TRACKING AS OF {{date("d-M-Y")}} </th>
+        <th  colspan="11" >CUSTOMER ISSUES TRACKING AS OF {{date("d-M-Y")}} </th>
 
     </tr>
     <tr>
@@ -26,7 +26,7 @@
             <td>{{$c++}}</td>
             <td>{{$issue->issues_number}}</td>
             @if($issue->date_created != null && $issue->date_created !="" )
-                <td>{{date("d,M Y",strtotime($issue->date_created))}}</td>
+                <td>{{date("d-M-Y",strtotime($issue->date_created))}}</td>
             @else
                 <td></td>
             @endif
@@ -54,7 +54,7 @@
             @endif
             <td>{{$issue->remarks}}</td>
             @if(strtolower($issue->closed)=="yes" )
-                <td>{{date("d,M Y",strtotime($issue->date_resolved))}}</td>
+                <td>{{date("d-M-Y",strtotime($issue->date_resolved))}}</td>
             @else
                 <td>NOT CLOSED</td>
             @endif
