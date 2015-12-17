@@ -98,7 +98,8 @@
                           $monthData="";
                              for($i=1; $i<= 12; $i++)
                              {
-                                $MonthCount.=count(\App\CustomerIssues::where(\DB::raw('Month(date_created)'),'=',$i)->get()).",";
+                                $MonthCount.=count(\App\CustomerIssues::where(\DB::raw('Month(date_created)'),'=',$i)
+                                ->where(\DB::raw('Year(date_created)'),'=',date("Y"))->get()).",";
                              }
                              $monthData.=substr($MonthCount,0,strlen($MonthCount)-1);
                     ?>
