@@ -13,6 +13,54 @@
         $(document).ready(function() {
 
             $(function () {
+                $('#yearsissues').highcharts({
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: {
+                        text: 'Year Average Customer logged issues for four consecutive years <?php echo ( date("Y")-3)." - ".date("Y");?>'
+                    },
+                    xAxis: {
+                        categories: ['<?php echo date("Y") -3; ?>', '<?php echo date("Y") -2; ?>', '<?php echo date("Y") -1; ?>', '<?php echo date("Y"); ?>']
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Number of logged issues'
+                        }
+                    },
+                    tooltip: {
+                        crosshairs: true,
+                        shared: true
+                    },
+                    plotOptions: {
+                        spline: {
+                            marker: {
+                                radius: 4,
+                                lineColor: '#666666',
+                                lineWidth: 1
+                            }
+                        }
+                    },
+                    <?php
+                          $MonthCount="";
+                          $monthData="";
+                             for($i=(date("Y")-3); $i<= date("Y"); $i++)
+                             {
+                                $MonthCount.=count(\App\CustomerIssues::where(\DB::raw('Year(date_created)'),'=',$i)->get()).",";
+                             }
+                             $monthData.=substr($MonthCount,0,strlen($MonthCount)-1);
+                    ?>
+                    series: [{
+                        name: 'Yearly Average Issues',
+                        data: [<?php echo $monthData;?>]
+
+                    }]
+                });
+            });
+            $(function () {
                 $('#monthissues').highcharts({
                     chart: {
                         type: 'spline'
@@ -111,7 +159,7 @@
                           $dy=cal_days_in_month(CAL_GREGORIAN,date('n'),date("Y"));
                              for($i=1; $i<= $dy; $i++)
                              {
-                                $dayCount.=count(\App\CustomerIssues::where(\DB::raw('DAY(created_at)'),'=',$i)->where(\DB::raw('Month(created_at)'),'=',date('n'))->get()).",";
+                                $dayCount.=count(\App\CustomerIssues::where(\DB::raw('DAY(date_created)'),'=',$i)->where(\DB::raw('Month(date_created)'),'=',date('n'))->where(\DB::raw('Year(date_created)'),'=',date('Y'))->get()).",";
                              }
                              $dailyData.=substr($dayCount,0,strlen($dayCount)-1);
                     ?>
@@ -418,7 +466,20 @@
                                 </section>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <section class="panel">
+                                    <header class="panel-heading">
+                                    </header>
+                                    <div class="panel-body">
+                                        <div id="yearsissues" style="height:400px;"></div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
                     </div>
+
+
                 </section>
 
             </div>

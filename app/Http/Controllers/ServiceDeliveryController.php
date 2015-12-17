@@ -49,7 +49,7 @@ class ServiceDeliveryController extends Controller
     public function getMonthReport()
     {
         //
-        $issues=CustomerIssues::where(\DB::raw('DAY(created_at)'),'=',date('j'))->get();
+        $issues=CustomerIssues::where(\DB::raw('Month(date_created)'),'=',date('n'))->get();
 
         Excel::create("Issues_custom_report", function ($excel) use ($issues) {
 
@@ -66,7 +66,7 @@ class ServiceDeliveryController extends Controller
     public function getDayReport()
     {
         //
-        $issues=CustomerIssues::where(\DB::raw('DAY(created_at)'),'=',date('j'))->get();
+        $issues=CustomerIssues::where(\DB::raw('DAY(date_created)'),'=',date('j'))->get();
 
         Excel::create("Issues_custom_report", function ($excel) use ($issues) {
 
@@ -94,7 +94,7 @@ class ServiceDeliveryController extends Controller
         $status_id=$request->status_id;
 
         $range = [$start_time, $end_time];
-        $issues=CustomerIssues::whereBetween('created_at',$range)
+        $issues=CustomerIssues::whereBetween('date_created',$range)
                                   ->orwhere('department_id','=',$department_id)
                                   ->orwhere('status_id','=',$status_id)->get();
 
@@ -141,7 +141,7 @@ class ServiceDeliveryController extends Controller
         $sdprogress->remarks=$request->remarks;
         $sdprogress->progress_date=date("Y-m-d");
         $sdprogress->progress_date_tm=date("Y-m-d H:i");
-        $sdprogress->user_id=Auth::user()->id;
+        $sdprogress->user_id=Auth::user()->first_name. " ".Auth::user()->last_name;
         $sdprogress->save();
 
 
@@ -303,6 +303,95 @@ class ServiceDeliveryController extends Controller
     }
 
 
+    public function showImportMigrateProgress()
+    {
+        //
+        return view('servicedelivery.importprogress');
+    }
+
+    //Import progress
+    public function importMigrateProgress(Request $request)
+    {
+        //  try {
+
+        $file= $request->file('inventory_file');
+        $destinationPath = public_path() .'/uploads/temp/';
+        $filename   = str_replace(' ', '_', $file->getClientOriginalName());
+
+        $file->move($destinationPath, $filename);
+
+        Excel::load($destinationPath . $filename, function ($reader) {
+
+            $results = $reader->get();
+
+            $results->each(function($row) {
+
+                echo "Import start at ".date("Y-m-d H:i") ." <br/>";
+
+               if($row->reference_number != "" && $row->description != "" && $row->status != "" && $row->prg_date != "" && $row->prg_time != "" && $row->inputed_by != "")
+               {
+                   if(count(CustomerIssues::where('issues_number','=', $row->reference_number)->get()) > 0)
+                   {
+                       echo "Import found start now <br/>";
+                       //process status
+                       if(!count(SDStatus::where('status_name','=',$row->status)->get()) > 0)
+                       {
+                           $status=new SDStatus;
+                           $status->status_name=$row->status;
+                           $status->input_by=Auth::user()->username;
+                           $status->save();
+
+                           echo "SDStatus found1 <br/>";
+                       }
+                       else
+                       {
+                           $status=SDStatus::where('status_name','=',$row->status)->get()->first();
+                           echo "SDStatus found2 <br/>";
+                       }
+
+                       echo "CustomerIssues looking <br/>";
+                       $issue=CustomerIssues::where('issues_number','=', $row->reference_number)->get()->first();
+                       $issue->remarks=$row->description;
+                       $issue->status_id=$status->id;
+                       $issue->save();
+
+                       $issuep=CustomerIssues::find($issue->id);
+                       if(strtolower($issuep->status->status_name) =="resolved")
+                       {
+                           $issuep->closed="Yes";
+                           $issuep->date_resolved=date("Y-m-d H:i",strtotime(date("Y-m-d",strtotime($row->prg_date))." ". date("H:i",strtotime($row->prg_time))));
+
+                           echo "CustomerIssues resolved <br/>";
+                       }
+                       $issuep->save();
+
+                       echo "SDProgress start <br/>";
+
+                       $sdprogress=new SDProgress;
+                       $sdprogress->issue_id=$issuep->id;
+                       $sdprogress->issue_progress=$row->description;
+                       $sdprogress->remarks=$row->description;
+                       $sdprogress->progress_date=date("Y-m-d",strtotime($row->prg_date));
+                       $sdprogress->progress_date_tm=date("Y-m-d H:i",strtotime(date("Y-m-d",strtotime($row->prg_date))." ". date("H:i",strtotime($row->prg_time))));
+                       $sdprogress->user_id=$row->inputed_by;
+                       $sdprogress->save();
+                   }
+               }
+
+
+            });
+
+        });
+
+        File::delete($destinationPath . $filename); //Delete after upload
+
+        return redirect('servicedelivery')->with('success', 'Users uploaded successfully.');
+        // } catch (\Exception $e) {
+
+        //echo $e->getMessage();
+        //  return redirect()->back()->with('error',$e->getMessage());
+        // }
+    }
     //Import migrate data
 
     public function showImportMigrate()
