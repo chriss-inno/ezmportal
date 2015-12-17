@@ -141,6 +141,9 @@ Route::post('servicedelivery/updates',['middleware' => 'auth', 'uses' =>'Service
 
 Route::get('servicedelivery/migrate',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@showImportMigrate']);
 Route::post('servicedelivery/migrate',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@importMigrate']);
+
+Route::get('servicedelivery/migrate/progress',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@showImportMigrateProgress']);
+Route::post('servicedelivery/migrate/progress',['middleware' => 'auth', 'uses' =>'ServiceDeliveryController@importMigrateProgress']);
 //
 //SD I
 //SD Customers

@@ -67,7 +67,7 @@
                     <div class="message-body msg-in">
                         <span class="arrow"></span>
                         <div class="text">
-                            <p class="attribution"><a href="#">{{$message->user->first_name . " " .$message->user->last_name}}</a> at {{date('h:i A',strtotime($message->created_at))}}, {{date("l, jS M Y",strtotime($message->created_at))}}</p>
+                            <p class="attribution"><a href="#">{{$message->user_id}}</a> at {{date('h:i A',strtotime($message->progress_date_tm))}}, {{date("l, jS M Y",strtotime($message->progress_date_tm))}}</p>
                             <p>{{$message->issue_progress}}</p>
                         </div>
                     </div>

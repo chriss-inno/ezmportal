@@ -9,6 +9,7 @@
         <th ><strong>SNO</strong></th>
         <th ><strong>REFERENCE NUMBER</strong> </th>
         <th ><strong>REPORTED DATE</strong></th>
+        <th ><strong>INPUT BY</strong></th>
         <th ><strong>CUSTOMER NAME</strong></th>
         <th ><strong>PRODUCT TYPE</strong></th>
         <th ><strong>STATUS</strong></th>
@@ -26,6 +27,11 @@
             <td>{{$issue->issues_number}}</td>
             @if($issue->date_created != null && $issue->date_created !="" )
                 <td>{{date("d,M Y",strtotime($issue->date_created))}}</td>
+            @else
+                <td></td>
+            @endif
+            @if($issue->input_by != null && $issue->input_by !="" )
+                <td>{{$issue->input_by}}</td>
             @else
                 <td></td>
             @endif
