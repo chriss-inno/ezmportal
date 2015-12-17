@@ -327,10 +327,7 @@ class ServiceDeliveryController extends Controller
                 $results = $reader->get();
 
                 $results->each(function($row) {
-
-
-                    // dump($row);
-                    // exit;
+                    $product_details_id="";
                    //Process customer
                     if(!count(SDCustomer::where('company_name','=',$row->customer)->get()) > 0)
                     {
@@ -349,40 +346,71 @@ class ServiceDeliveryController extends Controller
                         echo "Customer found2 <br/>";
                     }
 
-                    //Product details
-                    if(!count(SDProduct::where('product_type','=',$row->product_type)->get()) > 0)
+                    //Process product details and product type are separeted by /
+                    if(strpos($row->product_type,"/"))
                     {
-                        $product= new SDProduct;
-                        $product->product_type=$row->product_type;
-                        $product->input_by=Auth::user()->username;
-                        $product->save();
+                       $pos= strpos($row->product_type,"/");
+                        //Get product type from left
+                        $pr_type=substr($row->product_type,0,$pos);
+                        $pr_details=substr($row->product_type,($pos+1));
 
-                        echo "SDProduct found1 <br/>";
+                        //Product details
+                        if(!count(SDProduct::where('product_type','=',$pr_type)->get()) > 0)
+                        {
+                            $product= new SDProduct;
+                            $product->product_type=$pr_type;
+                            $product->input_by=Auth::user()->username;
+                            $product->save();
+
+                            echo "SDProduct found1 <br/>";
+                        }
+                        else
+                        {
+                            $product=SDProduct::where('product_type','=',$pr_type)->get()->first();
+                            echo "SDProduct found2 <br/>";
+                        }
+
+                        //Product details
+                        if(!count(SDProductDetails::where('details_name','=',$pr_details)->get()) > 0)
+                        {
+                            $pdetails=new SDProductDetails;
+                            $pdetails->details_name=$pr_details;
+                            $pdetails->input_by=Auth::user()->username;
+                            $pdetails->save();
+
+                            $product_details_id=$pdetails->id;
+
+                            echo "SDProductDetails found1 <br/>";
+                        }
+                        else
+                        {
+                            $pdetails=SDProductDetails::where('details_name','=',$pr_details)->get()->first();
+
+                            echo "SDProductDetails found2 <br/>";
+                            $product_details_id=$pdetails->id;
+                        }
                     }
                     else
                     {
-                        $product=SDProduct::where('product_type','=',$row->product_type)->get()->first();
-                        echo "SDProduct found2 <br/>";
+                        //Product details
+                        if(!count(SDProduct::where('product_type','=',$row->product_type)->get()) > 0)
+                        {
+                            $product= new SDProduct;
+                            $product->product_type=$row->product_type;
+                            $product->input_by=Auth::user()->username;
+                            $product->save();
+
+                            echo "SDProduct found1 <br/>";
+                        }
+                        else
+                        {
+                            $product=SDProduct::where('product_type','=',$row->product_type)->get()->first();
+                            echo "SDProduct found2 <br/>";
+                        }
+
+
                     }
 
-                   /*
-                    //Product details
-                    if(count(SDProductDetails::where('details_name','=',$row->details_name)->get()) > 0)
-                    {
-                        $pdetails=new SDProductDetails;
-                        $pdetails->details_name=$row->details_name;
-                        $pdetails->input_by=Auth::user()->username;
-                        $pdetails->save();
-
-                        echo "SDProductDetails found1 <br/>";
-                    }
-                    else
-                    {
-                        $pdetails=SDProductDetails::where('details_name','=',$row->details_name)->get()->first();
-
-                        echo "SDProductDetails found2 <br/>";
-                    }
-                   */
                     //Receipt mode
 
                     if(!count(SDReceiptMode::where('mode_name','=',$row->received_mode)->get()) >0)
@@ -421,7 +449,7 @@ class ServiceDeliveryController extends Controller
                     $issues= new CustomerIssues;
                     $issues->company_id=$customer->id;
                     $issues->product_id=$product->id;
-                   // $issues->product_details_id=$pdetails->id;
+                    $issues->product_details_id=$product_details_id;
                     $issues->mode_id=$modes->id;
                     $issues->description=$row->description;
                     $issues->department_id=$row->department_id;
@@ -439,9 +467,9 @@ class ServiceDeliveryController extends Controller
                     if(strtolower($issue->status->status_name) =="resolved")
                     {
                         $issue->closed="Yes";
-                        if($row->resolved_date=="0000-00-00")
+                        if(date("Y-m-d H:i", strtotime(date("Y-m-d", strtotime($row->resolved_date)) . " " . date("H:i", strtotime($row->resolved_time)))) ==date("Y-m-d")." 03:00")
                         {
-                            $issue->date_resolved= date("Y-m-d H:i",strtotime(date("Y-m-d",strtotime($row->reported_date))." ". date("H:i",strtotime($row->resolved_time))));
+
                         }
                         else
                         {
@@ -450,13 +478,14 @@ class ServiceDeliveryController extends Controller
                         $issue->save();
 
                     }
+
                 });
 
             });
 
-            File::delete($destinationPath . $filename); //Delete after upload
+          //  File::delete($destinationPath . $filename); //Delete after upload
 
-            return redirect('servicedelivery')->with('success', 'Users uploaded successfully.');
+          //  return redirect('servicedelivery')->with('success', 'Users uploaded successfully.');
        // } catch (\Exception $e) {
 
             //echo $e->getMessage();
