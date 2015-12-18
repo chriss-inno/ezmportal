@@ -2,14 +2,39 @@
 @section('page-title')
     Service Delivery Customer Issues
 @stop
+@section('page_style')
+
+        <!-- Bootstrap core CSS -->
+    {!!HTML::style("css/bootstrap.min.css" )!!}
+    {!!HTML::style("css/bootstrap-reset.css")!!}
+            <!--external css-->
+    {!!HTML::style("assets/font-awesome/css/font-awesome.css" )!!}
+
+    {!!HTML::style("assets/bootstrap-fileupload/bootstrap-fileupload.css" )!!}
+    {!!HTML::style("assets/bootstrap-wysihtml5/bootstrap-wysihtml5.css" )!!}
+    {!!HTML::style("assets/bootstrap-datepicker/css/datepicker.css" )!!}
+    {!!HTML::style("assets/bootstrap-timepicker/compiled/timepicker.css" )!!}
+    {!!HTML::style("assets/bootstrap-colorpicker/css/colorpicker.css" )!!}
+    {!!HTML::style("assets/bootstrap-daterangepicker/daterangepicker-bs3.css" )!!}
+    {!!HTML::style("assets/bootstrap-datetimepicker/css/datetimepicker.css" )!!}
+    {!!HTML::style("assets/jquery-multi-select/css/multi-select.css")!!}
+
+
+            <!-- Custom styles for this template -->
+    {!!HTML::style("css/style.css" )!!}
+    {!!HTML::style("css/style-responsive.css" )!!}
+
+@stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
     {!!HTML::script("js/easy-pie-chart.js") !!}
     {!!HTML::script("js/count.js") !!}
-    {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
+
     {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
     {!!HTML::script("js/jquery.scrollTo.min.js") !!}
     {!!HTML::script("js/jquery.nicescroll.js") !!}
+
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
     {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
 
@@ -392,7 +417,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa fa-users"></i>  CUSTOMER ISSUES TRACKING</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-users"></i>  CUSTOMER ISSUES TRACKING SEARCH RESULTS</strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
@@ -401,11 +426,12 @@
                                 <div class="btn-group btn-group-justified">
                                     <a href="#" class="createIsssue btn btn-file btn-primary"><i class="fa fa-file-o text-danger"></i> RECORD NEW ISSUE</a>
                                     <a href="{{url('servicedelivery')}}" class="btn btn-file btn-primary"> <i class="fa fa-pencil-square text-danger"></i> VIEW ISSUES PROGRESS</a>
-                                    <a href="{{url('servicedelivery/history')}}" class="btn btn-file btn-primary"> <i class="fa fa-archive text-danger"></i> VIEW ISSUES HISTORY</a>
+                                    <a href="{{url('servicedelivery/history')}}" class="btn btn-file btn-primary"> <i class="fa fa-search text-danger"></i> ADVANCED SEARCH</a>
                                     <a href="{{url('servicedelivery/reports')}}" class="btn btn-file btn-primary"> <i class="fa fa-bar-chart text-danger"></i>  ISSUES REPORT</a>
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="adv-table">

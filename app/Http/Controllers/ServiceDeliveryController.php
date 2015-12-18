@@ -34,8 +34,76 @@ class ServiceDeliveryController extends Controller
     public function showHistory()
     {
         //
+
         $issues=CustomerIssues::all()->take(2000);
-        return view('servicedelivery.history',compact('issues'));
+         return view('servicedelivery.advsearch',compact('issues'));
+       // return view('servicedelivery.history',compact('issues'));
+    }
+
+    //Post postShowHistory
+
+    public function postShowHistory(Request $request)
+    {
+        try {
+            $start_time = date("Y-m-d", strtotime($request->start_time));
+            $end_time = date("Y-m-d", strtotime($request->end_time));
+            $department_id = $request->department_id;
+            $status_id = $request->status_id;
+
+            $issues="";
+
+            $range = [$start_time, $end_time];
+            if($request->start_time =="" && $request->end_time =="" && $request->department_id =="" && $request->status_id =="" && $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number ==""  )
+            {
+                return redirect()->back()->with('error',"Please select search criteria");
+            }
+            elseif(($request->department_id =="" && $request->status_id =="") && ($request->start_time !="" && $request->end_time !="" && $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number =="" ))
+            {
+                $issues = CustomerIssues::whereBetween('date_created', $range)->get();
+            }
+            elseif($request->department_id =="" && $request->status_id !="" && $request->start_time !="" && $request->end_time !="" && $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number =="" )
+            {
+                $issues = CustomerIssues::whereBetween('date_created', $range)
+                    ->where('status_id', '=', $status_id)->get();
+            }
+            elseif($request->department_id !="" && $request->status_id =="" && $request->start_time !="" && $request->end_time !="" && $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number =="" )
+            {
+                $issues = CustomerIssues::whereBetween('date_created', $range)
+                    ->where('department_id', '=', $department_id)->get();
+            }
+            elseif($request->department_id !="" && $request->status_id =="" && $request->start_time =="" && $request->end_time =="" && $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number =="" )
+            {
+                $issues = CustomerIssues::where('department_id', '=', $department_id)->get();
+
+            }
+            elseif($request->department_id =="" && $request->status_id !="" && $request->start_time =="" && $request->end_time =="" && $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number =="" )
+            {
+                $issues = CustomerIssues::where('status_id', '=', $status_id)->get();
+
+            }
+            elseif($request->department_id !="" && $request->status_id !="" && $request->start_time !="" && $request->end_time !="" && $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number =="" )
+            {
+                $issues = CustomerIssues::whereBetween('date_created', $range)
+                    ->where('department_id', '=', $department_id)
+                    ->where('status_id', '=', $status_id)->get();
+
+            }
+
+            if($issues !="")
+            {
+
+                return view('servicedelivery.history',compact('issues'));
+            }
+            else
+            {
+                return redirect()->back()->with('error',"Please select search criteria");
+            }
+
+        }
+        catch (\Exception $ex)
+        {
+            return redirect()->back()->with('error',$ex->getMessage());
+        }
     }
     //Reports
     public function reports()
