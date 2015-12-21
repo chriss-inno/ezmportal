@@ -53,6 +53,7 @@ class ServiceDeliveryController extends Controller
             $issues="";
 
             $range = [$start_time, $end_time];
+
             if($request->start_time =="" && $request->end_time =="" && $request->department_id =="" && $request->status_id =="" && $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number ==""  )
             {
                 return redirect()->back()->with('error',"Please select search criteria");
@@ -88,6 +89,37 @@ class ServiceDeliveryController extends Controller
                     ->where('status_id', '=', $status_id)->get();
 
             }
+            elseif( ($request->start_time =="" && $request->end_time =="") &&  $request->department_id =="" && $request->status_id =="" &&  $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number !="" )
+            {
+                $issues = CustomerIssues::where('issues_number', $request->reference_number)->get();
+            }
+            elseif( $request->start_time =="" && $request->end_time =="" &&  $request->department_id =="" && $request->status_id =="" &&  $request->product_type !="" && $request->receipt_mode =="" && $request->reference_number =="" )
+            {
+                $issues = CustomerIssues::where('product_id', $request->product_type)->get();
+            }
+            elseif( $request->start_time =="" && $request->end_time =="" &&  $request->department_id =="" && $request->status_id =="" &&  $request->product_type =="" && $request->receipt_mode !="" && $request->reference_number =="" )
+            {
+                $issues = CustomerIssues::where('mode_id', $request->receipt_mode)->get();
+            }
+            elseif( ($request->start_time !="" && $request->end_time !="") &&  $request->department_id !="" && $request->status_id !="" &&  $request->product_type !="" && $request->receipt_mode !="" && $request->reference_number !="" )
+            {
+                $issues = CustomerIssues::where('mode_id', $request->receipt_mode)
+                    ->where('department_id', '=', $department_id)
+                    ->where('product_id', $request->product_type)
+                    ->where('date_created', $range)
+                    ->where('issues_number', $request->reference_number)
+                    ->where('status_id', '=', $status_id)->get();
+            }
+            elseif( ($request->start_time !="" && $request->end_time !="") ||  $request->department_id !="" || $request->status_id !="" ||  $request->product_type !="" || $request->receipt_mode !="" || $request->reference_number !="" )
+            {
+                $issues = CustomerIssues::where('mode_id', $request->receipt_mode)
+                                        ->orwhere('department_id', '=', $department_id)
+                                        ->orwhere('product_id', $request->product_type)
+                                        ->orwhereBetween('date_created', $range)
+                                        ->orwhere('issues_number', $request->reference_number)
+                                        ->orwhere('status_id', '=', $status_id)->get();
+            }
+
 
             if($issues !="")
             {

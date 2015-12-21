@@ -359,7 +359,7 @@
                                                         <label for="status_id">Status</label>
                                                         <select name="status_id" class="form-control" id="status_id">
                                                             <option selected value="">---</option>
-                                                            <?php $sdstatus=\App\SDStatus::all();?>
+                                                            <?php $sdstatus=\App\SDStatus::orderby('status_name','ASC')->get();?>
                                                             @foreach($sdstatus as $rc)
                                                                 <option value="{{$rc->id}}">{{$rc->status_name}}</option>
                                                             @endforeach
@@ -374,8 +374,8 @@
                                                             <label for="product_type">Product Type</label>
                                                             <select name="product_type" class="form-control" id="product_type">
                                                                 <option selected value="">---</option>
-                                                                <?php $depatments=\App\SDProduct::all();?>
-                                                                @foreach($depatments as $rc)
+                                                                <?php $prodtyp=\App\SDProduct::orderby('product_type','ASC')->get();?>
+                                                                @foreach($prodtyp as $rc)
                                                                     <option value="{{$rc->id}}">{{$rc->product_type}}</option>
                                                                 @endforeach
                                                             </select>
@@ -384,8 +384,8 @@
                                                             <label for="receipt_mode">Receipt Mode</label>
                                                             <select name="receipt_mode" class="form-control" id="receipt_mode">
                                                                 <option selected value="">---</option>
-                                                                <?php $sdstatus=\App\SDReceiptMode::all();?>
-                                                                @foreach($sdstatus as $rc)
+                                                                <?php $recmod=\App\SDReceiptMode::orderby('mode_name','ASC')->get();?>
+                                                                @foreach($recmod as $rc)
                                                                     <option value="{{$rc->id}}">{{$rc->mode_name}}</option>
                                                                 @endforeach
                                                             </select>
