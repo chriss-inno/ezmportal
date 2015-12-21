@@ -299,7 +299,7 @@ class ServiceDeliveryController extends Controller
 
         //Send email
 
-        return "Updates saved successful";
+        return redirect('servicedelivery');
 
     }
     /**
@@ -334,6 +334,8 @@ class ServiceDeliveryController extends Controller
             $issues->received_by=$request->received_by;
             $issues->status_id=$request->status_id;
             $issues->date_created=date("Y-m-d");
+            $issues->date_created_tmt=date("Y-m-d H:i");
+            $issues->root_cause=$request->root_cause;
             $issues->input_by=Auth::user()->username;
             $issues->save();
 
@@ -349,7 +351,7 @@ class ServiceDeliveryController extends Controller
                 $issue->save();
             }
 
-            return "Data saved successfully";
+            return redirect('servicedelivery');
 
         }catch (\Exception $ex)
         {
@@ -408,6 +410,7 @@ class ServiceDeliveryController extends Controller
             $issues->department_id=$request->department_id;
             $issues->received_by=$request->received_by;
             $issues->status_id=$request->status_id;
+            $issues->root_cause=$request->root_cause;
             $issues->input_by=Auth::user()->username;
             $issues->save();
 
@@ -420,7 +423,7 @@ class ServiceDeliveryController extends Controller
             }
 
 
-            return "Data saved successfully";
+            return redirect('servicedelivery');
 
         }catch (\Exception $ex)
         {

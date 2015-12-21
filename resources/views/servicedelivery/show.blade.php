@@ -8,8 +8,9 @@
                 <th>Company Name</th>
                 <th>Contact Person</th>
                 <th>Product Type</th>
+                <th>Product Details</th>
                 <th>Received By</th>
-                <th>Date Issued</th>
+                <th>Date/Time Reported</th>
                 <th>Department Responsible</th>
                 <th>Status</th>
             </tr>
@@ -24,13 +25,18 @@
                 @else
                     <td></td>
                 @endif
+                @if($issue->product_id != null && $issue->product_id !="" )
+                    <td>{{$issue->producttype->product_type}}</td>
+                @else
+                    <td></td>
+                @endif
                 @if($issue->received_by != null && $issue->received_by !="" )
                     <td>{{$issue->received_by}}</td>
                 @else
                     <td></td>
                 @endif
-                @if($issue->date_created != null && $issue->date_created !="" )
-                    <td>{{date("d,M Y",strtotime($issue->date_created))}}</td>
+                @if($issue->date_created_tmt != null && $issue->date_created_tmt !="" )
+                    <td>{{date("d,M Y H:i",strtotime($issue->date_created_tmt))}}</td>
                 @else
                     <td></td>
                 @endif
@@ -46,10 +52,16 @@
                 @endif
             </tr>
             <tr>
-                <th colspan="8">Issue description</th>
+                <th colspan="9">Root Cause</th>
             </tr>
             <tr>
-                <td colspan="8">{{$issue->description}}</td>
+                <td colspan="9">{{$issue->description}}</td>
+            </tr>
+            <tr>
+                <th colspan="9">Issue description</th>
+            </tr>
+            <tr>
+                <td colspan="9">{{$issue->description}}</td>
             </tr>
             </tbody>
         </table>

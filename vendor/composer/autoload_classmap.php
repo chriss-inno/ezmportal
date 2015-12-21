@@ -16,6 +16,7 @@ return array(
     'AddDatersolvedRemarksSdTable' => $baseDir . '/database/migrations/2015_11_25_192350_add_datersolved_remarks_sd_table.php',
     'AddDownloadCheckInDepartment' => $baseDir . '/database/migrations/2015_10_27_162024_add_download_check_in-department.php',
     'AddProductDetailsIdCollumn' => $baseDir . '/database/migrations/2015_11_01_122618_add_product_details_id_collumn.php',
+    'AddRootCausetoCIT' => $baseDir . '/database/migrations/2015_12_21_191407_add_root_causetoCIT.php',
     'AddTodayCollumToqueries' => $baseDir . '/database/migrations/2015_10_30_174100_add_today_collum_toqueries.php',
     'AddUnitCodeToQueries' => $baseDir . '/database/migrations/2015_11_18_161305_add_unit_code_to_queries.php',
     'AddUnitidToUser' => $baseDir . '/database/migrations/2015_11_10_102728_add_unitid_to_user.php',
