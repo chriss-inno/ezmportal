@@ -115,8 +115,8 @@ class EmailController extends Controller
             $job1 = (new ServiceOracle())->delay(10);
             $this->dispatch($job1);
 
-           // $job2 = (new ServiceDailyLogged())->delay(10);
-           // $this->dispatch($job2);
+           $job2 = (new ServiceDailyLogged())->delay(10);
+            $this->dispatch($job2);
 
            // $job3 = (new unAssignedQueryReminder())->delay(10);
           //   $this->dispatch($job3);

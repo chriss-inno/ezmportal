@@ -481,11 +481,11 @@ class QueryController extends Controller
         //load query from user department only
         if( Auth::user()->user_type=="Administrator")
         {
-            $queries=Query::all();
+            $queries=Query::where('closed', '<>', '1')->get();
             return view('queries.assign',compact('queries'));
         }
         else {
-        $queries=Query::where('to_department','=',Auth::user()->department_id)->where('closed', '=', '0')->get();
+        $queries=Query::where('to_department','=',Auth::user()->department_id)->where('closed', '<>', '1')->get();
         return view('queries.assign',compact('queries'));
         }
 
@@ -557,9 +557,9 @@ class QueryController extends Controller
     //View Queries assigned to specific users
     public function task()
     {
-        if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,20) || Auth::user()->user_type=="Administrator")
+        if( Auth::user()->user_type=="Administrator")
         {
-            $queries=Query::where('status','<>','CLOSED')->where('closed', '=', '0')->get();
+            $queries=Query::where('status','<>','Closed')->where('closed', '<>', '1')->get();
             return view('queries.mytask',compact('queries'));
         }
         else {

@@ -1,37 +1,24 @@
 <!-- Bootstrap -->
-<table>
+
+<table width="100%">
     <thead>
     <tr>
-        <th  colspan="11" >CUSTOMER ISSUES TRACKING AS OF {{date("F-Y")}} </th>
-
-    </tr>
-    <tr>
-        <th ><strong>SNO</strong></th>
         <th ><strong>REFERENCE NUMBER</strong> </th>
-        <th ><strong>REPORTED DATE</strong></th>
-        <th ><strong>INPUT BY</strong></th>
+        <th ><strong>DATE REPORTED </strong></th>
         <th ><strong>CUSTOMER NAME</strong></th>
         <th ><strong>PRODUCT TYPE</strong></th>
-        <th ><strong>STATUS</strong></th>
         <th ><strong>DESCRIPTION</strong></th>
-        <th ><strong>RESPONSIBLE DEPARTMENT</strong></th>
+        <th ><strong>ROOT CAUSE</strong></th>
         <th ><strong>REMARKS</strong></th>
-        <th ><strong>CLOSED DATE</strong></th>
+        <th ><strong>RESOLUTION DATE</strong></th>
     </tr>
     </thead>
     <tbody>
-    <?php $c=1;?>
     @foreach($issues as $issue)
         <tr>
-            <td>{{$c++}}</td>
             <td>{{$issue->issues_number}}</td>
             @if($issue->date_created != null && $issue->date_created !="" )
                 <td>{{date("d-M-Y",strtotime($issue->date_created))}}</td>
-            @else
-                <td></td>
-            @endif
-            @if($issue->input_by != null && $issue->input_by !="" )
-                <td>{{$issue->input_by}}</td>
             @else
                 <td></td>
             @endif
@@ -41,20 +28,11 @@
             @else
                 <td></td>
             @endif
-            @if($issue->status_id != null && $issue->status_id !="" )
-                <td>{{$issue->status->status_name}}</td>
-            @else
-                <td></td>
-            @endif
-            <td>{{$issue->description}}</td>
-            @if($issue->department_id != null && $issue->department_id !="" )
-                <td>{{$issue->department_id}}</td>
-            @else
-                <td></td>
-            @endif
-            <td>{{$issue->remarks}}</td>
+            <td class="wrap-text">{{$issue->description}}</td>
+            <td class="wrap-text">{{$issue->root_cause}}</td>
+            <td  class="wrap-text">{{$issue->remarks}}</td>
             @if(strtolower($issue->closed)=="yes" )
-                <td>{{date("d-M-Y",strtotime($issue->date_resolved))}}</td>
+                <td >{{date("d-M-Y",strtotime($issue->date_resolved))}}</td>
             @else
                 <td>NOT CLOSED</td>
             @endif

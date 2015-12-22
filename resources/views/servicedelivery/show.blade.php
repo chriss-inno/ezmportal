@@ -25,7 +25,7 @@
                 @else
                     <td></td>
                 @endif
-                @if($issue->product_id != null && $issue->product_id !="" )
+                @if($issue->product_details_id != null && $issue->product_details_id !="" )
                     <td>{{$issue->producttype->product_type}}</td>
                 @else
                     <td></td>
@@ -55,7 +55,7 @@
                 <th colspan="9">Root Cause</th>
             </tr>
             <tr>
-                <td colspan="9">{{$issue->description}}</td>
+                <td colspan="9">{{$issue->root_cause}}</td>
             </tr>
             <tr>
                 <th colspan="9">Issue description</th>

@@ -436,10 +436,10 @@
                                             @endif
                                         </td>
                                         <td>{{$qr->user->first_name.' '.$qr->user->last_name}}</td>
-                                        @if($qr->assigned_date_time !=null && $qr->assigned_date_time !="" )
-                                        <td>{{date("d M ,Y H:i",strtotime($qr->assigned_date_time))}}</td>
+                                        @if($qr->assignment->assigned_date_time !=null && $qr->assignment->assigned_date_time !="" )
+                                        <td>{{date("d-M-Y H:i",strtotime($qr->assignment->assigned_date_time))}}</td>
                                         @else
-                                            <td></td>
+                                            <td>ff</td>
                                             @endif
                                         <td>{{$qr->critical_level}}</td>
                                         <td>{{$qr->status}}</td>

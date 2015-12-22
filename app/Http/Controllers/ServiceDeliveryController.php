@@ -156,6 +156,7 @@ class ServiceDeliveryController extends Controller
             $excel->sheet('sheet', function ($sheet) use ($issues) {
                 $sheet->loadView('excels.msdreport')->with('issues', $issues);
 
+
             });
 
         })->download('xlsx');
