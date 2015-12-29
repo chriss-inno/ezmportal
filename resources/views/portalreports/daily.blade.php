@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Portal Reports Management
+    Portal Daily Reports
 @stop
 @section('page_scripts')
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
@@ -433,7 +433,7 @@
             $reports =\DB::table('portal_reports')
                     ->join('report_units', 'portal_reports.id', '=', 'report_units.report_id')
                     ->where('report_type', '=', 'Daily')->where('report_units.unit_id', '=', Auth::user()->unit_id)
-                    ->select('portal_reports.*')
+                    ->select('portal_reports.*')->orderBy('portal_reports.report_name','ASC')
                     ->get();
 
             //
@@ -443,7 +443,7 @@
             $reports =\DB::table('portal_reports')
                     ->join('report_departments', 'portal_reports.id', '=', 'report_departments.report_id')
                     ->where('report_type', '=', 'Daily')->where('department_id', '=', Auth::user()->department_id)
-                    ->select('portal_reports.*')
+                    ->select('portal_reports.*')->orderBy('portal_reports.report_name','ASC')
                     ->get();
         }
     }

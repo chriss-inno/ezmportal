@@ -27,6 +27,7 @@ class ServiceDeliveryController extends Controller
     {
         //
         $issues=CustomerIssues::where('closed','=','No')->get();
+
         return view('servicedelivery.index',compact('issues'));
     }
 
@@ -300,6 +301,9 @@ class ServiceDeliveryController extends Controller
 
         //Send email
 
+        //Audit log
+        \App\Http\Controllers\AuditController::auditLog("Attend Customer issue with reference number [".$issue->issues_number." ]","Service Delivery");
+
         return redirect('servicedelivery');
 
     }
@@ -351,6 +355,9 @@ class ServiceDeliveryController extends Controller
                 $issue->date_resolved=date("Y-m-d H:i");
                 $issue->save();
             }
+
+            //Audit log
+            \App\Http\Controllers\AuditController::auditLog("Created Customer issue with reference number [".$issue->issues_number." ]","Service Delivery");
 
             return redirect('servicedelivery');
 
@@ -423,6 +430,8 @@ class ServiceDeliveryController extends Controller
                 $issue->save();
             }
 
+            //Audit log
+            \App\Http\Controllers\AuditController::auditLog("Update Customer issue with reference number [".$issue->issues_number." ]","Service Delivery");
 
             return redirect('servicedelivery');
 
@@ -445,7 +454,12 @@ class ServiceDeliveryController extends Controller
     {
         //
         $issue=CustomerIssues::find($id);
+
+        //Audit log
+        \App\Http\Controllers\AuditController::auditLog("Deleted Customer issue with reference number [".$issue->issues_number." ]","Service Delivery");
+
         $issue->delete();
+
     }
 
     //View setting page

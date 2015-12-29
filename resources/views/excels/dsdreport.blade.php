@@ -1,8 +1,8 @@
 <!-- Bootstrap -->
-<table>
+<table border="1">
     <thead>
     <tr>
-        <th  colspan="11" >CUSTOMER ISSUES TRACKING AS OF {{date("d-M-Y")}} </th>
+        <th  colspan="11" align="center">CUSTOMER ISSUES TRACKING AS OF {{date("d-M-Y")}} </th>
 
     </tr>
     <tr>
@@ -57,6 +57,11 @@
                 <td>{{date("d-M-Y",strtotime($issue->date_resolved))}}</td>
             @else
                 <td>NOT CLOSED</td>
+            @endif
+            @if($issue->closed !="" && $qr->closed !=0)
+                <td>{{$days_between = floor (abs(strtotime($issue->updated_at) - strtotime($qr->reporting_Date)) / 86400)}}</td>
+            @else
+                <td>{{$days_between = floor (abs(strtotime(date("Y-m-d H:i")) - strtotime($qr->reporting_Date)) / 86400)}}</td>
             @endif
         </tr>
     @endforeach

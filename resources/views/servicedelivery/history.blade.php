@@ -121,7 +121,7 @@
                         var id1 = $(this).parent().attr('id');
                         var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
-                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
                         modaldis+= '<div class="modal-content">';
                         modaldis+= '<div class="modal-header">';
                         modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
@@ -441,8 +441,8 @@
                                         <tr>
                                             <th>SNO</th>
                                             <th>ISSUE #</th>
-                                            <th>Date Issued</th>
-                                            <th>Company Name</th>
+                                            <th>Date/Time Reported</th>
+                                            <th>Customer Name</th>
                                             <th>Contact Person</th>
                                             <th>Product Type</th>
                                             <th>Received By</th>
@@ -459,8 +459,8 @@
                                             <tr>
                                                 <td>{{$i++}}</td>
                                                 <td>{{$issue->issues_number}}</td>
-                                                @if($issue->date_created != null && $issue->date_created !="" )
-                                                    <td>{{$issue->date_created}}</td>
+                                                @if($issue->date_created_tmt != null && $issue->date_created_tmt !="" )
+                                                    <td>{{date("d-M-Y H:i",strtotime($issue->date_created_tmt))}}</td>
                                                 @else
                                                     <td></td>
                                                 @endif
@@ -502,8 +502,8 @@
                                         <tr>
                                             <th>SNO</th>
                                             <th>ISSUE #</th>
-                                            <th>Date Issued</th>
-                                            <th>Company Name</th>
+                                            <th>Date/Time Reported</th>
+                                            <th>Customer Name</th>
                                             <th>Contact Person</th>
                                             <th>Product Type</th>
                                             <th>Received By</th>

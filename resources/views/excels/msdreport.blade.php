@@ -1,7 +1,11 @@
 <!-- Bootstrap -->
 
-<table width="100%">
+<table border="1">
     <thead>
+    <tr>
+        <th  colspan="11" >CUSTOMER ISSUES TRACKING AS OF {{date("d-M-Y")}} </th>
+
+    </tr>
     <tr>
         <th ><strong>REFERENCE NUMBER</strong> </th>
         <th ><strong>DATE REPORTED </strong></th>

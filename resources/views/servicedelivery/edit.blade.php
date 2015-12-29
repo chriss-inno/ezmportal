@@ -499,7 +499,7 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-2 col-sm-2 col-xs-2 pull-right">
-                                        <a href="#" data-dismiss="modal" class="btn btn-danger btn-block"> <i class="icon-remove"></i>  Cancel</a>
+                                        <a href="{{url('servicedelivery')}}" data-dismiss="modal" class="btn btn-danger btn-block"> <i class="icon-remove"></i>  Cancel</a>
                                     </div>
                                     <div class="col-md-3 col-sm-3 col-xs-3 pull-right">
                                         <input type="hidden" value="{{$issue->id}}" id="issue_id" name="issue_id">
