@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Department;
+use App\Unit;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 use App\User;
 use App\Branch;
 use App\Http\Requests\UserRequest;
@@ -84,6 +88,84 @@ class UserController extends Controller
 
         return redirect('users');
     }
+
+
+
+    //User Migration
+
+
+    public function showUserImport()
+    {
+        //
+        return view('users.importusers');
+    }
+   public function postUserImport(Request $request)
+   {
+       $file= $request->file('inventory_file');
+       $destinationPath = public_path() .'/uploads/temp/';
+       $filename   = str_replace(' ', '_', $file->getClientOriginalName());
+
+       $file->move($destinationPath, $filename);
+
+       Excel::load($destinationPath . $filename, function ($reader) {
+
+           $results = $reader->get();
+           $results->each(function($row) {
+
+               $string = strtolower($row->first_name . "." . $row->last_name); //Combine first and last names
+               $uname = preg_replace('/\s+/', '', $string); //Remove all empty space
+               $users = User::where('username', '=', $uname)->get();
+
+               if (!count($users) > 0) {
+
+
+                   $us = new User;
+                   $us->first_name = ucwords($row->first_name);
+                   $us->last_name = ucwords($row->last_name);
+                   $us->designation = ucwords($row->designation);
+                   $us->phone = $row->phone;
+
+                   $branch = Branch::where('branch_Name', '=', $row->branch)->get()->first();
+                   if (count($branch) > 0) {
+                       $us->branch_id = $branch->id;
+                   }
+                   $dep = Department::where('department_name', '=', $row->department)->get()->first();
+
+                   $unit = Unit::where('unit_name', '=', $row->department)->get()->first();
+                   if (count($unit) > 0) {
+                       $us->unit_id = $unit->id;
+                       $us->department_id = $unit->department->id;
+                   } elseif (count($dep) > 0) {
+                       $us->department_id = $dep->id;
+                   }
+
+
+                   $us->password = bcrypt('password1,');
+
+                   $us->username = $uname;
+                   //Create email
+                   $us->email = $row->email; //Combine first and last names
+
+                   //Assign user right
+                   $right = Right::where('is_default', '=', 'Yes')->get();
+                   $rght = 0;
+                   if (count($right) > 0) {
+                       foreach ($right as $r) {
+                           $rght = $r->id;
+                       }
+                   }
+                   $us->right_id = $rght;
+                   $us->status = "Active";
+                   $us->save();
+               }
+
+       });
+
+        });
+
+       File::delete($destinationPath . $filename); //Delete after upload
+       return redirect('users');
+   }
 
     /**
      * Display the specified resource.

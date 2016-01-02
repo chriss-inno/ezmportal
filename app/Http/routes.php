@@ -89,7 +89,9 @@ Route::post('users/exemption',['middleware' => 'auth', 'uses' =>'UserController@
 Route::get('profile',['middleware' => 'auth', 'uses' =>'UserController@showProfile']);
 Route::post('users/exemption',['middleware' => 'auth', 'uses' =>'UserController@postChangeUserExemption']);
 
-
+//User import
+Route::get('userimport',['middleware' => 'auth', 'uses' =>'UserController@showUserImport']);
+Route::post('userimport',['middleware' => 'auth', 'uses' =>'UserController@postUserImport']);
 //Query exception
 
 //User rights
