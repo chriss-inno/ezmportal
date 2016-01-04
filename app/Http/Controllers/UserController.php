@@ -123,7 +123,12 @@ class UserController extends Controller
                    $us->first_name = ucwords($row->first_name);
                    $us->last_name = ucwords($row->last_name);
                    $us->designation = ucwords($row->designation);
-                   $us->phone = $row->phone;
+
+                   $phonechk=User::where('phone','=',$row->phone)->get();
+                   if(!count($phonechk) > 0)
+                   {
+                       $us->phone = $row->phone;
+                   }
 
                    $branch = Branch::where('branch_Name', '=', $row->branch)->get()->first();
                    if (count($branch) > 0) {
@@ -144,8 +149,15 @@ class UserController extends Controller
 
                    $us->username = $uname;
                    //Create email
-                   $us->email = $row->email; //Combine first and last names
-
+                   $emilchk=User::where('email','=',$row->email)->get();
+                   if(count($emilchk) > 0)
+                   {
+                       $us->email =$uname."@bankm.com";
+                   }
+                   else
+                   {
+                       $us->email = $row->email; //Combine first and last names
+                   }
                    //Assign user right
                    $right = Right::where('is_default', '=', 'Yes')->get();
                    $rght = 0;
