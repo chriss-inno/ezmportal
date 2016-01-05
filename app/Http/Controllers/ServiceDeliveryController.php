@@ -717,6 +717,7 @@ class ServiceDeliveryController extends Controller
                     $issues->input_by=$row->inpute_by;
                     $issues->issues_number= $row->reference_number;
                     $issues->remarks= $row->issue_note;
+                    $issues->root_cause=$row->root_cause;
                     $issues-> department_id=$row->department;
                     $issues->save();
 

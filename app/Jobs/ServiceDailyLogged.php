@@ -61,14 +61,28 @@ class ServiceDailyLogged extends Job implements SelfHandling, ShouldQueue
                         foreach($departments as $dp)
                         {
 
-                            $queries=Query::where('to_department','=',$dp->id)->where('today_date','=',date("Y-m-d"))->orwhere('closed','=',0)->get(); //Get all queries under this department
+                            echo $dp->department_name." Department found now looks for queries<br/>";
+
+                            $queries=Query::where('to_department','=',$dp->id)->where('today_date','=',date("Y-m-d"))->get(); //Get all queries under this department
+
+                            if(!count($queries) > 0 )
+                                {
+                                    $queries2=\App\Query::where('to_department','=',$dp->id)->where('closed','=',0)->get(); //Get all queries under this department
+                                    $queries= $queries2;
+                                }
+
+                            if($queries != null && $queries !="" && count($queries)>0 ) {
+
+                                echo $dp->department_name." Queries found proceed  Creating attachment<br/>";
+                            $did=$dp->id;
 
                             $queries_report="daily_logged_queries_".date('YmdHis');
 
-                            Excel::create($queries_report, function($excel) use($queries)  {
+                            Excel::create($queries_report, function($excel) use($did)  {
 
-                                $excel->sheet('sheet', function($sheet) use($queries){
-                                    $sheet->loadView('excels.dailyqueries')->with('queries', $queries);
+                                $excel->sheet('sheet', function($sheet) use($did){
+
+                                    $sheet->loadView('excels.dailyqueries')->with('did', $did);
 
                                 });
 
@@ -77,14 +91,14 @@ class ServiceDailyLogged extends Job implements SelfHandling, ShouldQueue
                             $this->pathToFile=storage_path('exports/excel')."/".$queries_report.".xls";
                             $this->depatment=$dp->department_name;
 
-                            if($queries != null && $queries !="" && count($queries)>0 ) {
-
                                 //Send email
 
                                 $emails=QueryEmail::where('department_id','=',$dp->id)->get();
 
                                 if($emails != null && $emails != "" && count($emails) > 0)
                                 {
+                                    echo "Email found proceeding sending <br/>";
+
                                     //Get emails from department
                                     $data = array(
                                         'queries' => $queries,
@@ -94,29 +108,21 @@ class ServiceDailyLogged extends Job implements SelfHandling, ShouldQueue
 
                                     foreach($emails as $em)
                                     {
+                                        echo "Now sending emails <br/>";
+
                                         $email= $em->email;
                                         \Mail::send('emails.dailyquery', $data, function ($message) use ($email) {
 
                                             //Fetch emails of users to wchich query was sent
                                             $message->from('bankmportal@bankm.com', 'Bank M PLC Support portal');
-                                            $message->to($email)->subject($this->depatment.' DAILY ISSUES LOGGED');
+                                            $message->to($email)->subject(strtoupper(strtolower($this->depatment)).' DAILY ISSUES LOGGED');
                                             $message->attach($this->pathToFile);
                                         });
                                     }
-
                                     //Remove generated file
                                     File::delete( $this->pathToFile);
-
-
-
-
-
                                 }
-
-
                             }
-
-
                         }
                         $sys2=SystemSetup::all()->first();
                         $sys2->dailyquery_sent = "Y";
