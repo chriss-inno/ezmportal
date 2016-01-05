@@ -57,6 +57,7 @@
                 @endif
             </tr>
     @endforeach
+
     </tbody>
 </table>
 </tbody>

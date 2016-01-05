@@ -88,7 +88,8 @@ class ServiceDailyLogged extends Job implements SelfHandling, ShouldQueue
                                     //Get emails from department
                                     $data = array(
                                         'queries' => $queries,
-                                        'department' => $dp->department_name
+                                        'department' => $dp->department_name,
+                                        'did' => $dp->id
                                     );
 
                                     foreach($emails as $em)

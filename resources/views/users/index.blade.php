@@ -389,7 +389,7 @@
                                         <td>{{$usr->first_name." ".$usr->last_name}}</td>
                                         <td>{{$usr->designation}}</td>
                                         <td>{{$usr->branch->branch_Name}}</td>
-                                        <td>{{$usr->department->department_name}}</td>
+                                        <td>{{$usr->department_id}}</td>
                                         <td>{{$usr->phone}}</td>
                                         @if($usr->id != Auth::user()->id)
                                         <td id="{{$usr->id}}">

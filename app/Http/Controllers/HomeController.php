@@ -32,7 +32,14 @@ class HomeController extends Controller
 
             return view('layout.admin_dashboard');
 
-        }else
+        }
+        elseif(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7))
+        {
+
+            return view('layout.sd_main');
+
+        }
+        else
         {
             $user=User::find(Auth::user()->id);
             return view('layout.users_dashboard',compact('user'));
