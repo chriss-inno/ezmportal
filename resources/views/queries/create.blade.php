@@ -160,7 +160,7 @@
                     <i class="fa fa-info"></i><span>Treasury</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="#" title="Money Msafiri System">Forex Deal Slip</a></li>
+                    <li><a  href="{{url('forex/dealslip')}}" title="Money Msafiri System">Forex Deal Slip</a></li>
                 </ul>
             </li>
         @endif
@@ -416,10 +416,10 @@
                         <div class="form-group">
                             <span class="btn green fileinput-button">
                                <i class="fa fa-plus fa fa-white"></i>
-                                 <span>Attachment</span>
+                                 <span >Click here to select attachment (if any)</span>
                                   <input type="file" id="reference_file" name="reference_file">
                             </span>
-                            <p class="help-block"><input type="checkbox" value="1" id="referencecheck" name="referencecheck"  @if(old('referencecheck')) checked @endif> <label for="file_upload">Tick here to attach file for reference</label></p>
+                            <p class="help-block"><input type="checkbox" value="1" id="referencecheck" name="referencecheck"  @if(old('referencecheck')) checked @endif> <label for="file_upload" class="text-danger">Tick here for your attachment to be uploaded</label></p>
                         </div>
 
                             <button type="submit" class="btn btn-primary pull-right col-md-2">Submit Query</button>

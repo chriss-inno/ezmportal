@@ -363,6 +363,24 @@ Route::post('systemsetups','SystemSetupController@store');
 Route::get('eod/create','EODReportController@create');
 Route::post('eod/create','EODReportController@store');
 
+//Forex deal slips
+Route::get('forex/customers','ForexCustomerController@index');
+Route::get('forex/customers/create','ForexCustomerController@create');
+Route::post('forex/customers/create','ForexCustomerController@store');
+Route::get('forex/customers/show/{id}','ForexCustomerController@show');
+Route::get('forex/customers/edit/{id}','ForexCustomerController@edit');
+Route::post('forex/customers/edit','ForexCustomerController@update');
+Route::get('forex/customers/remove/{id}','ForexCustomerController@destroy');
+
+Route::get('forex/dealslip','ForexDealslipController@index');
+Route::get('forex/dealslip/create','ForexDealslipController@create');
+Route::post('forex/dealslip/create','ForexDealslipController@store');
+Route::get('forex/dealslip/show/{id}','ForexDealslipController@show');
+Route::get('forex/dealslip/edit/{id}','ForexDealslipController@edit');
+Route::post('forex/dealslip/edit','ForexDealslipController@update');
+Route::get('forex/dealslip/remove/{id}','ForexDealslipController@destroy');
+Route::get('forex/dealslip/reports','ForexDealslipController@reports');
+
 //Send emails
 Route::get('emails/oracleissues','EmailController@olacle');
 Route::get('portal/cronejob','EmailController@cronejob');

@@ -216,7 +216,7 @@
                     <i class="fa fa-info"></i><span>Treasury</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="#" title="Money Msafiri System">Forex Deal Slip</a></li>
+                    <li><a  href="{{url('forex/dealslip')}}" title="Money Msafiri System">Forex Deal Slip</a></li>
                 </ul>
             </li>
         @endif
@@ -436,10 +436,11 @@
                                             @endif
                                         </td>
                                         <td>{{$qr->user->first_name.' '.$qr->user->last_name}}</td>
-                                        @if($qr->assignment->assigned_date_time !=null && $qr->assignment->assigned_date_time !="" )
+
+                                        @if($qr->assignment !=null && $qr->assignment !="" )
                                         <td>{{date("d-M-Y H:i",strtotime($qr->assignment->assigned_date_time))}}</td>
                                         @else
-                                            <td>ff</td>
+                                            <td style="background-color:#FF6C60; color: #FFF;">Not Assigned</td>
                                             @endif
                                         <td>{{$qr->critical_level}}</td>
                                         <td>{{$qr->status}}</td>

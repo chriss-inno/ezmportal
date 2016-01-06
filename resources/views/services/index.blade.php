@@ -228,8 +228,8 @@
                 <i class="fa fa-info"></i><span>Treasury</span>
             </a>
             <ul class="sub">
-                <li><a  href="#" title="Money Msafiri System">Forex Deal Slip</a></li>
-            </ul>
+                    <li><a  href="{{url('forex/dealslip')}}" title="Money Msafiri System">Forex Deal Slip</a></li>
+                </ul>
         </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,10)  || Auth::user()->user_type=="Administrator")

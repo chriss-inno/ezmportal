@@ -34,6 +34,8 @@ return array(
     'CreateDownloadsTable' => $baseDir . '/database/migrations/2015_10_27_154151_create_downloads_table.php',
     'CreateEnablersTable' => $baseDir . '/database/migrations/2015_10_02_090543_create_enablers_table.php',
     'CreateFailedJobsTable' => $baseDir . '/database/migrations/2015_10_28_072120_create_failed_jobs_table.php',
+    'CreateForexCustomersTable' => $baseDir . '/database/migrations/2016_01_06_144146_create_forex_customers_table.php',
+    'CreateForexDealSlipsTable' => $baseDir . '/database/migrations/2016_01_06_145605_create_forex_deal_slips_table.php',
     'CreateInventoriesTable' => $baseDir . '/database/migrations/2015_09_27_122215_create_inventories_table.php',
     'CreateInventoryTypesTable' => $baseDir . '/database/migrations/2015_09_27_123619_create_inventory_types_table.php',
     'CreateIssuesDailyUpdatesTable' => $baseDir . '/database/migrations/2015_09_21_092011_create_issues_daily_updates_table.php',
