@@ -72,7 +72,7 @@
                         modaldis+= '<div class="modal-content">';
                         modaldis+= '<div class="modal-header">';
                         modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Create New Issues </span>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">RECORD NEW DEAL </span>';
                         modaldis+= '</div>';
                         modaldis+= '<div class="modal-body">';
                         modaldis+= ' </div>';
@@ -254,7 +254,7 @@
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,9)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
                 <a href="javascript:;"  class="active">
-                    <i class="fa fa-info"></i><span>Treasury</span>
+                    <i class="fa fa-money"></i><span>Treasury</span>
                 </a>
                 <ul class="sub">
                     <li  class="active"><a  href="{{url('forex/dealslip')}}" title="Money Msafiri System">Forex Deal Slip</a></li>
@@ -428,8 +428,7 @@
 
                                 <div class="btn-group btn-group-justified">
                                     <a href="{{url('forex/dealslip/create')}}" class=" btn btn-file btn-primary"><i class="fa fa-file-o text-danger"></i> RECORD NEW DEAL</a>
-                                    <a href="{{url('forex/dealslip')}}" class="btn btn-file btn-primary"> <i class="fa fa-pencil-square text-danger"></i> VIEW FOREX DEAL</a>
-                                    <a href="{{url('forex/dealslip')}}" class="btn btn-file btn-primary"> <i class="fa fa-archive text-danger"></i> VIEW FOREX DEAL HISTORY</a>
+                                    <a href="{{url('forex/dealslip/view')}}" class="btn btn-file btn-primary"> <i class="fa fa-archive text-danger"></i> VIEW FOREX DEAL HISTORY</a>
                                     <a href="{{url('forex/customers')}}" class="btn btn-file btn-primary"> <i class="fa fa-users"></i> COUNTER PARTY</a>
                                     <a href="{{url('forex/dealslip/reports')}}" class="btn btn-file btn-primary"> <i class="fa fa-bar-chart text-danger"></i>  FOREX DEAL REPORT</a>
                                 </div>

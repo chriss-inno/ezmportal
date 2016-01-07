@@ -2,12 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\ForexCustomer;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ForexCustomerController extends Controller
 {
+
+    public function __construct()
+    {
+        if(Auth::guest())
+        {
+            return view('users.login');
+        }
+        elseif(!(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,9)  || Auth::user()->user_type=="Administrator"))
+        {
+            return redirect()->back();
+        }
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,6 +31,8 @@ class ForexCustomerController extends Controller
     public function index()
     {
         //
+        $customers=ForexCustomer::all();
+        return view('forex.customers.index',compact('customers'));
     }
 
     /**
@@ -26,6 +43,7 @@ class ForexCustomerController extends Controller
     public function create()
     {
         //
+        return view('forex.customers.create');
     }
 
     /**
@@ -37,6 +55,13 @@ class ForexCustomerController extends Controller
     public function store(Request $request)
     {
         //
+        $customers=new ForexCustomer;
+        $customers->customer=$request->customer;
+        $customers->rm_code=$request->rm_code;
+        $customers->status=$request->status;
+        $customers->save();
+
+        return "Saved successfully";
     }
 
     /**
@@ -59,6 +84,8 @@ class ForexCustomerController extends Controller
     public function edit($id)
     {
         //
+        $customer= ForexCustomer::find($id);
+        return view('forex.customers.edit',compact('customer'));
     }
 
     /**
@@ -68,9 +95,16 @@ class ForexCustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        $customer= ForexCustomer::find($request->id);
+        $customer->customer=$request->customer;
+        $customer->rm_code=$request->rm_code;
+        $customer->status=$request->status;
+        $customer->save();
+
+        return "Saved successfully";
     }
 
     /**
@@ -82,5 +116,7 @@ class ForexCustomerController extends Controller
     public function destroy($id)
     {
         //
+        $customer= ForexCustomer::find($id);
+        $customer->delete();
     }
 }

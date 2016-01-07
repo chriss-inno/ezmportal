@@ -18,8 +18,10 @@ class CreateForexDealSlipsTable extends Migration
             $table->dateTime('deal_date');
             $table->date('value_date');
             $table->integer('counter_party');
+            $table->string('curr_amount_bought_ccy');
             $table->string('curr_amount_bought');
             $table->string('rate');
+            $table->string('curr_amount_sold_ccy');
             $table->string('curr_amount_sold');
             $table->string('confirmed_with');
             $table->string('bankm_dealer');

@@ -1,48 +1,179 @@
 @extends('layout.master')
 @section('page-title')
-    FOREX DEAL SLIPS - New deal slip
-@stop
-@section('page_style')
-
-        <!-- Bootstrap core CSS -->
-    {!!HTML::style("css/bootstrap.min.css" )!!}
-    {!!HTML::style("css/bootstrap-reset.css")!!}
-            <!--external css-->
-    {!!HTML::style("assets/font-awesome/css/font-awesome.css" )!!}
-
-    {!!HTML::style("assets/bootstrap-fileupload/bootstrap-fileupload.css" )!!}
-    {!!HTML::style("assets/bootstrap-wysihtml5/bootstrap-wysihtml5.css" )!!}
-    {!!HTML::style("assets/bootstrap-datepicker/css/datepicker.css" )!!}
-    {!!HTML::style("assets/bootstrap-timepicker/compiled/timepicker.css" )!!}
-    {!!HTML::style("assets/bootstrap-colorpicker/css/colorpicker.css" )!!}
-    {!!HTML::style("assets/bootstrap-daterangepicker/daterangepicker-bs3.css" )!!}
-    {!!HTML::style("assets/bootstrap-datetimepicker/css/datetimepicker.css" )!!}
-    {!!HTML::style("assets/jquery-multi-select/css/multi-select.css")!!}
-
-
-            <!-- Custom styles for this template -->
-    {!!HTML::style("css/style.css" )!!}
-    {!!HTML::style("css/style-responsive.css" )!!}
-
+    Customer Issues Reports
 @stop
 @section('page_scripts')
-    {!!HTML::script("js/sparkline-chart.js") !!}
-    {!!HTML::script("js/easy-pie-chart.js") !!}
-    {!!HTML::script("js/count.js") !!}
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
     {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
-    {!!HTML::script("js/jquery.scrollTo.min.js") !!}
-    {!!HTML::script("js/jquery.nicescroll.js") !!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
+    {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
+    {!!HTML::script("assets/highcharts/js/highcharts.js") !!}
 
-    {!!HTML::script("assets/bootstrap-datepicker/js/bootstrap-datepicker.js") !!}
-    {!!HTML::script("assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js") !!}
-    {!!HTML::script("assets/bootstrap-daterangepicker/moment.min.js") !!}
-    {!!HTML::script("assets/bootstrap-daterangepicker/daterangepicker.js") !!}
-    {!!HTML::script("assets/bootstrap-timepicker/js/bootstrap-timepicker.js") !!}
-    {!!HTML::script("js/jquery.validate.min.js" ) !!}
-    {!!HTML::script("js/form-validation-script.js") !!}
-    {!!HTML::script("js/advanced-form-components.js") !!}
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
 
+            $(function () {
+                $('#yearsissues').highcharts({
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: {
+                        text: 'Year Average deal done for four consecutive years <?php echo ( date("Y")-3)." - ".date("Y");?>'
+                    },
+                    xAxis: {
+                        categories: ['<?php echo date("Y") -3; ?>', '<?php echo date("Y") -2; ?>', '<?php echo date("Y") -1; ?>', '<?php echo date("Y"); ?>']
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Number of deal slip issued'
+                        }
+                    },
+                    tooltip: {
+                        crosshairs: true,
+                        shared: true
+                    },
+                    plotOptions: {
+                        spline: {
+                            marker: {
+                                radius: 4,
+                                lineColor: '#666666',
+                                lineWidth: 1
+                            }
+                        }
+                    },
+                    <?php
+                            $MonthCount="";
+                            $monthData="";
+                            for($i=(date("Y")-3); $i<= date("Y"); $i++)
+                            {
+                                $MonthCount.=count(\App\ForexDealSlip::where(\DB::raw('Year(deal_date)'),'=',$i)->get()).",";
+                            }
+                            $monthData.=substr($MonthCount,0,strlen($MonthCount)-1);
+                            ?>
+                    series: [{
+                        name: 'Yearly Average Issues',
+                        data: [<?php echo $monthData;?>]
+
+                    }]
+                });
+            });
+            $(function () {
+                $('#monthissues').highcharts({
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: {
+                        text: 'Monthly Average deal done for the year <?php echo date("Y")?>'
+                    },
+                    xAxis: {
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Number of deal slip issued'
+                        }
+                    },
+                    tooltip: {
+                        crosshairs: true,
+                        shared: true
+                    },
+                    plotOptions: {
+                        spline: {
+                            marker: {
+                                radius: 4,
+                                lineColor: '#666666',
+                                lineWidth: 1
+                            }
+                        }
+                    },
+                    <?php
+                            $MonthCount="";
+                            $monthData="";
+                            for($i=1; $i<= 12; $i++)
+                            {
+                                $MonthCount.=count(\App\ForexDealSlip::where(\DB::raw('Month(deal_date)'),'=',$i)
+                                                ->where(\DB::raw('Year(deal_date)'),'=',date("Y"))->get()).",";
+                            }
+                            $monthData.=substr($MonthCount,0,strlen($MonthCount)-1);
+                            ?>
+                    series: [{
+                        name: 'Monthly deal slip issued',
+                        data: [<?php echo $monthData;?>]
+
+                    }]
+                });
+            });
+            $(function () {
+                $('#dailyIssues').highcharts({
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: {
+                        text: 'Daily deal slip issued for the month of  <?php echo date("F,Y"); ?>'
+                    },
+                    xAxis: {
+                        <?php
+                                $d=cal_days_in_month(CAL_GREGORIAN,date('n'),date("Y"));
+                                $categories="";
+
+                                for($i=1; $i<= $d; $i++)
+                                {
+                                    $categories.="'".$i."',";
+
+                                }
+                                $days=substr($categories,0,strlen($categories)-1);
+                                ?>
+
+                        categories: [<?php echo $days;?>]
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Number of deal slip issued'
+                        }
+                    },
+                    tooltip: {
+                        crosshairs: true,
+                        shared: true
+                    },
+                    plotOptions: {
+                        spline: {
+                            marker: {
+                                radius: 4,
+                                lineColor: '#666666',
+                                lineWidth: 1
+                            }
+                        }
+                    },
+                    <?php
+                            $dayCount="";
+                            $dailyData="";
+                            $dy=cal_days_in_month(CAL_GREGORIAN,date('n'),date("Y"));
+                            for($i=1; $i<= $dy; $i++)
+                            {
+                                $dayCount.=count(\App\ForexDealSlip::where(\DB::raw('DAY(deal_date)'),'=',$i)->where(\DB::raw('Month(deal_date)'),'=',date('n'))->where(\DB::raw('Year(deal_date)'),'=',date('Y'))->get()).",";
+                            }
+                            $dailyData.=substr($dayCount,0,strlen($dayCount)-1);
+                            ?>
+                    series: [{
+                        name: 'Daily deal slip issued',
+                        data: [<?php echo $dailyData;?>]
+
+                    }]
+                });
+            });
+
+        } );
+    </script>
 @stop
 @section('menus')
     <?php  $system=\App\SystemSetup::all()->first();?>
@@ -115,12 +246,12 @@
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" >
+                <a href="javascript:;" class="active" >
                     <i class="fa fa-info"></i>
                     <span>Service Delivery</span>
                 </a>
                 <ul class="sub">
-                    <li ><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
+                    <li class="active" ><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
                     <li><a  href="{{url('servicedelivery/customers')}}" title="Customer Issues Tracking" >Customers</a></li>
                     <li ><a  href="{{url('servicedelivery/settings')}}"  > Settings</a></li>
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,22) || Auth::user()->user_type=="Administrator") <li ><a  href="{{url('servicedelivery/email')}}" >Email Settings</a></li>
@@ -142,11 +273,11 @@
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,9)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;"  class="active">
-                    <i class="fa fa-money"></i><span>Treasury</span>
+                <a href="javascript:;" class="active">
+                    <i class="fa fa-info"></i><span>Treasury</span>
                 </a>
                 <ul class="sub">
-                    <li  class="active"><a  href="{{url('forex/dealslip')}}" title="Money Msafiri System">Forex Deal Slip</a></li>
+                    <li class="active"><a  href="{{url('forex/dealslip')}}" title="Money Msafiri System">Forex Deal Slip</a></li>
                 </ul>
             </li>
         @endif
@@ -301,6 +432,7 @@
         @endif
     </ul>
 @stop
+
 @section('contents')
 
     <section class="site-min-height">
@@ -309,7 +441,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa fa-money text-danger"></i>  FOREX DEAL SLIPS -: New deal slip</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-money text-danger"></i>  FOREX DEAL SLIPS -:Reports</strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
@@ -323,133 +455,76 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" style="margin-top: 20px">
-                            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11" style="margin-left: 20px">
-                                <p>  <h3 class="text-info"> Basic details</h3>
-                                @if (count($errors) > 0)
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
-                                <hr/>
-                                {!! Form::open(array('url'=>'forex/dealslip/create','role'=>'form','id'=>'messageDispatch')) !!}
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3"><label for="deal_date">DEAL DATE: </label></div>
-                                        <div class="col-md-3">
-                                            <input type="text" name="deal_date" class="form-control" readonly value="{{date("d-M-Y")}}">
-                                        </div>
-                                        <div class="col-md-2"><label for="value_date">VALUE DATE: </label></div>
-                                        <div class="col-md-4">
-                                            <input type="text" name="value_date" class="default-date-picker form-control" value="{{date("d-m-Y")}}" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                <section class="panel">
+                                    <div class="panel-body">
                                         <div class="row">
-                                            <div class="col-md-3"><label for="counter_party"> COUNTER PARTY: </label></div>
-                                            <div class="col-md-9">
-                                                <select class="form-control" name="counter_party" id="counter_party" required>
-                                                     <option value="">--Select--</option>
-                                                     @foreach(\App\ForexCustomer::orderBy('customer','ASC')->get() as $cust)
-                                                             <option value="{{$cust->id}}">{{$cust->customer}}</option>
-                                                         @endforeach
-                                                </select>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <section class="panel">
+                                                    <header class="panel-heading">
+                                                    </header>
+                                                    <div class="panel-body">
+                                                        <div id="dailyIssues" style="height:400px;"></div>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <section class="panel">
+                                                    <header class="panel-heading">
+                                                    </header>
+                                                    <div class="panel-body">
+                                                        <div id="monthissues" style="height:400px;"></div>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <section class="panel">
+                                                    <header class="panel-heading">
+                                                    </header>
+                                                    <div class="panel-body">
+                                                        <div id="yearsissues" style="height:400px;"></div>
+                                                    </div>
+                                                </section>
                                             </div>
                                         </div>
                                     </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3"><label for="curr_amount_sold_ccy"> CURR. & AMOUNT SOLD: </label></div>
-                                        <div class="col-md-3">
-                                            <select class="form-control" name="curr_amount_sold_ccy" id="curr_amount_sold_ccy" required>
-                                                <option value="">--Currency--</option>
-                                                @foreach(\App\ForexCurrency::orderBy('currency','ASC')->get() as $cust)
-                                                    <option value="{{$cust->currency}}">{{$cust->currency}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text" name="curr_amount_bought" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3"><label for="counter_party"> RATE: </label></div>
-                                        <div class="col-md-3">
-                                            <input type="text" name="rate" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3"><label for="curr_amount_bought_ccy"> CURR. & AMOUNT BOUGHT : </label></div>
-                                        <div class="col-md-3">
-                                            <select class="form-control" name="curr_amount_bought_ccy" id="curr_amount_bought_ccy">
-                                                <option value="">--Currency--</option>
-                                                @foreach(\App\ForexCurrency::orderBy('currency','ASC')->get() as $cust)
-                                                    <option value="{{$cust->currency}}">{{$cust->currency}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text" name="curr_amount_sold" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3"><label for="counter_party">DEAL CONFIRMED WITH: </label></div>
-                                        <div class="col-md-3">
-                                            <input type="text" name="confirmed_with" class="form-control">
-                                        </div>
-                                        <div class="col-md-2"><label for="bankm_dealer"> BANK M DEALER: </label></div>
-                                        <div class="col-md-4">
-                                            <select class="form-control" name="bankm_dealer" id="bankm_dealer">
-                                                <option value="">--Select Bank M Dealer--</option>
-                                                @foreach(\App\User::where('right_id','=',9)->where('status','=','Active')->orderBy('first_name','ASC')->get() as $cust)
-                                                    <option value="{{$cust->first_name." ".$cust->last_name}}">{{$cust->first_name." ".$cust->last_name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3"><label for="counter_party">PHONE/ MOBILE NO.: </label></div>
-                                        <div class="col-md-3">
-                                            <input type="text" name="mobile" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3"><label for="counter_party">SPL. INSTRUCTION: </label></div>
-                                        <div class="col-md-9">
-                                            <input type="text" name="instruction" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3"><label for="counter_party">CUSTOMER E-MAIL ID: </label></div>
-                                        <div class="col-md-9">
-                                            <input type="text" name="email" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                    <div class="form-group" style="margin-top: 20px">
-                                        <button type="submit" class="btn btn-primary pull-right col-md-2">Submit</button>
-                                    </div>
 
 
+                                </section>
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                <div class="row">
+                                    <section class="panel">
+                                        <header class="panel-heading">
+                                            <span class="text-info"> <strong> <i class="fa fa-download"></i> Download reports</strong></span>
+                                        </header>
+                                        <div class="panel-body">
+
+                                            <div class="row" style="margin-top: 10px">
+                                                <div class="col-md-12">
+                                                    <a href="{{url('forex/dealslip/today/report')}}" class=" btn btn-file btn-primary btn-block"><i class="fa fa-clock-o"></i> Today Report</a>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top: 10px">
+                                                <div class="col-md-12">
+                                                    <a href="{{url('forex/dealslip/month/report')}}" class="btn btn-file btn-success btn-block"><i class="fa fa-calendar"></i> Month Report</a>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top: 10px">
+                                                <div class="col-md-12">
+                                                    <a href="{{url('forex/dealslip/generate/report')}}" class=" btn btn-file btn-danger btn-block"> <i class="fa fa-bars"></i> Custom Report </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
                                 </div>
-                                {!! Form::close() !!}
                             </div>
                         </div>
                     </div>
@@ -457,6 +532,7 @@
             </div>
 
         </div>
+
     </section>
     <!-- page end-->
 @stop

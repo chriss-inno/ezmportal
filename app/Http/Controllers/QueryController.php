@@ -120,7 +120,7 @@ class QueryController extends Controller
                 ->select('user_id', \DB::raw('count(user_id) as total'))
                 ->whereIn('user_id',$users)->where('assigned_date','=',$today)
                 ->groupBy('user_id')
-                ->orderBy('total', 'asc')->first();;
+                ->orderBy(\DB::raw('RAND()'))->first();
             if($user != null && $user !="")
             {
                 $queryAssignment=new QueryAssignment;
@@ -161,8 +161,8 @@ class QueryController extends Controller
         }
 
         //Send email
-        $job = (new QueryLaunchedEmail($query))->delay(10);
-        $this->dispatch($job);
+       // $job = (new QueryLaunchedEmail($query))->delay(10);
+      //  $this->dispatch($job);
        // \App\Http\Controllers\QueryEmailController::sendQueryLaunchedEmail($query); //Launched emails
 
         return redirect('queries/progress');

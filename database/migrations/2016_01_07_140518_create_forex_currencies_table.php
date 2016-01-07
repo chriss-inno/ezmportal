@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateForexCustomersTable extends Migration
+class CreateForexCurrenciesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,9 @@ class CreateForexCustomersTable extends Migration
      */
     public function up()
     {
-        Schema::create('forex_customers', function (Blueprint $table) {
+        Schema::create('forex_currencies', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('customer');
-            $table->string('rm_code');
-            $table->string('status');
+            $table->string('currency');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ class CreateForexCustomersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('forex_customers');
+        Schema::drop('forex_currencies');
     }
 }

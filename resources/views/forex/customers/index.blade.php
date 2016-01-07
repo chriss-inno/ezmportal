@@ -1,29 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    FOREX DEAL SLIPS - New deal slip
-@stop
-@section('page_style')
-
-        <!-- Bootstrap core CSS -->
-    {!!HTML::style("css/bootstrap.min.css" )!!}
-    {!!HTML::style("css/bootstrap-reset.css")!!}
-            <!--external css-->
-    {!!HTML::style("assets/font-awesome/css/font-awesome.css" )!!}
-
-    {!!HTML::style("assets/bootstrap-fileupload/bootstrap-fileupload.css" )!!}
-    {!!HTML::style("assets/bootstrap-wysihtml5/bootstrap-wysihtml5.css" )!!}
-    {!!HTML::style("assets/bootstrap-datepicker/css/datepicker.css" )!!}
-    {!!HTML::style("assets/bootstrap-timepicker/compiled/timepicker.css" )!!}
-    {!!HTML::style("assets/bootstrap-colorpicker/css/colorpicker.css" )!!}
-    {!!HTML::style("assets/bootstrap-daterangepicker/daterangepicker-bs3.css" )!!}
-    {!!HTML::style("assets/bootstrap-datetimepicker/css/datetimepicker.css" )!!}
-    {!!HTML::style("assets/jquery-multi-select/css/multi-select.css")!!}
-
-
-            <!-- Custom styles for this template -->
-    {!!HTML::style("css/style.css" )!!}
-    {!!HTML::style("css/style-responsive.css" )!!}
-
+    Forex Deal slip
 @stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
@@ -33,15 +10,149 @@
     {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
     {!!HTML::script("js/jquery.scrollTo.min.js") !!}
     {!!HTML::script("js/jquery.nicescroll.js") !!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
+    {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
 
-    {!!HTML::script("assets/bootstrap-datepicker/js/bootstrap-datepicker.js") !!}
-    {!!HTML::script("assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js") !!}
-    {!!HTML::script("assets/bootstrap-daterangepicker/moment.min.js") !!}
-    {!!HTML::script("assets/bootstrap-daterangepicker/daterangepicker.js") !!}
-    {!!HTML::script("assets/bootstrap-timepicker/js/bootstrap-timepicker.js") !!}
-    {!!HTML::script("js/jquery.validate.min.js" ) !!}
-    {!!HTML::script("js/form-validation-script.js") !!}
-    {!!HTML::script("js/advanced-form-components.js") !!}
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+
+
+            $('#branches').dataTable( {
+                "fnDrawCallback": function( oSettings ) {
+
+
+                    $(".deleteIssues").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        $(".deleteIssues").show("slow").parent().parent().find("span").remove();
+                        var btn = $(this).parent().parent();
+                        $(this).hide("slow").parent().append("<span><br>Are You Sure <br /> <a href='#s' id='yes' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Yes</a> <a href='#s' id='no' class='btn btn-danger btn-xs'> <i class='fa fa-times'></i> No</a></span>");
+                        $("#no").click(function(){
+                            $(this).parent().parent().find(".deleteIssues").show("slow");
+                            $(this).parent().parent().find("span").remove();
+                        });
+                        $("#yes").click(function(){
+                            $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
+                            $.get("<?php echo url('forex/customers/remove') ?>/"+id1,function(data){
+                                btn.hide("slow").next("hr").hide("slow");
+                            });
+                        });
+                    });
+                    //Edit Module
+                    $(".editIssue").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+                        modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center" style="color: #FFF">UPDATE COUNTER PARTY</span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("forex/customers/edit") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    })
+                    //Create module
+                    $(".createIsssue").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                        modaldis+= '<div class="modal-dialog" style="width:60%;margin-right: 20% ;margin-left: 20%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">RECORD NEW CUSTOMER </span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("forex/customers/create") ?>");
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    });
+
+                    //Display Item details
+                    $(".showDetails").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                        modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Customer Issue details</span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("forex/dealslip/show") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    });
+
+                    //Show updates
+                    $(".showUpdates").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Customer Issue details Update</span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("forex/dealslip/updates") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    });
+                }
+            } );
+
+        } );
+
+
+    </script>
 
 @stop
 @section('menus')
@@ -309,147 +420,67 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa fa-money text-danger"></i>  FOREX DEAL SLIPS -: New deal slip</strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa fa-money text-danger"></i>  FOREX DEAL COUNTER PARTY</strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                                 <div class="btn-group btn-group-justified">
-                                    <a href="{{url('forex/dealslip/create')}}" class=" btn btn-file btn-primary"><i class="fa fa-file-o text-danger"></i> RECORD NEW DEAL</a>
+                                    <a href="#" class="createIsssue btn btn-file btn-primary"><i class="fa fa-file-o text-danger"></i> RECORD NEW COUNTER PARTY</a>
+                                    <a href="{{url('forex/customers')}}" class="btn btn-file btn-primary"> <i class="fa fa-users"></i> VIEW COUNTER PARTY</a>
                                     <a href="{{url('forex/dealslip/view')}}" class="btn btn-file btn-primary"> <i class="fa fa-archive text-danger"></i> VIEW FOREX DEAL HISTORY</a>
-                                    <a href="{{url('forex/customers')}}" class="btn btn-file btn-primary"> <i class="fa fa-users"></i> COUNTER PARTY</a>
                                     <a href="{{url('forex/dealslip/reports')}}" class="btn btn-file btn-primary"> <i class="fa fa-bar-chart text-danger"></i>  FOREX DEAL REPORT</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="row" style="margin-top: 20px">
-                            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11" style="margin-left: 20px">
-                                <p>  <h3 class="text-info"> Basic details</h3>
-                                @if (count($errors) > 0)
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
-                                <hr/>
-                                {!! Form::open(array('url'=>'forex/dealslip/create','role'=>'form','id'=>'messageDispatch')) !!}
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3"><label for="deal_date">DEAL DATE: </label></div>
-                                        <div class="col-md-3">
-                                            <input type="text" name="deal_date" class="form-control" readonly value="{{date("d-M-Y")}}">
-                                        </div>
-                                        <div class="col-md-2"><label for="value_date">VALUE DATE: </label></div>
-                                        <div class="col-md-4">
-                                            <input type="text" name="value_date" class="default-date-picker form-control" value="{{date("d-m-Y")}}" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-md-3"><label for="counter_party"> COUNTER PARTY: </label></div>
-                                            <div class="col-md-9">
-                                                <select class="form-control" name="counter_party" id="counter_party" required>
-                                                     <option value="">--Select--</option>
-                                                     @foreach(\App\ForexCustomer::orderBy('customer','ASC')->get() as $cust)
-                                                             <option value="{{$cust->id}}">{{$cust->customer}}</option>
-                                                         @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3"><label for="curr_amount_sold_ccy"> CURR. & AMOUNT SOLD: </label></div>
-                                        <div class="col-md-3">
-                                            <select class="form-control" name="curr_amount_sold_ccy" id="curr_amount_sold_ccy" required>
-                                                <option value="">--Currency--</option>
-                                                @foreach(\App\ForexCurrency::orderBy('currency','ASC')->get() as $cust)
-                                                    <option value="{{$cust->currency}}">{{$cust->currency}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text" name="curr_amount_bought" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3"><label for="counter_party"> RATE: </label></div>
-                                        <div class="col-md-3">
-                                            <input type="text" name="rate" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3"><label for="curr_amount_bought_ccy"> CURR. & AMOUNT BOUGHT : </label></div>
-                                        <div class="col-md-3">
-                                            <select class="form-control" name="curr_amount_bought_ccy" id="curr_amount_bought_ccy">
-                                                <option value="">--Currency--</option>
-                                                @foreach(\App\ForexCurrency::orderBy('currency','ASC')->get() as $cust)
-                                                    <option value="{{$cust->currency}}">{{$cust->currency}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text" name="curr_amount_sold" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3"><label for="counter_party">DEAL CONFIRMED WITH: </label></div>
-                                        <div class="col-md-3">
-                                            <input type="text" name="confirmed_with" class="form-control">
-                                        </div>
-                                        <div class="col-md-2"><label for="bankm_dealer"> BANK M DEALER: </label></div>
-                                        <div class="col-md-4">
-                                            <select class="form-control" name="bankm_dealer" id="bankm_dealer">
-                                                <option value="">--Select Bank M Dealer--</option>
-                                                @foreach(\App\User::where('right_id','=',9)->where('status','=','Active')->orderBy('first_name','ASC')->get() as $cust)
-                                                    <option value="{{$cust->first_name." ".$cust->last_name}}">{{$cust->first_name." ".$cust->last_name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3"><label for="counter_party">PHONE/ MOBILE NO.: </label></div>
-                                        <div class="col-md-3">
-                                            <input type="text" name="mobile" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3"><label for="counter_party">SPL. INSTRUCTION: </label></div>
-                                        <div class="col-md-9">
-                                            <input type="text" name="instruction" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3"><label for="counter_party">CUSTOMER E-MAIL ID: </label></div>
-                                        <div class="col-md-9">
-                                            <input type="text" name="email" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                    <div class="form-group" style="margin-top: 20px">
-                                        <button type="submit" class="btn btn-primary pull-right col-md-2">Submit</button>
-                                    </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="adv-table">
+                                    <table  class="display table table-bordered table-striped" id="branches">
+                                        <thead>
+                                        <tr>
+                                            <th>SNO</th>
+                                            <th>Customer Name</th>
+                                            <th>RM</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php $i=1;?>
+                                        @foreach($customers as $cust)
+                                            <tr>
+                                                <td>{{$i++}}</td>
+                                                <td>{{$cust->customer}}</td>
+                                                <td>{{$cust->rm_code}}</td>
+                                                <td id="{{$cust->id}}" align="center">
+                                                    @if($cust->status =="Enabled")
+                                                          <a  href="#" title="" class=" btn btn-success btn-xs"> {{$cust->status}}</a>
+                                                        @else
+                                                           <a  href="#" title="" class=" btn btn-danger btn-xs"> {{$cust->status}}</a>
+                                                    @endif
+                                                </td>
+                                                <td id="{{$cust->id}}" align="center">
+                                                    <a  href="#" title="Edit" class="editIssue btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                    <a href="#b" title="Delete" class="deleteIssues btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                                </td>
+                                            </tr>
 
 
+                                        @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th>SNO</th>
+                                            <th>Customer Name</th>
+                                            <th>RM</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
-                                {!! Form::close() !!}
                             </div>
                         </div>
                     </div>
