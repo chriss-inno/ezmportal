@@ -33,7 +33,7 @@ class ForexDealslipController extends Controller
     public function index()
     {
         //
-        $deals=ForexDealSlip::all();
+        $deals=ForexDealSlip::all()->take(2000);
         return view('forex.deal.index',compact('deals'));
     }
 
