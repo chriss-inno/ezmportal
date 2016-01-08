@@ -374,7 +374,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="text" name="curr_amount_bought" class="form-control">
+                                            <input type="text" name="curr_amount_sold" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -398,13 +398,13 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="text" name="curr_amount_sold" class="form-control">
+                                            <input type="text" name="curr_amount_bought" class="form-control">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-md-3"><label for="counter_party">DEAL CONFIRMED WITH: </label></div>
+                                        <div class="col-md-3"><label for="confirmed_with">DEAL CONFIRMED WITH: </label></div>
                                         <div class="col-md-3">
                                             <input type="text" name="confirmed_with" class="form-control">
                                         </div>
@@ -452,7 +452,7 @@
                                 {!! Form::close() !!}
                             </div>
                         </div>
-                    </div>
+
                 </section>
             </div>
 

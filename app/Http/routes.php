@@ -347,45 +347,47 @@ Route::get('queries/download/{id}',['middleware' => 'auth', 'uses' =>'QueryContr
 
 //Query emails
 Route::resource('queryemails','QueryEmailController');
-Route::get('queryemails-remove/{id}','QueryEmailController@destroy');
+Route::get('queryemails-remove/{id}',['middleware' => 'auth', 'uses' =>'QueryEmailController@destroy']);
 //Queries reports controller
 
 //Service monitoring downtime
 Route::resource('smemails','SMEmailsController');
-Route::get('smemails-remove/{id}','SMEmailsController@destroy');
+Route::get('smemails-remove/{id}',['middleware' => 'auth', 'uses' =>'SMEmailsController@destroy']);
 
 //System setting
 
-Route::get('systemsetups','SystemSetupController@index');
-Route::post('systemsetups','SystemSetupController@store');
+Route::get('systemsetups',['middleware' => 'auth', 'uses' =>'SystemSetupController@index']);
+Route::post('systemsetups',['middleware' => 'auth', 'uses' =>'SystemSetupController@store']);
 
 //EOD import files
-Route::get('eod/create','EODReportController@create');
-Route::post('eod/create','EODReportController@store');
+Route::get('eod/create',['middleware' => 'auth', 'uses' =>'EODReportController@create']);
+Route::post('eod/create',['middleware' => 'auth', 'uses' =>'EODReportController@store']);
 
 //Forex deal slips
-Route::get('forex/customers','ForexCustomerController@index');
-Route::get('forex/customers/create','ForexCustomerController@create');
-Route::post('forex/customers/create','ForexCustomerController@store');
-Route::get('forex/customers/show/{id}','ForexCustomerController@show');
-Route::get('forex/customers/edit/{id}','ForexCustomerController@edit');
-Route::post('forex/customers/edit','ForexCustomerController@update');
-Route::get('forex/customers/remove/{id}','ForexCustomerController@destroy');
+Route::get('forex/customers',['middleware' => 'auth', 'uses' =>'ForexCustomerController@index']);
+Route::get('forex/customers/create',['middleware' => 'auth', 'uses' =>'ForexCustomerController@create']);
+Route::post('forex/customers/create',['middleware' => 'auth', 'uses' =>'ForexCustomerController@store']);
+Route::get('forex/customers/show/{id}',['middleware' => 'auth', 'uses' =>'ForexCustomerController@show']);
+Route::get('forex/customers/edit/{id}',['middleware' => 'auth', 'uses' =>'ForexCustomerController@edit']);
+Route::post('forex/customers/edit',['middleware' => 'auth', 'uses' =>'ForexCustomerController@update']);
+Route::get('forex/customers/remove/{id}',['middleware' => 'auth', 'uses' =>'ForexCustomerController@destroy']);
 
-Route::get('forex/dealslip','ForexDealslipController@reports');
-Route::get('forex/dealslip/create','ForexDealslipController@create');
-Route::post('forex/dealslip/create','ForexDealslipController@store');
-Route::get('forex/dealslip/show/{id}','ForexDealslipController@show');
-Route::get('forex/dealslip/edit/{id}','ForexDealslipController@edit');
-Route::post('forex/dealslip/edit','ForexDealslipController@update');
-Route::get('forex/dealslip/remove/{id}','ForexDealslipController@destroy');
-Route::get('forex/dealslip/reports','ForexDealslipController@reports');
-Route::get('forex/dealslip/view','ForexDealslipController@index');
+Route::get('forex/dealslip',['middleware' => 'auth', 'uses' =>'ForexDealslipController@reports']);
+Route::get('forex/dealslip/create',['middleware' => 'auth', 'uses' =>'ForexDealslipController@create']);
+Route::post('forex/dealslip/create',['middleware' => 'auth', 'uses' =>'ForexDealslipController@store']);
+Route::get('forex/dealslip/show/{id}',['middleware' => 'auth', 'uses' =>'ForexDealslipController@show']);
+Route::get('forex/dealslip/edit/{id}',['middleware' => 'auth', 'uses' =>'ForexDealslipController@edit']);
+Route::post('forex/dealslip/edit',['middleware' => 'auth', 'uses' =>'ForexDealslipController@update']);
+Route::get('forex/dealslip/remove/{id}',['middleware' => 'auth', 'uses' =>'ForexDealslipController@destroy']);
+Route::get('forex/dealslip/reports',['middleware' => 'auth', 'uses' =>'ForexDealslipController@reports']);
+Route::get('forex/dealslip/view',['middleware' => 'auth', 'uses' =>'ForexDealslipController@index']);
+Route::get('forex/dealslip/import',['middleware' => 'auth', 'uses' =>'ForexDealslipController@importShow']);
+Route::post('forex/dealslip/import',['middleware' => 'auth', 'uses' =>'ForexDealslipController@importPost']);
 
 //Reports
-Route::get('forex/dealslip/today/report','ForexDealslipController@reportsToday');
-Route::get('forex/dealslip/month/report','ForexDealslipController@monthToday');
-Route::get('forex/dealslip/generate/report','ForexDealslipController@reportsGenerate');
+Route::get('forex/dealslip/today/report',['middleware' => 'auth', 'uses' =>'ForexDealslipController@reportsToday']);
+Route::get('forex/dealslip/month/report',['middleware' => 'auth', 'uses' =>'ForexDealslipController@monthToday']);
+Route::get('forex/dealslip/generate/report',['middleware' => 'auth', 'uses' =>'ForexDealslipController@reportsGenerate']);
 //Send emails
 Route::get('emails/oracleissues','EmailController@olacle');
 Route::get('portal/cronejob','EmailController@cronejob');

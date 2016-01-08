@@ -462,36 +462,19 @@
                                                     @else
                                                         <td></td>
                                                     @endif
-                                                    <td>{{$deal->customer->company_name}}</td>
-                                                    <td>{{$deal->customer->contact_person}}</td>
-                                                    @if($deal->product_id != null && $deal->product_id !="" )
-                                                        <td>{{$deal->producttype->product_type}}</td>
+                                                    @if($deal->counter_party !="" && $deal->counter_party != null)
+                                                        <td>{{$deal->customer->customer}}</td>
                                                     @else
                                                         <td></td>
                                                     @endif
-                                                    @if($deal->received_by != null && $deal->received_by !="" )
-                                                        <td>{{$deal->received_by}}</td>
-                                                    @else
-                                                        <td></td>
-                                                    @endif
-                                                    @if($deal->department_id != null && $deal->department_id !="" )
-                                                        <td>{{$deal->department_id}}</td>
-                                                    @else
-                                                        <td></td>
-                                                    @endif
-                                                    @if($deal->status_id != null && $deal->status_id !="" )
-                                                        <td>{{$deal->status->status_name}}</td>
-                                                    @else
-                                                        <td></td>
-                                                    @endif
-                                                    <td id="{{$deal->id}}" align="center">
-                                                        <a  href="#" title="Click here to attend/update issue" class="showUpdates btn btn-primary btn-xs"><i class="fa fa-pencil-square"> Attend </i></a>
-                                                    </td>
+                                                    <td>{{$deal->rate}}</td>
+                                                    <td>{{$deal->curr_amount_sold_ccy." ".$deal->curr_amount_sold}}</td>
+                                                    <td>{{$deal->confirmed_with}}</td>
                                                     <td id="{{$deal->id}}" align="center">
                                                         <a  href="#" title="Details" class="showDetails btn btn-primary btn-xs"><i class="fa fa-eye"> View</i></a>
                                                     </td>
                                                     <td id="{{$deal->id}}" align="center">
-                                                        <a  href="{{url('servicedelivery/edit')}}/{{$deal->id}}" title="Edit" class=" btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                        <a  href="{{url('forex/dealslip/edit')}}/{{$deal->id}}" title="Edit" class=" btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
                                                         <a href="#b" title="Delete" class="deleteIssues btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
                                                     </td>
                                                 </tr>
