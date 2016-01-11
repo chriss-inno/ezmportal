@@ -35,6 +35,13 @@ class UserController extends Controller
         return view('users.index',compact('users'));
     }
 
+    //
+    public function diabledUsers()
+    {
+        //
+        $users=User::where('status','=','Inactive')->orderBy('first_name','ASC')->get();
+        return view('users.index',compact('users'));
+    }
     /**
      * Show the form for creating a new resource.
      *

@@ -420,12 +420,36 @@ class QueryController extends Controller
             if(Auth::user()->unit_id != "" && Auth::user()->unit_id != null )
             {
                 $queries = Query::where('closed', '=', '0')
-                    ->where('from_unit', '=', Auth::user()->unit_id)->orwhere('to_department', '=', Auth::user()->department_id)->get();
+                    ->where('from_unit', '=', Auth::user()->unit_id)->get();
             }
             else
             {
                 $queries = Query::where('closed', '=', '0')
-                    ->where('from_department', '=', Auth::user()->department_id)->orwhere('to_department', '=', Auth::user()->department_id)->get();
+                    ->where('from_department', '=', Auth::user()->department_id)->get();
+            }
+
+        }
+        return view('queries.index',compact('queries'));
+
+    }
+
+    //
+    public function assignedProgress()
+    {
+        if( Auth::user()->user_type=="Administrator")
+        {
+            $queries = Query::where('closed', '=', '0')->get();
+        }
+        else {
+            if(Auth::user()->unit_id != "" && Auth::user()->unit_id != null )
+            {
+                $queries = Query::where('closed', '=', '0')
+                    ->where('to_department', '=', Auth::user()->department_id)->get();
+            }
+            else
+            {
+                $queries = Query::where('closed', '=', '0')
+                    ->where('to_department', '=', Auth::user()->department_id)->get();
             }
 
         }

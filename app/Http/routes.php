@@ -89,6 +89,9 @@ Route::post('users/exemption',['middleware' => 'auth', 'uses' =>'UserController@
 Route::get('profile',['middleware' => 'auth', 'uses' =>'UserController@showProfile']);
 Route::post('users/exemption',['middleware' => 'auth', 'uses' =>'UserController@postChangeUserExemption']);
 
+//disabled
+Route::get('users/inactive',['middleware' => 'auth', 'uses' =>'UserController@diabledUsers']);
+
 //User import
 Route::get('userimport',['middleware' => 'auth', 'uses' =>'UserController@showUserImport']);
 Route::post('userimport',['middleware' => 'auth', 'uses' =>'UserController@postUserImport']);
@@ -318,6 +321,7 @@ Route::get('queries/create',['middleware' => 'auth', 'uses' =>'QueryController@c
 Route::post('queries/create',['middleware' => 'auth', 'uses' =>'QueryController@store']);
 Route::get('queries/mytask',['middleware' => 'auth', 'uses' =>'QueryController@task']);
 Route::get('queries/progress',['middleware' => 'auth', 'uses' =>'QueryController@progress']);
+Route::get('queries/assigned/progress',['middleware' => 'auth', 'uses' =>'QueryController@assignedProgress']);
 Route::get('queries/history',['middleware' => 'auth', 'uses' =>'QueryController@history']);
 Route::get('queries/report',['middleware' => 'auth', 'uses' =>'QueryController@report']);
 Route::get('queries/show/{id}',['middleware' => 'auth', 'uses' =>'QueryController@show']);

@@ -360,12 +360,25 @@
     <section class="site-min-height">
         <!-- page start-->
         <div class="row">
-            <div class="col-lg-10 col-md-10">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
                         <h3 class="text-info"> <strong><i class="fa  fa-users"></i> USER ADMINISTRATION</strong></h3>
                     </header>
                     <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                <div class="btn-group btn-group-justified">
+                                    <a href="{{url('users/create')}}" class=" btn btn-file btn-primary"><i class="fa fa-user-plus"></i> CREATE NEW USER</a>
+                                    <a href="{{url('users')}}" class="btn btn-file btn-primary"> <i class="fa fa-users"></i> ALL USERS</a>
+                                    <a href="{{url('users/inactive')}}" class="btn btn-file btn-primary"> <i class="fa fa-users  text-danger"></i> DISABLED USERS</a>
+                                    <a href="{{url('users/reports')}}" class="btn btn-file btn-primary"> <i class="fa fa-users"></i> USER MANAGEMENT REPORT</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="adv-table">
                             <table  class="display table table-bordered table-striped" id="branches">
                                 <thead>
@@ -375,6 +388,7 @@
                                     <th>Designation</th>
                                     <th>Branch</th>
                                     <th>Department</th>
+                                    <th>Unit</th>
                                     <th>Phone</th>
                                     <th>Status</th>
                                     <th>Profile</th>
@@ -389,7 +403,16 @@
                                         <td>{{$usr->first_name." ".$usr->last_name}}</td>
                                         <td>{{$usr->designation}}</td>
                                         <td>{{$usr->branch->branch_Name}}</td>
-                                        <td>{{$usr->department_id}}</td>
+                                        @if($usr->department_id != "" && $usr->department_id != null)
+                                        <td>{{$usr->department->department_name}}</td>
+                                        @else
+                                            <td></td>
+                                        @endif
+                                        @if($usr->unit_id != "" && $usr->unit_id != null)
+                                           <td>{{$usr->unit->unit_name}}</td>
+                                        @else
+                                            <td></td>
+                                        @endif
                                         <td>{{$usr->phone}}</td>
                                         @if($usr->id != Auth::user()->id)
                                         <td id="{{$usr->id}}">
@@ -433,33 +456,15 @@
                                     <th>Designation</th>
                                     <th>Branch</th>
                                     <th>Department</th>
+                                    <th>Unit</th>
                                     <th>Phone</th>
                                     <th>Status</th>
-                                    <th></th>
+                                    <th>Profile</th>
                                     <th>Action</th>
                                 </tr>
                                 </tfoot>
                             </table>
                         </div>
-                    </div>
-                </section>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <section class="panel">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <a href="{{url('users/create')}}" class="btn btn-compose btn-block">Create New users</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('users')}}" class="btn btn-compose  btn-block">List users</a>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
-                                <a href="{{url('users/reports')}}" class="btn btn-compose btn-block">users Reports</a>
                             </div>
                         </div>
                     </div>

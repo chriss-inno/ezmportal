@@ -573,6 +573,17 @@
                                     </div>
                                 </div>
                             </div>
+                                <div class="form-group">
+                                    <label for="departmentUsr">Unit</label>
+                                    <select class="form-control"  id="departmentUsr" name="departmentUsr" disabled>
+                                        @if($user->unit_id != "" && $user->unit_id != null)
+
+                                            <option value="{{$user->id}}" selected>{{$user->unit->unit_name}}</option>
+                                        @else
+                                            <option value="" selected></option>
+                                        @endif
+                                    </select>
+                                </div>
 
                             </fieldset>
 

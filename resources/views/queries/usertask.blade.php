@@ -260,13 +260,13 @@
 
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,13) || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;" >
+                <a href="javascript:;" class="active" >
                     <i class="fa fa-folder-open-o"></i>
                     <span>Support Queries</span>
                 </a>
                 <ul class="sub">
                     <li><a  href="{{url('queries/create')}}" title="Log Query">Log Query</a></li>
-                    <li><a  href="{{url('queries/mytask')}}" title="My Tasks">My Tasks</a></li>
+                    <li class="active"><a  href="{{url('queries/mytask')}}" title="My Tasks">My Tasks</a></li>
                     <li><a  href="{{url('queries/progress')}}" title="Query Progress">Query Progress</a></li>
                     <li><a  href="{{url('queries/history')}}" title="Query History">Query History</a></li>
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
@@ -388,12 +388,12 @@
                                 <div class="btn-group btn-group-justified">
                                     <a href="{{url('queries/create')}}" class=" btn  btn-primary"><i class="fa fa-folder-open-o"></i> Log New Query</a>
 
-                                    <a href="{{url('queries/mytask')}}" class="btn btn-file btn-primary"><i class="fa fa-tasks"></i> My Tasks</a> <a href="{{url('queries/progress')}}" class="btn btn-file btn-primary"><i class="fa fa-archive"></i> Queries Progress</a>
-
+                                    <a href="{{url('queries/mytask')}}" class="btn btn-file btn-primary"><i class="fa fa-tasks"></i> My Tasks</a>
+                                    <a href="{{url('queries/progress')}}" class="btn btn-file btn-primary"><i class="fa fa-archive"></i> Logged Queries Progress</a>
+                                    <a href="{{url('queries/assigned/progress')}}" class="btn btn-file btn-primary"><i class="fa fa-archive"></i> Received Queries Progress</a>
                                     <a href="{{url('queries/history')}}" class="btn btn-file btn-primary"> <i class="fa fa-bars"></i> History</a>
-
                                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
-                                        <a href="{{url('queries/report')}}" class="btn btn-file btn-danger"><i class=" fa fa-bar-chart-o"></i> Reports</a>
+                                        <a href="{{url('queries/report')}}" class="btn btn-file btn-primary"><i class=" fa fa-bar-chart-o"></i> Reports</a>
                                     @endif
                                 </div>
                             </div>
