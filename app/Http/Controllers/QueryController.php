@@ -161,8 +161,8 @@ class QueryController extends Controller
         }
 
         //Send email
-       // $job = (new QueryLaunchedEmail($query))->delay(10);
-      //  $this->dispatch($job);
+        $job = (new QueryLaunchedEmail($query))->delay(10);
+        $this->dispatch($job);
        // \App\Http\Controllers\QueryEmailController::sendQueryLaunchedEmail($query); //Launched emails
 
         return redirect('queries/progress');
