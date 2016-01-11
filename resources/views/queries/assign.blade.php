@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('page-title')
-    Oracle Support Logged issues
+   Portal query assignment
 @stop
 @section('page_scripts')
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
@@ -457,7 +457,8 @@
                                         <td>{{$qr->critical_level}}</td>
                                         <td>{{$qr->module->module_name}}</td>
                                         <td id="{{$qr->id}}">
-                                            <a href="#"   @if($qr->assignment != null && $qr->assignment !="")class="assignUser btn btn-success btn-xs" title="Click here to reassign user" @else class="assignUser btn btn-danger btn-xs" title="Click here to assign user" @endif><i class="fa fa-user-md"></i> </a>
+                                            <a href="#"   @if($qr->assignment != null && $qr->assignment !="")class="assignUser btn btn-success btn-xs" title="Click here to reassign user"
+                                               @else class="assignUser btn btn-danger btn-xs" title="Click here to assign user" @endif><i class="fa fa-user-md"></i> </a>
                                         </td>
                                         <td id="{{$qr->id}}">
                                             <a href="#" class="queryDetails btn btn-info btn-xs" title=" Query Details"><i class="fa fa-eye-slash"></i>View </a>

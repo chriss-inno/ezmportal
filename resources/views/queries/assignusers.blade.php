@@ -65,7 +65,9 @@
                         {!! Form::open(array('url'=>'queries/assign/users','role'=>'form','id'=>'queryAssignForm')) !!}
                         <div class="form-group">
                             <label for="enabler">Current Assigned To </label>
-                            <input type="text" class="form-control" readonly  @if($query->assignment != null && $query->assignment !="")value="{{$query->assignment->user->first_name.' '.$query->assignment->user->last_name}}"@else value="Not Assigned" @endif >
+                            <input type="text" class="form-control" readonly
+                                   @if($query->assignment != null && $query->assignment !="")value="{{$query->assignment->user->first_name.' '.$query->assignment->user->last_name}}"
+                                   @else value="Not Assigned" @endif >
                         </div>
                         <div class="form-group">
                             <div class="row">
@@ -93,11 +95,21 @@
                                                         @endif
                                                 @endforeach
                                           @else
-                                                @foreach(\App\User::where('department_id','=',Auth::user()->department_id)->get() as $users)
+                                                @if(Auth::user()->user_type=="Administrator")
 
-                                                       <option value="{{$users->id}}">{{$users->first_name.' '.$users->last_name}}</option>
+                                                    @foreach(\App\User::where('status','<>','Inactive')->get() as $users)
 
-                                                @endforeach
+                                                        <option value="{{$users->id}}">{{$users->first_name.' '.$users->last_name}}</option>
+
+                                                    @endforeach
+
+                                                    @else
+                                                        @foreach(\App\User::where('department_id','=',Auth::user()->department_id)->get() as $users)
+
+                                                            <option value="{{$users->id}}">{{$users->first_name.' '.$users->last_name}}</option>
+
+                                                        @endforeach
+                                                    @endif
                                         @endif
                                     </select>
                                 </div>
