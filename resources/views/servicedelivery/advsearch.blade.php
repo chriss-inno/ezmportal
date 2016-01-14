@@ -26,35 +26,22 @@
 
 @stop
 @section('page_scripts')
-    <script class="include" type="text/javascript" src={{ asset("js/jquery.dcjqaccordion.2.7.js")}} ></script>
-
+    {!!HTML::script("js/sparkline-chart.js") !!}
+    {!!HTML::script("js/easy-pie-chart.js") !!}
+    {!!HTML::script("js/count.js") !!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
+    {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
     {!!HTML::script("js/jquery.scrollTo.min.js") !!}
     {!!HTML::script("js/jquery.nicescroll.js") !!}
-    {!!HTML::script("js/respond.min.js" ) !!}
 
-            <!--this page plugins-->
-
-    {!!HTML::script("assets/fuelux/js/spinner.min.js") !!}
-    {!!HTML::script("assets/bootstrap-fileupload/bootstrap-fileupload.js") !!}
-    {!!HTML::script("assets/bootstrap-wysihtml5/wysihtml5-0.3.0.js") !!}
-    {!!HTML::script("assets/bootstrap-wysihtml5/bootstrap-wysihtml5.js") !!}
     {!!HTML::script("assets/bootstrap-datepicker/js/bootstrap-datepicker.js") !!}
     {!!HTML::script("assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js") !!}
     {!!HTML::script("assets/bootstrap-daterangepicker/moment.min.js") !!}
     {!!HTML::script("assets/bootstrap-daterangepicker/daterangepicker.js") !!}
-    {!!HTML::script("assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js") !!}
     {!!HTML::script("assets/bootstrap-timepicker/js/bootstrap-timepicker.js") !!}
-    {!!HTML::script("assets/ckeditor/ckeditor.js") !!}
     {!!HTML::script("js/jquery.validate.min.js" ) !!}
     {!!HTML::script("js/form-validation-script.js") !!}
-    {!!HTML::script("assets/jquery-multi-select/js/jquery.multi-select.js") !!}
-    {!!HTML::script("assets/jquery-multi-select/js/jquery.quicksearch.js") !!}
-
-            <!--common script for all pages-->
-    {!!HTML::script("js/common-scripts.js") !!}
-            <!--this page  script only-->
     {!!HTML::script("js/advanced-form-components.js") !!}
-
 
 @stop
 @section('menus')

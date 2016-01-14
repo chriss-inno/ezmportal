@@ -559,12 +559,12 @@
                                     <div class="col-md-6">
                                         <label for="departmentUsr">Department</label>
                                         <select class="form-control"  id="departmentUsr" name="departmentUsr" disabled>
-                                            @if(old('branch') !="")
-                                                <?php $depart=\App\Department::find(old('department'));?>
-                                                <option value="{{$depart->id}}" selected>{{$depart->department_name}}</option>
-                                            @else
+                                            @if($user->department_id !="")
                                                 <?php $depart=\App\Department::find($user->department_id);?>
                                                 <option value="{{$depart->id}}" selected>{{$depart->department_name}}</option>
+                                            @else
+
+                                                <option value="" selected></option>
                                             @endif
                                         </select>
                                         @if($errors->first('departmentUsr'))

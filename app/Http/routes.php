@@ -393,6 +393,16 @@ Route::get('forex/dealslip/today/report',['middleware' => 'auth', 'uses' =>'Fore
 Route::get('forex/dealslip/month/report',['middleware' => 'auth', 'uses' =>'ForexDealslipController@monthToday']);
 Route::get('forex/dealslip/generate/report',['middleware' => 'auth', 'uses' =>'ForexDealslipController@reportsGenerate']);
 //Send emails
+
+//Reminders routing
+Route::get('reminders',['middleware' => 'auth', 'uses' =>'ReminderController@index']);
+Route::get('reminders/create',['middleware' => 'auth', 'uses' =>'ReminderController@create']);
+Route::post('reminders/create',['middleware' => 'auth', 'uses' =>'ReminderController@store']);
+Route::get('reminders/edit/{id}',['middleware' => 'auth', 'uses' =>'ReminderController@edit']);
+Route::post('reminders/edit',['middleware' => 'auth', 'uses' =>'ReminderController@update']);
+Route::get('reminders/remove/{id}',['middleware' => 'auth', 'uses' =>'ReminderController@destroy']);
+
+
 Route::get('emails/oracleissues','EmailController@olacle');
 Route::get('portal/cronejob','EmailController@cronejob');
 

@@ -59,23 +59,7 @@ class UnitController extends Controller
         $unit->status=$request->status;
         $unit->input_by=Auth::user()->username;
         $unit->save();
-
-        $data="";
-        $i=1;
-        $dep=\App\Department::find($request->department);
-        $units=$dep->units;
-        foreach($units as $unit) {
-            $data .= '<tr>
-                        <td>'.$i++.'</td>
-                        <td>'.$unit->unit_name.'</td>
-                        <td>'.$unit->status.'</td>
-                        <td id="'.$unit->id.'" class="text-center">
-                            <a  href="#" title="Edit Unit" class="editUnit btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                            <a href="#b" title="Delete Unit" class="delUnit btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
-                        </td>
-                    </tr>';
-        }
-        return $data;
+        return "Successful saved";
     }
 
     /**
@@ -87,6 +71,8 @@ class UnitController extends Controller
     public function show($id)
     {
         //
+        $unit= Unit::find($id);
+        return view('units.show',compact('unit'));
     }
 
     /**
@@ -98,6 +84,8 @@ class UnitController extends Controller
     public function edit($id)
     {
         //
+        $unit= Unit::find($id);
+        return view('units.edit',compact('unit'));
     }
 
     /**
@@ -107,9 +95,18 @@ class UnitController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        $unit= Unit::find($request->unit_id);
+        $unit->parent_id=$request->parent_id;
+        $unit->department_id=$request->department;
+        $unit->unit_name=$request->unit_name;
+        $unit->status=$request->status;
+        $unit->input_by=Auth::user()->username;
+        $unit->save();
+
+        return "Successful saved";
     }
 
     /**
@@ -121,5 +118,7 @@ class UnitController extends Controller
     public function destroy($id)
     {
         //
+        $unit= Unit::find($id);
+        $unit->delete();
     }
 }

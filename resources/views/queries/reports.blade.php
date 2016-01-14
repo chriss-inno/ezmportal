@@ -69,7 +69,7 @@
                              $dateCount="";
                              for($i=1; $i<= $da; $i++)
                              {
-                                $dateCount.=count(\App\Query::where(\DB::raw('DAY(reporting_Date)'),'=',$i)->where(\DB::raw('MONTH(reporting_Date)'),'=',date('n'))->where('from_department','=',$dep->id)->get()).",";
+                                $dateCount.=count(\App\Query::where(\DB::raw('DAY(reporting_Date)'),'=',$i)->where(\DB::raw('MONTH(reporting_Date)'),'=',date('n'))->where(\DB::raw('Year(reporting_Date)'),'=',date('Y'))->where('from_department','=',$dep->id)->get()).",";
                              }
                              $dayData.="data: [".substr($dateCount,0,strlen($dateCount)-1)."]},";
                      }
@@ -259,7 +259,7 @@
                           $monthData="";
                              for($i=1; $i<= 12; $i++)
                              {
-                                $MonthCount.=count(\App\Query::where(\DB::raw('Month(reporting_Date)'),'=',$i)->get()).",";
+                                $MonthCount.=count(\App\Query::where(\DB::raw('Month(reporting_Date)'),'=',$i)->where(\DB::raw('Year(reporting_Date)'),'=',date('Y'))->get()).",";
                              }
                              $monthData.=substr($MonthCount,0,strlen($MonthCount)-1);
                     ?>

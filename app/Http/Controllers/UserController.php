@@ -155,8 +155,17 @@ class UserController extends Controller
                        $us->department_id = $dep->id;
                    }
 
+                   $us->old_password= $row->old_password;
+                   if($row->active_password != null && $row->active_password != "")
+                   {
+                       $us->password = bcrypt($row->active_password);
+                       $us->old_password_startus="Migrated";
+                   }
+                   else
+                   {
+                       $us->old_password_startus="Not Migrated";
+                   }
 
-                   $us->password = bcrypt('password1,');
 
                    $us->username = $uname;
                    //Create email
@@ -459,7 +468,7 @@ class UserController extends Controller
             $user->save();
 
             //Audit log
-            \App\Http\Controllers\AuditController::auditLog("Successifuly logged out","User");
+            \App\Http\Controllers\AuditController::auditLog("Successful logged out","User");
         }
 
         Auth::logout();
@@ -470,6 +479,8 @@ class UserController extends Controller
     {
         $username=strtolower($request->username);
         $password=$request->password;
+
+
 
         if (Auth::attempt(['username' => $username, 'password' => $password]))
         {
@@ -493,7 +504,41 @@ class UserController extends Controller
         }
         else
         {
-            return redirect()->back()->with('message', 'Login Failed,Invalid username or password');
+            $md5_pass=md5($password);
+
+            //Check for migrations old users
+            $oldusr=User::where('username','=',$username)->where('old_password','=',$md5_pass)->get()->first();
+            if(count($oldusr) >0)
+            {
+                //Migrate password
+                $oldusr->password = bcrypt($password);
+                $oldusr->old_password_startus="Migrated";
+                $oldusr->old_password="";
+                $oldusr->save();
+
+                //Authenticate user
+                if (Auth::attempt(['username' => $username, 'password' => $password])) {
+                    if (Auth::user()->block == 1 || Auth::user()->status == "Inactive") {
+                        Auth::logout();
+                        return redirect()->back()->with('message', 'Login Failed you don\'t have Access to login please  Contact ICT Support at support@bankm.com');
+                    } else {
+                        $user = User::find(Auth::user()->id);
+                        $user->last_success_login = date("Y-m-d h:i:s");
+                        $user->last_login = date("Y-m-d h:i:s");
+                        $user->save();
+
+                        //Audit log
+                        \App\Http\Controllers\AuditController::auditLog("Successifuly logged in", "User");
+                        return redirect()->intended('home');
+                    }
+                }
+                else {
+                    return redirect()->back()->with('message', 'Login Failed,Invalid username or password');
+                }
+            }
+            else {
+                return redirect()->back()->with('message', 'Login Failed,Invalid username or password');
+            }
         }
     }
     public function userQuery($id)

@@ -54,7 +54,7 @@ class DepartmentController extends Controller
         $dep->download_check=$request->download_check;
         $dep->save();
 
-        return redirect('departments');
+        return "Saved successful";
     }
 
     /**
@@ -104,7 +104,7 @@ class DepartmentController extends Controller
         $dep->download_check=$request->download_check;
         $dep->save();
 
-        return redirect('departments');
+        return "Saved successful";
     }
 
     /**
