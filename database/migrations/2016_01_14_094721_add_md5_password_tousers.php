@@ -13,7 +13,7 @@ class AddMd5PasswordTousers extends Migration
     public function up()
     {
         //
-        Schema::table('customer_issues', function(Blueprint $table)
+        Schema::table('users', function(Blueprint $table)
         {
             $table->string('old_password')->nullable()->add();
             $table->string('old_password_startus')->nullable()->add();
