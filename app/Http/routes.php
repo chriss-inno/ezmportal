@@ -402,6 +402,9 @@ Route::get('reminders/edit/{id}',['middleware' => 'auth', 'uses' =>'ReminderCont
 Route::post('reminders/edit',['middleware' => 'auth', 'uses' =>'ReminderController@update']);
 Route::get('reminders/remove/{id}',['middleware' => 'auth', 'uses' =>'ReminderController@destroy']);
 
+Route::get('reminders/active/list',['middleware' => 'auth', 'uses' =>'ReminderController@getActiveList']);
+Route::get('reminders/history/list',['middleware' => 'auth', 'uses' =>'ReminderController@getHistoryList']);
+
 
 Route::get('emails/oracleissues','EmailController@olacle');
 Route::get('portal/cronejob','EmailController@cronejob');

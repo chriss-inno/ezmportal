@@ -53,6 +53,7 @@ return array(
     'CreateQueryAssignmentsTable' => $baseDir . '/database/migrations/2015_09_19_042355_create_query_assignments_table.php',
     'CreateQueryEmailsTable' => $baseDir . '/database/migrations/2015_10_20_105758_create_query_emails_table.php',
     'CreateQueryStatusesTable' => $baseDir . '/database/migrations/2015_10_02_091030_create_query_statuses_table.php',
+    'CreateReminderEmailsTable' => $baseDir . '/database/migrations/2016_01_14_175128_create_reminder_emails_table.php',
     'CreateRemindersTable' => $baseDir . '/database/migrations/2016_01_14_100533_create_reminders_table.php',
     'CreateReportDepartmentsTable' => $baseDir . '/database/migrations/2015_10_15_121522_create_report_departments_table.php',
     'CreateReportSetupsTable' => $baseDir . '/database/migrations/2015_10_18_012820_create_report_setups_table.php',

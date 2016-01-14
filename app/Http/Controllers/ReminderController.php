@@ -9,16 +9,31 @@ use App\Http\Controllers\Controller;
 
 class ReminderController extends Controller
 {
+
+    public function index()
+    {
+        //
+        $reminders=Reminder::all();
+        return view('reminders.index',compact('reminders'));
+    }
+
+    public function getHistoryList()
+    {
+        //
+        $reminders=Reminder::all();
+        return view('reminders.index',compact('reminders'));
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getActiveList()
     {
         //
         $reminders=Reminder::all();
-        return view('reminders',compact('reminders'));
+        return view('reminders.index',compact('reminders'));
     }
 
     /**
