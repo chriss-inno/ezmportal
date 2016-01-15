@@ -21,7 +21,10 @@ class CreateRemindersTable extends Migration
             $table->string('recurrence_pattern')->nullable();
             $table->string('status')->nullable();
             $table->integer('days_before')->nullable();
+            $table->string('notify_before')->nullable()->default('No');
+            $table->string('rm_access')->nullable();
             $table->string('input_by')->nullable();
+            $table->integer('user_id')->nullable();
             $table->string('auth_by')->nullable();
             $table->string('auth_status',1)->default('U');
             $table->timestamps();

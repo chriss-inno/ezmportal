@@ -290,17 +290,17 @@
         </li>
         @endif
          @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,16)  || Auth::user()->user_type=="Administrator")
-          <li class="sub-menu">
-            <a href="javascript:;" >
-                <i class="fa fa-laptop"></i>
-                <span>Reminder</span>
-            </a>
-            <ul class="sub">
-                <li><a  href="{{url('support/oracle/create')}}" title="Create Reminder">Create Reminder</a></li>
-                <li><a  href="{{url('support/oracle/opened')}}" title="Reminder List">Reminder List</a></li>
-              
-            </ul>
-        </li>
+           <li class="sub-menu">
+                <a href="javascript:;">
+                    <i class="fa fa-bell"></i>
+                    <span>Reminder</span>
+                </a>
+                <ul class="sub">
+                    <li><a  href="{{url('reminders/create')}}" title="Create Reminder">Create Reminder</a></li>
+                    <li><a  href="{{url('reminders')}}" title="Reminder List">Reminder List</a></li>
+
+                </ul>
+            </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,17)  || Auth::user()->user_type=="Administrator")
           <li class="sub-menu">

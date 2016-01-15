@@ -15,6 +15,8 @@ return array(
     'AddDatecreatedTmtSdcustomerissues' => $baseDir . '/database/migrations/2015_12_16_064127_add_datecreated_tmt_sdcustomerissues.php',
     'AddDatersolvedRemarksSdTable' => $baseDir . '/database/migrations/2015_11_25_192350_add_datersolved_remarks_sd_table.php',
     'AddDownloadCheckInDepartment' => $baseDir . '/database/migrations/2015_10_27_162024_add_download_check_in-department.php',
+    'AddFieldsToReminder' => $baseDir . '/database/migrations/2016_01_15_113629_add_fields_to_reminder.php',
+    'AddFieldsToSystemsetupTable' => $baseDir . '/database/migrations/2016_01_15_192552_add_fields_to_systemsetup_table.php',
     'AddMd5PasswordTousers' => $baseDir . '/database/migrations/2016_01_14_094721_add_md5_password_tousers.php',
     'AddProductDetailsIdCollumn' => $baseDir . '/database/migrations/2015_11_01_122618_add_product_details_id_collumn.php',
     'AddRootCausetoCIT' => $baseDir . '/database/migrations/2015_12_21_191407_add_root_causetoCIT.php',

@@ -11,4 +11,9 @@ class Reminder extends Model
     {
         return $this::hasMany('\App\ReminderEmail','rmd_id','id');
     }
+
+    public function user()
+    {
+        return $this::belongsTo('\App\User','user_id');
+    }
 }

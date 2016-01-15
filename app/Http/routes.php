@@ -398,6 +398,7 @@ Route::get('forex/dealslip/generate/report',['middleware' => 'auth', 'uses' =>'F
 Route::get('reminders',['middleware' => 'auth', 'uses' =>'ReminderController@index']);
 Route::get('reminders/create',['middleware' => 'auth', 'uses' =>'ReminderController@create']);
 Route::post('reminders/create',['middleware' => 'auth', 'uses' =>'ReminderController@store']);
+Route::get('reminders/show/{id}',['middleware' => 'auth', 'uses' =>'ReminderController@show']);
 Route::get('reminders/edit/{id}',['middleware' => 'auth', 'uses' =>'ReminderController@edit']);
 Route::post('reminders/edit',['middleware' => 'auth', 'uses' =>'ReminderController@update']);
 Route::get('reminders/remove/{id}',['middleware' => 'auth', 'uses' =>'ReminderController@destroy']);

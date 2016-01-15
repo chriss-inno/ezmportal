@@ -9,22 +9,24 @@
     {!!HTML::style("assets/bootstrap-daterangepicker/daterangepicker.css" )!!}
 
     @stop
-    @section('page_scripts')
-            <!-- js placed at the end of the document so the pages load faster -->
+@section('page_scripts')
+    {!!HTML::script("js/sparkline-chart.js") !!}
+    {!!HTML::script("js/easy-pie-chart.js") !!}
+    {!!HTML::script("js/count.js") !!}
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
+    {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
+    {!!HTML::script("js/jquery.scrollTo.min.js") !!}
+    {!!HTML::script("js/jquery.nicescroll.js") !!}
 
-
-    <!--custom tagsinput-->
-    {!!HTML::script("js/jquery.tagsinput.js") !!}
-            <!--custom checkbox & radio-->
-    {!!HTML::script("js/ga.js") !!}
     {!!HTML::script("assets/bootstrap-datepicker/js/bootstrap-datepicker.js") !!}
-    {!!HTML::script("assets/bootstrap-daterangepicker/date.js") !!}
+    {!!HTML::script("assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js") !!}
+    {!!HTML::script("assets/bootstrap-daterangepicker/moment.min.js") !!}
     {!!HTML::script("assets/bootstrap-daterangepicker/daterangepicker.js") !!}
-    {!!HTML::script("assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js") !!}
+    {!!HTML::script("assets/bootstrap-timepicker/js/bootstrap-timepicker.js") !!}
     {!!HTML::script("assets/ckeditor/ckeditor.js") !!}
     {!!HTML::script("js/jquery.validate.min.js" ) !!}
-    {!!HTML::script("js/respond.min.js"  ) !!}
     {!!HTML::script("js/form-validation-script.js") !!}
+    {!!HTML::script("js/advanced-form-components.js") !!}
     <script>
         $("#serviceForm").validate({
             rules: {
@@ -219,14 +221,14 @@
             </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,16)  || Auth::user()->user_type=="Administrator")
-            <li class="sub-menu">
-                <a href="javascript:;" >
-                    <i class="fa fa-laptop"></i>
+             <li class="sub-menu">
+                <a href="javascript:;">
+                    <i class="fa fa-bell"></i>
                     <span>Reminder</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="{{url('support/oracle/create')}}" title="Create Reminder">Create Reminder</a></li>
-                    <li><a  href="{{url('support/oracle/opened')}}" title="Reminder List">Reminder List</a></li>
+                    <li><a  href="{{url('reminders/create')}}" title="Create Reminder">Create Reminder</a></li>
+                    <li><a  href="{{url('reminders')}}" title="Reminder List">Reminder List</a></li>
 
                 </ul>
             </li>
@@ -372,11 +374,11 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <label for="status">Opened Date</label>
-                                    <input type="text" class="form-control form-control form-control-inline input-medium default-date-picker" id="date_opened" name="date_opened" value="{{old('date_opened')}}" placeholder="(YYYY-MM-DD HH:MM)">
+                                    <input type="text" class="form-control  form-control-inline input-medium default-date-picker" id="date_opened" name="date_opened" value="{{old('date_opened')}}" placeholder="(YYYY-MM-DD HH:MM)">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="status">Closed Date</label>
-                                    <input type="text" class="form-control" id="date_closed" name="date_closed" value="{{old('date_closed')}}" placeholder="(YYYY-MM-DD HH:MM)">
+                                    <input type="text" class="form-control  form-control-inline input-medium default-date-picker" id="date_closed" name="date_closed" value="{{old('date_closed')}}" placeholder="(YYYY-MM-DD HH:MM)">
                                 </div>
                             </div>
                         </div>

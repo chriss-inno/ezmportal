@@ -60,6 +60,9 @@ class SystemSetupController extends Controller
             $system->automation_status=$request->automation_status;
             $system->portal_eod_report_date=$request->portal_eod_report_date;
             $system->input_by=Auth::user()->username;
+            $system->reminder_status=$request->reminder_status;
+            $system->reminder_start_tm=$request->reminder_start_tm;
+            $system->reminder_end_tm=$request->reminder_end_tm;
 
             $system->save();
 
@@ -77,6 +80,9 @@ class SystemSetupController extends Controller
             $system->automation_status=$request->automation_status;
             $system->portal_eod_report_date=$request->portal_eod_report_date;
             $system->input_by=Auth::user()->username;
+            $system->reminder_status=$request->reminder_status;
+            $system->reminder_start_tm=$request->reminder_start_tm;
+            $system->reminder_end_tm=$request->reminder_end_tm;
             $system->save();
             return redirect('systemsetups');
         }

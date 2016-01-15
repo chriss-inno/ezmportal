@@ -32,7 +32,7 @@
                         });
                         $("#yes").click(function(){
                             $(this).parent().html("<br><i class='fa fa-spinner fa-spin'></i>deleting...");
-                            $.get("<?php echo url('forex/dealslip/remove') ?>/"+id1,function(data){
+                            $.get("<?php echo url('reminders/remove') ?>/"+id1,function(data){
                                 btn.hide("slow").next("hr").hide("slow");
                             });
                         });
@@ -57,7 +57,7 @@
                         jQuery.noConflict();
                         $("#myModal").modal("show");
                         $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("forex/dealslip/edit") ?>/"+id1);
+                        $(".modal-body").load("<?php echo url("reminders/edit") ?>/"+id1);
                         $("#myModal").on('hidden.bs.modal',function(){
                             $("#myModal").remove();
                         })
@@ -96,11 +96,11 @@
                         var id1 = $(this).parent().attr('id');
                         var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
 
-                        modaldis+= '<div class="modal-dialog" style="width:80%;margin-right: 10% ;margin-left: 10%">';
+                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 20% ;margin-left: 20%">';
                         modaldis+= '<div class="modal-content">';
                         modaldis+= '<div class="modal-header">';
                         modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Customer Issue details</span>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Remainder Details</span>';
                         modaldis+= '</div>';
                         modaldis+= '<div class="modal-body">';
                         modaldis+= ' </div>';
@@ -112,7 +112,7 @@
                         jQuery.noConflict();
                         $("#myModal").modal("show");
                         $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
-                        $(".modal-body").load("<?php echo url("forex/dealslip/show") ?>/"+id1);
+                        $(".modal-body").load("<?php echo url("reminders/show") ?>/"+id1);
                         $("#myModal").on('hidden.bs.modal',function(){
                             $("#myModal").remove();
                         })
@@ -323,14 +323,14 @@
             </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,16)  || Auth::user()->user_type=="Administrator")
-            <li class="sub-menu">
-                <a href="javascript:;" >
-                    <i class="fa fa-laptop"></i>
+             <li class="sub-menu">
+                <a href="javascript:;">
+                    <i class="fa fa-bell"></i>
                     <span>Reminder</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="{{url('support/oracle/create')}}" title="Create Reminder">Create Reminder</a></li>
-                    <li><a  href="{{url('support/oracle/opened')}}" title="Reminder List">Reminder List</a></li>
+                    <li><a  href="{{url('reminders/create')}}" title="Create Reminder">Create Reminder</a></li>
+                    <li><a  href="{{url('reminders')}}" title="Reminder List">Reminder List</a></li>
 
                 </ul>
             </li>
@@ -441,40 +441,44 @@
                                         <thead>
                                         <tr>
                                             <th>SNO</th>
-                                            <th>Deal #</th>
-                                            <th>Deal date</th>
-                                            <th>Counter party</th>
-                                            <th>Rate</th>
-                                            <th>Curr. & amount sold</th>
-                                            <th>Confirmed By</th>
+                                            <th>Title</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Recurrence patten</th>
+                                            <th>Input By</th>
+                                            <th>Status</th>
                                             <th>Details</th>
                                             <th>Actions</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <?php $i=1;?>
-                                        @foreach($deals as $deal)
+                                        @foreach($reminders as $remnd)
                                             <tr>
                                                 <td>{{$i++}}</td>
-                                                <td>{{$deal->deal_number}}</td>
-                                                @if($deal->deal_date != null && $deal->deal_date !="" )
-                                                    <td>{{date("d-M-Y H:i",strtotime($deal->deal_date))}}</td>
-                                                @else
+                                                <td>{{$remnd->rm_title}}</td>
+                                                <td>{{$remnd->start_date}}</td>
+                                                <td>{{$remnd->end_date}}</td>
+                                                <td>{{$remnd->recurrence_pattern}}</td>
+                                                @if($remnd->user_id !="")
+                                                    <td>{{$remnd->user->first_name." ".$remnd->user->last_name}}</td>
+                                                    @else
                                                     <td></td>
-                                                @endif
-                                                @if($deal->counter_party !="" && $deal->counter_party != null)
-                                                    <td>{{$deal->customer->customer}}</td>
-                                                @else
-                                                    <td></td>
-                                                @endif
-                                                <td>{{$deal->rate}}</td>
-                                                <td>{{$deal->curr_amount_sold_ccy." ".$deal->curr_amount_sold}}</td>
-                                                <td>{{$deal->confirmed_with}}</td>
-                                                <td id="{{$deal->id}}" align="center">
+                                                 @endif
+                                                @if($remnd->status =="Enabled")
+                                                    <td  align="center">
+                                                        <a  href="#" title="Details" class=" btn btn-success btn-xs"><i class="fa fa-eye"> {{$remnd->status}}</i></a>
+                                                    </td>
+                                                    @else
+                                                    <td  align="center">
+                                                        <a  href="#" title="Details" class=" btn btn-danger btn-xs"><i class="fa fa-eye"> {{$remnd->status}}</i></a>
+                                                    </td>
+                                                    @endif
+                                                <td id="{{$remnd->id}}" align="center">
                                                     <a  href="#" title="Details" class="showDetails btn btn-primary btn-xs"><i class="fa fa-eye"> View</i></a>
                                                 </td>
-                                                <td id="{{$deal->id}}" align="center">
-                                                    <a  href="{{url('forex/dealslip/edit')}}/{{$deal->id}}" title="Edit" class=" btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                <td id="{{$remnd->id}}" align="center">
+                                                    <a  href="{{url('reminders/edit')}}/{{$remnd->id}}" title="Edit" class=" btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
                                                     <a href="#b" title="Delete" class="deleteIssues btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
                                                 </td>
                                             </tr>
@@ -485,12 +489,12 @@
                                         <tfoot>
                                         <tr>
                                             <th>SNO</th>
-                                            <th>Deal #</th>
-                                            <th>Deal date</th>
-                                            <th>Counter party</th>
-                                            <th>Rate</th>
-                                            <th>Curr. & amount sold</th>
-                                            <th>Confirmed By</th>
+                                            <th>Title</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Recurrence patten</th>
+                                            <th>Input By</th>
+                                            <th>Status</th>
                                             <th>Details</th>
                                             <th>Actions</th>
                                         </tr>

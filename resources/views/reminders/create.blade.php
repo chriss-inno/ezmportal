@@ -43,6 +43,46 @@
     {!!HTML::script("js/form-validation-script.js") !!}
     {!!HTML::script("js/advanced-form-components.js") !!}
 
+    <script>
+        $("#reminderForm").validate({
+            rules: {
+                notify_before: "required",
+                notification_days: "required",
+                rm_title: "required",
+                description: "required",
+                start_date: {
+                    required: true,
+                    date: true
+                },
+                end_date: {
+                    required: true,
+                    date: true
+                },
+                recurrence_pattern: "required",
+                emails: "required",
+                status: "required"
+            },
+            messages: {
+                notify_before: "Please select options",
+                notification_days: "Please select days",
+                rm_title: "Please reminder title",
+                description: "Please enter description",
+                start_date:{
+                    required: "Please enter start date",
+                    date: "Please enter valid date"
+                },
+                end_date:{
+                    required: "Please enter end date",
+                    date: "Please enter valid date"
+                },
+                recurrence_pattern: "Please select patten",
+                emails: "Please enter emails addresses separate them with comma (,)",
+                status: "Select status"
+            }
+        });
+
+    </script>
+
 @stop
 @section('menus')
     <?php  $system=\App\SystemSetup::all()->first();?>
@@ -218,7 +258,7 @@
                     <span>Reminder</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="{{url('reminders/create')}}" title="Create Reminder">Create Reminder</a></li>
+                    <li class="active"><a  href="{{url('reminders/create')}}" title="Create Reminder">Create Reminder</a></li>
                     <li><a  href="{{url('reminders')}}" title="Reminder List">Reminder List</a></li>
 
                 </ul>
@@ -336,34 +376,135 @@
                                     </div>
                                 @endif
                                 <hr/>
-                                {!! Form::open(array('url'=>'reminders/create','role'=>'form','id'=>'messageDispatch')) !!}
+                                {!! Form::open(array('url'=>'reminders/create','role'=>'form','id'=>'reminderForm')) !!}
                                     <fieldset class="scheduler-border">
                                           <legend class="scheduler-border" style="color:#005DAD">Basic details</legend>
 
                                             <div class="form-group">
                                                 <label for="rm_title"> Reminder Title: </label>
-                                                <input type="text" name="rm_title" placeholder="Enter Reminder Title" required class="form-control">
+                                                <input type="text" name="rm_title" placeholder="Enter Reminder Title" required class="form-control" value="{{old('rm_title')}}">
+                                                @if($errors->first('rm_title'))
+                                                    <p class=" alert-danger">{{$errors->first('rm_title')}}</p>
+                                                @endif
                                             </div>
                                             <div class="form-group">
-                                                <label for="rm_title"> Descriptions: </label>
-                                               <textarea required class="form-control" rows="4" name="description"></textarea>
+                                                <label for="description"> Descriptions: </label>
+                                               <textarea required class="form-control" rows="2" name="description">{{old('description')}}</textarea>
+                                                @if($errors->first('description'))
+                                                    <p class=" alert-danger">{{$errors->first('description')}}</p>
+                                                @endif
                                             </div>
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-2"><label for="start_date">Start Date: </label></div>
                                                     <div class="col-md-3">
-                                                        <input type="text" name="start_date" class="default-date-picker form-control"  value="">
+                                                        <input type="text" name="start_date" class="default-date-picker form-control"  value="{{old('start_date')}}" required>
+                                                        @if($errors->first('start_date'))
+                                                            <p class=" alert-danger">{{$errors->first('start_date')}}</p>
+                                                        @endif
                                                     </div>
                                                     <div class="col-md-2"><label for="end_date">End Date: </label></div>
                                                     <div class="col-md-3">
-                                                        <input type="text" name="end_date" class="default-date-picker form-control" value="" required>
+                                                        <input type="text" name="end_date" class="default-date-picker form-control"  value="{{old('end_date')}}" required>
+                                                        @if($errors->first('end_date'))
+                                                            <p class=" alert-danger">{{$errors->first('end_date')}}</p>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
                                     </fieldset>
                                     <fieldset class="scheduler-border">
                                         <legend class="scheduler-border" style="color:#005DAD">Recurrence patten</legend>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label for="recurrence_pattern">Patten </label>
+                                                        <select name="recurrence_pattern" class="form-control" required>
 
+                                                            @if(old('recurrence_pattern') != "")
+                                                                <option value="{{old('recurrence_pattern')}}" selected>{{old('recurrence_pattern')}}</option>
+                                                                @else
+                                                                <option value="">----</option>
+                                                                @endif
+                                                            <option value="Daily">Daily</option>
+                                                            <option value="Daily">Weekly</option>
+                                                            <option value="Monthly">Monthly</option>
+                                                            <option value="Yearly">Yearly</option>
+                                                        </select>
+                                                        @if($errors->first('recurrence_pattern'))
+                                                            <p class=" alert-danger">{{$errors->first('recurrence_pattern')}}</p>
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label for="notify_before">Notify Before? </label>
+                                                        <select name="notify_before" class="form-control" required>
+                                                            @if(old('notify_before') != "")
+                                                                <option value="{{old('notify_before')}}" selected>{{old('notify_before')}}</option>
+                                                            @else
+                                                                <option value="">----</option>
+                                                            @endif
+                                                            <option value="Yes">Yes</option>
+                                                            <option value="No" >No</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="notification_days">Notification days before reminder </label>
+                                                        <select name="notification_days" class="form-control" required>
+                                                            @if(old('notification_days') != "")
+                                                                <option value="{{old('notification_days')}}" selected>{{old('notification_days')}}</option>
+                                                            @else
+                                                                <option value="0">None</option>
+                                                            @endif
+
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="6">6</option>
+                                                            <option value="7">7</option>
+                                                            <option value="8">8</option>
+                                                            <option value="9">9</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </fieldset>
+                                    <fieldset class="scheduler-border">
+                                        <legend class="scheduler-border" style="color:#005DAD">Reminder Emails </legend>
+                                        <div class="form-group">
+                                            <label for="emails"> Email list: </label>
+                                            <textarea required class="form-control" rows="2" name="emails">{{old('emails')}}</textarea>
+                                            @if($errors->first('emails'))
+                                                <p class=" alert-danger">{{$errors->first('emails')}}</p>
+                                            @endif
+                                            <p class="text-danger"> Please enter emails addresse(s) separate them by comma (,) </p>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="scheduler-border">
+                                        <legend class="scheduler-border" style="color:#005DAD">Remainder scope & status</legend>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="rm_access">Who will see/modify your reminder? </label>
+                                                <select name="rm_access" class="form-control" required>
+                                                    @if(old('rm_access') != "")
+                                                        <option value="{{old('rm_access')}}" selected>{{old('rm_access')}}</option>
+                                                    @else
+                                                        <option value="Only Me" selected>Only Me</option>
+                                                    @endif
+
+                                                    <option value="Every one">Every one</option>
+                                                    <option value="Department">Department</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="status">Status </label>
+                                                <select name="status" class="form-control" required>
+                                                    <option value="Enabled">Enabled</option>
+                                                    <option value="Disabled">Disabled</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </fieldset>
                                 <div class="form-group" style="margin-top: 20px">
                                     <button type="submit" class="btn btn-primary pull-right col-md-2">Submit</button>

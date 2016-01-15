@@ -216,14 +216,14 @@
             </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,16)  || Auth::user()->user_type=="Administrator")
-            <li class="sub-menu">
-                <a href="javascript:;" >
-                    <i class="fa fa-laptop"></i>
+             <li class="sub-menu">
+                <a href="javascript:;">
+                    <i class="fa fa-bell"></i>
                     <span>Reminder</span>
                 </a>
                 <ul class="sub">
-                    <li><a  href="{{url('support/oracle/create')}}" title="Create Reminder">Create Reminder</a></li>
-                    <li><a  href="{{url('support/oracle/opened')}}" title="Reminder List">Reminder List</a></li>
+                    <li><a  href="{{url('reminders/create')}}" title="Create Reminder">Create Reminder</a></li>
+                    <li><a  href="{{url('reminders')}}" title="Reminder List">Reminder List</a></li>
 
                 </ul>
             </li>
@@ -341,6 +341,9 @@
                                 $automation_end_tm="";
                                 $automation_start_tm="";
                                 $automation_status="";
+                                $reminder_end_tm="";
+                                $reminder_start_tm="";
+                                $reminder_status="";
 
                                    if($system != null && $system != "")
                                        {
@@ -353,6 +356,9 @@
                                            $automation_start_tm=$system->automation_start_tm;
                                            $automation_status=$system->automation_status;
                                            $save_request=2;
+                                           $reminder_end_tm=$system->reminder_end_tm;
+                                           $reminder_start_tm=$system->reminder_start_tm;
+                                           $reminder_status=$system->reminder_status;
                                        }
                                 ?>
 
@@ -407,6 +413,38 @@
                                             </div>
                                         </div>
                                      </div>
+                                </fieldset>
+                                <fieldset class="scheduler-border">
+                                    <legend class="scheduler-border" style="color:#005DAD"> Portal Automation <small>Auto emails for reminder</small></legend>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-4 col-xs-4 col-lg-4">
+                                                <label for="reminder_status">Remainder Status</label>
+                                                <select name="reminder_status" class="form-control" id="reminder_status">
+                                                    @if($reminder_status != null && $reminder_status !="")
+                                                        <option selected value="{{$reminder_status}}">{{$reminder_status}}</option>
+                                                    @else
+                                                        <option selected value="">----</option>
+                                                    @endif
+                                                    <option value="enabled">enabled</option>
+                                                    <option value="disabled">disabled</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4 col-xs-4 col-lg-4">
+                                                <label for="reminder_start_tm">Remainder start time</label>
+                                                <input type="text" class="form-control" id="reminder_start_tm" name="reminder_start_tm"
+                                                       @if($reminder_start_tm != null && $reminder_start_tm !="")
+                                                       value="{{$reminder_start_tm}}" @else value="" @endif >
+                                            </div>
+                                            <div class="col-md-4 col-xs-4 col-lg-4">
+                                                <label for="reminder_end_tm">Remainder end time </label>
+                                                <input type="text" class="form-control" id="reminder_end_tm" name="reminder_end_tm"
+                                                       @if($reminder_end_tm != null && $reminder_end_tm !="")
+                                                       value="{{$reminder_end_tm}}" @else value="" @endif >
+                                            </div>
+                                        </div>
+                                    </div>
                                 </fieldset>
                                 <fieldset class="scheduler-border">
                                     <legend class="scheduler-border" style="color:#005DAD"> EOD Reports portal current date </legend>
