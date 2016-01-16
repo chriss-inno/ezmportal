@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SDDaily;
+use App\Jobs\SendRemainderEmail;
 use App\Jobs\ServiceDailyLogged;
 use App\Jobs\ServiceMonitoring;
 use App\Jobs\ServiceOracle;
@@ -117,8 +118,10 @@ class EmailController extends Controller
             $job2 = (new ServiceDailyLogged())->delay(10);
             $this->dispatch($job2);
 
-           // $job3 = (new unAssignedQueryReminder())->delay(10);
-          //   $this->dispatch($job3);
+            $job3 = (new unAssignedQueryReminder())->delay(10);
+            $this->dispatch($job3);
+            $job4 = (new SendRemainderEmail())->delay(10);
+            $this->dispatch($job4);
            // $job4 = (new SDDaily())->delay(10);
            // $this->dispatch($job4);
 
@@ -138,8 +141,10 @@ class EmailController extends Controller
             $job2 = (new ServiceDailyLogged())->delay(10);
             $this->dispatch($job2);
 
-           // $job3 = (new unAssignedQueryReminder())->delay(10);
-           // $this->dispatch($job3);
+            $job3 = (new unAssignedQueryReminder())->delay(10);
+            $this->dispatch($job3);
+            $job4 = (new SendRemainderEmail())->delay(10);
+            $this->dispatch($job4);
 
             // $this->serviceStarts(); //Send service starts
             //$this->olacle(); //Send oracle logged issues

@@ -56,7 +56,7 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                 {
                     echo "Date check ok now sending <br/>";
 
-                    $reminders= Reminder::where("status",'=','Enabled')->get();
+                    $reminders= Reminder::where("status",'=','Enabled')->where("send_status",'=','No')->get();
                     if($reminders != null && count($reminders) > 0)
                     {
                        foreach($reminders as $reminder) {
@@ -64,27 +64,227 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                            $data = array(
                                'reminder' => $reminder
                            );
-                           $dataemail = array();
 
-                           $emails = ReminderEmail::where('rmd_id', '=',$reminder->id)->get();
-                           if (count($emails) > 0 && $emails != null) {
+                           $this->reminder_title=$reminder->rm_title;
 
-                               foreach($emails as $email)
+                           //Daily reminder
+                           if($reminder->recurrence_pattern="Daily")
+                           {
+                              if(strtotime($reminder->start_date)>= strtotime(date("Y-m-d")) && strtotime($reminder->end_date) <= strtotime(date("Y-m-d")) )
+                              {
+                                  $emails = ReminderEmail::where('rmd_id', '=',$reminder->id)->get();
+                                  if (count($emails) > 0 && $emails != null) {
+
+                                      foreach($emails as $email)
+                                      {
+
+                                          Mail::send('emails.reminder', $data, function ($message) use ($email) {
+
+                                              $message->from('bankmportal.reminder@bankm.com', 'Bank M  Service portal');
+                                              $message->to($email)->subject(" Reminder for ".$this->reminder_title);
+                                              $message->attach($this->pathToFile);
+
+                                          });
+                                      }
+                                      $reminder->send_status="Yes"; //Reminder was sent
+                                      $reminder->save();
+                                  }
+                              }
+                           }
+                           if($reminder->recurrence_pattern= "Monthly")
+                           {
+
+                              if($reminder->next_exc_date !="")
+                              {
+                                  if(strtotime($reminder->next_exc_date)>= strtotime(date("Y-m-d")) && strtotime($reminder->end_date) <= strtotime(date("Y-m-d")) ) {
+
+
+                                      $emails = ReminderEmail::where('rmd_id', '=',$reminder->id)->get();
+                                      if (count($emails) > 0 && $emails != null) {
+
+                                          foreach($emails as $email)
+                                          {
+
+                                              Mail::send('emails.reminder', $data, function ($message) use ($email) {
+
+                                                  $message->from('bankmportal.reminder@bankm.com', 'Bank M  Service portal');
+                                                  $message->to($email)->subject(" Reminder for ".$this->reminder_title);
+                                                  $message->attach($this->pathToFile);
+
+                                              });
+                                          }
+                                          $time = strtotime($reminder->next_exc_date);
+                                          $final = date("Y-m-d", strtotime("+1 month", $time));
+                                          $reminder->send_status = "Yes"; //Reminder was sent
+                                          $reminder->next_exc_date = $final;
+                                          $reminder->save();
+                                      }
+
+                                  }
+                              }
+                               else
                                {
+                                   if(strtotime($reminder->start_date)>= strtotime(date("Y-m-d")) && strtotime($reminder->end_date) <= strtotime(date("Y-m-d")) )
+                                   {
+                                       $emails = ReminderEmail::where('rmd_id', '=',$reminder->id)->get();
+                                       if (count($emails) > 0 && $emails != null) {
 
-                                   Mail::send('emails.reminder', $data, function ($message) use ($email) {
+                                           foreach($emails as $email)
+                                           {
 
-                                       $message->from('bankmportal@bankm.com', 'Bank M  Support portal');
-                                       $message->to($email)->subject('DAILY LOG OF CUSTOMER ISSUES');
-                                       $message->attach($this->pathToFile);
+                                               Mail::send('emails.reminder', $data, function ($message) use ($email) {
 
-                                   });
+                                                   $message->from('bankmportal.reminder@bankm.com', 'Bank M  Service portal');
+                                                   $message->to($email)->subject(" Reminder for ".$this->reminder_title);
+                                                   $message->attach($this->pathToFile);
+
+                                               });
+                                           }
+                                           $time = strtotime($reminder->start_date);
+                                           $final = date("Y-m-d", strtotime("+1 month", $time));
+                                           $reminder->send_status="Yes"; //Reminder was sent
+                                           $reminder->next_exc_date=$final;
+                                           $reminder->save();
+                                       }
+                                   }
+
                                }
 
+                           }
+                           if($reminder->recurrence_pattern= "Yearly")
+                           {
+
+                               if($reminder->next_exc_date !="")
+                               {
+                                   if(strtotime($reminder->next_exc_date)>= strtotime(date("Y-m-d")) && strtotime($reminder->end_date) <= strtotime(date("Y-m-d")) ) {
+
+
+                                       $emails = ReminderEmail::where('rmd_id', '=',$reminder->id)->get();
+                                       if (count($emails) > 0 && $emails != null) {
+
+                                           foreach($emails as $email)
+                                           {
+
+                                               Mail::send('emails.reminder', $data, function ($message) use ($email) {
+
+                                                   $message->from('bankmportal.reminder@bankm.com', 'Bank M  Service portal');
+                                                   $message->to($email)->subject(" Reminder for ".$this->reminder_title);
+                                                   $message->attach($this->pathToFile);
+
+                                               });
+                                           }
+                                           $time = strtotime($reminder->next_exc_date);
+                                           $final = date("Y-m-d", strtotime("+1 year", $time));
+                                           $reminder->send_status = "Yes"; //Reminder was sent
+                                           $reminder->next_exc_date = $final;
+                                           $reminder->save();
+                                       }
+
+                                   }
+                               }
+                               else
+                               {
+                                   if(strtotime($reminder->start_date)>= strtotime(date("Y-m-d")) && strtotime($reminder->end_date) <= strtotime(date("Y-m-d")) )
+                                   {
+                                       $emails = ReminderEmail::where('rmd_id', '=',$reminder->id)->get();
+                                       if (count($emails) > 0 && $emails != null) {
+
+                                           foreach($emails as $email)
+                                           {
+
+                                               Mail::send('emails.reminder', $data, function ($message) use ($email) {
+
+                                                   $message->from('bankmportal.reminder@bankm.com', 'Bank M  Service portal');
+                                                   $message->to($email)->subject(" Reminder for ".$this->reminder_title);
+                                                   $message->attach($this->pathToFile);
+
+                                               });
+                                           }
+                                           $time = strtotime($reminder->start_date);
+                                           $final = date("Y-m-d", strtotime("+1 year", $time));
+                                           $reminder->send_status="Yes"; //Reminder was sent
+                                           $reminder->next_exc_date=$final;
+                                           $reminder->save();
+                                       }
+                                   }
+
+                               }
 
                            }
+                           if($reminder->recurrence_pattern= "Weekly")
+                           {
+
+                               if($reminder->next_exc_date !="")
+                               {
+                                   if(strtotime($reminder->next_exc_date)>= strtotime(date("Y-m-d")) && strtotime($reminder->end_date) <= strtotime(date("Y-m-d")) ) {
+
+
+                                       $emails = ReminderEmail::where('rmd_id', '=',$reminder->id)->get();
+                                       if (count($emails) > 0 && $emails != null) {
+
+                                           foreach($emails as $email)
+                                           {
+
+                                               Mail::send('emails.reminder', $data, function ($message) use ($email) {
+
+                                                   $message->from('bankmportal.reminder@bankm.com', 'Bank M  Service portal');
+                                                   $message->to($email)->subject(" Reminder for ".$this->reminder_title);
+                                                   $message->attach($this->pathToFile);
+
+                                               });
+                                           }
+                                           $time = strtotime($reminder->next_exc_date);
+                                           $final = date("Y-m-d", strtotime("+1 week", $time));
+                                           $reminder->send_status = "Yes"; //Reminder was sent
+                                           $reminder->next_exc_date = $final;
+                                           $reminder->save();
+                                       }
+
+                                   }
+                               }
+                               else
+                               {
+                                   if(strtotime($reminder->start_date)>= strtotime(date("Y-m-d")) && strtotime($reminder->end_date) <= strtotime(date("Y-m-d")) )
+                                   {
+                                       $emails = ReminderEmail::where('rmd_id', '=',$reminder->id)->get();
+                                       if (count($emails) > 0 && $emails != null) {
+
+                                           foreach($emails as $email)
+                                           {
+
+                                               Mail::send('emails.reminder', $data, function ($message) use ($email) {
+
+                                                   $message->from('bankmportal.reminder@bankm.com', 'Bank M  Service portal');
+                                                   $message->to($email)->subject(" Reminder for ".$this->reminder_title);
+                                                   $message->attach($this->pathToFile);
+
+                                               });
+                                           }
+                                           $time = strtotime($reminder->start_date);
+                                           $final = date("Y-m-d", strtotime("+1 week", $time));
+                                           $reminder->send_status="Yes"; //Reminder was sent
+                                           $reminder->next_exc_date=$final;
+                                           $reminder->save();
+                                       }
+                                   }
+
+                               }
+
+                           }
+
+
                        }
                     }
+                }
+                else
+                {
+                    $reminders= Reminder::where("status",'=','Enabled')->where("send_status",'=','No')->get();
+                    foreach($reminders as $reminder)
+                    {
+                        $reminder->send_status="Yes"; //Reminder was sent
+                        $reminder->save();
+                    }
+
                 }
             }
         }

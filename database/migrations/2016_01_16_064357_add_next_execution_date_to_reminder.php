@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFieldsToReminder extends Migration
+class AddNextExecutionDateToReminder extends Migration
 {
     /**
      * Run the migrations.
@@ -15,10 +15,8 @@ class AddFieldsToReminder extends Migration
         //
         Schema::table('reminders', function(Blueprint $table)
         {
-            $table->string('notify_before')->nullable()->default('No')->add();
-            $table->string('rm_access')->nullable()->add();
-            $table->integer('user_id')->nullable()->add();
-            $table->string('send_status',3)->nullable()->default('No')->add();
+            $table->date('next_exc_date')->nullable()->add();
+
         });
     }
 
