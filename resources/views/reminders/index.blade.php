@@ -253,11 +253,11 @@
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,9)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
-                <a href="javascript:;"  class="active">
+                <a href="javascript:;"  >
                     <i class="fa fa-money"></i><span>Treasury</span>
                 </a>
                 <ul class="sub">
-                    <li  class="active"><a  href="{{url('forex/dealslip')}}" title="Money Msafiri System">Forex Deal Slip</a></li>
+                    <li  ><a  href="{{url('forex/dealslip')}}" title="Money Msafiri System">Forex Deal Slip</a></li>
                 </ul>
             </li>
         @endif
@@ -324,13 +324,13 @@
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,16)  || Auth::user()->user_type=="Administrator")
              <li class="sub-menu">
-                <a href="javascript:;">
+                <a href="javascript:;" class="active">
                     <i class="fa fa-bell"></i>
                     <span>Reminder</span>
                 </a>
                 <ul class="sub">
                     <li><a  href="{{url('reminders/create')}}" title="Create Reminder">Create Reminder</a></li>
-                    <li><a  href="{{url('reminders')}}" title="Reminder List">Reminder List</a></li>
+                    <li class="active"><a  href="{{url('reminders')}}" title="Reminder List">Reminder List</a></li>
 
                 </ul>
             </li>
