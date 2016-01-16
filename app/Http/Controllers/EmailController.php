@@ -108,9 +108,8 @@ class EmailController extends Controller
         //
         try
         {
-
             $job = (new ServiceMonitoring())->delay(10);
-            $this->dispatch($job);
+           $this->dispatch($job);
 
             $job1 = (new ServiceOracle())->delay(10);
             $this->dispatch($job1);
@@ -120,8 +119,10 @@ class EmailController extends Controller
 
             $job3 = (new unAssignedQueryReminder())->delay(10);
             $this->dispatch($job3);
+
             $job4 = (new SendRemainderEmail())->delay(10);
             $this->dispatch($job4);
+
            // $job4 = (new SDDaily())->delay(10);
            // $this->dispatch($job4);
 
@@ -143,6 +144,7 @@ class EmailController extends Controller
 
             $job3 = (new unAssignedQueryReminder())->delay(10);
             $this->dispatch($job3);
+
             $job4 = (new SendRemainderEmail())->delay(10);
             $this->dispatch($job4);
 

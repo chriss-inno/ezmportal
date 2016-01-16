@@ -314,7 +314,7 @@
                             </header>
                             <div class="panel-body">
                                 {!! Form::open(array('url'=>'servicedelivery/report/custom','role'=>'form','id'=>'querySearchForm')) !!}
-                                    <div class="row">
+                                <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <fieldset class="scheduler-border">
                                             <legend class="scheduler-border" style="color:#005DAD">Search criteria</legend>
@@ -330,52 +330,88 @@
                                                         </div>
                                                     </div>
                                                 @endif
-                                                <div class="row">
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                        <label for="department_id">Department Responsible</label>
-                                                        <select name="department_id" class="form-control" id="department_id">
-                                                            <option selected value="">---</option>
-                                                            <?php $depatments=\App\Department::all();?>
-                                                            @foreach($depatments as $rc)
-                                                                <option value="{{$rc->department_name}}">{{$rc->department_name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                        <label for="status_id">Status</label>
-                                                        <select name="status_id" class="form-control" id="status_id">
-                                                            <option selected value="">---</option>
-                                                            <?php $sdstatus=\App\SDStatus::all();?>
-                                                            @foreach($sdstatus as $rc)
-                                                                <option value="{{$rc->id}}">{{$rc->status_name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                            <label for="department_id">Department Responsible</label>
+                                                            <select name="department_id" class="form-control" id="department_id">
+                                                                <option selected value="">---</option>
+                                                                <?php $depatments=\App\Department::all();?>
+                                                                @foreach($depatments as $rc)
+                                                                    <option value="{{$rc->department_name}}">{{$rc->department_name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                            <label for="status_id">Status</label>
+                                                            <select name="status_id" class="form-control" id="status_id">
+                                                                <option selected value="">---</option>
+                                                                <?php $sdstatus=\App\SDStatus::orderby('status_name','ASC')->get();?>
+                                                                @foreach($sdstatus as $rc)
+                                                                    <option value="{{$rc->id}}">{{$rc->status_name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
 
+                                                    </div>
                                                 </div>
-                                            </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                            <label for="product_type">Product Type</label>
+                                                            <select name="product_type" class="form-control" id="product_type">
+                                                                <option selected value="">---</option>
+                                                                <?php $prodtyp=\App\SDProduct::orderby('product_type','ASC')->get();?>
+                                                                @foreach($prodtyp as $rc)
+                                                                    <option value="{{$rc->id}}">{{$rc->product_type}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                            <label for="receipt_mode">Receipt Mode</label>
+                                                            <select name="receipt_mode" class="form-control" id="receipt_mode">
+                                                                <option selected value="">---</option>
+                                                                <?php $recmod=\App\SDReceiptMode::orderby('mode_name','ASC')->get();?>
+                                                                @foreach($recmod as $rc)
+                                                                    <option value="{{$rc->id}}">{{$rc->mode_name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                            <label for="reference_number">Reference Number</label>
+                                                        </div>
+                                                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                                            <input type="text" class="form-control" id="reference_number" name="reference_number">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         </fieldset>
                                         <fieldset class="scheduler-border">
                                             <legend class="scheduler-border" style="color:#005DAD">Date range</legend>
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                               <label for="start_time">Date From</label>
-                                                                <div data-date-viewmode="years" data-date-format="yyyy-mm-dd" data-date="{{date("Y-m-d")}}" class="input-append date dpYears">
-                                                                    <input type="text" readonly="" value="" size="16" class="form-control" id="start_time" name="start_time">
+                                                        <label for="start_time">Date From</label>
+                                                        <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="{{date("d-m-Y")}}" class="input-append date dpYears">
+                                                            <input type="text" readonly="" value="" size="16" class="form-control" id="start_time" name="start_time">
                                                                       <span class="input-group-btn add-on">
                                                                         <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
                                                                       </span>
-                                                                </div>
+                                                        </div>
                                                     </div>
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
-                                                               <label for="end_time">Date To</label>
-                                                                <div data-date-viewmode="years" data-date-format="yyyy-mm-dd" data-date="{{date("Y-m-d")}}" class="input-append date dpYears">
-                                                                    <input type="text" readonly="" value="" size="16" class="form-control" id="end_time" name="end_time">
+                                                        <label for="end_time">Date To</label>
+                                                        <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="{{date("d-m-Y")}}" class="input-append date dpYears">
+                                                            <input type="text" readonly="" value="" size="16" class="form-control" id="end_time" name="end_time">
                                                                       <span class="input-group-btn add-on">
                                                                         <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
                                                                       </span>
-                                                                </div>
+                                                        </div>
                                                     </div>
 
                                                 </div>
@@ -383,7 +419,7 @@
                                             <div class="form-group">
                                                 <div class="row" style="margin-top: 20px">
                                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-lg-offset-4 col-md-offset-4 col-sm-offset-4 col-xs-offset-4">
-                                                        <button class="btn btn-primary btn-block" > <i class="fa fa-download"></i> Generate Report</button>
+                                                        <button class="btn btn-primary btn-block" > Search <i class="fa fa-search"> </i> </button>
                                                     </div>
                                                 </div>
                                             </div>

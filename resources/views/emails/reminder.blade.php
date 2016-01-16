@@ -1,24 +1,22 @@
 <html>
-  <title>Bank M Service portal Reminder</title>
-  <head></head>
-<body>
-  <table width="80%">
-      <thead>
-      <tr>
-          <th bgcolor="005DAD" style="color: #FFFFFF" allign="center" colspan="2">{{$reminder->rm_title}}</th>
-      </tr>
-      </thead>
-       <tbody>
-         <tr>
-             <td>{{$reminder->start_date}}</td>
-             <td>{{$reminder->description}}</td>
-         </tr>
-       </tbody>
-      <tfoot>
-          <tr>
-              <th bgcolor="005DAD" style="color: #FFFFFF" colspan="2"></th>
-          </tr>
-      </tfoot>
-  </table>
-</body>
-</html>
+    <head>
+        <title>Bank M Service portal Reminder</title>
+    </head>
+    <body>
+    <div style="border:#366 solid thin">
+        <div style="background-color:#005DAD;padding:5px;color:#fff">Title:{{$reminder->rm_title}}</div>
+        <table style="color:#000" cellpadding="10px">
+            <tr>
+                <td>Description</td>
+                <td>{{$reminder->description}}</td>
+            </tr>
+            <tr>
+                <td>Instruction Date</td>
+                <td>{{date("d-M-Y",strtotime($reminder->start_date))}}</td>
+            </tr>
+        </table>
+        <div style="background-color:#005DAD;padding:5px;color:#fff">Reminder Notification:-Do not reply this email</div>
+    </div>
+
+    </body>
+    </html>

@@ -422,14 +422,14 @@
                                                 <select name="recurrence_pattern" class="form-control" required>
 
                                                     @if(old('recurrence_pattern') != "")
-                                                        <option value="{{old('recurrence_pattern')}}" selected>{{old('recurrence_pattern')}}</option>
+                                                        <option value="{{old('recurrence_pattern')}}">{{old('recurrence_pattern')}}</option>
                                                     @elseif($reminder->recurrence_pattern !="")
                                                         <option value="{{$reminder->recurrence_pattern}}">{{$reminder->recurrence_pattern}}</option>
                                                         @else
                                                         <option value="">----</option>
                                                     @endif
                                                     <option value="Daily">Daily</option>
-                                                    <option value="Daily">Weekly</option>
+                                                    <option value="Weekly">Weekly</option>
                                                     <option value="Monthly">Monthly</option>
                                                     <option value="Yearly">Yearly</option>
                                                 </select>

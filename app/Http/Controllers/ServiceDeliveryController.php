@@ -190,6 +190,7 @@ class ServiceDeliveryController extends Controller
     //Post custom report
     public function postCustomReports(Request $request)
     {
+
         try {
             $start_time = date("Y-m-d", strtotime($request->start_time));
             $end_time = date("Y-m-d", strtotime($request->end_time));
@@ -199,54 +200,86 @@ class ServiceDeliveryController extends Controller
             $issues="";
 
             $range = [$start_time, $end_time];
-           if($request->start_time =="" && $request->end_time =="" && $request->department_id =="" && $request->status_id =="" )
-           {
-               return redirect()->back()->with('error',"Please select search criteria");
-           }
-            elseif(($request->department_id =="" && $request->status_id =="") && ($request->start_time !="" && $request->end_time !=""))
+
+            if($request->start_time =="" && $request->end_time =="" && $request->department_id =="" && $request->status_id =="" && $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number ==""  )
+            {
+                return redirect()->back()->with('error',"Please select search criteria");
+            }
+            elseif(($request->department_id =="" && $request->status_id =="") && ($request->start_time !="" && $request->end_time !="" && $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number =="" ))
             {
                 $issues = CustomerIssues::whereBetween('date_created', $range)->get();
             }
-           elseif($request->department_id =="" && $request->status_id !="" && $request->start_time !="" && $request->end_time !="")
+            elseif($request->department_id =="" && $request->status_id !="" && $request->start_time !="" && $request->end_time !="" && $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number =="" )
             {
                 $issues = CustomerIssues::whereBetween('date_created', $range)
                     ->where('status_id', '=', $status_id)->get();
             }
-           elseif($request->department_id !="" && $request->status_id =="" && $request->start_time !="" && $request->end_time !="")
-           {
-               $issues = CustomerIssues::whereBetween('date_created', $range)
-                   ->where('department_id', '=', $department_id)->get();
-           }
-           elseif($request->department_id !="" && $request->status_id =="" && $request->start_time =="" && $request->end_time =="")
-           {
-               $issues = CustomerIssues::where('department_id', '=', $department_id)->get();
+            elseif($request->department_id !="" && $request->status_id =="" && $request->start_time !="" && $request->end_time !="" && $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number =="" )
+            {
+                $issues = CustomerIssues::whereBetween('date_created', $range)
+                    ->where('department_id', '=', $department_id)->get();
+            }
+            elseif($request->department_id !="" && $request->status_id =="" && $request->start_time =="" && $request->end_time =="" && $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number =="" )
+            {
+                $issues = CustomerIssues::where('department_id', '=', $department_id)->get();
 
-           }
-           elseif($request->department_id =="" && $request->status_id !="" && $request->start_time =="" && $request->end_time =="")
-           {
-               $issues = CustomerIssues::where('status_id', '=', $status_id)->get();
+            }
+            elseif($request->department_id =="" && $request->status_id !="" && $request->start_time =="" && $request->end_time =="" && $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number =="" )
+            {
+                $issues = CustomerIssues::where('status_id', '=', $status_id)->get();
 
-           }
-           elseif($request->department_id !="" && $request->status_id !="" && $request->start_time !="" && $request->end_time !="")
-           {
-               $issues = CustomerIssues::whereBetween('date_created', $range)
-                   ->where('department_id', '=', $department_id)
-                   ->where('status_id', '=', $status_id)->get();
+            }
+            elseif($request->department_id !="" && $request->status_id !="" && $request->start_time !="" && $request->end_time !="" && $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number =="" )
+            {
+                $issues = CustomerIssues::whereBetween('date_created', $range)
+                    ->where('department_id', '=', $department_id)
+                    ->where('status_id', '=', $status_id)->get();
 
-           }
+            }
+            elseif( ($request->start_time =="" && $request->end_time =="") &&  $request->department_id =="" && $request->status_id =="" &&  $request->product_type =="" && $request->receipt_mode =="" && $request->reference_number !="" )
+            {
+                $issues = CustomerIssues::where('issues_number', $request->reference_number)->get();
+            }
+            elseif( $request->start_time =="" && $request->end_time =="" &&  $request->department_id =="" && $request->status_id =="" &&  $request->product_type !="" && $request->receipt_mode =="" && $request->reference_number =="" )
+            {
+                $issues = CustomerIssues::where('product_id', $request->product_type)->get();
+            }
+            elseif( $request->start_time =="" && $request->end_time =="" &&  $request->department_id =="" && $request->status_id =="" &&  $request->product_type =="" && $request->receipt_mode !="" && $request->reference_number =="" )
+            {
+                $issues = CustomerIssues::where('mode_id', $request->receipt_mode)->get();
+            }
+            elseif( ($request->start_time !="" && $request->end_time !="") &&  $request->department_id !="" && $request->status_id !="" &&  $request->product_type !="" && $request->receipt_mode !="" && $request->reference_number !="" )
+            {
+                $issues = CustomerIssues::where('mode_id', $request->receipt_mode)
+                    ->where('department_id', '=', $department_id)
+                    ->where('product_id', $request->product_type)
+                    ->where('date_created', $range)
+                    ->where('issues_number', $request->reference_number)
+                    ->where('status_id', '=', $status_id)->get();
+            }
+            elseif( ($request->start_time !="" && $request->end_time !="") ||  $request->department_id !="" || $request->status_id !="" ||  $request->product_type !="" || $request->receipt_mode !="" || $request->reference_number !="" )
+            {
+                $issues = CustomerIssues::where('mode_id', $request->receipt_mode)
+                    ->orwhere('department_id', '=', $department_id)
+                    ->orwhere('product_id', $request->product_type)
+                    ->orwhereBetween('date_created', $range)
+                    ->orwhere('issues_number', $request->reference_number)
+                    ->orwhere('status_id', '=', $status_id)->get();
+            }
 
-           if($issues !="")
-           {
 
-               Excel::create("Issues_custom_report", function ($excel) use ($issues) {
+            if($issues !="")
+            {
 
-                   $excel->sheet('sheet', function ($sheet) use ($issues) {
-                       $sheet->loadView('excels.csdreport')->with('issues', $issues);
+                Excel::create("Issues_custom_report", function ($excel) use ($issues) {
 
-                   });
+                    $excel->sheet('sheet', function ($sheet) use ($issues) {
+                        $sheet->loadView('excels.csdreport')->with('issues', $issues);
 
-               })->download('xlsx');
-           }
+                    });
+
+                })->download('xlsx');
+            }
             else
             {
                 return redirect()->back()->with('error',"Please select search criteria");
@@ -257,7 +290,6 @@ class ServiceDeliveryController extends Controller
         {
             return redirect()->back()->with('error',$ex->getMessage());
         }
-
     }
 
 
