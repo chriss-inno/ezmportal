@@ -361,7 +361,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                                <label for="start_time">Date From</label>
-                                                                <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="{{date("d-m-Y")}}" class="input-append date dpYears">
+                                                                <div data-date-viewmode="years" data-date-format="yyyy-mm-dd" data-date="{{date("Y-m-d")}}" class="input-append date dpYears">
                                                                     <input type="text" readonly="" value="" size="16" class="form-control" id="start_time" name="start_time">
                                                                       <span class="input-group-btn add-on">
                                                                         <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
@@ -370,7 +370,7 @@
                                                     </div>
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
                                                                <label for="end_time">Date To</label>
-                                                                <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="{{date("d-m-Y")}}" class="input-append date dpYears">
+                                                                <div data-date-viewmode="years" data-date-format="yyyy-mm-dd" data-date="{{date("Y-m-d")}}" class="input-append date dpYears">
                                                                     <input type="text" readonly="" value="" size="16" class="form-control" id="end_time" name="end_time">
                                                                       <span class="input-group-btn add-on">
                                                                         <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>

@@ -725,9 +725,13 @@ class ServiceDeliveryController extends Controller
                     if(strtolower($issue->status->status_name) =="resolved")
                     {
                         $issue->closed="Yes";
-                        if(date("Y-m-d H:i", strtotime(date("Y-m-d", strtotime($row->resolved_date)) . " " . date("H:i", strtotime($row->resolved_time)))) ==date("Y-m-d")." 03:00")
+                        if($row->resolved_date =='0000-00-00')
                         {
-
+                            $issue->date_resolved=date("Y-m-d H:i",strtotime(date("Y-m-d",strtotime($row->reported_date))." ". date("H:i",strtotime($row->reported_time))));
+                        }
+                        elseif(date("Y-m-d H:i", strtotime(date("Y-m-d", strtotime($row->resolved_date)) . " " . date("H:i", strtotime($row->resolved_time)))) ==date("Y-m-d")." 03:00")
+                        {
+                            $issue->date_resolved=date("Y-m-d H:i",strtotime(date("Y-m-d",strtotime($row->reported_date))." ". date("H:i",strtotime($row->reported_time))));
                         }
                         else
                         {
