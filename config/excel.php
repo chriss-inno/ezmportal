@@ -66,7 +66,7 @@ return array(
         'keywords'       => 'maatwebsite, excel, export',
         'category'       => 'Excel',
         'manager'        => 'Bank M Portal',
-        'company'        => 'Bank M Portal',
+        'company'        => 'Bank M Tanzania PLC ',
     ),
 
     /*

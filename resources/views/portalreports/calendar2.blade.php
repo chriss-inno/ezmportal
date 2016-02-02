@@ -87,69 +87,69 @@
 
                 },
                 <?php //Process calendar
-                     //Get year to start with
-                       $events="";
-                      $eventslist="";
+                        //Get year to start with
+                        $events="";
+                        $eventslist="";
 
 
-                       //Minimum year makes to be 2007
-                       $y=date("Y"); //Current year
-                       $start_date="2014-01-01";
-                       $end_date="2015-10-31";
+                        //Minimum year makes to be 2007
+                        $y=date("Y"); //Current year
+                        $start_date="2014-01-01";
+                        $end_date="2015-10-31";
 
-                       $setting=\App\ReportSetup::all()->first();
-                       if($setting !=null && $setting !="")
-                       {
+                        $setting=\App\ReportSetup::all()->first();
+                        if($setting !=null && $setting !="")
+                        {
                             $start_date=$setting->archive_start_date;
                             $end_date=$setting->archive_end_date;
-                       }
-                       for($yc=$y; $yc >= date("Y",strtotime($start_date)) ; $yc--)
-                       {
+                        }
+                        for($yc=$y; $yc >= date("Y",strtotime($start_date)) ; $yc--)
+                        {
 
-                               for($m=0; $m <12; $m++)
+                            for($m=0; $m <12; $m++)
+                            {
+
+
+                                if(($yc >=date("Y",strtotime($end_date)) && $m >=(date("n",strtotime($end_date)))) || ($yc >date("Y",strtotime($end_date))) ) // separation day for achieve and new reports
                                 {
-
-
-                                    if(($yc >=date("Y",strtotime($end_date)) && $m >=(date("n",strtotime($end_date)))) || ($yc >date("Y",strtotime($end_date))) ) // separation day for achieve and new reports
+                                    $number = cal_days_in_month(CAL_GREGORIAN, ($m+1), $yc);
+                                    for($i=1; $i <=$number; $i++)
                                     {
-                                      $number = cal_days_in_month(CAL_GREGORIAN, ($m+1), $yc);
-                                       for($i=1; $i <=$number; $i++)
-                                        {
-                                          $dateTd=$yc."-".($m+1)."-".$i;
-                                          $dt=date("m",strtotime($dateTd));
-                                          $events .="{";
-                                          $events .="title: 'View reports',
+                                        $dateTd=$yc."-".($m+1)."-".$i;
+                                        $dt=date("m",strtotime($dateTd));
+                                        $events .="{";
+                                        $events .="title: 'View reports',
                                                 start: new Date(". $yc.", ".$m.", ".$i."),
                                                 end: new Date(". $yc.", ".$m.", ".$i."),
                                                 url: '".url('dailyreports')."/".$yc."/".$dt."/".$i."'";
-                                           $events .="},";
-                                        }
+                                        $events .="},";
                                     }
-                                    else
+                                }
+                                else
+                                {
+                                    $number = cal_days_in_month(CAL_GREGORIAN, ($m+1), $yc);
+                                    for($i=1; $i <=$number; $i++)
                                     {
-                                       $number = cal_days_in_month(CAL_GREGORIAN, ($m+1), $yc);
-                                       for($i=1; $i <=$number; $i++)
-                                        {
-                                          $dateTd=$yc."-".($m+1)."-".$i;
-                                          $dt=date("m",strtotime($dateTd));
-                                          $events .="{";
-                                          $events .="title: 'View reports',
+                                        $dateTd=$yc."-".($m+1)."-".$i;
+                                        $dt=date("m",strtotime($dateTd));
+                                        $events .="{";
+                                        $events .="title: 'View reports',
                                                 start: new Date(". $yc.", ".$m.", ".$i."),
                                                 end: new Date(". $yc.", ".$m.", ".$i."),
                                                 url: '".url('archivedreports')."/".$yc."/".$dt."/".$i."'";
-                                           $events .="},";
-                                        }
+                                        $events .="},";
                                     }
                                 }
+                            }
 
-                       }
+                        }
 
 
 
 
-                    $eventslist =substr($events,0,strlen($events)-1);
+                        $eventslist =substr($events,0,strlen($events)-1);
 
-                ?>
+                        ?>
                 events: [
                     <?php echo $eventslist;?>
                 ]
@@ -365,18 +365,18 @@
                 </ul>
             </li>@endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,23)  || Auth::user()->user_type=="Administrator")<li class="sub-menu">
-                <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
-                    <span>SMS To Customers</span>
-                </a>
-                <ul class="sub">
-                    <li><a  href="{{url('sms/messages')}}" title="Messages">Messages</a></li>
-                    <li   ><a  href="{{url('sms/customers')}}" title="Customers">Customers</a></li>
-                    <li><a  href="{{url('sms/dispatch')}}" title="Dispatch Group">Dispatch Group</a></li>
-                    <li><a  href="{{url('sms/reports')}}" title="SMS Reports">Report</a></li>
+            <a href="javascript:;">
+                <i class="fa fa-laptop"></i>
+                <span>SMS To Customers</span>
+            </a>
+            <ul class="sub">
+                <li><a  href="{{url('sms/messages')}}" title="Messages">Messages</a></li>
+                <li   ><a  href="{{url('sms/customers')}}" title="Customers">Customers</a></li>
+                <li><a  href="{{url('sms/dispatch')}}" title="Dispatch Group">Dispatch Group</a></li>
+                <li><a  href="{{url('sms/reports')}}" title="SMS Reports">Report</a></li>
 
-                </ul>
-            </li>
+            </ul>
+        </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,7)  || Auth::user()->user_type=="Administrator")
             <li class="sub-menu">
@@ -477,7 +477,7 @@
             </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,16)  || Auth::user()->user_type=="Administrator")
-             <li class="sub-menu">
+            <li class="sub-menu">
                 <a href="javascript:;">
                     <i class="fa fa-bell"></i>
                     <span>Reminder</span>
@@ -577,6 +577,20 @@
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 <h3 class="text-info"> <strong><i class="fa  fa-pie-chart"></i> <i class="fa  fa-calendar"></i>  Portal Daily Reports </strong></h3>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-right">
+                                <div class="row">
+                                    <div class="btn btn-primary col-lg-2 col-md-2 col-sm-2 col-xs-4">Quick Access</div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <select class="form-control" name="q_report">
+                                            <option>--Report name--</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <input class="form-control datepicker ">
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><input class="btn btn-danger btn-block" value=" Go"></div>
+                                </div>
                             </div>
                         </div>
                     </header>

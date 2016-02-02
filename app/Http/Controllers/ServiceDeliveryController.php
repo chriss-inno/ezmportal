@@ -156,7 +156,24 @@ class ServiceDeliveryController extends Controller
 
             $excel->sheet('sheet', function ($sheet) use ($issues) {
                 $sheet->loadView('excels.msdreport')->with('issues', $issues);
+                $sheet->setWidth(array(
+                    'A'     =>  10,
+                    'B'     =>  25,
+                    'C'     =>  20,
+                    'D'     =>  20,
+                    'E'     =>  20,
+                    'F'     =>  20,
+                    'G'     =>  50,
+                    'H'     =>  50,
+                    'I'     =>  30,
+                    'J'     =>  50,
+                    'K'     =>  20,
+                    'L'     =>  10,
+                    'M'     =>  20
 
+                ));
+                $sheet->getDefaultStyle()->getAlignment()->setWrapText(true);
+                $sheet->setAutoFilter('E2:F2');
 
             });
 
@@ -174,6 +191,24 @@ class ServiceDeliveryController extends Controller
 
             $excel->sheet('sheet', function ($sheet) use ($issues) {
                 $sheet->loadView('excels.dsdreport')->with('issues', $issues);
+                $sheet->setWidth(array(
+                    'A'     =>  10,
+                    'B'     =>  25,
+                    'C'     =>  20,
+                    'D'     =>  20,
+                    'E'     =>  20,
+                    'F'     =>  20,
+                    'G'     =>  50,
+                    'H'     =>  50,
+                    'I'     =>  30,
+                    'J'     =>  50,
+                    'K'     =>  20,
+                    'L'     =>  10,
+                    'M'     =>  20
+
+                ));
+                $sheet->getDefaultStyle()->getAlignment()->setWrapText(true);
+                $sheet->setAutoFilter('E2:F2');
 
             });
 
@@ -275,6 +310,24 @@ class ServiceDeliveryController extends Controller
 
                     $excel->sheet('sheet', function ($sheet) use ($issues) {
                         $sheet->loadView('excels.csdreport')->with('issues', $issues);
+                        $sheet->setWidth(array(
+                            'A'     =>  10,
+                            'B'     =>  25,
+                            'C'     =>  20,
+                            'D'     =>  20,
+                            'E'     =>  20,
+                            'F'     =>  20,
+                            'G'     =>  50,
+                            'H'     =>  50,
+                            'I'     =>  30,
+                            'J'     =>  50,
+                            'K'     =>  20,
+                            'L'     =>  10,
+                            'M'     =>  20
+
+                        ));
+                        $sheet->getDefaultStyle()->getAlignment()->setWrapText(true);
+                        $sheet->setAutoFilter('E2:F2');
 
                     });
 

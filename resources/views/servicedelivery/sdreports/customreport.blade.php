@@ -318,7 +318,6 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <fieldset class="scheduler-border">
                                             <legend class="scheduler-border" style="color:#005DAD">Search criteria</legend>
-                                            <div class="form-group">
 
                                                 @if(Session::has('error'))
                                                     <div class="row">
@@ -398,7 +397,7 @@
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                         <label for="start_time">Date From</label>
                                                         <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="{{date("d-m-Y")}}" class="input-append date dpYears">
-                                                            <input type="text" readonly="" value="" size="16" class="form-control" id="start_time" name="start_time">
+                                                            <input type="text"  value="" size="16" class="form-control" id="start_time" name="start_time">
                                                                       <span class="input-group-btn add-on">
                                                                         <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
                                                                       </span>
@@ -407,7 +406,7 @@
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
                                                         <label for="end_time">Date To</label>
                                                         <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="{{date("d-m-Y")}}" class="input-append date dpYears">
-                                                            <input type="text" readonly="" value="" size="16" class="form-control" id="end_time" name="end_time">
+                                                            <input type="text"  value="" size="16" class="form-control" id="end_time" name="end_time">
                                                                       <span class="input-group-btn add-on">
                                                                         <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
                                                                       </span>
@@ -419,7 +418,7 @@
                                             <div class="form-group">
                                                 <div class="row" style="margin-top: 20px">
                                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-lg-offset-4 col-md-offset-4 col-sm-offset-4 col-xs-offset-4">
-                                                        <button class="btn btn-primary btn-block" > Search <i class="fa fa-search"> </i> </button>
+                                                        <button class="btn btn-primary btn-block" ><i class="fa fa-download"> </i> Download </button>
                                                     </div>
                                                 </div>
                                             </div>

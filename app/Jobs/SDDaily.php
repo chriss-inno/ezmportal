@@ -63,6 +63,24 @@ class SDDaily extends Job implements SelfHandling, ShouldQueue
 
                             $excel->sheet('sheet', function($sheet) use($issues){
                                 $sheet->loadView('excels.sd')->with('issues', $issues);
+                                $sheet->setWidth(array(
+                                    'A'     =>  10,
+                                    'B'     =>  25,
+                                    'C'     =>  20,
+                                    'D'     =>  20,
+                                    'E'     =>  20,
+                                    'F'     =>  20,
+                                    'G'     =>  50,
+                                    'H'     =>  50,
+                                    'I'     =>  30,
+                                    'J'     =>  50,
+                                    'K'     =>  20,
+                                    'L'     =>  10,
+                                    'M'     =>  20
+
+                                ));
+                                $sheet->getDefaultStyle()->getAlignment()->setWrapText(true);
+                                $sheet->setAutoFilter('E2:F2');
 
                             });
 

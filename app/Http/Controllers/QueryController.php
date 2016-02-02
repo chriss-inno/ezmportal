@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomerIssues;
 use App\Jobs\QueryLaunchedEmail;
 use App\Jobs\QueryProgressEmail;
 use App\Jobs\QueryAssignmentEmail;
@@ -26,6 +27,38 @@ class QueryController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function getReportExcel()
+    {
+        $issues = CustomerIssues::all();
+        Excel::create("Issues_custom_report", function ($excel) use ($issues) {
+
+            $excel->sheet('sheet', function ($sheet) use ($issues) {
+                $sheet->loadView('excels.csdreport')->with('issues', $issues);
+                $sheet->setWidth(array(
+                    'A'     =>  10,
+                    'B'     =>  20,
+                    'C'     =>  20,
+                    'D'     =>  20,
+                    'E'     =>  20,
+                    'F'     =>  20,
+                    'G'     =>  10,
+                    'H'     =>  50,
+                    'I'     =>  30,
+                    'J'     =>  50,
+                    'K'     =>  20,
+                    'L'     =>  20,
+                    'M'     =>  20
+
+                ));
+                $sheet->getDefaultStyle()->getAlignment()->setWrapText(true);
+                $sheet->setAutoFilter('E1:F1');
+
+            });
+
+        })->download('xls');
+
     }
 
     /**

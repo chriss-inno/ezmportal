@@ -345,6 +345,7 @@ Route::get('queries/report/daily',['middleware' => 'auth', 'uses' =>'QueryContro
 Route::get('queries/report/custom',['middleware' => 'auth', 'uses' =>'QueryController@showCustomReport']);
 Route::post('queries/report/custom',['middleware' => 'auth', 'uses' =>'QueryController@postCustomReport']);
 
+Route::get('queries/report/excel',['middleware' => 'auth', 'uses' =>'QueryController@getReportExcel']);
 
 //Query attachment download
 Route::get('queries/download/{id}',['middleware' => 'auth', 'uses' =>'QueryController@downloadAttachment']);
