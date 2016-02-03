@@ -9,6 +9,7 @@ return array(
     'AddAssignedByToqueries' => $baseDir . '/database/migrations/2015_11_06_193007_add_assigned_by_toqueries.php',
     'AddAssignedTime' => $baseDir . '/database/migrations/2015_10_02_072848_add_assigned_time.php',
     'AddAuditOnsyssetup' => $baseDir . '/database/migrations/2015_11_04_160718_add_audit_onsyssetup.php',
+    'AddCheckForSDDailyMailsent' => $baseDir . '/database/migrations/2016_02_03_185056_add_check_for_SD_daily_mailsent.php',
     'AddCompanyIdIncustomerissues' => $baseDir . '/database/migrations/2015_11_20_065155_Add_company_id_incustomerissues.php',
     'AddCreateDateCustomerissues' => $baseDir . '/database/migrations/2015_11_01_210126_add_create_date_customerissues.php',
     'AddDailyqueryCheckSystemsetup' => $baseDir . '/database/migrations/2015_11_04_110949_add_dailyquery_check_systemsetup.php',

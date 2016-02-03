@@ -53,78 +53,102 @@ class SDDaily extends Job implements SelfHandling, ShouldQueue
                 $sys=SystemSetup::all()->first();
                 if(date("H:i") >= date("H:i",strtotime( $sysSet->automation_start_tm)) && date("H:i") <= date("H:i",strtotime( $sysSet->automation_end_tm)))
                 {
-                    echo "Date check ok now sending <br/>";
-
-                    $issues= CustomerIssues::where("date_created",'=',date("Y-m-d"))->orwhere("closed",'=','No')->get();
-                    if($issues != null && count($issues) > 0)
+                    echo "Date check ok now check send status <br/>";
+                    if($sysSet->sd_email_issent=="No")
                     {
-                        $sd_report="daily_customer_issues_".date('YmdHis');
-                        Excel::create($sd_report, function($excel) use($issues)  {
+                        echo "Status ok send now<br/>";
 
-                            $excel->sheet('sheet', function($sheet) use($issues){
-                                $sheet->loadView('excels.sd')->with('issues', $issues);
-                                $sheet->setWidth(array(
-                                    'A'     =>  10,
-                                    'B'     =>  25,
-                                    'C'     =>  20,
-                                    'D'     =>  25,
-                                    'E'     =>  25,
-                                    'F'     =>  20,
-                                    'G'     =>  50,
-                                    'H'     =>  25,
-                                    'I'     =>  30,
-                                    'J'     =>  25,
-                                    'K'     =>  50,
-                                    'L'     =>  50,
-                                    'M'     =>  20,
-                                    'N'     =>  50,
-                                    'O'     =>  25,
-                                    'P'     =>  25,
-                                    'Q'     =>  25,
-                                    'R'     =>  25,
-                                    'S'     =>  25,
-                                    'T'     =>  25
-
-                                ));
-                                $sheet->getDefaultStyle()->getAlignment()->setWrapText(true);
-                                //$sheet->setAutoFilter('E2:F2');
-
-                            });
-
-                        })->store('xls', storage_path('exports/excel'));
-
-                        $this->pathToFile=storage_path('exports/excel')."/".$sd_report.".xls";
-
-                        //Send email
-
-                        $data = array(
-                            'issues' => $issues
-                        );
-                        $dataemail=array();
-
-                        $emails=SDEmail::where('status','=','Active')->select('email')->get()->toArray();
-                        if(count($emails) >0 && $emails != null)
+                        $issues= CustomerIssues::where("date_created",'=',date("Y-m-d"))->orwhere("closed",'=','No')->get();
+                        if($issues != null && count($issues) > 0)
                         {
+                            $sd_report="daily_customer_issues_".date('YmdHis');
+                            Excel::create($sd_report, function($excel) use($issues)  {
 
-                            $dataemail = array_pluck($emails, 'email');
+                                $excel->sheet('sheet', function($sheet) use($issues){
+                                    $sheet->loadView('excels.sd')->with('issues', $issues);
+                                    $sheet->setWidth(array(
+                                        'A'     =>  10,
+                                        'B'     =>  25,
+                                        'C'     =>  20,
+                                        'D'     =>  25,
+                                        'E'     =>  25,
+                                        'F'     =>  20,
+                                        'G'     =>  50,
+                                        'H'     =>  25,
+                                        'I'     =>  30,
+                                        'J'     =>  25,
+                                        'K'     =>  50,
+                                        'L'     =>  50,
+                                        'M'     =>  20,
+                                        'N'     =>  50,
+                                        'O'     =>  25,
+                                        'P'     =>  25,
+                                        'Q'     =>  25,
+                                        'R'     =>  25,
+                                        'S'     =>  25,
+                                        'T'     =>  25
+
+                                    ));
+                                    $sheet->getDefaultStyle()->getAlignment()->setWrapText(true);
+                                    //$sheet->setAutoFilter('E2:F2');
+
+                                });
+
+                            })->store('xls', storage_path('exports/excel'));
+
+                            $this->pathToFile=storage_path('exports/excel')."/".$sd_report.".xls";
+
+                            //Send email
+
+                            $data = array(
+                                'issues' => $issues
+                            );
+                            $dataemail=array();
+
+                            $emails=SDEmail::where('status','=','Active')->select('email')->get()->toArray();
+                            if(count($emails) >0 && $emails != null)
+                            {
+
+                                $dataemail = array_pluck($emails, 'email');
 
 
+                            }
+
+                            if($dataemail !="")
+                            {
+
+                                \Mail::send('emails.sd', $data, function ($message) use($dataemail) {
+
+                                    $message->from('bankmportal@bankm.com', 'Bank M  Support portal');
+                                    $message->to($dataemail)->subject('DAILY LOG OF CUSTOMER ISSUES: New portal');
+                                    $message->attach($this->pathToFile);
+
+                                });
+                                //Remove generated file
+                                File::delete( $this->pathToFile);
+                            }
                         }
 
-                        if($dataemail !="")
-                        {
+                        echo "After send update status now to Yes<br/>";
+                        //Update system
+                        $sysSet->sd_email_issent="Yes";
+                        $sysSet->save();
 
-                            \Mail::send('emails.sd', $data, function ($message) use($dataemail) {
-
-                                $message->from('bankmportal@bankm.com', 'Bank M  Support portal');
-                                $message->to($dataemail)->subject('DAILY LOG OF CUSTOMER ISSUES');
-                                $message->attach($this->pathToFile);
-
-                            });
-                            //Remove generated file
-                            File::delete( $this->pathToFile);
-                        }
                     }
+                    else
+                    {
+                        //Update system
+                        $sysSet->sd_email_issent="Yes";
+                        $sysSet->save();
+                    }
+
+                }
+                else
+                {
+                    echo "Date check no update status now to No <br/>";
+                    //Update system
+                    $sysSet->sd_email_issent="Yes";
+                    $sysSet->save();
                 }
             }
         }

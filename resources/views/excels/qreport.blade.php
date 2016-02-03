@@ -6,18 +6,18 @@
 
     </tr>
     <tr>
-        <th >SNO</th>
-        <th >QUERY CODE</th>
-        <th >OPEN DATE</th>
-        <th >FROM DEPARTMENT</th>
-        <th >FROM BRANCH</th>
-        <th >TO DEPARTMENT</th>
-        <th >MODULE</th>
-        <th >DESCRIPTIONS</th>
-        <th>STATUS</th>
-        <th >CRITICALITY</th>
-        <th >CLOSED DATE</th>
-        <th >RESPONSIBLE PERSON</th>
+        <th ><strong>SNO</strong></th>
+        <th ><strong>QUERY CODE</strong></th>
+        <th ><strong>OPEN DATE</strong></th>
+        <th ><strong>FROM DEPARTMENT</strong></th>
+        <th ><strong>FROM BRANCH</strong></th>
+        <th ><strong>TO DEPARTMENT</strong></th>
+        <th ><strong>MODULE</strong></th>
+        <th ><strong>DESCRIPTIONS</strong></th>
+        <th><strong>STATUS</strong></th>
+        <th ><strong>CRITICALITY</strong></th>
+        <th ><strong>CLOSED DATE</strong></th>
+        <th ><strong>RESPONSIBLE PERSON</strong></th>
 
     </tr>
     </thead>

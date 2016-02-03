@@ -381,6 +381,30 @@ class QueryController extends Controller
 
                 $excel->sheet('sheet', function ($sheet) use ($queries) {
                     $sheet->loadView('excels.qcreport')->with('queries', $queries);
+                    $sheet->setWidth(array(
+                        'A'     =>  10,
+                        'B'     =>  20,
+                        'C'     =>  20,
+                        'D'     =>  20,
+                        'E'     =>  20,
+                        'F'     =>  20,
+                        'G'     =>  40,
+                        'H'     =>  20,
+                        'I'     =>  20,
+                        'J'     =>  20,
+                        'K'     =>  20,
+                        'L'     =>  20,
+                        'M'     =>  20,
+                        'N'     =>  20,
+                        'O'     =>  20,
+                        'P'     =>  20,
+                        'Q'     =>  20,
+                        'R'     =>  20,
+                        'S'     =>  20,
+                        'T'     =>  20
+
+                    ));
+                    $sheet->getDefaultStyle()->getAlignment()->setWrapText(true);
 
                 });
 
@@ -398,6 +422,30 @@ class QueryController extends Controller
 
                 $excel->sheet('sheet', function ($sheet) use ($queries) {
                     $sheet->loadView('excels.qcreport')->with('queries', $queries);
+                    $sheet->setWidth(array(
+                        'A'     =>  10,
+                        'B'     =>  20,
+                        'C'     =>  20,
+                        'D'     =>  20,
+                        'E'     =>  20,
+                        'F'     =>  20,
+                        'G'     =>  40,
+                        'H'     =>  20,
+                        'I'     =>  20,
+                        'J'     =>  20,
+                        'K'     =>  20,
+                        'L'     =>  20,
+                        'M'     =>  20,
+                        'N'     =>  20,
+                        'O'     =>  20,
+                        'P'     =>  20,
+                        'Q'     =>  20,
+                        'R'     =>  20,
+                        'S'     =>  20,
+                        'T'     =>  20
+
+                    ));
+                    $sheet->getDefaultStyle()->getAlignment()->setWrapText(true);
 
                 });
 

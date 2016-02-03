@@ -123,8 +123,8 @@ class EmailController extends Controller
             $job4 = (new SendRemainderEmail())->delay(10);
             $this->dispatch($job4);
 
-           // $job4 = (new SDDaily())->delay(10);
-           // $this->dispatch($job4);
+            $job4 = (new SDDaily())->delay(10);
+            $this->dispatch($job4);
 
         }catch (\Exception $ex)
         {

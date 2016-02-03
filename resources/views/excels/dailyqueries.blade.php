@@ -6,18 +6,18 @@
 
     </tr>
     <tr>
-        <th >SNO</th>
-        <th >QUERY CODE</th>
-        <th >OPEN DATE</th>
-        <th >FROM DEPARTMENT</th>
-        <th >FROM BRANCH</th>
-        <th >MODULE</th>
-        <th >DESCRIPTIONS</th>
-        <th >STATUS</th>
-        <th >CRITICALITY</th>
-        <th >CLOSED DATE</th>
-        <th >PENDING DAYS</th>
-        <th >RESPONSIBLE PERSON</th>
+        <th ><strong>SNO</strong></th>
+        <th ><strong>QUERY CODE</strong></th>
+        <th ><strong>OPEN DATE</strong></th>
+        <th ><strong>FROM DEPARTMENT</strong></th>
+        <th ><strong>FROM BRANCH</strong></th>
+        <th ><strong>MODULE</strong></th>
+        <th ><strong>DESCRIPTIONS</strong></th>
+        <th ><strong>STATUS</strong></th>
+        <th ><strong>CRITICALITY</strong></th>
+        <th ><strong>CLOSED DATE</strong></th>
+        <th ><strong>PENDING DAYS</strong></th>
+        <th ><strong>RESPONSIBLE PERSON</strong></th>
 
     </tr>
     </thead>
@@ -30,7 +30,7 @@
             <tr id="{{$qr->id}}">
                 <td>{{$c++}}</td>
                 <td>{{$qr->query_code}}</td>
-                <td>{{date("d M, Y H:i",strtotime($qr->reporting_Date))}}</td>
+                <td>{{date("d-M-Y H:i",strtotime($qr->reporting_Date))}}</td>
                 <?php $department=\App\Department::find($qr->from_department);?>
                 <td>{{$department->department_name}}</td>
                 <td>{{$department->branch->branch_Name}}</td>
@@ -40,7 +40,7 @@
                 <td>{{$qr->status}}</td>
                 <td>{{$qr->critical_level}}</td>
                 @if($qr->closed !="" && $qr->closed !=0)
-                    <td>{{date("d M, Y H:i",strtotime($qr->updated_at))}}</td>
+                    <td>{{date("d-M-Y H:i",strtotime($qr->updated_at))}}</td>
                 @else
                     <td>Not Closed</td>
                 @endif
@@ -68,7 +68,7 @@
         <tr id="{{$qr->id}}">
             <td>{{$c2++}}</td>
             <td>{{$qr->query_code}}</td>
-            <td>{{date("d M, Y H:i",strtotime($qr->reporting_Date))}}</td>
+            <td>{{date("d-M-Y H:i",strtotime($qr->reporting_Date))}}</td>
             <?php $department=\App\Department::find($qr->from_department);?>
             <td>{{$department->department_name}}</td>
             <td>{{$department->branch->branch_Name}}</td>
@@ -78,7 +78,7 @@
             <td>{{$qr->status}}</td>
             <td>{{$qr->critical_level}}</td>
             @if($qr->closed !="" && $qr->closed !=0)
-                <td>{{date("d M, Y H:i",strtotime($qr->updated_at))}}</td>
+                <td>{{date("d-M-Y H:i",strtotime($qr->updated_at))}}</td>
             @else
                 <td>Not Closed</td>
             @endif
