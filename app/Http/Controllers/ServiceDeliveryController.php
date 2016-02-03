@@ -698,159 +698,135 @@ class ServiceDeliveryController extends Controller
                 $results->each(function($row) {
                     $product_details_id="";
                    //Process customer
-                    if(!count(SDCustomer::where('company_name','=',$row->customer)->get()) > 0)
-                    {
-                        $customer= new SDCustomer;
-                        $customer->company_name=$row->customer;
-                        $customer->contact_person=$row->contact_person;
-                        $customer->input_by= Auth::user()->username;
-                        $customer->status="Enabled";
-                        $customer->save();
+                    if($row->customer !="" && $row->customer != null) {
 
-                        echo "Customer found1 <br/>";
-                    }
-                    else
-                    {
-                        $customer= SDCustomer::where('company_name','=',$row->customer)->get()->first();
-                        echo "Customer found2 <br/>";
-                    }
+                        if (!count(SDCustomer::where('company_name', '=', $row->customer)->get()) > 0) {
+                            $customer = new SDCustomer;
+                            $customer->company_name = $row->customer;
+                            $customer->contact_person = $row->contact_person;
+                            $customer->input_by = Auth::user()->username;
+                            $customer->status = "Enabled";
+                            $customer->save();
 
-                    //Process product details and product type are separeted by /
-                    if(strpos($row->product_type,"/"))
-                    {
-                       $pos= strpos($row->product_type,"/");
-                        //Get product type from left
-                        $pr_type=substr($row->product_type,0,$pos);
-                        $pr_details=substr($row->product_type,($pos+1));
-
-                        //Product details
-                        if(!count(SDProduct::where('product_type','=',$pr_type)->get()) > 0)
-                        {
-                            $product= new SDProduct;
-                            $product->product_type=$pr_type;
-                            $product->input_by=Auth::user()->username;
-                            $product->save();
-
-                            echo "SDProduct found1 <br/>";
-                        }
-                        else
-                        {
-                            $product=SDProduct::where('product_type','=',$pr_type)->get()->first();
-                            echo "SDProduct found2 <br/>";
+                            echo "Customer found1 <br/>";
+                        } else {
+                            $customer = SDCustomer::where('company_name', '=', $row->customer)->get()->first();
+                            echo "Customer found2 <br/>";
                         }
 
-                        //Product details
-                        if(!count(SDProductDetails::where('details_name','=',$pr_details)->get()) > 0)
-                        {
-                            $pdetails=new SDProductDetails;
-                            $pdetails->details_name=$pr_details;
-                            $pdetails->input_by=Auth::user()->username;
-                            $pdetails->save();
+                        //Process product details and product type are separeted by /
+                        if (strpos($row->product_type, "/")) {
+                            $pos = strpos($row->product_type, "/");
+                            //Get product type from left
+                            $pr_type = substr($row->product_type, 0, $pos);
+                            $pr_details = substr($row->product_type, ($pos + 1));
 
-                            $product_details_id=$pdetails->id;
+                            //Product details
+                            if (!count(SDProduct::where('product_type', '=', $pr_type)->get()) > 0) {
+                                $product = new SDProduct;
+                                $product->product_type = $pr_type;
+                                $product->input_by = Auth::user()->username;
+                                $product->save();
 
-                            echo "SDProductDetails found1 <br/>";
+                                echo "SDProduct found1 <br/>";
+                            } else {
+                                $product = SDProduct::where('product_type', '=', $pr_type)->get()->first();
+                                echo "SDProduct found2 <br/>";
+                            }
+
+                            //Product details
+                            if (!count(SDProductDetails::where('details_name', '=', $pr_details)->get()) > 0) {
+                                $pdetails = new SDProductDetails;
+                                $pdetails->details_name = $pr_details;
+                                $pdetails->input_by = Auth::user()->username;
+                                $pdetails->save();
+
+                                $product_details_id = $pdetails->id;
+
+                                echo "SDProductDetails found1 <br/>";
+                            } else {
+                                $pdetails = SDProductDetails::where('details_name', '=', $pr_details)->get()->first();
+
+                                echo "SDProductDetails found2 <br/>";
+                                $product_details_id = $pdetails->id;
+                            }
+                        } else {
+                            //Product details
+                            if (!count(SDProduct::where('product_type', '=', $row->product_type)->get()) > 0) {
+                                $product = new SDProduct;
+                                $product->product_type = $row->product_type;
+                                $product->input_by = Auth::user()->username;
+                                $product->save();
+
+                                echo "SDProduct found1 <br/>";
+                            } else {
+                                $product = SDProduct::where('product_type', '=', $row->product_type)->get()->first();
+                                echo "SDProduct found2 <br/>";
+                            }
+
+
                         }
-                        else
-                        {
-                            $pdetails=SDProductDetails::where('details_name','=',$pr_details)->get()->first();
 
-                            echo "SDProductDetails found2 <br/>";
-                            $product_details_id=$pdetails->id;
-                        }
-                    }
-                    else
-                    {
-                        //Product details
-                        if(!count(SDProduct::where('product_type','=',$row->product_type)->get()) > 0)
-                        {
-                            $product= new SDProduct;
-                            $product->product_type=$row->product_type;
-                            $product->input_by=Auth::user()->username;
-                            $product->save();
+                        //Receipt mode
 
-                            echo "SDProduct found1 <br/>";
-                        }
-                        else
-                        {
-                            $product=SDProduct::where('product_type','=',$row->product_type)->get()->first();
-                            echo "SDProduct found2 <br/>";
+                        if (!count(SDReceiptMode::where('mode_name', '=', $row->received_mode)->get()) > 0) {
+                            $modes = new SDReceiptMode;
+                            $modes->mode_name = $row->received_mode;
+                            $modes->input_by = Auth::user()->username;
+                            $modes->save();
+
+                            echo "SDReceiptMode found1 <br/>";
+                        } else {
+                            $modes = SDReceiptMode::where('mode_name', '=', $row->received_mode)->get()->first();
+                            echo "SDReceiptMode found2 <br/>";
                         }
 
+                        //Status
 
-                    }
+                        if (!count(SDStatus::where('status_name', '=', $row->status)->get()) > 0) {
+                            $status = new SDStatus;
+                            $status->status_name = $row->status;
+                            $status->input_by = Auth::user()->username;
+                            $status->save();
 
-                    //Receipt mode
-
-                    if(!count(SDReceiptMode::where('mode_name','=',$row->received_mode)->get()) >0)
-                    {
-                        $modes=new SDReceiptMode;
-                        $modes->mode_name=$row->received_mode;
-                        $modes->input_by=Auth::user()->username;
-                        $modes->save();
-
-                        echo "SDReceiptMode found1 <br/>";
-                    }
-                    else
-                    {
-                        $modes=SDReceiptMode::where('mode_name','=',$row->received_mode)->get()->first();
-                        echo "SDReceiptMode found2 <br/>";
-                    }
-
-                    //Status
-
-                    if(!count(SDStatus::where('status_name','=',$row->status)->get()) > 0)
-                    {
-                        $status=new SDStatus;
-                        $status->status_name=$row->status;
-                        $status->input_by=Auth::user()->username;
-                        $status->save();
-
-                        echo "SDStatus found1 <br/>";
-                    }
-                    else
-                    {
-                        $status=SDStatus::where('status_name','=',$row->status)->get()->first();
-                        echo "SDStatus found2 <br/>";
-                    }
-
-
-                    $issues= new CustomerIssues;
-                    $issues->company_id=$customer->id;
-                    $issues->product_id=$product->id;
-                    $issues->product_details_id=$product_details_id;
-                    $issues->mode_id=$modes->id;
-                    $issues->description=$row->description;
-                    $issues->department_id=$row->department_id;
-                    $issues->received_by=$row->received_by;
-                    $issues->status_id=$status->id;
-                    $issues->date_created=$row->reported_date;
-                    $issues->date_created_tmt= date("Y-m-d H:i",strtotime(date("Y-m-d",strtotime($row->reported_date))." ". date("H:i",strtotime($row->reported_time))));
-                    $issues->input_by=$row->inpute_by;
-                    $issues->issues_number= $row->reference_number;
-                    $issues->remarks= $row->issue_note;
-                    $issues->root_cause=$row->root_cause;
-                    $issues-> department_id=$row->department;
-                    $issues->save();
-
-                    $issue= CustomerIssues::find($issues->id);
-                    if(strtolower($issue->status->status_name) =="resolved")
-                    {
-                        $issue->closed="Yes";
-                        if($row->resolved_date =='0000-00-00')
-                        {
-                            $issue->date_resolved=date("Y-m-d H:i",strtotime(date("Y-m-d",strtotime($row->reported_date))." ". date("H:i",strtotime($row->reported_time))));
+                            echo "SDStatus found1 <br/>";
+                        } else {
+                            $status = SDStatus::where('status_name', '=', $row->status)->get()->first();
+                            echo "SDStatus found2 <br/>";
                         }
-                        elseif(date("Y-m-d H:i", strtotime(date("Y-m-d", strtotime($row->resolved_date)) . " " . date("H:i", strtotime($row->resolved_time)))) ==date("Y-m-d")." 03:00")
-                        {
-                            $issue->date_resolved=date("Y-m-d H:i",strtotime(date("Y-m-d",strtotime($row->reported_date))." ". date("H:i",strtotime($row->reported_time))));
-                        }
-                        else
-                        {
-                            $issue->date_resolved= date("Y-m-d H:i",strtotime(date("Y-m-d",strtotime($row->resolved_date))." ". date("H:i",strtotime($row->resolved_time))));
-                        }
-                        $issue->save();
 
+
+                        $issues = new CustomerIssues;
+                        $issues->company_id = $customer->id;
+                        $issues->product_id = $product->id;
+                        $issues->product_details_id = $product_details_id;
+                        $issues->mode_id = $modes->id;
+                        $issues->description = $row->description;
+                        $issues->department_id = $row->department_id;
+                        $issues->received_by = $row->received_by;
+                        $issues->status_id = $status->id;
+                        $issues->date_created = $row->reported_date;
+                        $issues->date_created_tmt = date("Y-m-d H:i", strtotime(date("Y-m-d", strtotime($row->reported_date)) . " " . date("H:i", strtotime($row->reported_time))));
+                        $issues->input_by = $row->inpute_by;
+                        $issues->issues_number = $row->reference_number;
+                        $issues->remarks = $row->issue_note;
+                        $issues->root_cause = $row->root_cause;
+                        $issues->department_id = $row->department;
+                        $issues->save();
+
+                        $issue = CustomerIssues::find($issues->id);
+                        if (strtolower($issue->status->status_name) == "resolved") {
+                            $issue->closed = "Yes";
+                            if ($row->resolved_date == '0000-00-00') {
+                                $issue->date_resolved = date("Y-m-d H:i", strtotime(date("Y-m-d", strtotime($row->reported_date)) . " " . date("H:i", strtotime($row->reported_time))));
+                            } elseif (date("Y-m-d H:i", strtotime(date("Y-m-d", strtotime($row->resolved_date)) . " " . date("H:i", strtotime($row->resolved_time)))) == date("Y-m-d") . " 03:00") {
+                                $issue->date_resolved = date("Y-m-d H:i", strtotime(date("Y-m-d", strtotime($row->reported_date)) . " " . date("H:i", strtotime($row->reported_time))));
+                            } else {
+                                $issue->date_resolved = date("Y-m-d H:i", strtotime(date("Y-m-d", strtotime($row->resolved_date)) . " " . date("H:i", strtotime($row->resolved_time))));
+                            }
+                            $issue->save();
+
+                        }
                     }
 
                 });
