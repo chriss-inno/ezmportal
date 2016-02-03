@@ -1,3 +1,5 @@
 .idea
 storage/framework/views
 storage/exports/excel
+public/downloads
+public/uploads
