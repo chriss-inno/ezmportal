@@ -29,15 +29,15 @@
         <tr>
             <td>{{$c++}}</td>
             <td>{{$issue->issues_number}}</td>
-            @if($issue->date_created != null && $issue->date_created !="" )
-                <td>{{date("d-M-Y H:i",strtotime($issue->date_created))}}</td>
+            @if($issue->date_created_tmt != null && $issue->date_created_tmt !="" )
+                <td>{{date("d-M-Y H:i",strtotime($issue->date_created_tmt))}}</td>
             @else
                 <td></td>
             @endif
             <td>{{$issue->input_by}}</td>
             @if($issue->customer != null && $issue->customer !="" )
-            <td>{{$issue->customer->company_name}}</td>
-            <td>{{$issue->customer->contact_person}}</td>
+                <td>{{$issue->customer->company_name}}</td>
+                <td>{{$issue->customer->contact_person}}</td>
             @else
                 <td></td>
                 <td></td>
