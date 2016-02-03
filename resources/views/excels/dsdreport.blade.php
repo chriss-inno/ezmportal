@@ -72,7 +72,7 @@
             @endif
             <td  class="wrap-text">{{$issue->remarks}}</td>
             @if(strtolower($issue->closed)=="yes" )
-                <td >{{date("d-M-Y",strtotime($issue->date_resolved))}}</td>
+                <td >{{date("d-M-Y H:i",strtotime($issue->date_resolved))}}</td>
             @else
                 <td>NOT CLOSED</td>
             @endif
