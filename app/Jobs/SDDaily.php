@@ -67,20 +67,27 @@ class SDDaily extends Job implements SelfHandling, ShouldQueue
                                     'A'     =>  10,
                                     'B'     =>  25,
                                     'C'     =>  20,
-                                    'D'     =>  20,
-                                    'E'     =>  20,
+                                    'D'     =>  25,
+                                    'E'     =>  25,
                                     'F'     =>  20,
                                     'G'     =>  50,
-                                    'H'     =>  50,
+                                    'H'     =>  25,
                                     'I'     =>  30,
-                                    'J'     =>  50,
-                                    'K'     =>  20,
-                                    'L'     =>  10,
-                                    'M'     =>  20
+                                    'J'     =>  25,
+                                    'K'     =>  50,
+                                    'L'     =>  50,
+                                    'M'     =>  20,
+                                    'N'     =>  50,
+                                    'O'     =>  25,
+                                    'P'     =>  25,
+                                    'Q'     =>  25,
+                                    'R'     =>  25,
+                                    'S'     =>  25,
+                                    'T'     =>  25
 
                                 ));
                                 $sheet->getDefaultStyle()->getAlignment()->setWrapText(true);
-                                $sheet->setAutoFilter('E2:F2');
+                                //$sheet->setAutoFilter('E2:F2');
 
                             });
 

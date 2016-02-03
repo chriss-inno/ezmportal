@@ -2,39 +2,14 @@
 @section('page-title')
     Service Delivery Customer Issues
 @stop
-@section('page_style')
-
-        <!-- Bootstrap core CSS -->
-    {!!HTML::style("css/bootstrap.min.css" )!!}
-    {!!HTML::style("css/bootstrap-reset.css")!!}
-            <!--external css-->
-    {!!HTML::style("assets/font-awesome/css/font-awesome.css" )!!}
-
-    {!!HTML::style("assets/bootstrap-fileupload/bootstrap-fileupload.css" )!!}
-    {!!HTML::style("assets/bootstrap-wysihtml5/bootstrap-wysihtml5.css" )!!}
-    {!!HTML::style("assets/bootstrap-datepicker/css/datepicker.css" )!!}
-    {!!HTML::style("assets/bootstrap-timepicker/compiled/timepicker.css" )!!}
-    {!!HTML::style("assets/bootstrap-colorpicker/css/colorpicker.css" )!!}
-    {!!HTML::style("assets/bootstrap-daterangepicker/daterangepicker-bs3.css" )!!}
-    {!!HTML::style("assets/bootstrap-datetimepicker/css/datetimepicker.css" )!!}
-    {!!HTML::style("assets/jquery-multi-select/css/multi-select.css")!!}
-
-
-            <!-- Custom styles for this template -->
-    {!!HTML::style("css/style.css" )!!}
-    {!!HTML::style("css/style-responsive.css" )!!}
-
-@stop
 @section('page_scripts')
     {!!HTML::script("js/sparkline-chart.js") !!}
     {!!HTML::script("js/easy-pie-chart.js") !!}
     {!!HTML::script("js/count.js") !!}
-
+    {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
     {!!HTML::script("js/jquery.dcjqaccordion.2.7.js") !!}
     {!!HTML::script("js/jquery.scrollTo.min.js") !!}
     {!!HTML::script("js/jquery.nicescroll.js") !!}
-
-    {!!HTML::script("assets/advanced-datatable/media/js/jquery.js")!!}
     {!!HTML::script("assets/advanced-datatable/media/js/jquery.dataTables.js") !!}
     {!!HTML::script("assets/data-tables/DT_bootstrap.js") !!}
 
@@ -143,6 +118,34 @@
                         })
 
                     });
+
+                    //Show updates
+                    $(".showUpdates").click(function(){
+                        var id1 = $(this).parent().attr('id');
+                        var modaldis = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+
+                        modaldis+= '<div class="modal-dialog" style="width:70%;margin-right: 15% ;margin-left: 15%">';
+                        modaldis+= '<div class="modal-content">';
+                        modaldis+= '<div class="modal-header">';
+                        modaldis+= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+                        modaldis+= '<span id="myModalLabel" class="h2 modal-title text-center text-info text-center" style="color: #FFF;">Customer Issue details Update</span>';
+                        modaldis+= '</div>';
+                        modaldis+= '<div class="modal-body">';
+                        modaldis+= ' </div>';
+                        modaldis+= '</div>';
+                        modaldis+= '</div>';
+                        $('body').css('overflow','hidden');
+
+                        $("body").append(modaldis);
+                        jQuery.noConflict();
+                        $("#myModal").modal("show");
+                        $(".modal-body").html("<h3><i class='fa fa-spin fa-spinner '></i><span>loading...</span><h3>");
+                        $(".modal-body").load("<?php echo url("servicedelivery/updates") ?>/"+id1);
+                        $("#myModal").on('hidden.bs.modal',function(){
+                            $("#myModal").remove();
+                        })
+
+                    });
                 }
             } );
 
@@ -228,7 +231,7 @@
                     <span>Service Delivery</span>
                 </a>
                 <ul class="sub">
-                    <li class="active" ><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
+                    <li class="active"><a  href="{{url('servicedelivery')}}" title="Customer Issues Tracking" class="active">Customer Issues Tracking</a></li>
                     <li><a  href="{{url('servicedelivery/customers')}}" title="Customer Issues Tracking" >Customers</a></li>
                     <li ><a  href="{{url('servicedelivery/settings')}}"  > Settings</a></li>
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,22) || Auth::user()->user_type=="Administrator") <li ><a  href="{{url('servicedelivery/email')}}" >Email Settings</a></li>
@@ -320,7 +323,7 @@
             </li>
         @endif
         @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,16)  || Auth::user()->user_type=="Administrator")
-             <li class="sub-menu">
+            <li class="sub-menu">
                 <a href="javascript:;">
                     <i class="fa fa-bell"></i>
                     <span>Reminder</span>
@@ -492,7 +495,7 @@
                                                     <td></td>
                                                 @endif
                                                 <td id="{{$issue->id}}" align="center">
-                                                    <a  href="#" title="Details" class="showDetails btn btn-primary btn-xs"><i class="fa fa-eye"> View</i></a>
+                                                    <a href="{{url('servicedelivery/show')}}/{{$issue->id}}"   title="Details" class=" btn btn-primary btn-xs"><i class="fa fa-eye"> View</i></a>
                                                 </td>
                                             </tr>
 

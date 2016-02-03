@@ -490,10 +490,10 @@
                                                     <td></td>
                                                 @endif
                                                 <td id="{{$issue->id}}" align="center">
-                                                    <a  href="#" title="Click here to attend/update issue" class="showUpdates btn btn-primary btn-xs"><i class="fa fa-pencil-square"> Attend </i></a>
+                                                    <a   href="{{url('servicedelivery/updates')}}/{{$issue->id}}" title="Click here to attend/update issue" class=" btn btn-primary btn-xs"><i class="fa fa-pencil-square"> Attend </i></a>
                                                 </td>
                                                 <td id="{{$issue->id}}" align="center">
-                                                    <a  href="#" title="Details" class="showDetails btn btn-primary btn-xs"><i class="fa fa-eye"> View</i></a>
+                                                    <a href="{{url('servicedelivery/show')}}/{{$issue->id}}"   title="Details" class=" btn btn-primary btn-xs"><i class="fa fa-eye"> View</i></a>
                                                 </td>
                                                 <td id="{{$issue->id}}" align="center">
                                                     <a  href="{{url('servicedelivery/edit')}}/{{$issue->id}}" title="Edit" class=" btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>

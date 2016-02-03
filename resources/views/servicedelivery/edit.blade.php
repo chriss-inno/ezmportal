@@ -47,7 +47,6 @@
             rules: {
                 company_id: "required",
                 product_id: "required",
-                product_details_id: "required",
                 mode_id: "required",
                 description: "required",
                 department_id: "required",
@@ -59,7 +58,6 @@
             messages: {
                 company_id: "Please enter company name",
                 product_id: "Please select product type",
-                product_details_id: "Please select product details",
                 mode_id: "Please select receipt mode",
                 description: "Please enter description",
                 department_id: "Please select department",

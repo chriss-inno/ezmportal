@@ -8,8 +8,12 @@
         <th ><strong>SNO</strong></th>
         <th ><strong>REFERENCE NUMBER</strong> </th>
         <th ><strong>REPORTED DATE </strong></th>
+        <th ><strong>INPUT BY</strong></th>
         <th ><strong>CUSTOMER NAME</strong></th>
+        <th ><strong>CONTACT PERSON</strong></th>
         <th ><strong>PRODUCT TYPE</strong></th>
+        <th ><strong>RECEIVED BY</strong></th>
+        <th ><strong>RECEIVED MODE</strong></th>
         <th ><strong>STATUS</strong></th>
         <th ><strong>DESCRIPTION</strong></th>
         <th ><strong>ROOT CAUSED</strong></th>
@@ -26,13 +30,30 @@
             <td>{{$c++}}</td>
             <td>{{$issue->issues_number}}</td>
             @if($issue->date_created != null && $issue->date_created !="" )
-                <td>{{date("d-M-Y",strtotime($issue->date_created))}}</td>
+                <td>{{date("d-M-Y H:i",strtotime($issue->date_created))}}</td>
             @else
                 <td></td>
             @endif
+            <td>{{$issue->input_by}}</td>
+            @if($issue->customer != null && $issue->customer !="" )
             <td>{{$issue->customer->company_name}}</td>
+            <td>{{$issue->customer->contact_person}}</td>
+            @else
+                <td></td>
+                <td></td>
+            @endif
             @if($issue->product_id != null && $issue->product_id !="" )
                 <td>{{$issue->producttype->product_type}}</td>
+            @else
+                <td></td>
+            @endif
+            @if($issue->received_by != null && $issue->received_by !="" )
+                <td>{{$issue->received_by}}</td>
+            @else
+                <td></td>
+            @endif
+            @if($issue->receiptmode != null && $issue->receiptmode !="" )
+                <td>{{$issue->receiptmode->mode_name	}}</td>
             @else
                 <td></td>
             @endif
