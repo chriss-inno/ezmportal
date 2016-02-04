@@ -54,7 +54,7 @@ class SDDaily extends Job implements SelfHandling, ShouldQueue
                 if(date("H:i") >= date("H:i",strtotime( $sysSet->automation_start_tm)) && date("H:i") <= date("H:i",strtotime( $sysSet->automation_end_tm)))
                 {
                     echo "Date check ok now check send status <br/>";
-                    if($sysSet->sd_email_issent=="No")
+                    if($sysSet->sd_email_issent == "No")
                     {
                         echo "Status ok send now<br/>";
 
@@ -137,6 +137,7 @@ class SDDaily extends Job implements SelfHandling, ShouldQueue
                     }
                     else
                     {
+                        echo "Status not ok Update status to Yes<br/>";
                         //Update system
                         $sysSet->sd_email_issent="Yes";
                         $sysSet->save();
@@ -147,7 +148,7 @@ class SDDaily extends Job implements SelfHandling, ShouldQueue
                 {
                     echo "Date check no update status now to No <br/>";
                     //Update system
-                    $sysSet->sd_email_issent="Yes";
+                    $sysSet->sd_email_issent="No";
                     $sysSet->save();
                 }
             }
