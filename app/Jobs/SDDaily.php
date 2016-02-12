@@ -120,7 +120,7 @@ class SDDaily extends Job implements SelfHandling, ShouldQueue
                                 \Mail::send('emails.sd', $data, function ($message) use($dataemail) {
 
                                     $message->from('bankmportal@bankm.com', 'Bank M  Support portal');
-                                    $message->to($dataemail)->subject('DAILY LOG OF CUSTOMER ISSUES: New portal');
+                                    $message->to($dataemail)->subject('DAILY LOG OF CUSTOMER ISSUES');
                                     $message->attach($this->pathToFile);
 
                                 });

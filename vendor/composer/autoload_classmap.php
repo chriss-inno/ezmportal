@@ -15,6 +15,7 @@ return array(
     'AddDailyqueryCheckSystemsetup' => $baseDir . '/database/migrations/2015_11_04_110949_add_dailyquery_check_systemsetup.php',
     'AddDatecreatedTmtSdcustomerissues' => $baseDir . '/database/migrations/2015_12_16_064127_add_datecreated_tmt_sdcustomerissues.php',
     'AddDatersolvedRemarksSdTable' => $baseDir . '/database/migrations/2015_11_25_192350_add_datersolved_remarks_sd_table.php',
+    'AddDayspastToReminder' => $baseDir . '/database/migrations/2016_02_12_125953_add_dayspast_to_reminder.php',
     'AddDownloadCheckInDepartment' => $baseDir . '/database/migrations/2015_10_27_162024_add_download_check_in-department.php',
     'AddFieldsToReminder' => $baseDir . '/database/migrations/2016_01_15_113629_add_fields_to_reminder.php',
     'AddFieldsToSystemsetupTable' => $baseDir . '/database/migrations/2016_01_15_192552_add_fields_to_systemsetup_table.php',

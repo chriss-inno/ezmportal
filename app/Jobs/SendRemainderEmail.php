@@ -123,7 +123,7 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
 
                                                   $message->from('bankmportal.reminder@bankm.com', 'Bank M  Service portal');
                                                   $message->to($email)->subject(" Reminder for ".$this->reminder_title);
-                                                 
+
 
                                               });
                                           }
