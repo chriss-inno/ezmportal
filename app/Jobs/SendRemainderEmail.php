@@ -113,7 +113,7 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                                   $dfinal = date("Y-m-d", strtotime("-$diff days", $ctime));
 
                                   if((strtotime($reminder->next_exc_date) == strtotime(date("Y-m-d")) && strtotime(date("Y-m-d")) <= strtotime($reminder->end_date))
-                                      || ($diff > 0 && strtotime($dfinal) == strtotime(date("Y-m-d"))) ) {
+                                      || ( $reminder->notify_before=="Yes" && $diff > 0 && strtotime($dfinal) == strtotime(date("Y-m-d"))) ) {
 
                                       echo "In date range processing reminder [".$reminder->rm_title."] in Monthly mode <br/>";
                                       $emails = ReminderEmail::where('rmd_id', '=',$reminder->id)->get();
@@ -156,7 +156,7 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                                    $dfinal = date("Y-m-d", strtotime("-$diff days", $ctime));
 
                                    if(strtotime($reminder->start_date) == strtotime(date("Y-m-d")) && strtotime(date("Y-m-d")) <= strtotime($reminder->end_date)
-                                       || ($diff > 0 && strtotime($dfinal) == strtotime(date("Y-m-d"))) )
+                                       || ($reminder->notify_before=="Yes" && $diff > 0 && strtotime($dfinal) == strtotime(date("Y-m-d"))) )
                                    {
                                        $emails = ReminderEmail::where('rmd_id', '=',$reminder->id)->get();
                                        if (count($emails) > 0 && $emails != null) {
@@ -204,7 +204,7 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                                    $dfinal = date("Y-m-d", strtotime("-$diff days", $ctime));
 
                                    if(strtotime($reminder->next_exc_date) == strtotime(date("Y-m-d")) && strtotime(date("Y-m-d")) <= strtotime($reminder->end_date)
-                                       || ($diff > 0 && strtotime($dfinal) == strtotime(date("Y-m-d")))) {
+                                       || ($reminder->notify_before=="Yes" && $diff > 0 && strtotime($dfinal) == strtotime(date("Y-m-d")))) {
 
                                        echo "In date range processing reminder [".$reminder->rm_title."] in Yearly mode <br/>";
                                        $emails = ReminderEmail::where('rmd_id', '=',$reminder->id)->get();
@@ -247,7 +247,7 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                                    $dfinal = date("Y-m-d", strtotime("-$diff days", $ctime));
 
                                    if(strtotime($reminder->start_date)== strtotime(date("Y-m-d")) && strtotime(date("Y-m-d")) <= strtotime($reminder->end_date)
-                                       || ($diff > 0 && strtotime($dfinal) == strtotime(date("Y-m-d"))))
+                                       || ($reminder->notify_before=="Yes" && $diff > 0 && strtotime($dfinal) == strtotime(date("Y-m-d"))))
                                    {
                                        $emails = ReminderEmail::where('rmd_id', '=',$reminder->id)->get();
                                        if (count($emails) > 0 && $emails != null) {
@@ -294,7 +294,7 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                                    $dfinal = date("Y-m-d", strtotime("-$diff days", $ctime));
 
                                    if(strtotime($reminder->next_exc_date)== strtotime(date("Y-m-d")) && strtotime(date("Y-m-d")) <= strtotime($reminder->end_date)
-                                       || ($diff > 0 && strtotime($dfinal) == strtotime(date("Y-m-d")))) {
+                                       || ($reminder->notify_before=="Yes" && $diff > 0 && strtotime($dfinal) == strtotime(date("Y-m-d")))) {
 
                                        echo "In date range processing reminder [".$reminder->rm_title."] in Yearly mode <br/>";
                                        $emails = ReminderEmail::where('rmd_id', '=',$reminder->id)->get();
@@ -337,7 +337,7 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                                    $dfinal = date("Y-m-d", strtotime("-$diff days", $ctime));
 
                                    if(strtotime($reminder->start_date) == strtotime(date("Y-m-d")) && strtotime(date("Y-m-d")) <= strtotime($reminder->end_date)
-                                       || ($diff > 0 && strtotime($dfinal) == strtotime(date("Y-m-d"))))
+                                       || ($reminder->notify_before=="Yes" && $diff > 0 && strtotime($dfinal) == strtotime(date("Y-m-d"))))
                                    {
                                        $emails = ReminderEmail::where('rmd_id', '=',$reminder->id)->get();
                                        if (count($emails) > 0 && $emails != null) {
