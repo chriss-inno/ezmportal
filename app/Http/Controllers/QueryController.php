@@ -689,6 +689,19 @@ class QueryController extends Controller
 
     }
 
+    //Get attachment
+    public function downloadQueryAttachment($id)
+    {
+        $query=Query::find($id);
+        $destinationPath = str_replace("\\","/",public_path()) .'/uploads/';
+        $ref_file =$destinationPath.$query->reference_file;
+        if(File::exists($ref_file))
+        {
+            return Response::download($ref_file);
+        }
+
+    }
+
     //Query reports
 
     public function getMonthReports()

@@ -48,7 +48,7 @@
                                 <tr>
                                     <td colspan="10"><?php echo $query->description;?>
                                         @if($query->reference_file != null && $query->reference_file !="")
-                                            [ <a href="{{url('uploads')}}/{{$query->reference_file}}"><i class="fa fa-download text-danger"></i> Get attachment</a> ]
+                                            [ <a href="{{url('queries/getattchment/')}}/{{$query->id}}"><i class="fa fa-download text-danger"></i> Download attachment</a> ]
                                         @endif</td>
                                 </tr>
 

@@ -349,6 +349,7 @@ Route::get('queries/report/excel',['middleware' => 'auth', 'uses' =>'QueryContro
 
 //Query attachment download
 Route::get('queries/download/{id}',['middleware' => 'auth', 'uses' =>'QueryController@downloadAttachment']);
+Route::get('queries/getattchment/{id}',['middleware' => 'auth', 'uses' =>'QueryController@downloadQueryAttachment']);
 
 //Query emails
 Route::resource('queryemails','QueryEmailController');
