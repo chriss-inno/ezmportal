@@ -196,7 +196,7 @@
                 </a>
                 <ul class="sub">
                     <li><a  href="{{url('queries/create')}}" title="Log Query">Log Query</a></li>
-                    <li><a  href="{{url('queries/mytask')}}" title="My Tasks">My Tasks</a></li>
+                    <li><a  href="{{url('queries/mytask')}}" title="Attend queries">Attend queries</a></li>
                     <li><a  href="{{url('queries/progress')}}" title="Query Progress">Query Progress</a></li>
                     <li><a  href="{{url('queries/history')}}" title="Query History">Query History</a></li>
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
@@ -398,7 +398,7 @@
                             </div>
                             <div class="row" style="margin-top: 10px">
                                 <div class="col-md-12">
-                                    <a href="{{url('queries/mytask')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-tasks"></i> My Tasks</a>
+                                    <a href="{{url('queries/mytask')}}" class="btn btn-file btn-danger btn-block"><i class="fa fa-tasks"></i> Attend queries</a>
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 10px">

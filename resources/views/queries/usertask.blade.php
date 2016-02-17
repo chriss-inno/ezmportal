@@ -266,7 +266,7 @@
                 </a>
                 <ul class="sub">
                     <li><a  href="{{url('queries/create')}}" title="Log Query">Log Query</a></li>
-                    <li class="active"><a  href="{{url('queries/mytask')}}" title="My Tasks">My Tasks</a></li>
+                    <li class="active"><a  href="{{url('queries/mytask')}}" title="Attend queries">Attend queries</a></li>
                     <li><a  href="{{url('queries/progress')}}" title="Query Progress">Query Progress</a></li>
                     <li><a  href="{{url('queries/history')}}" title="Query History">Query History</a></li>
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")
@@ -379,7 +379,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <h3 class="text-info"> <strong><i class="fa  fa-tasks"></i> MY TASK </strong></h3>
+                        <h3 class="text-info"> <strong><i class="fa  fa-tasks"></i> QUERY ATTEND </strong></h3>
                     </header>
                     <div class="panel-body">
                         <div class="row">
@@ -388,7 +388,7 @@
                                 <div class="btn-group btn-group-justified">
                                     <a href="{{url('queries/create')}}" class=" btn  btn-primary"><i class="fa fa-folder-open-o"></i> Log New Query</a>
 
-                                    <a href="{{url('queries/mytask')}}" class="btn btn-file btn-primary"><i class="fa fa-tasks"></i> My Tasks</a>
+                                    <a href="{{url('queries/mytask')}}" class="btn btn-file btn-primary"><i class="fa fa-tasks"></i> Attend queries</a>
                                     <a href="{{url('queries/progress')}}" class="btn btn-file btn-primary"><i class="fa fa-archive"></i> Logged Queries Progress</a>
                                     <a href="{{url('queries/assigned/progress')}}" class="btn btn-file btn-primary"><i class="fa fa-archive"></i> Received Queries Progress</a>
                                     <a href="{{url('queries/history')}}" class="btn btn-file btn-primary"> <i class="fa fa-bars"></i> History</a>

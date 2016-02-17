@@ -212,7 +212,7 @@
                 </a>
                 <ul class="sub">
                     <li><a  href="{{url('queries/create')}}" title="Log Query">Log Query</a></li>
-                    <li><a  href="{{url('queries/mytask')}}" title="My Tasks">My Tasks</a></li>
+                    <li><a  href="{{url('queries/mytask')}}" title="Attend queries">Attend queries</a></li>
                     <li><a  href="{{url('queries/progress')}}" title="Query Progress">Query Progress</a></li>
                     <li><a  href="{{url('queries/history')}}" title="Query History">Query History</a></li>
                     @if(\App\Http\Controllers\RightsController::moduleAccess(Auth::user()->right_id,14) || Auth::user()->user_type=="Administrator")

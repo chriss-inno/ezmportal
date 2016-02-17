@@ -74,7 +74,7 @@
                                             @else
                                             <option value="">----</option>
                                         @endif
-                                           @foreach(\App\Enabler::all() as $enabler)
+                                           @foreach(\App\Enabler::orderBy('enabler_name','ASC')->get() as $enabler)
                                             <option value="{{$enabler->id}}">{{$enabler->enabler_name}}</option>
                                                @endforeach
                                     </select>
@@ -88,7 +88,7 @@
                                         @else
                                             <option value="">----</option>
                                         @endif
-                                        @foreach(\App\QueryStatus::all() as $qs)
+                                        @foreach(\App\QueryStatus::orderBy('status_name','ASC')->get() as $qs)
                                             <option>{{$qs->status_name}}</option>
                                         @endforeach
                                     </select>
