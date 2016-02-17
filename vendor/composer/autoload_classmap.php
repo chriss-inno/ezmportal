@@ -19,6 +19,7 @@ return array(
     'AddDownloadCheckInDepartment' => $baseDir . '/database/migrations/2015_10_27_162024_add_download_check_in-department.php',
     'AddFieldsToReminder' => $baseDir . '/database/migrations/2016_01_15_113629_add_fields_to_reminder.php',
     'AddFieldsToSystemsetupTable' => $baseDir . '/database/migrations/2016_01_15_192552_add_fields_to_systemsetup_table.php',
+    'AddInstractionDateToReminder' => $baseDir . '/database/migrations/2016_02_17_130034_add_instraction_date_to_reminder.php',
     'AddMd5PasswordTousers' => $baseDir . '/database/migrations/2016_01_14_094721_add_md5_password_tousers.php',
     'AddNextExecutionDateToReminder' => $baseDir . '/database/migrations/2016_01_16_064357_add_next_execution_date_to_reminder.php',
     'AddProductDetailsIdCollumn' => $baseDir . '/database/migrations/2015_11_01_122618_add_product_details_id_collumn.php',

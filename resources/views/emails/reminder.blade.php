@@ -12,7 +12,7 @@
             </tr>
             <tr>
                 <td>Instruction Date</td>
-                <td>{{date("d-M-Y",strtotime($reminder->start_date))}}</td>
+                <td>{{date("d-M-Y",strtotime($reminder->instruction_date))}}</td>
             </tr>
         </table>
         <div style="background-color:#005DAD;padding:5px;color:#fff">Reminder Notification:-Do not reply this email</div>

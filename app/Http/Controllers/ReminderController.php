@@ -71,6 +71,7 @@ class ReminderController extends Controller
         $reminder->rm_access=$request->rm_access;
         $reminder->input_by=Auth::user()->username;
         $reminder->user_id=Auth::user()->id;
+        $reminder->instruction_date=date("Y-m-d",strtotime($request->start_date));
         $reminder->save();
 
         //Process emails
@@ -152,6 +153,7 @@ class ReminderController extends Controller
         $reminder->notify_before=$request->notify_before;
         $reminder->rm_access=$request->rm_access;
         $reminder->input_by=Auth::user()->username;
+        $reminder->instruction_date=date("Y-m-d",strtotime($request->start_date));
         $reminder->save();
 
         //Process emails

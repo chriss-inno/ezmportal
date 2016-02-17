@@ -91,6 +91,17 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
 
                                           });
                                       }
+                                      if( $reminder->instruction_date != null &&  $reminder->instruction_date !="")
+                                      {
+                                          $timeinst = strtotime($reminder->instruction_date);
+                                      }
+                                      else
+                                      {
+                                          $timeinst = strtotime($reminder->start_date);
+                                      }
+                                      $finalinst = date("Y-m-d", strtotime("+1 day", $timeinst));
+                                      $reminder->instruction_date=$finalinst;
+
                                       $reminder->send_status="Yes"; //Reminder was sent
                                       $reminder->save();
                                   }
@@ -132,6 +143,8 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
 
                                               });
                                           }
+
+
                                           $time = strtotime($reminder->next_exc_date);
                                           $final = date("Y-m-d", strtotime("+1 month", $time));
                                           $reminder->send_status = "Yes"; //Reminder was sent
@@ -141,6 +154,17 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                                           }
                                           else
                                           {
+                                              if( $reminder->instruction_date != null &&  $reminder->instruction_date !="")
+                                              {
+                                                  $timeinst = strtotime($reminder->instruction_date);
+                                              }
+                                              else
+                                              {
+                                                  $timeinst = strtotime($reminder->next_exc_date);
+                                              }
+                                              $finalinst = date("Y-m-d", strtotime("+1 month", $timeinst));
+                                              $reminder->instruction_date=$finalinst;
+
                                               $reminder->next_exc_date = $final;
                                           }
 
@@ -182,6 +206,8 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
 
                                                });
                                            }
+
+
                                            $time = strtotime($reminder->start_date);
                                            $final = date("Y-m-d", strtotime("+1 month", $time));
                                            $reminder->send_status="Yes"; //Reminder was sent
@@ -191,6 +217,17 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                                            }
                                            else
                                            {
+                                               if( $reminder->instruction_date != null &&  $reminder->instruction_date !="")
+                                               {
+                                                   $timeinst = strtotime($reminder->instruction_date);
+                                               }
+                                               else
+                                               {
+                                                   $timeinst = strtotime($reminder->start_date);
+                                               }
+                                               $finalinst = date("Y-m-d", strtotime("+1 month", $timeinst));
+                                               $reminder->instruction_date=$finalinst;
+
                                                $reminder->next_exc_date = $final;
                                            }
                                            if(!$reminder->days_past >= $reminder->days_before)
@@ -247,6 +284,16 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                                            }
                                            else
                                            {
+                                               if( $reminder->instruction_date != null &&  $reminder->instruction_date !="")
+                                               {
+                                                   $timeinst = strtotime($reminder->instruction_date);
+                                               }
+                                               else
+                                               {
+                                                   $timeinst = strtotime($reminder->next_exc_date);
+                                               }
+                                               $finalinst = date("Y-m-d", strtotime("+1 year", $timeinst));
+                                               $reminder->instruction_date=$finalinst;
                                                $reminder->next_exc_date = $final;
                                            }
                                            if(!$reminder->days_past >= $reminder->days_before)
@@ -296,6 +343,17 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                                            }
                                            else
                                            {
+                                               if( $reminder->instruction_date != null &&  $reminder->instruction_date !="")
+                                               {
+                                                   $timeinst = strtotime($reminder->instruction_date);
+                                               }
+                                               else
+                                               {
+                                                   $timeinst = strtotime($reminder->start_date);
+                                               }
+                                               $finalinst = date("Y-m-d", strtotime("+1 year", $timeinst));
+                                               $reminder->instruction_date=$finalinst;
+
                                                $reminder->next_exc_date = $final;
                                            }
                                            if(!$reminder->days_past >= $reminder->days_before)
@@ -351,6 +409,17 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                                            }
                                            else
                                            {
+                                               if( $reminder->instruction_date != null &&  $reminder->instruction_date !="")
+                                               {
+                                                   $timeinst = strtotime($reminder->instruction_date);
+                                               }
+                                               else
+                                               {
+                                                   $timeinst = strtotime($reminder->next_exc_date);
+                                               }
+                                               $finalinst = date("Y-m-d", strtotime("+1 week", $timeinst));
+                                               $reminder->instruction_date=$finalinst;
+
                                                $reminder->next_exc_date = $final;
                                            }
                                            if(!$reminder->days_past >= $reminder->days_before)
@@ -400,6 +469,17 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                                            }
                                            else
                                            {
+                                               if( $reminder->instruction_date != null &&  $reminder->instruction_date !="")
+                                               {
+                                                   $timeinst = strtotime($reminder->instruction_date);
+                                               }
+                                               else
+                                               {
+                                                   $timeinst = strtotime($reminder->start_date);
+                                               }
+                                               $finalinst = date("Y-m-d", strtotime("+1 week", $timeinst));
+                                               $reminder->instruction_date=$finalinst;
+
                                                $reminder->next_exc_date = $final;
                                            }
                                            if(!$reminder->days_past >= $reminder->days_before)
@@ -417,8 +497,6 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                                }
 
                            }
-
-
                        }
                     }
                     else
