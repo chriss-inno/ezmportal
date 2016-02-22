@@ -148,12 +148,14 @@
                         {
                             console.log(data);
                             //data: return data from server
-                            setTimeout(function() {
+                            $("#myModal").modal("hide");
+                           /* setTimeout(function() {
                                 $("#output").html("");
                                 location.reload();
                                 jQuery.noConflict();
                                 $("#myModal").modal("hide");
                             }, 2000);
+                            */
                         },
                         error: function(data)
                         {

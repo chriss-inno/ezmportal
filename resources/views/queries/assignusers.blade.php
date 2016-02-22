@@ -179,12 +179,15 @@
                         {
                             console.log(data);
                             //data: return data from server
+                            $("#myModal").modal("hide");
+                           /*
                             setTimeout(function() {
                                 $("#output").html("");
                                 location.reload();
                                 jQuery.noConflict();
                                 $("#myModal").modal("hide");
                             }, 2000);
+                            */
                         },
                         error: function(data)
                         {
