@@ -167,7 +167,7 @@
             status: "Please select status"
         },
         submitHandler: function(form) {
-            $("#output").html("<h3><span class='text-info'><i class='icon-spinner icon-spin'></i> Making changes please wait...</span><h3>");
+            $("#output").html("<h3><span class='text-info'><i class='fa fa-spinner fa-spin'></i> Making changes please wait...</span><h3>");
             var postData = $('#queryAssignForm').serializeArray();
             var formURL = $('#queryAssignForm').attr("action");
             $.ajax(
@@ -179,25 +179,23 @@
                         {
                             console.log(data);
                             //data: return data from server
-                            $("#myModal").modal("hide");
-                           /*
+
                             setTimeout(function() {
                                 $("#output").html("");
                                 location.reload();
                                 jQuery.noConflict();
                                 $("#myModal").modal("hide");
-                            }, 2000);
-                            */
+                            }, 500);
                         },
                         error: function(data)
                         {
                             console.log(data.responseJSON);
                             //in the responseJSON you get the form validation back.
-                            $("#output").html("<h3><span class='text-info'><i class='icon-spinner icon-spin'></i> Error in processing data try again...</span><h3>");
+                            $("#output").html("<h3><span class='text-info'><i class='fa fa-spinner fa-spin'></i> Error in processing data try again...</span><h3>");
 
                             setTimeout(function() {
                                 $("#output").html("");
-                            }, 2000);
+                            }, 500);
                         }
                     });
         }
