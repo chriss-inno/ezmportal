@@ -72,8 +72,9 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                            if($reminder->recurrence_pattern == "Daily")
                            {
                                echo "Processing reminder [".$reminder->rm_title."] in daily mode <br/>";
+                               echo "Start date [".$reminder->start_date."] end date [".$reminder->end_date."] <br/>";
 
-                              if(strtotime($reminder->start_date) >= strtotime(date("Y-m-d")) &&  strtotime(date("Y-m-d")) <= strtotime($reminder->end_date))
+                              if( strtotime(date("Y-m-d")) <= strtotime($reminder->end_date))
                               {
                                   echo "In date range processing reminder [".$reminder->rm_title."] in daily mode <br/>";
                                   $emails = ReminderEmail::where('rmd_id', '=',$reminder->id)->get();
@@ -105,6 +106,7 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                                       $reminder->send_status="Yes"; //Reminder was sent
                                       $reminder->save();
                                   }
+                                  else{ echo "Email not  found <br/>";}
                               }
                                else
                                {
