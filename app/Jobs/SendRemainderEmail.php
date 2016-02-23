@@ -102,6 +102,7 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                                       }
                                       $finalinst = date("Y-m-d", strtotime("+1 day", $timeinst));
                                       $reminder->instruction_date=$finalinst;
+                                      $reminder->next_exc_date =$finalinst;
 
                                       $reminder->send_status="Yes"; //Reminder was sent
                                       $reminder->save();
