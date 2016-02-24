@@ -510,12 +510,9 @@ class SendRemainderEmail extends Job implements SelfHandling, ShouldQueue
                 }
                 else
                 {
-                    $reminders= Reminder::where("status",'=','Enabled')->where("send_status",'=','No')->get();
-                    foreach($reminders as $reminder)
-                    {
-                        $reminder->send_status="No"; //Reminder was sent
-                        $reminder->save();
-                    }
+                    echo "Not in time range update status to No";
+                    $db=\DB::select("UPDATE prt_reminders SET  send_status='No'");
+
 
                 }
             }
