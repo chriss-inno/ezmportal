@@ -454,36 +454,131 @@
                                         <tbody>
                                         <?php $i=1;?>
                                         @foreach($reminders as $remnd)
-                                            <tr>
-                                                <td>{{$i++}}</td>
-                                                <td>{{$remnd->rm_title}}</td>
-                                                <td>{{$remnd->start_date}}</td>
-                                                <td>{{$remnd->end_date}}</td>
-                                                <td>{{$remnd->recurrence_pattern}}</td>
-                                                @if($remnd->user_id !="")
-                                                    <td>{{$remnd->user->first_name." ".$remnd->user->last_name}}</td>
+                                            @if(Auth::user()->user_type=="Administrator")
+                                                   <tr>
+                                                    <td>{{$i++}}</td>
+                                                    <td>{{$remnd->rm_title}}</td>
+                                                    <td>{{$remnd->start_date}}</td>
+                                                    <td>{{$remnd->end_date}}</td>
+                                                    <td>{{$remnd->recurrence_pattern}}</td>
+                                                    @if($remnd->user_id !="")
+                                                        <td>{{$remnd->user->first_name." ".$remnd->user->last_name}}</td>
                                                     @else
-                                                    <td></td>
-                                                 @endif
-                                                @if($remnd->status =="Enabled")
-                                                    <td  align="center">
-                                                        <a  href="#" title="Details" class=" btn btn-success btn-xs"><i class="fa fa-eye"> {{$remnd->status}}</i></a>
-                                                    </td>
-                                                    @else
-                                                    <td  align="center">
-                                                        <a  href="#" title="Details" class=" btn btn-danger btn-xs"><i class="fa fa-eye"> {{$remnd->status}}</i></a>
-                                                    </td>
+                                                        <td></td>
                                                     @endif
-                                                <td id="{{$remnd->id}}" align="center">
-                                                    <a  href="#" title="Details" class="showDetails btn btn-primary btn-xs"><i class="fa fa-eye"> View</i></a>
-                                                </td>
-                                                <td id="{{$remnd->id}}" align="center">
-                                                    <a  href="{{url('reminders/edit')}}/{{$remnd->id}}" title="Edit" class=" btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                                    <a href="#b" title="Delete" class="deleteIssues btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
-                                                </td>
-                                            </tr>
-
-
+                                                    @if($remnd->status =="Enabled")
+                                                        <td  align="center">
+                                                            <a  href="#" title="Details" class=" btn btn-success btn-xs"><i class="fa fa-eye"> {{$remnd->status}}</i></a>
+                                                        </td>
+                                                    @else
+                                                        <td  align="center">
+                                                            <a  href="#" title="Details" class=" btn btn-danger btn-xs"><i class="fa fa-eye"> {{$remnd->status}}</i></a>
+                                                        </td>
+                                                    @endif
+                                                    <td id="{{$remnd->id}}" align="center">
+                                                        <a  href="#" title="Details" class="showDetails btn btn-primary btn-xs"><i class="fa fa-eye"> View</i></a>
+                                                    </td>
+                                                    <td id="{{$remnd->id}}" align="center">
+                                                        <a  href="{{url('reminders/edit')}}/{{$remnd->id}}" title="Edit" class=" btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                        <a href="#b" title="Delete" class="deleteIssues btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                                    </td>
+                                                </tr>
+                                                @else
+                                                    @if($remnd->rm_access == "Only Me")
+                                                        @if($remnd->user_id == Auth::user()->id)
+                                                            <tr>
+                                                                <td>{{$i++}}</td>
+                                                                <td>{{$remnd->rm_title}}</td>
+                                                                <td>{{$remnd->start_date}}</td>
+                                                                <td>{{$remnd->end_date}}</td>
+                                                                <td>{{$remnd->recurrence_pattern}}</td>
+                                                                @if($remnd->user_id !="")
+                                                                    <td>{{$remnd->user->first_name." ".$remnd->user->last_name}}</td>
+                                                                @else
+                                                                    <td></td>
+                                                                @endif
+                                                                @if($remnd->status =="Enabled")
+                                                                    <td  align="center">
+                                                                        <a  href="#" title="Details" class=" btn btn-success btn-xs"><i class="fa fa-eye"> {{$remnd->status}}</i></a>
+                                                                    </td>
+                                                                @else
+                                                                    <td  align="center">
+                                                                        <a  href="#" title="Details" class=" btn btn-danger btn-xs"><i class="fa fa-eye"> {{$remnd->status}}</i></a>
+                                                                    </td>
+                                                                @endif
+                                                                <td id="{{$remnd->id}}" align="center">
+                                                                    <a  href="#" title="Details" class="showDetails btn btn-primary btn-xs"><i class="fa fa-eye"> View</i></a>
+                                                                </td>
+                                                                <td id="{{$remnd->id}}" align="center">
+                                                                    <a  href="{{url('reminders/edit')}}/{{$remnd->id}}" title="Edit" class=" btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="#b" title="Delete" class="deleteIssues btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                                                </td>
+                                                            </tr>
+                                                        @endif
+                                                    @endif
+                                                    @if($remnd->rm_access == "Department")
+                                                        @if(Auth::user()->department_id == \App\Http\Controllers\DepartmentController::getDepartmentIDByUserId($remnd->user_id))
+                                                            <tr>
+                                                                <td>{{$i++}}</td>
+                                                                <td>{{$remnd->rm_title}}</td>
+                                                                <td>{{$remnd->start_date}}</td>
+                                                                <td>{{$remnd->end_date}}</td>
+                                                                <td>{{$remnd->recurrence_pattern}}</td>
+                                                                @if($remnd->user_id !="")
+                                                                    <td>{{$remnd->user->first_name." ".$remnd->user->last_name}}</td>
+                                                                @else
+                                                                    <td></td>
+                                                                @endif
+                                                                @if($remnd->status =="Enabled")
+                                                                    <td  align="center">
+                                                                        <a  href="#" title="Details" class=" btn btn-success btn-xs"><i class="fa fa-eye"> {{$remnd->status}}</i></a>
+                                                                    </td>
+                                                                @else
+                                                                    <td  align="center">
+                                                                        <a  href="#" title="Details" class=" btn btn-danger btn-xs"><i class="fa fa-eye"> {{$remnd->status}}</i></a>
+                                                                    </td>
+                                                                @endif
+                                                                <td id="{{$remnd->id}}" align="center">
+                                                                    <a  href="#" title="Details" class="showDetails btn btn-primary btn-xs"><i class="fa fa-eye"> View</i></a>
+                                                                </td>
+                                                                <td id="{{$remnd->id}}" align="center">
+                                                                    <a  href="{{url('reminders/edit')}}/{{$remnd->id}}" title="Edit" class=" btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="#b" title="Delete" class="deleteIssues btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                                                </td>
+                                                            </tr>
+                                                        @endif
+                                                    @endif
+                                                    @if($remnd->rm_access == "Every one")
+                                                        <tr>
+                                                            <td>{{$i++}}</td>
+                                                            <td>{{$remnd->rm_title}}</td>
+                                                            <td>{{$remnd->start_date}}</td>
+                                                            <td>{{$remnd->end_date}}</td>
+                                                            <td>{{$remnd->recurrence_pattern}}</td>
+                                                            @if($remnd->user_id !="")
+                                                                <td>{{$remnd->user->first_name." ".$remnd->user->last_name}}</td>
+                                                            @else
+                                                                <td></td>
+                                                            @endif
+                                                            @if($remnd->status =="Enabled")
+                                                                <td  align="center">
+                                                                    <a  href="#" title="Details" class=" btn btn-success btn-xs"><i class="fa fa-eye"> {{$remnd->status}}</i></a>
+                                                                </td>
+                                                            @else
+                                                                <td  align="center">
+                                                                    <a  href="#" title="Details" class=" btn btn-danger btn-xs"><i class="fa fa-eye"> {{$remnd->status}}</i></a>
+                                                                </td>
+                                                            @endif
+                                                            <td id="{{$remnd->id}}" align="center">
+                                                                <a  href="#" title="Details" class="showDetails btn btn-primary btn-xs"><i class="fa fa-eye"> View</i></a>
+                                                            </td>
+                                                            <td id="{{$remnd->id}}" align="center">
+                                                                <a  href="{{url('reminders/edit')}}/{{$remnd->id}}" title="Edit" class=" btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                                                <a href="#b" title="Delete" class="deleteIssues btn btn-danger btn-xs"><i class="fa fa-trash-o "></i> </a>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @endif
                                         @endforeach
                                         </tbody>
                                         <tfoot>

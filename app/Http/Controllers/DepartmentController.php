@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -142,5 +143,26 @@ class DepartmentController extends Controller
             $dep .="<option value='$unit->id'>$unit->unit_name</option>";
         }
         return $dep;
+    }
+    public static function getDepartmentIDByUserId($userid)
+    {
+        $user=User::find($userid);
+        if(count($user) > 0) {
+            $depacc = Department::find($user->department_id);
+            if (count($depacc) > 0) {
+                return $depacc->id;
+            } else {
+                return "";;
+            }
+        }else
+        {
+            return "";
+        }
+    }
+    public static function getDepartmentIdById($depid)
+    {
+        $depacc=Department::find($depid);
+        if(count($depacc)>0) {
+            return $depacc->id;} else {return "";}
     }
 }

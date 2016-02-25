@@ -396,9 +396,11 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="row">
-                                                    <div class="col-md-2"><label for="start_date">Start Date: </label></div>
+                                                    <div class="col-md-2"><label for="start_date">Start /Instruction Date: </label>
+                                                        <p class="text-danger"> Reminder execution or start date </p></div>
                                                     <div class="col-md-3">
                                                         <input type="text" name="start_date" class="default-date-picker form-control"  value="{{old('start_date')}}" required>
+
                                                         @if($errors->first('start_date'))
                                                             <p class=" alert-danger">{{$errors->first('start_date')}}</p>
                                                         @endif
