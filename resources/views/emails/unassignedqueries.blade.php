@@ -10,17 +10,17 @@
 <p>Below are unassigned queries logged to {{$department}} for the past 15 minutes, Please take time to assign to users</p>
 
 
-<table width="100%"  border="1" align="center" cellpadding="1" cellspacing="0">
+<table width="100%"  border="1" align="center" cellpadding="1" cellspacing="0" style="font-family:Tahoma,Geneva,sans-serif;color: #0f74b8;font-size: 14px;">
     <thead>
     <tr>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">SNO</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Query code</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Reported</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">From Department</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Person Assigned </th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Critical</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Module</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">Status</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">SNO</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">Query code</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">Reported</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">From Department</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">Person Assigned </th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">Critical</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">Module</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">Status</th>
     </tr>
     </thead>
     <tbody>

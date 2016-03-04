@@ -1,7 +1,7 @@
-<?php $query = unserialize($query); ?>
-<table width="80%" border="0" align="center" cellpadding="0" cellspacing="0" style="border:1px solid #005DAD">
-    <tr style="color:#FFF; border-bottom-color:#005DAD;">
-        <td align="center" bgcolor="#005DAD"><h3 style="color:#FFF; border-bottom-color:#005DAD;"><strong>Bank M Tanzania plc - System Portal (Help desk)</strong><strong><br/>Support Portal Query Event Details</strong></h3></td>
+<?php //$query = unserialize($query); ?>
+<table width="80%" border="0" align="center" cellpadding="0" cellspacing="0" style="border:1px solid #0f74b8; font-family:Tahoma,Geneva,sans-serif;color: #0f74b8;font-size: 14px;">
+    <tr style="color:#FFF; border-bottom-color:#0f74b8;">
+        <td align="center" bgcolor="#0f74b8"><h3 style="color:#FFF; border-bottom-color:#0f74b8;"><strong>Bank M Tanzania plc - System Portal (Help desk)</strong><strong><br/>Support Portal Query Event Details</strong></h3></td>
     </tr>
     <tr>
         <td>&nbsp;</td>
@@ -13,7 +13,7 @@
                     <td valign="top" bgcolor="#FFFFFF">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td valign="top" bgcolor="#FFFFFF"><table width="99%" border="0" align="center" cellpadding="1" cellspacing="0">
+                    <td valign="top" bgcolor="#FFFFFF"><table width="99%" border="0" align="center" cellpadding="1" cellspacing="0" style="font-family:Tahoma,Geneva,sans-serif;color: #0f74b8;font-size: 14px;">
                             <tr>
                                 <td>Query # </td>
                                 <td align="left">{{$query->query_code}}</td>
@@ -112,6 +112,6 @@
         <td valign="top" bgcolor="#FFFFFF">&nbsp;</td>
     </tr>
     <tr>
-        <td valign="top" bgcolor="#005DAD">&nbsp;</td>
+        <td valign="top" bgcolor="#0f74b8">&nbsp;</td>
     </tr>
 </table>

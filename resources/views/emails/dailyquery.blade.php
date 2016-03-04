@@ -8,19 +8,19 @@
 <p>Team,</p>
 <p>Below table has summary of daily logged queries logged in support portal</p>
 
-<table width="100%"  border="1" align="center" cellpadding="1" cellspacing="0">
+<table width="100%"  border="1" align="center" cellpadding="1" cellspacing="0" style="font-family:Tahoma,Geneva,sans-serif;color: #0f74b8;font-size: 14px;">
     <thead>
     <tr>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">SNO</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">QUERY CODE</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">OPEN DATE</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">FROM DEPARTMENT</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">MODULE</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">STATUS</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">CRITICALITY</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">CLOSED DATE</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">PENDING DAYS</th>
-        <th bgcolor="#005DAD" style="color:#FFF; border-bottom-color:#005DAD;">RESPONSIBLE PERSON</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">SNO</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">QUERY CODE</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">OPEN DATE</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">FROM DEPARTMENT</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">MODULE</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">STATUS</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">CRITICALITY</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">CLOSED DATE</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">PENDING DAYS</th>
+        <th bgcolor="#0f74b8" style="color:#FFF; border-bottom-color:#0f74b8;">RESPONSIBLE PERSON</th>
 
     </tr>
     </thead>
@@ -53,7 +53,7 @@
                 @endif
                 <?php $assignment=\App\QueryAssignment::where('query_id','=',$qr->id)->first()?>
                 @if($assignment != null && $assignment !="")
-                    <td style="background-color:#005DAD; color: #FFF;">{{$qr->assignment->user->first_name.' '.$qr->assignment->user->last_name}}</td>
+                    <td style="background-color:#0f74b8; color: #FFF;">{{$qr->assignment->user->first_name.' '.$qr->assignment->user->last_name}}</td>
                 @else
                     <td style="background-color:#FF6C60; color: #FFF;">Not Assigned</td>
                 @endif
@@ -89,7 +89,7 @@
             @endif
             <?php $assignment=\App\QueryAssignment::where('query_id','=',$qr->id)->first()?>
             @if($assignment != null && $assignment !="")
-                <td style="background-color:#005DAD; color: #FFF;">{{$qr->assignment->user->first_name.' '.$qr->assignment->user->last_name}}</td>
+                <td style="background-color:#0f74b8; color: #FFF;">{{$qr->assignment->user->first_name.' '.$qr->assignment->user->last_name}}</td>
             @else
                 <td style="background-color:#FF6C60; color: #FFF;">Not Assigned</td>
             @endif

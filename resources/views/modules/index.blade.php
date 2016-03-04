@@ -379,12 +379,24 @@
                                 </thead>
                                 <tbody>
                                 <?php $i=1;?>
+                                 <?php $i=1;?>
+                                @if(count($modules) > 0 && $modules != null)
+
                                 @foreach($modules as $mod)
                                     <tr>
                                         <td>{{$i++}}</td>
                                         <td>{{$mod->module_name}}</td>
-                                        <td>{{$mod->department->branch->branch_Name}}</td>
-                                        <td>{{$mod->department->department_name}}</td>
+                                        @if($mod->department != null && $mod->department->branch != null)
+                                            <td>{{$mod->department->branch->branch_Name}}</td>
+                                        @else
+                                            <td></td>
+                                            @endif
+                                        @if($mod->department != null)
+                                            <td>{{$mod->department->department_name}}</td>
+                                        @else
+                                            <td></td>
+                                        @endif
+
                                         <td>{{$mod->status}}</td>
                                         <td id="{{$mod->id}}" align="center">
                                             <div class="pull-right hidden-phone" id="{{$mod->id}}">
@@ -396,6 +408,7 @@
                                     </tr>
 
                                 @endforeach
+                                    @endif
                                 </tbody>
                                 <tfoot>
                                 <tr>
