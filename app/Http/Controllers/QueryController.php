@@ -138,6 +138,7 @@ class QueryController extends Controller
         $users = \DB::table('users')->join('user_modules','users.id','=','user_modules.user_id')
                    ->select('users.id')
                    ->where('users.query_exemption','=','No')
+                   ->where('users.status','=','Active')
                    ->where('user_modules.module_id','=',$query->module_id)
                    ->lists('users.id');
 
