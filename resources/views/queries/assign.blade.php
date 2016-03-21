@@ -447,10 +447,18 @@
                                         <td>{{$c++}}</td>
                                         <td>{{$qr->query_code}}</td>
                                         <td>{{date("d M, Y H:i",strtotime($qr->reporting_Date))}}</td>
-                                        <td>{{$qr->user->first_name.' '.$qr->user->last_name}}</td>
+                                       @if($qr->user !=null && $qr->user != "")
+                                            <td>{{$qr->user->first_name.' '.$qr->user->last_name}}</td>
+                                        @else
+                                            <td></td>
+                                           @endif
                                         <td>{{$qr->fromDepartment->department_name}} ({{$qr->fromDepartment->branch->branch_Name}})</td>
                                        @if($qr->assignment != null && $qr->assignment !="")
+                                           @if($qr->assignment->user != null && $qr->assignment->user !="")
                                             <td style="background-color:#78CD51; color: #FFF;">{{$qr->assignment->user->first_name.' '.$qr->assignment->user->last_name}}</td>
+                                               @else
+                                                <td></td>
+                                            @endif
                                            @else
                                             <td style="background-color:#FF6C60; color: #FFF;">Not Assigned</td>
                                            @endif
