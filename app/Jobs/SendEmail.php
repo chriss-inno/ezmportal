@@ -39,7 +39,7 @@ class SendEmail extends Job implements SelfHandling, ShouldQueue
 
             //Send email
             foreach($this->query->toDepartment->users as $us) {
-                if($us->email !="")
+                if($us->email !="" && $us->status !='Inactive')
                 {
                     $emails = $us->email;
 

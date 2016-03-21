@@ -40,7 +40,7 @@ class QueryAssignmentEmail extends Job implements SelfHandling, ShouldQueue
 
             //Send to department email
             foreach($this->query->toDepartment->users as $us) {
-                if($us->email !="")
+                if($us->email !="" && $us->status !='Inactive')
                 {
                     $emails = $us->email;
 
@@ -64,7 +64,7 @@ class QueryAssignmentEmail extends Job implements SelfHandling, ShouldQueue
             if($this->query->from_unit != "" && $this->query->from_unit != null)
             {
                 foreach($this->query->fromUnit->users as $us) {
-                    if($us->email !="")
+                    if($us->email !="" && $us->status !='Inactive')
                     {
                         $emails = $us->email;
 
@@ -86,7 +86,7 @@ class QueryAssignmentEmail extends Job implements SelfHandling, ShouldQueue
             }else
             {
                 foreach($this->query->fromDepartment->users as $us) {
-                    if($us->email !="")
+                    if($us->email !="" && $us->status !='Inactive')
                     {
                         $emails = $us->email;
 
