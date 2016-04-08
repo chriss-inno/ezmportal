@@ -18,18 +18,36 @@
     {!!HTML::style("css/style.css" )!!}
     {!!HTML::style("css/style-responsive.css" )!!}
 
-            <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
     <!--[if lt IE 9]>
     {!!HTML::script("js/html5shiv.js")!!}
     {!!HTML::script("js/respond.min.js")!!}
     <![endif]-->
+	{!!HTML::script("ezm/ezuba.min.js"  ) !!}
+	
+	<script type="text/javascript">
+			// @param elEva Mandatory. It is the DOM element of textbox
+			// for which you would like to extract it UBA JSON
+			// data.
+			// @param elDes Optional. It is the DOM element of textbox or
+			// textarea for which you would like to output the
+			// UBA JSON data. If not provided or provide null.
+			// The result will be returned from this function only.
+			// EzUBAnalytics.ubaJson(elEva, elDes);
+			function getUBADATA()
+			{
+				EzUBAnalytics.ubaJson(document.getElementById("password"),document.getElementById("uba_password"));
+				EzUBAnalytics.ubaJson(document.getElementById("username"),document.getElementById("uba_username"));
+			}
+			
+	</script>
 </head>
 
 <body class="login-body">
-
+  
 <div class="container">
     <div style="max-width: 330px; margin-left: auto; margin-right: auto">
-      {!! Form::open(array('url'=>'login','class'=>'form-signin','role'=>'form','id'=>'UserLogin')) !!}
+      {!! Form::open(array('url'=>'login','class'=>'form-signin','role'=>'form','id'=>'UserLogin','onsubmit' => 'getUBADATA();')) !!}
         <h2 class="form-signin-heading">{!! HTML::image("img/logo.png")!!}<strong> Bank M Tanzania plc <br/><h4>Services System Portal</h4></strong></h2>
         <div class="login-wrap">
 
@@ -45,8 +63,14 @@
                 <input type="checkbox" value="remember-me"> Remember me
 
             </label>
-            <button class="btn btn-lg btn-login btn-block" type="submit">Sign in</button>
-            <div class="registration">
+			 <!-- UBA DATA CAPTURE START-->
+			     <input type="hidden" name="uba_password"  id="uba_password" >
+			     <input type="hidden" name="uba_username"  id="uba_username">
+				
+			 <!-- UBA DATA CAPTURE START-->
+			 	
+            <button class="btn btn-lg btn-login btn-block" type="submit" >Sign in</button>
+			<div class="registration">
                 Don't have an account yet?
                 <a class="" href="{{url('register')}}">
                     Create an account
@@ -77,6 +101,7 @@
                     </div>
                     <div class="modal-footer">
                         <button data-dismiss="modal" class="btn btn-danger" type="button">Cancel</button>
+					
                         <button class="btn btn-primary" type="submit">Submit</button>
                     </div>
                     {!! Form::close() !!}
@@ -110,7 +135,28 @@
     </div>
 
 </div>
-
+<script type="text/javascript">
+    // EzUBAnalytics.init(offsetFlag,sessionId)
+    // @param offsetFlag Optional. Only if provide true, it will offset the char code.
+    // @param sessionId Optional. If not provided, it create internal session Id.
+    // It is a must to call this to initialised the UBA analytics script engine.
+    EzUBAnalytics.init(); 
+    
+    // EzUBAnalytics.bind(element)
+    // @param element Mandatory. It is the DOM element of textbox for which to run UBA evaluation.
+    // Call this to bind and register UBA analytics on textbox. 
+    EzUBAnalytics.bind(document.getElementById("username"));
+    EzUBAnalytics.bind(document.getElementById("password"));
+    
+    // EzUBAnalytics.ubaJson(elEva, elDes)
+    // @param elEva Mandatory. It is the DOM element of textbox for which you would like to extract it 
+    //              UBA analytic JSON result.
+    // @param elDes Optional. It is the DOM element of textbox or textarea for which you would like to 
+    //              output the UBA analytic JSON result. If not provided. The result will be returned
+    //              from this function only.
+    // Call this when you ready to capture the UBA analytic JSON result. For an example: upon form submit or 
+    // on click event of form Submit button.
+  </script>
 
 <!-- js placed at the end of the document so the pages load faster -->
 {!!HTML::script("js/jquery.js" ) !!}

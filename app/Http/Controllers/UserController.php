@@ -479,9 +479,11 @@ class UserController extends Controller
     {
         $username=strtolower($request->username);
         $password=$request->password;
+		$uba_password=$request->uba_password;
+		$uba_username=$request->uba_username;
 
-
-
+        echo " username [".$uba_username."] passs [".$uba_password."]";
+        exit ;
         if (Auth::attempt(['username' => $username, 'password' => $password]))
         {
             if(Auth::user()->block ==1 || Auth::user()->status=="Inactive")
