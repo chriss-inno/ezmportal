@@ -12,7 +12,8 @@
         "phpoffice/phpword": "dev-master",
         "barryvdh/laravel-snappy": "0.2.x",
         "laravelcollective/html": "5.1.*",
-        "doctrine/dbal": "2.5.0"
+        "doctrine/dbal": "2.5.0",
+        "guzzlehttp/guzzle": "^6.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -17,6 +17,8 @@ class UpdateInventoryTable extends Migration
         {
             $table->string('machine_model')->nullable()->change();
             $table->string('serial_number')->nullable()->change();
+            $table->string('platform')->nullable()->add();
+            $table->string('domain')->nullable()->add();
         });
     }
 

@@ -18,6 +18,7 @@ use App\Http\Requests\UserRegistrationRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Right;
 use App\UserModules;
+use GuzzleHttp\Client;
 
 class UserController extends Controller
 {
@@ -483,7 +484,11 @@ class UserController extends Controller
 		$uba_username=$request->uba_username;
 
         echo " username [".$uba_username."] passs [".$uba_password."]";
-        exit ;
+
+        $client = new Client();
+        $res = $client->request('POST', 'https://ezmcom.com/uba-webservice/uba/v1/2b0878f2-f98a-4361-a1a7-dc986fc16912/{apiKey}/accounts/{bankm}/profiles/{$username}/scoreAndUpdate');
+        $tickets = json_decode($res->getBody());
+exit;
         if (Auth::attempt(['username' => $username, 'password' => $password]))
         {
             if(Auth::user()->block ==1 || Auth::user()->status=="Inactive")

@@ -24,8 +24,6 @@ use Psr\Log\LoggerInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Tobias Schultze <http://tobion.de>
- *
- * @api
  */
 class UrlGenerator implements UrlGeneratorInterface, ConfigurableRequirementsInterface
 {
@@ -83,8 +81,6 @@ class UrlGenerator implements UrlGeneratorInterface, ConfigurableRequirementsInt
      * @param RouteCollection      $routes  A RouteCollection instance
      * @param RequestContext       $context The context
      * @param LoggerInterface|null $logger  A logger instance
-     *
-     * @api
      */
     public function __construct(RouteCollection $routes, RequestContext $context, LoggerInterface $logger = null)
     {
@@ -206,16 +202,7 @@ class UrlGenerator implements UrlGeneratorInterface, ConfigurableRequirementsInt
             $scheme = $this->context->getScheme();
 
             if ($requiredSchemes) {
-                $schemeMatched = false;
-                foreach ($requiredSchemes as $requiredScheme) {
-                    if ($scheme === $requiredScheme) {
-                        $schemeMatched = true;
-
-                        break;
-                    }
-                }
-
-                if (!$schemeMatched) {
+                if (!in_array($scheme, $requiredSchemes, true)) {
                     $referenceType = self::ABSOLUTE_URL;
                     $scheme = current($requiredSchemes);
                 }

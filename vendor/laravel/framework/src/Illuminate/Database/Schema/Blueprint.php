@@ -48,6 +48,13 @@ class Blueprint
     public $collation;
 
     /**
+     * Whether to make the table temporary.
+     *
+     * @var bool
+     */
+    public $temporary = false;
+
+    /**
      * Create a new schema blueprint.
      *
      * @param  string  $table
@@ -178,6 +185,16 @@ class Blueprint
     public function create()
     {
         return $this->addCommand('create');
+    }
+
+    /**
+     * Indicate that the table needs to be temporary.
+     *
+     * @return void
+     */
+    public function temporary()
+    {
+        $this->temporary = true;
     }
 
     /**
@@ -813,6 +830,17 @@ class Blueprint
     }
 
     /**
+     * Create a new uuid column on the table.
+     *
+     * @param  string  $column
+     * @return \Illuminate\Support\Fluent
+     */
+    public function uuid($column)
+    {
+        return $this->addColumn('uuid', $column);
+    }
+
+    /**
      * Add the proper columns for a polymorphic table.
      *
      * @param  string  $name
@@ -906,7 +934,7 @@ class Blueprint
      * @param  array   $parameters
      * @return \Illuminate\Support\Fluent
      */
-    protected function addColumn($type, $name, array $parameters = [])
+    public function addColumn($type, $name, array $parameters = [])
     {
         $attributes = array_merge(compact('type', 'name'), $parameters);
 
@@ -1006,7 +1034,7 @@ class Blueprint
     public function getChangedColumns()
     {
         return array_filter($this->columns, function ($column) {
-            return ! ! $column->change;
+            return (bool) $column->change;
         });
     }
 }

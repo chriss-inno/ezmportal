@@ -139,7 +139,7 @@ class Validator implements ValidatorContract
      *
      * @var array
      */
-    protected $numericRules = ['Numeric', 'Integer', 'Int'];
+    protected $numericRules = ['Numeric', 'Integer'];
 
     /**
      * The validation rules that imply the field is required.
@@ -147,7 +147,7 @@ class Validator implements ValidatorContract
      * @var array
      */
     protected $implicitRules = [
-        'Required', 'RequiredWith', 'RequiredWithAll', 'RequiredWithout', 'RequiredWithoutAll', 'RequiredIf', 'Accepted',
+        'Required', 'RequiredWith', 'RequiredWithAll', 'RequiredWithout', 'RequiredWithoutAll', 'RequiredIf', 'RequiredUnless', 'Accepted',
     ];
 
     /**
@@ -357,9 +357,7 @@ class Validator implements ValidatorContract
 
         $validatable = $this->isValidatable($rule, $attribute, $value);
 
-        $normalizedRule = $this->normalizeRule($rule);
-
-        $method = "validate{$normalizedRule}";
+        $method = "validate{$rule}";
 
         if ($validatable && ! $this->$method($attribute, $value, $parameters, $this)) {
             $this->addFailure($attribute, $rule, $parameters);
@@ -681,6 +679,29 @@ class Validator implements ValidatorContract
         $values = array_slice($parameters, 1);
 
         if (in_array($data, $values)) {
+            return $this->validateRequired($attribute, $value);
+        }
+
+        return true;
+    }
+
+    /**
+     * Validate that an attribute exists when another attribute does not have a given value.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @param  mixed  $parameters
+     * @return bool
+     */
+    protected function validateRequiredUnless($attribute, $value, $parameters)
+    {
+        $this->requireParameterCount(2, $parameters, 'required_unless');
+
+        $data = Arr::get($this->data, $parameters[0]);
+
+        $values = array_slice($parameters, 1);
+
+        if (! in_array($data, $values)) {
             return $this->validateRequired($attribute, $value);
         }
 
@@ -1214,9 +1235,15 @@ class Validator implements ValidatorContract
      */
     protected function validateActiveUrl($attribute, $value)
     {
-        $url = str_replace(['http://', 'https://', 'ftp://'], '', strtolower($value));
+        if (! is_string($value)) {
+            return false;
+        }
 
-        return checkdnsrr($url, 'A');
+        if ($url = parse_url($value, PHP_URL_HOST)) {
+            return count(dns_get_record($url, DNS_A | DNS_AAAA)) > 0;
+        }
+
+        return false;
     }
 
     /**
@@ -1356,7 +1383,7 @@ class Validator implements ValidatorContract
             return true;
         }
 
-        if (strtotime($value) === false) {
+        if ((! is_string($value) && ! is_numeric($value)) || strtotime($value) === false) {
             return false;
         }
 
@@ -1377,6 +1404,10 @@ class Validator implements ValidatorContract
     {
         $this->requireParameterCount(1, $parameters, 'date_format');
 
+        if (! is_string($value) && ! is_numeric($value)) {
+            return false;
+        }
+
         $parsed = date_parse_from_format($parameters[0], $value);
 
         return $parsed['error_count'] === 0 && $parsed['warning_count'] === 0;
@@ -1393,6 +1424,10 @@ class Validator implements ValidatorContract
     protected function validateBefore($attribute, $value, $parameters)
     {
         $this->requireParameterCount(1, $parameters, 'before');
+
+        if (! is_string($value) && ! is_numeric($value)) {
+            return false;
+        }
 
         if ($format = $this->getDateFormat($attribute)) {
             return $this->validateBeforeWithFormat($format, $value, $parameters);
@@ -1431,6 +1466,10 @@ class Validator implements ValidatorContract
     protected function validateAfter($attribute, $value, $parameters)
     {
         $this->requireParameterCount(1, $parameters, 'after');
+
+        if (! is_string($value) && ! is_numeric($value)) {
+            return false;
+        }
 
         if ($format = $this->getDateFormat($attribute)) {
             return $this->validateAfterWithFormat($format, $value, $parameters);
@@ -1586,7 +1625,7 @@ class Validator implements ValidatorContract
      * @param  string  $attribute
      * @param  string  $lowerRule
      * @param  array   $source
-     * @return string
+     * @return string|null
      */
     protected function getInlineMessage($attribute, $lowerRule, $source = null)
     {
@@ -1948,6 +1987,22 @@ class Validator implements ValidatorContract
     }
 
     /**
+     * Replace all place-holders for the required_unless rule.
+     *
+     * @param  string  $message
+     * @param  string  $attribute
+     * @param  string  $rule
+     * @param  array   $parameters
+     * @return string
+     */
+    protected function replaceRequiredUnless($message, $attribute, $rule, $parameters)
+    {
+        $other = $this->getAttribute(array_shift($parameters));
+
+        return str_replace([':other', ':values'], [$other, implode(', ', $parameters)], $message);
+    }
+
+    /**
      * Replace all place-holders for the same rule.
      *
      * @param  string  $message
@@ -2066,10 +2121,14 @@ class Validator implements ValidatorContract
     protected function parseRule($rules)
     {
         if (is_array($rules)) {
-            return $this->parseArrayRule($rules);
+            $rules = $this->parseArrayRule($rules);
+        } else {
+            $rules = $this->parseStringRule($rules);
         }
 
-        return $this->parseStringRule($rules);
+        $rules[0] = $this->normalizeRule($rules[0]);
+
+        return $rules;
     }
 
     /**
@@ -2119,6 +2178,24 @@ class Validator implements ValidatorContract
         }
 
         return str_getcsv($parameter);
+    }
+
+    /**
+     * Normalizes a rule so that we can accept short types.
+     *
+     * @param  string  $rule
+     * @return string
+     */
+    protected function normalizeRule($rule)
+    {
+        switch ($rule) {
+            case 'Int':
+                return 'Integer';
+            case 'Bool':
+                return 'Boolean';
+            default:
+                return $rule;
+        }
     }
 
     /**
@@ -2517,7 +2594,7 @@ class Validator implements ValidatorContract
      *
      * @param  string  $rule
      * @param  array   $parameters
-     * @return bool
+     * @return bool|null
      */
     protected function callExtension($rule, $parameters)
     {
@@ -2551,7 +2628,7 @@ class Validator implements ValidatorContract
      * @param  string  $attribute
      * @param  string  $rule
      * @param  array   $parameters
-     * @return string
+     * @return string|null
      */
     protected function callReplacer($message, $attribute, $rule, $parameters)
     {
@@ -2594,24 +2671,6 @@ class Validator implements ValidatorContract
     {
         if (count($parameters) < $count) {
             throw new InvalidArgumentException("Validation rule $rule requires at least $count parameters.");
-        }
-    }
-
-    /**
-     * Normalizes a rule so that we can accept short types.
-     *
-     * @param  string  $rule
-     * @return string
-     */
-    protected function normalizeRule($rule)
-    {
-        switch ($rule) {
-            case 'Int':
-                return 'Integer';
-            case 'Bool':
-                return 'Boolean';
-            default:
-                return $rule;
         }
     }
 
