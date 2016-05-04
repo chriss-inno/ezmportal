@@ -46,6 +46,14 @@ class HomeController extends Controller
         }
 
     }
+    
+    //Check for approval request for push notification 
+    public function approvalRequest()
+    {
+        //
+        $user=User::find(Auth::user()->id);
+        return view('2fa.index',compact('user'));
+    }
 
     /**
      * Show the form for creating a new resource.

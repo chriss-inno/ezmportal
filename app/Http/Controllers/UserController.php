@@ -483,12 +483,6 @@ class UserController extends Controller
 		$uba_password=$request->uba_password;
 		$uba_username=$request->uba_username;
 
-        echo " username [".$uba_username."] passs [".$uba_password."]";
-
-        $client = new Client();
-        $res = $client->request('POST', 'https://ezmcom.com/uba-webservice/uba/v1/2b0878f2-f98a-4361-a1a7-dc986fc16912/{apiKey}/accounts/{bankm}/profiles/{$username}/scoreAndUpdate');
-        $tickets = json_decode($res->getBody());
-exit;
         if (Auth::attempt(['username' => $username, 'password' => $password]))
         {
             if(Auth::user()->block ==1 || Auth::user()->status=="Inactive")
@@ -504,8 +498,54 @@ exit;
                 $user->save();
 
                 //Audit log
-                \App\Http\Controllers\AuditController::auditLog("Successifuly logged in","User");
-                return redirect()->intended('home');
+                \App\Http\Controllers\AuditController::auditLog("Successful logged in","User");
+
+               // echo  " username [".$uba_username."] passs [".$uba_password."]";
+                //For push request
+                //$SAML=7ACA1EA3F7000FC91592A67D5EDB24E8
+                $client = new Client(); 
+
+                $response = $client->request('POST', 'https://demo.ezmcom.com/uba-webservice/uba/v1/apiKey/2b0878f2-f98a-4361-a1a7-dc986fc16912/accounts/'.$username.'/profiles/password/scoreAndUpdate',
+                    [
+                        'headers' => [
+                            'Content-Type' => 'application/json',
+                            'Accept'     => 'application/json'
+                        ],
+                        'body' => $uba_password
+                    ]);
+                //Get response from UBA
+
+                 $data =(string) $response->getBody()->getContents();
+                 $array = json_decode($data, true);
+                 $add_el=$array['additional_elements'];
+
+                $score=$add_el['score'];
+                //$consecutiveFailureCount=$add_el['consecutiveFailureCount'];
+                $training=$add_el['training'];
+               // $threshold=$add_el['threshold'];
+
+                $timestamp=$array['timestamp'];
+
+                if($score > 0 && $training ==1)
+                {
+                    //Initialize 2fa push request
+                   $respo= $this->sendPushRequest();
+                   // return redirect('approvalRequest')->with('message', $respo);
+                    dump($respo);
+                }
+                elseif($training ==0)
+                {
+                    //Initialize 2fa push request
+                    $respo= $this->sendPushRequest();
+                    dump($respo);
+                   // return redirect('approvalRequest')->with('message', $respo);
+                }
+                else
+                {
+                    Auth::logout();
+                    return redirect()->back()->with('message', 'Login Failed looks like specious login requested by unauthorized user ');
+                }
+
             }
 
         }
@@ -547,6 +587,52 @@ exit;
                 return redirect()->back()->with('message', 'Login Failed,Invalid username or password');
             }
         }
+    }
+    //
+//Request	push	notification	for	login
+    public function sendPushRequest()
+    {
+        $client = new Client();
+        $response = $client->request('POST', 'https://demo.ezmcom.com/ezwsrest/rest/engine/auth/authtx/reqpush', [
+            'headers' => [
+                'Content-Type' => 'Application/x-www-form-urlencoded',
+            ],
+            'form_params' => [
+                'actionBy' =>Auth::user()->username,
+                'samlId' =>'7ACA1EA3F7000FC91592A67D5EDB24E8',
+                'userId' =>'innocent.christopher@bankm.com',
+                'txDetails' =>'{"IP":"211.25.18.246", "Location": "Dar es salaam,Tanzania"}',
+                'txExpiryMins' =>'5',
+                'txType' =>'1',
+                'mobilePush' =>'',
+                'txFlags' =>'',
+            ]
+        ]);
+
+        //Get response
+        $data =(string) $response->getBody()->getContents();
+        $array = json_decode($data, true);
+       return $array;
+    }
+   //Check	push	notification	approval	status
+    public function getPushStatus($txRef)
+    {
+        $client = new Client();
+        $response = $client->request('POST', 'https://demo.ezmcom.com/ezwsrest/rest/engine/auth/tx/pullstatus', [
+            'headers' => [
+                'Content-Type' => 'Application/x-www-form-urlencoded',
+            ],
+            'form_params' => [
+                'actionBy' =>Auth::user()->username,
+                'txRef' =>$txRef
+            ]
+        ]);
+
+        //Get response
+        $data =(string) $response->getBody()->getContents();
+        $array = json_decode($data, true);
+        dump($array);
+
     }
     public function userQuery($id)
     {

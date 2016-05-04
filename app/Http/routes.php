@@ -27,6 +27,9 @@ Route::post('register','UserController@postRegister');
 Route::get('logout',['middleware' => 'auth', 'uses' =>'UserController@logout']);
 Route::get('home',['middleware' => 'auth', 'uses' =>'HomeController@index']);
 
+//EZ two factor auth 
+Route::get('approvalRequest',['middleware' => 'auth', 'uses' =>'HomeController@approvalRequest']);
+
 
 //Branches
 Route::get('branches',['middleware' => 'auth', 'uses' =>'BranchController@index']);
