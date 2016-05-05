@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-7 col-sm-7 col-xs-7 pull-left" >
             @if($errormsg=="No")
-                <img src="{{$imagepath}}" >
+                {!! HTML::image("img/".$imagePath)!!}
                 @else
                 <span class='text-info'>Token quota reach – This indicated user has an active token</span>
             @endif

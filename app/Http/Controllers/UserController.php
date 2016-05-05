@@ -755,10 +755,11 @@ class UserController extends Controller
         if($respo['returnCode'] ==0)
         {
             $base64string=$respo['encodedQRCodeImg'];
-            $img=Auth::user()->id."_".strtotime(date("H:i:s"));
-            file_put_contents(storage_path('exports')."/".$img.".png", base64_decode($base64string));
+            $path = public_path();
+            $img=Auth::user()->id."_".strtotime(date("H:i:s")).".png";
+            file_put_contents($path."/img/".$img, base64_decode($base64string));
 
-            $imagePath=storage_path('exports')."/".$img.".png";
+            $imagePath= $img;
             $errormsg="No";
             return view('2fa.qrcreate',compact('imagePath','errormsg'));  
         }

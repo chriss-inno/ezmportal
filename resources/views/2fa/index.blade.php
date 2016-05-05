@@ -101,24 +101,24 @@
                                         </div>
                                         <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
                                             <div class="col-md-12">
-                                                <a  href="{{url('queries/mytask')}}" class=" btn btn-primary btn-block"> TRAINING STATUS : @if($user->UBAStatus->training ==1) Completed @else On Training @endif </a>
+                                                <a  href="#" class=" btn btn-primary btn-block"> TRAINING STATUS : @if($user->UBAStatus->training ==1) Completed @else On Training @endif </a>
                                             </div>
                                         </div>
                                     @if($user->UBAStatus->training ==0)
                                         <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
                                             <div class="col-md-12">
-                                                <a  href="{{url('queries/mytask')}}" class=" btn btn-primary btn-block"> ATTEMPT :{{$user->UBAStatus->attempt}} </a>
+                                                <a  href="#" class=" btn btn-primary btn-block"> ATTEMPT :{{$user->UBAStatus->attempt}} </a>
                                             </div>
                                         </div>
                                         @endif
                                     <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
                                         <div class="col-md-12">
-                                            <a  href="{{url('queries/mytask')}}" class=" btn btn-primary btn-block"> THRESHOLD :{{$user->UBAStatus->threshold}} </a>
+                                            <a  href="#" class=" btn btn-primary btn-block"> THRESHOLD :{{$user->UBAStatus->threshold}} </a>
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
                                         <div class="col-md-12">
-                                            <a  href="{{url('queries/mytask')}}" class=" btn btn-primary btn-block"> DATE :{{$user->UBAStatus->date}} </a>
+                                            <a  href="#" class=" btn btn-primary btn-block"> DATE :{{$user->UBAStatus->date}} </a>
                                         </div>
                                     </div>
                                 </div>
@@ -203,7 +203,9 @@
     $(".sendPushRequest").click(function(){
         $("#displayResultsData").html("<h3><span class='alert alert-info'><i class='fa fa-spinner fa-spin'></i> Sending push notification to your mobile application, please wait...</span><h3>");
         $.get("<?php echo url('users/push/request') ?>",function(data){
-            $("#displayResultsData").html("<p class='alert alert-info' style='font-size: medium'>A push notification has been sent to your mobile application. Please check on your mobile application and respond accordingly</p>");
+            console.log(data);
+            var obj = JSON.parse(data);
+            $("#displayResultsData").html(obj.returnCode);
         });
     });
     //Edit class streams
