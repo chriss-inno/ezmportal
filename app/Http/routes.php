@@ -29,6 +29,10 @@ Route::get('home',['middleware' => 'auth', 'uses' =>'HomeController@index']);
 
 //EZ two factor auth 
 Route::get('approvalRequest',['middleware' => 'auth', 'uses' =>'HomeController@approvalRequest']);
+Route::get('qrcode/scan',['middleware' => 'auth', 'uses' =>'UserController@qrCodeScan']);
+Route::get('users/push/request',['middleware' => 'auth', 'uses' =>'UserController@sendPushRequest']);
+Route::get('users/otp/{id}',['middleware' => 'auth', 'uses' =>'UserController@userOTP']);
+Route::post('users/otp',['middleware' => 'auth', 'uses' =>'UserController@postuserOTP']);
 
 
 //Branches

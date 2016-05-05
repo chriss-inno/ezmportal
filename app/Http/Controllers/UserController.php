@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Department;
+use App\UBAStatus;
 use App\Unit;
 use Illuminate\Http\Request;
 
@@ -528,17 +529,52 @@ class UserController extends Controller
 
                 if($score > 0 && $training ==1)
                 {
-                    //Initialize 2fa push request
-                   $respo= $this->sendPushRequest();
-                   // return redirect('approvalRequest')->with('message', $respo);
-                    dump($respo);
+                    $UBAStatus=UBAStatus::where('user_id','=',Auth::user()->id)->get()->first();
+                    if(count($UBAStatus) >0 && $UBAStatus != null)
+                    {
+
+                        $UBAStatus->user_id=Auth::user()->id;
+                        $UBAStatus->score=$add_el['score'];
+                        $UBAStatus->training=$add_el['training'];
+                        $UBAStatus->threshold=$add_el['threshold'];
+                        $UBAStatus->date=$array['date'];
+                        $UBAStatus->save();
+                    }
+                    else
+                    {
+                        $UBAStatus=new UBAStatus;
+                        $UBAStatus->user_id=Auth::user()->id;
+                        $UBAStatus->score=$add_el['score'];
+                        $UBAStatus->training=$add_el['training'];
+                        $UBAStatus->threshold=$add_el['threshold'];
+                        $UBAStatus->date=$array['date'];
+                        $UBAStatus->save();
+                    }
+                    return redirect('approvalRequest');
                 }
                 elseif($training ==0)
                 {
-                    //Initialize 2fa push request
-                    $respo= $this->sendPushRequest();
-                    dump($respo);
-                   // return redirect('approvalRequest')->with('message', $respo);
+                    $UBAStatus=UBAStatus::where('user_id','=',Auth::user()->id)->get()->first();
+                    if(count($UBAStatus) >0 || $UBAStatus == null) {
+                        $UBAStatus = new UBAStatus;
+                        $UBAStatus->user_id = Auth::user()->id;
+                        $UBAStatus->score=$add_el['score'];
+                        $UBAStatus->training=$add_el['training'];
+                        $UBAStatus->attempt =$add_el['attempt'];
+                        $UBAStatus->date = $array['date'];
+                        $UBAStatus->save();
+                    }
+                    else
+                        {
+                            $UBAStatus->user_id = Auth::user()->id;
+                            $UBAStatus->score = Auth::user()->id;
+                            $UBAStatus->score=$add_el['score'];
+                            $UBAStatus->training=$add_el['training'];
+                            $UBAStatus->attempt =$add_el['attempt'];
+                            $UBAStatus->date = $array['date'];
+                            $UBAStatus->save();
+                        }
+                    return redirect('approvalRequest');
                 }
                 else
                 {
@@ -588,7 +624,48 @@ class UserController extends Controller
             }
         }
     }
-    //
+
+    //Send QRCode for activation
+    public function sendQCodeRequest()
+    {
+        $client = new Client();
+        $response = $client->request('POST', 'https://demo.ezmcom.com/ezwsrest/rest/engine/softtk/s/regeztoken', [
+            'headers' => [
+                'Content-Type' => 'Application/x-www-form-urlencoded',
+            ],
+            'form_params' => [
+                'actionBy' =>Auth::user()->username,
+                'samlId' =>'7ACA1EA3F7000FC91592A67D5EDB24E8',
+                'userId' =>Auth::user()->email,
+                'contactType' =>'2',
+                'contactDetail' =>'2'
+            ]
+        ]);
+
+        //Get response
+        $data =(string) $response->getBody()->getContents();
+        $array = json_decode($data, true);
+        return $array;
+    }
+
+    //Check	QR-code	image	activate	status
+    public function checkQCodeActivationStatus($credential)
+    {
+        $client = new Client();
+        $response = $client->request('POST', 'https://demo.ezmcom.com/ezwsrest/rest/engine/softtk/s/regeztoken', [
+            'headers' => [
+                'Content-Type' => 'Application/x-www-form-urlencoded',
+            ],
+            'form_params' => [
+                'credential' =>$credential
+            ]
+        ]);
+
+        //Get response
+        $data =(string) $response->getBody()->getContents();
+        $array = json_decode($data, true);
+        return $array;
+    }
 //Request	push	notification	for	login
     public function sendPushRequest()
     {
@@ -600,9 +677,9 @@ class UserController extends Controller
             'form_params' => [
                 'actionBy' =>Auth::user()->username,
                 'samlId' =>'7ACA1EA3F7000FC91592A67D5EDB24E8',
-                'userId' =>'innocent.christopher@bankm.com',
+                'userId' =>Auth::user()->email,
                 'txDetails' =>'{"IP":"211.25.18.246", "Location": "Dar es salaam,Tanzania"}',
-                'txExpiryMins' =>'5',
+                'txExpiryMins' =>'15',
                 'txType' =>'1',
                 'mobilePush' =>'',
                 'txFlags' =>'',
@@ -633,6 +710,67 @@ class UserController extends Controller
         $array = json_decode($data, true);
         dump($array);
 
+    }
+    //Request push notification
+    public function usePushRequest()
+    {
+        $respond= $this->sendPushRequest();
+        echo  "Request send";
+    }
+    //OTP
+    public function userOTP($id)
+    {
+        $user=User::find($id);
+        return view('users.otp',compact('user'));
+    }
+
+    //Post OTP
+    public function postuserOTP(Request $request)
+    {
+        $client = new Client();
+        $response = $client->request('POST', 'https://demo.ezmcom.com/ezwsrest/rest/engine/eziden/s/verifyAllOtp', [
+            'headers' => [
+                'Content-Type' => 'Application/x-www-form-urlencoded',
+            ],
+            'form_params' => [
+                'actionBy' =>Auth::user()->username,
+                'samlId' =>'7ACA1EA3F7000FC91592A67D5EDB24E8',
+                'userId' =>Auth::user()->email,
+                'otp' =>$request->otppass,
+            ]
+        ]);
+
+        //Get response
+        $data =(string) $response->getBody()->getContents();
+        $array = json_decode($data, true);
+        $returnCode=$array['returnCode'];
+        return $returnCode;
+
+    }
+    
+    //qrCodeScan
+    public function qrCodeScan()
+    {
+        $respo=$this->sendQCodeRequest();
+        if($respo['returnCode'] ==0)
+        {
+            $base64string=$respo['encodedQRCodeImg'];
+            $img=Auth::user()->id."_".strtotime(date("H:i:s"));
+            file_put_contents(storage_path('exports')."/".$img.".png", base64_decode($base64string));
+
+            $imagePath=storage_path('exports')."/".$img.".png";
+            $errormsg="No";
+            return view('2fa.qrcreate',compact('imagePath','errormsg'));  
+        }
+        else
+        {
+            $imagePath="";
+            $errormsg="Yes";
+            return view('2fa.qrcreate',compact('imagePath','errormsg')); 
+        }
+       
+        
+        
     }
     public function userQuery($id)
     {
@@ -799,6 +937,7 @@ class UserController extends Controller
 
         return "Data saved successfully";
     }
+
 
 
 }

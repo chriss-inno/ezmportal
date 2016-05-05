@@ -63,4 +63,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $this::belongsTo('\App\Right','right_id');
     }
+    public function UBAStatus()
+    {
+        return $this::hasOne('\App\UBAStatus','user_id');
+    }
 }
