@@ -27,27 +27,31 @@
 <script>
    function getActivationStatus() {
         var credential =document.getElementById('credential').value;
-        $.get("<?php echo url('qrcode/activation/status') ?>/"+credential,function(data){
-            console.log(data.returnCode);
-            if(data.returnCode ==101 || data.returnCode == -101)
-            {
+       if(credential != "")
+       {
+           $.get("<?php echo url('qrcode/activation/status') ?>/"+credential,function(data){
+               console.log(data.returnCode);
+               if(data.returnCode ==101 || data.returnCode == -101)
+               {
 
-                $("#output").html("<h3><span class='text-info'> QR-code is pending for activating, Please scan the code</span><h3>");
-            }
-            else if(data.returnCode == 0)
-            {
-                $("#output").html("<h3><span class='text-info'> Activation successful</span><h3>");
-                setTimeout(function() {
+                   $("#output").html("<h3><span class='text-info'> QR-code is pending for activating, Please scan the code</span><h3>");
+               }
+               else if(data.returnCode == 0)
+               {
+                   $("#output").html("<h3><span class='text-info'> Activation successful</span><h3>");
+                   setTimeout(function() {
 
-                    $("#output").html("");
-                    $("#myModal").modal("hide");
-                }, 2000);
-            }
-            else
-            {
-                $("#output").html("<h3><span class='text-danger'> Error occurred during activation</span><h3>");
-            }
-        });
+                       $("#output").html("");
+                       $("#myModal").modal("hide");
+                   }, 2000);
+               }
+               else
+               {
+                   $("#output").html("<h3><span class='text-danger'> Error occurred during activation</span><h3>");
+               }
+           });
+       }
+
     }
 
     setInterval(function(){
