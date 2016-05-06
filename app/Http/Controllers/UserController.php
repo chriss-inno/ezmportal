@@ -652,7 +652,7 @@ class UserController extends Controller
     public function checkQCodeActivationStatus($credential)
     {
         $client = new Client();
-        $response = $client->request('POST', 'https://demo.ezmcom.com/ezwsrest/rest/engine/softtk/s/regeztoken', [
+        $response = $client->request('POST', 'https://demo.ezmcom.com/ezwsrest/rest/engine/softtk/s/getEzAuthCredentialSoftTkActivateStatus', [
             'headers' => [
                 'Content-Type' => 'Application/x-www-form-urlencoded',
             ],
@@ -708,7 +708,7 @@ class UserController extends Controller
         //Get response
         $data =(string) $response->getBody()->getContents();
         $array = json_decode($data, true);
-        dump($array);
+        return $array;
 
     }
     //Request push notification
@@ -755,19 +755,21 @@ class UserController extends Controller
         if($respo['returnCode'] ==0)
         {
             $base64string=$respo['encodedQRCodeImg'];
+            $credential=$respo['credential'];
             $path = public_path();
             $img=Auth::user()->id."_".strtotime(date("H:i:s")).".png";
             file_put_contents($path."/img/".$img, base64_decode($base64string));
 
             $imagePath= $img;
             $errormsg="No";
-            return view('2fa.qrcreate',compact('imagePath','errormsg'));  
+            return view('2fa.qrcreate',compact('imagePath','errormsg','credential'));
         }
         else
         {
             $imagePath="";
             $errormsg="Yes";
-            return view('2fa.qrcreate',compact('imagePath','errormsg')); 
+            $credential="";
+            return view('2fa.qrcreate',compact('imagePath','errormsg','credential'));
         }
        
         

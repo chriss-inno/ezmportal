@@ -138,7 +138,8 @@
                                     </div>
                                     <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
                                         <div class="col-md-12">
-                                            <a href="#" class="sendPushRequest btn btn-primary btn-block"> Notify Me ! <i class="fa fa-phone-square"></i></a>
+                                            <a href="#" class="sendPushRequest btn btn-primary btn-block"> Send Push Request ! <i class="fa fa-phone-square"></i></a>
+                                            <input type="hidden" name="refcode" id="refcode" value="">
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top: 10px" id ="{{$user->id}}">
@@ -204,10 +205,76 @@
         $("#displayResultsData").html("<h3><span class='alert alert-info'><i class='fa fa-spinner fa-spin'></i> Sending push notification to your mobile application, please wait...</span><h3>");
         $.get("<?php echo url('users/push/request') ?>",function(data){
             console.log(data);
-            var obj = JSON.parse(data);
-            $("#displayResultsData").html(obj.returnCode);
+            if(data.returnCode == 0)
+            {
+               document.getElementById("refcode").value=data.refcode;
+                $("#displayResultsData").html("<h3><span class='alert alert-info'> Push notification successful sent please check for activation.</span><h3>");
+            } else if(data.returnCode == 65)
+            {
+                $("#displayResultsData").html("<h3><span class='alert alert-info'> Account not activated, please scan the Q-R code and activate.</span><h3>");
+            }else {
+                $("#displayResultsData").html("<h3><span class='alert alert-danger'> Error occured during sending push request.</span><h3>");
+            }
+
         });
     });
+
+  function getPushStatus(){
+        var refcode =document.getElementById('refcode').value;
+        if(refcode !="")
+        {
+            $.get("<?php echo url('users/push/getrequest') ?>/"+refcode,function(data){
+                console.log(data.returnCode);
+                if(data.rc ==0 )
+                {
+                   if(data.s==0)
+                   {
+                       $("#displayResultsData").html("<h3><span class='text-info'> Log In pending </span><h3>");
+                   }
+                    else if(data.s==1)
+                   {
+                       $("#displayResultsData").html("<h3><span class='text-info'> Request Approved </span><h3>");
+                       setTimeout(function() {
+
+                           $("#displayResultsData").html(data);
+                           window.location="{{url('home')}}";
+                       }, 5000);
+                   }
+                   else if(data.s==2)
+                   {
+                       $("#displayResultsData").html("<h3><span class='text-danger'> Request Rejected </span><h3>");
+
+                   }
+                   else if(data.s==3)
+                   {
+                       $("#displayResultsData").html("<h3><span class='text-info'> Request Expired </span><h3>");
+
+                   }
+                   else if(data.s==4)
+                   {
+                       $("#displayResultsData").html("<h3><span class='text-danger'> Request Failed </span><h3>");
+
+                   }
+
+                }
+                else
+                {
+                    $("#displayResultsData").html("<h3><span class='text-info'> Token Failed</span><h3>");
+                    setTimeout(function() {
+
+                        $("#displayResultsData").html(data);
+                    }, 5000);
+                }
+
+            });
+        }
+
+    }
+
+    setInterval(function(){
+        getPushStatus(); // this will run after every 5 seconds
+    }, 30000);
+
     //Edit class streams
     $(".qrcodeimage").click(function(){
         var id1 = $(this).parent().parent().attr('id');

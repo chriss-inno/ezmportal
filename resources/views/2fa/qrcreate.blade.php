@@ -2,7 +2,7 @@
 <fieldset class="scheduler-border" style="margin-top: 10px;">
     <legend class="scheduler-border" style="color:#005DAD">Please scan this image using EzToken mobile app</legend>
     <div class="row">
-        <div class="col-md-7 col-sm-7 col-xs-7 pull-left" >
+        <div class="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2" >
             @if($errormsg=="No")
                 {!! HTML::image("img/".$imagePath)!!}
                 @else
@@ -13,6 +13,7 @@
     <div class="row">
         <div class="col-md-2 col-sm-2 col-xs-2 pull-right">
             <a href="#" data-dismiss="modal" class="btn btn-danger btn-block"> <i class="icon-remove"></i>  Cancel</a>
+            <input type="hidden" name="credential" id="credential" value="{{$credential}}">
         </div>
         <div class="col-md-7 col-sm-7 col-xs-7 pull-left" id="output">
 
@@ -24,6 +25,31 @@
 {!!HTML::script("js/respond.min.js"  ) !!}
 {!!HTML::script("js/form-validation-script.js") !!}
 <script>
+    window.setTimeout(function() {
+        var credential =document.getElementById('credential').value;
+        $.get("<?php echo url('qrcode/activation/status') ?>/"+credential,function(data){
+            console.log(data.returnCode);
+            if(data.returnCode ==101)
+            {
+
+                $("#output").html("<h3><span class='text-info'> QR-code is pending for activating, Please scan the code</span><h3>");
+            }
+            else if(data.returnCode == 0)
+            {
+                $("#output").html("<h3><span class='text-info'> Activation successful</span><h3>");
+                setTimeout(function() {
+
+                    $("#output").html(data);
+                    $("#myModal").modal("hide");
+                }, 2000);
+            }
+            else
+            {
+                $("#output").html("<h3><span class='text-danger'> Error occurred during activation</span><h3>");
+            }
+        });
+    }, 10000);
+
     $("#adminPassChange").validate({
         rules: {
             otppass: {
