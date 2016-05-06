@@ -25,11 +25,11 @@
 {!!HTML::script("js/respond.min.js"  ) !!}
 {!!HTML::script("js/form-validation-script.js") !!}
 <script>
-    window.setTimeout(function() {
+   function getActivationStatus() {
         var credential =document.getElementById('credential').value;
         $.get("<?php echo url('qrcode/activation/status') ?>/"+credential,function(data){
             console.log(data.returnCode);
-            if(data.returnCode ==101)
+            if(data.returnCode ==101 || data.returnCode == -101)
             {
 
                 $("#output").html("<h3><span class='text-info'> QR-code is pending for activating, Please scan the code</span><h3>");
@@ -39,7 +39,7 @@
                 $("#output").html("<h3><span class='text-info'> Activation successful</span><h3>");
                 setTimeout(function() {
 
-                    $("#output").html(data);
+                    $("#output").html("");
                     $("#myModal").modal("hide");
                 }, 2000);
             }
@@ -48,6 +48,10 @@
                 $("#output").html("<h3><span class='text-danger'> Error occurred during activation</span><h3>");
             }
         });
+    }
+
+    setInterval(function(){
+        getActivationStatus(); // this will run after every 5 seconds
     }, 10000);
 
     $("#adminPassChange").validate({

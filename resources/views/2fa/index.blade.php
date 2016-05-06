@@ -205,15 +205,16 @@
         $("#displayResultsData").html("<h3><span class='alert alert-info'><i class='fa fa-spinner fa-spin'></i> Sending push notification to your mobile application, please wait...</span><h3>");
         $.get("<?php echo url('users/push/request') ?>",function(data){
             console.log(data);
+            console.log(data.returnCode);
             if(data.returnCode == 0)
             {
                document.getElementById("refcode").value=data.refcode;
                 $("#displayResultsData").html("<h3><span class='alert alert-info'> Push notification successful sent please check for activation.</span><h3>");
-            } else if(data.returnCode == 65)
+            } else if(data.returnCode == 65 || data.returnCode == -65)
             {
                 $("#displayResultsData").html("<h3><span class='alert alert-info'> Account not activated, please scan the Q-R code and activate.</span><h3>");
             }else {
-                $("#displayResultsData").html("<h3><span class='alert alert-danger'> Error occured during sending push request.</span><h3>");
+                $("#displayResultsData").html("<h3><span class='alert alert-danger'> Error occurred during sending push request.</span><h3>");
             }
 
         });
@@ -260,10 +261,7 @@
                 else
                 {
                     $("#displayResultsData").html("<h3><span class='text-info'> Token Failed</span><h3>");
-                    setTimeout(function() {
 
-                        $("#displayResultsData").html(data);
-                    }, 5000);
                 }
 
             });
@@ -273,7 +271,7 @@
 
     setInterval(function(){
         getPushStatus(); // this will run after every 5 seconds
-    }, 30000);
+    }, 10000);
 
     //Edit class streams
     $(".qrcodeimage").click(function(){
